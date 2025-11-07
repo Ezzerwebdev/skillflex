@@ -1,0 +1,51 @@
+{
+    "id": "year5/spelling/ough-rhyme-time",
+    "title": "-ough Rhyme Time",
+    "version": 1,
+    "steps": [
+        {
+            "id": "ort1",
+            "type": "select_option",
+            "prompt": "Which word rhymes with 'cuff'?",
+            "options": [
+                { "text": "through" },
+                { "text": "bough" },
+                { "text": "tough" }
+            ],
+            "answer": 2
+        },
+        {
+            "id": "ort2",
+            "type": "select_option",
+            "prompt": "Which word rhymes with 'cow'?",
+            "options": [
+                { "text": "plough" },
+                { "text": "though" },
+                { "text": "cough" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "ort3",
+            "type": "select_option",
+            "prompt": "Which word rhymes with 'sort'?",
+            "options": [
+                { "text": "rough" },
+                { "text": "bought" },
+                { "text": "dough" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "ort4",
+            "type": "select_option",
+            "prompt": "Which word rhymes with 'grow'?",
+            "options": [
+                { "text": "though" },
+                { "text": "through" },
+                { "text": "tough" }
+            ],
+            "answer": 0
+        }
+    ]
+}

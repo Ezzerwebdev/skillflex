@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/proofreading-mini-y3","title":"Proofreading Mini","version":1,"steps":[
+  {"id":"p1","type":"select_option","prompt":"I will ____ the book.","options":[{"text":"return"},{"text":"retern"},{"text":"retirn"}],"answer":0},
+  {"id":"p2","type":"select_option","prompt":"The boy was ____ to the new pupil.","options":[{"text":"unkind"},{"text":"unkined"},{"text":"un-kined"}],"answer":0},
+  {"id":"t1","type":"true_false","prompt":"'re-' often means 'again'.","answer":true}
+]}

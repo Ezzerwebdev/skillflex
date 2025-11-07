@@ -1,0 +1,5 @@
+{ "id":"year3/english/grammar/conjunction-insert-y3", "title":"Conjunction Insert", "version":1, "steps":[
+  {"id":"cj1","type":"select_option","prompt":"Pick the best conjunction: I was tired ___ I finished the race.","options":[{"text":"and"},{"text":"but"},{"text":"because"}],"answer":1},
+  {"id":"cj2","type":"select_option","prompt":"Pick the best conjunction: We stayed inside ___ it was raining.","options":[{"text":"and"},{"text":"but"},{"text":"because"}],"answer":2},
+  {"id":"cj3","type":"order_words","prompt":"Join the ideas with a conjunction:","words":["I","wanted","to","play","because","it","was","sunny","."],"answer":["I","wanted","to","play","because","it","was","sunny","."]}
+]}

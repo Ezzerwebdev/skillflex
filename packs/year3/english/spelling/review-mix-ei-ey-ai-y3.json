@@ -1,0 +1,8 @@
+{ "id":"year3/english/spelling/review-mix-ei-ey-ai-y3","title":"Review Mix: ei/ey/ai","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"Pick the correct spelling","options":[{"text":"weight"},{"text":"weigth"},{"text":"weitgh"}],"answer":0},
+  {"id":"s2","type":"match_pairs","pairs":[
+    {"left":"rein","right":"strap to guide a horse"},
+    {"left":"vein","right":"a blood vessel"}]},
+  {"id":"s3","type":"fill_blank","prompt":"Type the weather word: It might ____ tomorrow.","answer":["rain"]},
+  {"id":"s4","type":"true_false","prompt":"'ey' can say the long /ai/ sound.","answer":true}
+]}

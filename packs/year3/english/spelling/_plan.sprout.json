@@ -1,0 +1,70 @@
+{
+  "pathTitle": "Y3 · Spelling · Ready",
+  "units": [
+    {
+      "id": "u1",
+      "title": "Unit 1",
+      "emoji": "🔡",
+      "lessons": [
+        {
+          "id": "year3/english/spelling/pre-categories-y3",
+          "title": "Categories: pre-"
+        },
+        {
+          "id": "year3/english/spelling/pre-correct-y3",
+          "title": "Correct It: pre-"
+        },
+        {
+          "id": "year3/english/spelling/ei-meaning-match-y3",
+          "title": "EI Meaning Match"
+        },
+        {
+          "id": "year3/english/spelling/un-sentences-y3",
+          "title": "Make Sentences: un-"
+        },
+        {
+          "id": "year3/english/spelling/match-advanced-y3",
+          "title": "Match the Morphemes (Y3)"
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": "Unit 2",
+      "emoji": "🔡",
+      "lessons": [
+        {
+          "id": "year3/english/spelling/dis-fixer-y3",
+          "title": "Spot the Error: dis-"
+        },
+        {
+          "id": "year3/english/spelling/word-builder-long-ai-y3",
+          "title": "Word Builder: Long /ai/"
+        },
+        {
+          "id": "year3/english/spelling/dis-builder-y3",
+          "title": "Word Builder: dis-"
+        },
+        {
+          "id": "year3/english/spelling/over-match-y3",
+          "title": "Word Match: over-"
+        },
+        {
+          "id": "year3/english/spelling/re-match-y3",
+          "title": "Word Match: re-"
+        }
+      ]
+    },
+    {
+      "id": "u3",
+      "title": "Unit 3",
+      "emoji": "🔡",
+      "lessons": [
+        {
+          "id": "year3/english/spelling/re-write-y3",
+          "title": "Write It: re-"
+        }
+      ]
+    }
+  ]
+}

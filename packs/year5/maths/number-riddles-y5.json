@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/number-riddles-y5",
+  "title": "Number Riddles",
+  "version": 1,
+  "steps": [
+    {
+      "id": "nr1",
+      "type": "select_option",
+      "prompt": "I’m between 4,000 and 5,000. My hundreds digit is 7; my ones is 3.",
+      "options": [
+        {
+          "text": "4,703"
+        },
+        {
+          "text": "4,730"
+        },
+        {
+          "text": "4,073"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "nr2",
+      "type": "select_option",
+      "prompt": "I’m 1 more than 6,099. Who am I?",
+      "options": [
+        {
+          "text": "6,100"
+        },
+        {
+          "text": "6,199"
+        },
+        {
+          "text": "7,099"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "nr3",
+      "type": "select_option",
+      "prompt": "I have digit sum 10 and I’m between 3,000 and 3,100.",
+      "options": [
+        {
+          "text": "3,025"
+        },
+        {
+          "text": "3,055"
+        },
+        {
+          "text": "3,070"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "year4/english/spelling/w2-in-prefix-meaning-match",
+  "title": "in- Meaning Match",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "match_pairs",
+      "pairs": [
+        {"left": "inactive", "right": "not active"},
+        {"left": "incomplete", "right": "not complete"},
+        {"left": "infinite", "right": "without end"},
+        {"left": "inedible", "right": "not safe to eat"}
+      ]
+    },
+    {
+      "id": "s2",
+      "type": "match_pairs",
+      "pairs": [
+        {"left": "inability", "right": "lack of ability"},
+        {"left": "indecisive", "right": "unable to decide"},
+        {"left": "incorrect", "right": "not correct"},
+        {"left": "inaccurate", "right": "not exact"}
+      ]
+    }
+  ]
+}

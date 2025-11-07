@@ -1,0 +1,15 @@
+{
+  "id":"year3/english/spelling/challenge-ei-ey-mix-y3",
+  "title":"Challenge: ei/ey Mix",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"select_option","prompt":"A blood vessel is a ____.","options":[{"text":"vain"},{"text":"vein"},{"text":"vane"}],"answer":1},
+    {"id":"s2","type":"true_false","prompt":"‘ey’ often appears at the end (e.g., ‘key’).","answer":true},
+    {"id":"s3","type":"fill_blank","prompt":"Complete: w__ght (ei/ey). Type the whole word.","answer":["weight"]},
+    {"id":"s4","type":"match_pairs","leftLabel":"Word","rightLabel":"Meaning","pairs":[
+      {"left":"rein","right":"strap for a horse"},
+      {"left":"sleigh","right":"vehicle for snow"},
+      {"left":"beige","right":"light brown colour"}
+    ]}
+  ]
+}

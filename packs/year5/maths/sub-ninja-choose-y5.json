@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/sub-ninja-choose-y5",
+  "title": "Subtraction Squad: Choose the Borrow",
+  "version": 1,
+  "steps": [
+    {
+      "id": "snc1",
+      "type": "select_option",
+      "prompt": "Which requires exactly ONE borrow?",
+      "options": [
+        {
+          "text": "950 − 220"
+        },
+        {
+          "text": "1,200 − 800"
+        },
+        {
+          "text": "2,700 − 250"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "snc2",
+      "type": "select_option",
+      "prompt": "Pick the pair with a borrow in the HUNDREDS column.",
+      "options": [
+        {
+          "text": "2,700 − 250"
+        },
+        {
+          "text": "1,900 − 150"
+        },
+        {
+          "text": "1,200 − 800"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "snc3",
+      "type": "select_option",
+      "prompt": "Which DOES NOT borrow?",
+      "options": [
+        {
+          "text": "320 − 220"
+        },
+        {
+          "text": "500 − 400"
+        },
+        {
+          "text": "295 − 15"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

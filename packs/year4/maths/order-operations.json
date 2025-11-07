@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/order-operations",
+  "title": "Order Operations",
+  "version": 1,
+  "steps": [
+    {
+      "id": "oo1",
+      "type": "order_words",
+      "prompt": "Put these numbers in order from smallest to largest.",
+      "words": [
+        "650",
+        "300",
+        "950",
+        "150"
+      ],
+      "answer": [
+        "150",
+        "300",
+        "650",
+        "950"
+      ]
+    },
+    {
+      "id": "oo2",
+      "type": "order_words",
+      "prompt": "Order these numbers as they would appear on a number line (left to right).",
+      "words": [
+        "810",
+        "801",
+        "108",
+        "881"
+      ],
+      "answer": [
+        "108",
+        "801",
+        "810",
+        "881"
+      ]
+    },
+    {
+      "id": "oo3",
+      "type": "order_words",
+      "prompt": "Arrange these numbers in descending order (largest to smallest).",
+      "words": [
+        "440",
+        "404",
+        "444",
+        "400"
+      ],
+      "answer": [
+        "444",
+        "440",
+        "404",
+        "400"
+      ]
+    },
+    {
+      "id": "oo4",
+      "type": "order_words",
+      "prompt": "Place these numbers in order from smallest to largest.",
+      "words": [
+        "50",
+        "500",
+        "5",
+        "550"
+      ],
+      "answer": [
+        "5",
+        "50",
+        "500",
+        "550"
+      ]
+    }
+  ]
+}

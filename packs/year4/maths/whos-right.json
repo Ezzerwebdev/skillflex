@@ -1,0 +1,72 @@
+{
+  "id": "year4/maths/whos-right",
+  "title": "Who's Right?",
+  "version": 1,
+  "steps": [
+    {
+      "id": "wr1",
+      "type": "select_option",
+      "prompt": "Mia says 500 + 40 + 12 is 552. Ben says it is 5412. Who is correct?",
+      "options": [
+        {
+          "text": "Mia"
+        },
+        {
+          "text": "Ben"
+        },
+        {
+          "text": "Neither of them"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "wr2",
+      "type": "select_option",
+      "prompt": "Eva thinks 6 hundreds and 14 tens is 740. Leo thinks it is 614. Who is correct?",
+      "options": [
+        {
+          "text": "Leo"
+        },
+        {
+          "text": "Eva"
+        },
+        {
+          "text": "They are both wrong"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "wr3",
+      "type": "select_option",
+      "prompt": "Dan partitions 809 as 800 + 9. Sam partitions it as 700 + 100 + 9. Are they both correct?",
+      "options": [
+        {
+          "text": "Only Dan is correct"
+        },
+        {
+          "text": "Only Sam is correct"
+        },
+        {
+          "text": "They are both correct"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "wr4",
+      "type": "select_option",
+      "prompt": "Selina says the counters show 321. Tom says they show 312. Who is right? (Counters: three 100s, one 10, two 1s)",
+      "options": [
+        {
+          "text": "Selina"
+        },
+        {
+          "text": "Tom"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/ey-truth-check-y3","title":"EY True/False","version":1,"steps":[
+  {"id":"t1","type":"true_false","prompt":"\"journey\" ends with -ey.","answer":true},
+  {"id":"t2","type":"true_false","prompt":"\"monkey\" is spelled monkie.","answer":false},
+  {"id":"t3","type":"true_false","prompt":"\"chimney\" has the letters n-e-y at the end.","answer":true}
+]}

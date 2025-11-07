@@ -1,0 +1,35 @@
+{
+  "id": "year3/maths/true-or-false-y3",
+  "title": "True or False",
+  "version": 1,
+  "steps": [
+    {
+      "id": "tof1",
+      "type": "select_option",
+      "prompt": "True or False: '50 + 6', '5 tens and 6 ones', and a part-whole model with 50 and 6 all represent the number 56.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "tof2",
+      "type": "select_option",
+      "prompt": "True or False: The number 49 has 9 tens and 4 ones.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

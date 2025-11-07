@@ -1,0 +1,69 @@
+{
+  "id": "year4/maths/reasoning-challenge",
+  "title": "Reasoning Challenge",
+  "version": 1,
+  "steps": [
+    {
+      "id": "rc1",
+      "type": "select_option",
+      "prompt": "Suzie thinks two of these numbers are the same: A) 376, B) Three hundreds, six tens, seven ones. Is she correct?",
+      "options": [
+        {
+          "text": "Yes, she is correct"
+        },
+        {
+          "text": "No, B is 367"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "rc2",
+      "type": "select_option",
+      "prompt": "Hector says the number with the most parts is always the biggest. Is he right? A) 4 hundreds, 5 tens. B) 4 hundreds, 6 ones.",
+      "options": [
+        {
+          "text": "Yes, A has more parts so it's bigger"
+        },
+        {
+          "text": "No, A is 450 and B is 406"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "rc3",
+      "type": "select_option",
+      "prompt": "Which of these is the odd one out because it's an even number?",
+      "options": [
+        {
+          "text": "357"
+        },
+        {
+          "text": "573"
+        },
+        {
+          "text": "732"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "rc4",
+      "type": "select_option",
+      "prompt": "Ahmad's number is 324. Olly has 6 fewer counters. What could Olly's number be?",
+      "options": [
+        {
+          "text": "318 (3+2+4 = 9 counters. 9-6=3 counters)"
+        },
+        {
+          "text": "210 (2+1+0 = 3 counters)"
+        },
+        {
+          "text": "Both A and B could be correct"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

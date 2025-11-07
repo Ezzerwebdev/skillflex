@@ -1,0 +1,51 @@
+{
+    "id": "spelling/year4/word-ranger",
+    "title": "Root Word Ranger",
+    "version": 1,
+    "steps": [
+        {
+            "id": "rwr1",
+            "type": "select_option",
+            "prompt": "What is the root word of 'collision'?",
+            "options": [
+                { "text": "collid" },
+                { "text": "collide" },
+                { "text": "collis" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "rwr2",
+            "type": "select_option",
+            "prompt": "Can you find the root word for 'reaction'?",
+            "options": [
+                { "text": "react" },
+                { "text": "reach" },
+                { "text": "reac" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "rwr3",
+            "type": "select_option",
+            "prompt": "What's the root word of 'comprehension'?",
+            "options": [
+                { "text": "comprehend" },
+                { "text": "comprehen" },
+                { "text": "compreh" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "rwr4",
+            "type": "select_option",
+            "prompt": "Find the root word for 'division'.",
+            "options": [
+                { "text": "divis" },
+                { "text": "divine" },
+                { "text": "divide" }
+            ],
+            "answer": 2
+        }
+    ]
+}

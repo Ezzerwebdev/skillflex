@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/number-sleuths",
+  "title": "Number Sleuths",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ns1",
+      "type": "select_option",
+      "prompt": "Suzie thinks two of the images represent 376. Is she correct?",
+      "options": [
+        {
+          "text": "Yes, both show 376"
+        },
+        {
+          "text": "No, one shows 466"
+        },
+        {
+          "text": "No, one shows 736"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ns2",
+      "type": "select_option",
+      "prompt": "Hector thinks image A is the greater number because it has more pieces. Is he correct?",
+      "options": [
+        {
+          "text": "Yes, more pieces means a bigger number"
+        },
+        {
+          "text": "No, the value of the pieces matters most"
+        },
+        {
+          "text": "Yes, both numbers are the same"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ns3",
+      "type": "select_option",
+      "prompt": "Which sentence correctly describes the number 842?",
+      "options": [
+        {
+          "text": "It has 8 hundreds, 2 tens, and 4 ones."
+        },
+        {
+          "text": "It has 4 hundreds, 8 tens, and 2 ones."
+        },
+        {
+          "text": "It has 8 hundreds, 4 tens, and 2 ones."
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "ns4",
+      "type": "select_option",
+      "prompt": "A number is partitioned into 700 + 60 + 8. What is the number?",
+      "options": [
+        {
+          "text": "786"
+        },
+        {
+          "text": "768"
+        },
+        {
+          "text": "876"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id":"year3/english/spelling/sub-word-builder-y3",
+  "title":"Sub Word Builder",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"select_option","prompt":"Which word means a vehicle that travels under the sea?","options":[{"text":"submarine"},{"text":"subtitle"},{"text":"subway"}],"answer":0},
+    {"id":"s2","type":"fill_blank","prompt":"Type the word that means a heading under a picture:","answer":"subtitle"},
+    {"id":"s3","type":"order_words","prompt":"Build the word: sub + marine","words":["sub","marine"],"answer":["sub","marine"]},
+    {"id":"s4","type":"true_false","prompt":"The prefix 'sub-' can mean 'under' or 'below'.","answer":true}
+  ]
+}

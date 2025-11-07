@@ -1,0 +1,7 @@
+{ "id":"year3/english/spelling/er-est-builder-y3","title":"-er/-est Builder","version":1,"steps":[
+  {"id":"m1","type":"match_pairs","prompt":"Match base word to comparative",
+   "pairs":[{"left":"small","right":"smaller"},{"left":"kind","right":"kinder"},{"left":"brave","right":"braver"}]},
+  {"id":"m2","type":"match_pairs","prompt":"Match base word to superlative",
+   "pairs":[{"left":"small","right":"smallest"},{"left":"kind","right":"kindest"},{"left":"brave","right":"bravest"}]},
+  {"id":"t1","type":"true_false","prompt":"We often add -er and -est to compare things.","answer":true}
+]}

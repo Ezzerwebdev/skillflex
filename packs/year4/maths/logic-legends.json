@@ -1,0 +1,58 @@
+{
+  "id": "year4/maths/logic-legends",
+  "title": "Logic Legends",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ll1",
+      "type": "select_option",
+      "prompt": "Is this statement always, sometimes, or never true? 'When you count in steps of 1000, the hundreds, tens and ones digits are always zeros.'",
+      "options": [
+        {
+          "text": "Always True"
+        },
+        {
+          "text": "Sometimes True"
+        },
+        {
+          "text": "Never True"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ll2",
+      "type": "select_option",
+      "prompt": "Is this statement always, sometimes, or never true? 'When counting forwards in steps of 1000, the thousands digit will always increase.'",
+      "options": [
+        {
+          "text": "Always True"
+        },
+        {
+          "text": "Sometimes True"
+        },
+        {
+          "text": "Never True"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ll3",
+      "type": "select_option",
+      "prompt": "If two missing numbers are multiples of 1000 and add up to 2000, what could they be?",
+      "options": [
+        {
+          "text": "1000 and 1000"
+        },
+        {
+          "text": "500 and 1500"
+        },
+        {
+          "text": "0 and 2000"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

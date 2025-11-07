@@ -1,0 +1,47 @@
+{
+    "id": "year4/spellig/super-suffixes",
+    "title": "Super Suffixes",
+    "version": 1,
+    "steps": [
+        {
+            "id": "su1",
+            "type": "select_option",
+            "prompt": "Add the correct suffix to the word 'invent'.",
+            "options": [
+                { "text": "invention" },
+                { "text": "invension" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "su2",
+            "type": "select_option",
+            "prompt": "Complete the word for the root 'explode'.",
+            "options": [
+                { "text": "explotion" },
+                { "text": "explosion" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "su3",
+            "type": "select_option",
+            "prompt": "How do you spell the word from the root 'divide'?",
+            "options": [
+                { "text": "divition" },
+                { "text": "division" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "su4",
+            "type": "select_option",
+            "prompt": "Choose the correct spelling for the root 'act'.",
+            "options": [
+                { "text": "action" },
+                { "text": "acsion" }
+            ],
+            "answer": 0
+        }
+    ]
+}

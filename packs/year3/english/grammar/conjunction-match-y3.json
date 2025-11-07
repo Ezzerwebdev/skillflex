@@ -1,0 +1,5 @@
+{ "id":"year3/english/grammar/conjunction-match-y3", "title":"Conjunction Match", "version":1, "steps":[
+  {"id":"cm1","type":"select_option","prompt":"Choose the best link: She likes apples ___ oranges.","options":[{"text":"and"},{"text":"but"},{"text":"because"}],"answer":0},
+  {"id":"cm2","type":"select_option","prompt":"Choose the best link: He was late ___ the bus broke down.","options":[{"text":"and"},{"text":"but"},{"text":"because"}],"answer":2},
+  {"id":"cm3","type":"select_option","prompt":"Choose the best link: I wanted to swim ___ it was cold.","options":[{"text":"and"},{"text":"but"},{"text":"because"}],"answer":1}
+]}

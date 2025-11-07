@@ -1,0 +1,12 @@
+{
+  "id": "year3/maths/sort-test",
+  "title": "Sort Test",
+  "version": 1,
+  "steps": [
+    { "id": "s1", "type": "sort_items",
+      "prompt": "Order numbers smallest to largest:",
+      "items": [7, 2, 5, 1],
+      "answer": [1, 2, 5, 7]
+    }
+  ]
+}

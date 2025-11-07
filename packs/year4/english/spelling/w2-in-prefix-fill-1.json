@@ -1,0 +1,16 @@
+{
+  "id": "year4/english/spelling/w2-in-prefix-fill-1",
+  "title": "in- Fill 1",
+  "version": 1,
+  "steps": [
+    { "id": "s1", "type": "fill_blank",
+      "prompt": "The soup looked awful and was ______, so we chose bread instead.  (Word bank: inedible, indefinite, indecisive, inactive)",
+      "answer": "inedible" },
+    { "id": "s2", "type": "fill_blank",
+      "prompt": "The match time was ______ and might change after lunch.  (Word bank: inedible, indefinite, indecisive, inactive)",
+      "answer": "indefinite" },
+    { "id": "s3", "type": "fill_blank",
+      "prompt": "Our captain felt ______ and couldn’t pick a starter.  (Word bank: inedible, indefinite, indecisive, inactive)",
+      "answer": "indecisive" }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/estimation-station",
+  "title": "Estimation Station",
+  "version": 1,
+  "steps": [
+    {
+      "id": "es1",
+      "type": "select_option",
+      "prompt": "On a number line from 0 to 1000, an arrow points slightly before the middle. What is a good estimate?",
+      "options": [
+        {
+          "text": "480"
+        },
+        {
+          "text": "520"
+        },
+        {
+          "text": "200"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "es2",
+      "type": "select_option",
+      "prompt": "On a number line from 0 to 1000, an arrow points very close to the end. What is a good estimate?",
+      "options": [
+        {
+          "text": "810"
+        },
+        {
+          "text": "990"
+        },
+        {
+          "text": "1010"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "es3",
+      "type": "select_option",
+      "prompt": "On a number line from 300 to 400, an arrow points about three quarters of the way along. What is a good estimate?",
+      "options": [
+        {
+          "text": "325"
+        },
+        {
+          "text": "350"
+        },
+        {
+          "text": "375"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "es4",
+      "type": "select_option",
+      "prompt": "On a number line from 0 to 1000, which number would be closest to the start?",
+      "options": [
+        {
+          "text": "150"
+        },
+        {
+          "text": "50"
+        },
+        {
+          "text": "200"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

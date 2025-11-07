@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/one-regroup-mix-y5",
+  "title": "One-Regroup Mix",
+  "version": 1,
+  "steps": [
+    {
+      "id": "orm1",
+      "type": "select_option",
+      "prompt": "1786 + 235 = ?",
+      "options": [
+        {
+          "text": "2021"
+        },
+        {
+          "text": "2011"
+        },
+        {
+          "text": "2031"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "orm2",
+      "type": "select_option",
+      "prompt": "6407 + 508 = ?",
+      "options": [
+        {
+          "text": "6915"
+        },
+        {
+          "text": "6905"
+        },
+        {
+          "text": "7005"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "orm3",
+      "type": "select_option",
+      "prompt": "2990 + 25 = ?",
+      "options": [
+        {
+          "text": "3015"
+        },
+        {
+          "text": "3010"
+        },
+        {
+          "text": "3005"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

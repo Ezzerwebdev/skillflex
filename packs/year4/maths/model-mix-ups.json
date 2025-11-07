@@ -1,0 +1,72 @@
+{
+  "id": "year4/maths/model-mix-ups",
+  "title": "Model Mix-ups",
+  "version": 1,
+  "steps": [
+    {
+      "id": "mm1",
+      "type": "select_option",
+      "prompt": "What is the mistake in this part-whole model? Whole: 537, Parts: 500, 70, 3.",
+      "options": [
+        {
+          "text": "The parts add up to 573, not 537."
+        },
+        {
+          "text": "The whole should be 500."
+        },
+        {
+          "text": "There is no mistake."
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "mm2",
+      "type": "select_option",
+      "prompt": "Selina thinks the place value counters show 321. Tom thinks they show 312. Who is correct? (Counters: three 100s, one 10, two 1s)",
+      "options": [
+        {
+          "text": "Selina is correct."
+        },
+        {
+          "text": "Tom is correct."
+        },
+        {
+          "text": "They are both wrong."
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "mm3",
+      "type": "select_option",
+      "prompt": "Is this statement true or false? 'Two 100s and five 1s represents the number 205.'",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "mm4",
+      "type": "select_option",
+      "prompt": "What is the mistake in this part-whole model? Whole: 909, Parts: 900, 90, 9.",
+      "options": [
+        {
+          "text": "The whole should be 999."
+        },
+        {
+          "text": "The part '90' is wrong, it should be '0'."
+        },
+        {
+          "text": "The parts add up to 999, not 909."
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "year4/maths/addition-word-problems",
+  "title": "Addition Word Problems",
+  "version": 1,
+  "steps": [
+    {
+      "id": "awp1",
+      "type": "select_option",
+      "prompt": "There are 1,845 visitors at a park. 80 more visitors arrive. How many are there now?",
+      "options": [
+        {
+          "text": "1,925"
+        },
+        {
+          "text": "1,825"
+        },
+        {
+          "text": "1,765"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "awp2",
+      "type": "select_option",
+      "prompt": "Amrit has £1,215. She is given £90. How much does she have now?",
+      "options": [
+        {
+          "text": "£1,205"
+        },
+        {
+          "text": "£1,305"
+        },
+        {
+          "text": "£1,125"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "awp3",
+      "type": "select_option",
+      "prompt": "A plane flies 4,872 km. It flies another 60 km. What is the total distance?",
+      "options": [
+        {
+          "text": "4,932 km"
+        },
+        {
+          "text": "4,812 km"
+        },
+        {
+          "text": "10,872 km"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

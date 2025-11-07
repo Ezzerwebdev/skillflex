@@ -1,0 +1,6 @@
+{ "id":"year3/english/spelling/review-ei-ey-fill-y3","title":"Review: ei/ey Fill","version":1,"steps":[
+  {"id":"s1","type":"fill_blank","prompt":"Type the verb: They will ____ the bags. (weight/weigh)","answer":["weigh"]},
+  {"id":"s2","type":"select_option","prompt":"Pick the correct spelling","options":[{"text":"veil"},{"text":"vail"},{"text":"vale"}],"answer":0},
+  {"id":"s3","type":"true_false","prompt":"In 'they', 'ey' spells long /ai/.","answer":true},
+  {"id":"s4","type":"order_words","prompt":"Build the sentence","words":["They","wear","a","veil"],"answer":["They","wear","a","veil"]}
+]}

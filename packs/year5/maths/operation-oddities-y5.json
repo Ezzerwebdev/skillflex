@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/operation-oddities-y5",
+  "title": "Operation Oddities",
+  "version": 1,
+  "steps": [
+    {
+      "id": "oo1",
+      "type": "select_option",
+      "prompt": "Spot the error: 4,390 + 10 = 4,490.",
+      "options": [
+        {
+          "text": "Correct"
+        },
+        {
+          "text": "Wrong: should be 4,400"
+        },
+        {
+          "text": "Wrong: should be 4,399"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "oo2",
+      "type": "select_option",
+      "prompt": "Fix it: 7,005 − 1,000 = ?",
+      "options": [
+        {
+          "text": "6,005"
+        },
+        {
+          "text": "7,004"
+        },
+        {
+          "text": "6,995"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "oo3",
+      "type": "select_option",
+      "prompt": "Choose the correct: 3,270 + 100 = ?",
+      "options": [
+        {
+          "text": "3,280"
+        },
+        {
+          "text": "3,370"
+        },
+        {
+          "text": "4,270"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

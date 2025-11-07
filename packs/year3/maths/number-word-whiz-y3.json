@@ -1,0 +1,41 @@
+{
+  "id": "year3/maths/number-word-whiz-y3",
+  "title": "Number Word Whiz",
+  "version": 1,
+  "steps": [
+    {
+      "id": "nww1",
+      "type": "select_option",
+      "prompt": "Which number matches 'forty-six'?",
+      "options": [
+        {
+          "text": "64"
+        },
+        {
+          "text": "46"
+        },
+        {
+          "text": "406"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "nww2",
+      "type": "select_option",
+      "prompt": "How do you write the number 81 in words?",
+      "options": [
+        {
+          "text": "Eighty-one"
+        },
+        {
+          "text": "Eighteen"
+        },
+        {
+          "text": "Eight-one"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

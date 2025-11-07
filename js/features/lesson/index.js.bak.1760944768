@@ -1,0 +1,108 @@
+import { state, getToken } from '../../core/state.js';
+import { setProgress, feedback, randomPraise, burstConfetti, normalizeText } from './ui.js';
+import { updateUserProgress, getOrSetGuestId, updateUiCounters, getLoginDeepLink } from '../../core/auth.js';
+import { saveLocalGuestProgress } from '../../core/storage.js';
+import { router } from '../../core/router.js';
+import { showCompletionModal } from '/ui.js';
+
+async function fetchPack(short){
+  const r = await fetch(`/packs/${short}.json`, { cache:'no-cache' });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`); return await r.json();
+}
+function enableNextWhenReady(b){ const btn=document.querySelector('#btnNext'); if (btn) btn.disabled=!b; }
+
+function checkAnswer(step){
+  if (step.type === 'select_option') return state.select === step.answer;
+  if (step.type === 'order_words') { const exp = Array.isArray(step.answer) ? step.answer : []; const got = Array.isArray(state.order) ? state.order : []; return exp.length === got.length && exp.every((w,i)=>w===got[i]); }
+  if (step.type === 'fill_blank') { const answers = Array.isArray(step.answer) ? step.answer.map(normalizeText) : [normalizeText(step.answer)]; return answers.includes(normalizeText(state.text)); }
+  if (step.type === 'match_pairs') { const got = new Set((state.pairs||[]).map(p=>`${p.left}::${p.right}`)); const exp = new Set((step.pairs||[]).map(p=>`${p.left}::${p.right}`)); if (got.size !== exp.size) return false; for (const k of exp) if (!got.has(k)) return false; return true; }
+  if (step.type === 'sort_items') { const exp = Array.isArray(step.answer) ? step.answer.map(String) : []; const got = Array.isArray(state.order) ? state.order.map(String) : []; return exp.length === got.length && exp.every((w,i)=>w===got[i]); }
+  if (step.type === 'true_false') { if (typeof step.answer === 'boolean') return (state.select === 0) === step.answer; return false; }
+  return false;
+}
+
+function renderStep(step, host){
+  if (!host || !step) return; host.innerHTML='';
+  if (step.prompt){ const p=document.createElement('p'); p.textContent=step.prompt; host.appendChild(p); }
+  if (step.type==='fill_blank') import('./steps/fillBlank.js').then(m=>m.renderFillBlank(step, host));
+  else if (step.type==='match_pairs') import('./steps/matchPairs.js').then(m=>m.renderMatchPairs(step, host));
+  else if (step.type==='sort_items') import('./steps/sortItems.js').then(m=>m.renderSortItems(step, host));
+  else if (step.type==='true_false') import('./steps/trueFalse.js').then(m=>m.renderTrueFalse(step, host));
+}
+
+function showNextStep(){
+  const btnNext=document.querySelector('#btnNext'); if (btnNext) btnNext.disabled=true;
+  state.answered=false; state.retries=0; state.select=null; state.order=[]; state.text=''; state.pairs=[]; state._resetMatchPairs=null;
+  const step = state.lesson.steps[state.idx]; setProgress(state.idx, state.lesson.steps.length);
+  renderStep(step, document.querySelector('#stepHost')); state.stepStart=Date.now();
+}
+
+async function advanceOrFinish(){
+  const pack = state.lesson;
+  if (state.idx < pack.steps.length - 1) { state.idx++; showNextStep(); return; }
+  let streakEarnedThisLesson = false;
+  if (!state.completedToday.includes(pack.id)) state.completedToday.push(pack.id);
+  const today = new Date(); const lastDoneStr = localStorage.getItem('sf_lastDone');
+  const scorePercentage = (state.score / pack.steps.length) * 100;
+  if (scorePercentage >= 50 && (!lastDoneStr || new Date(lastDoneStr).toDateString() !== today.toDateString())) { streakEarnedThisLesson = true; }
+  localStorage.setItem('sf_lastDone', today.toISOString());
+  state.lessonLocked = true;
+  let completionBonus = 10;
+  if (typeof state.coinsCapRemaining === 'number') { completionBonus = Math.min(completionBonus, Math.max(0, state.coinsCapRemaining)); state.coinsCapRemaining -= completionBonus; }
+  state.coins += (state.lessonCoinsPending || 0) + completionBonus; state.lessonCoinsPending = 0;
+  if (!getToken() && streakEarnedThisLesson) state.streak++; updateUiCounters();
+  if (getToken()) { updateUserProgress({ streakEarned: streakEarnedThisLesson }).catch(()=>{}); }
+
+  const onContinue = async () => {
+    if (getToken()) { await updateUserProgress({ streakEarned: streakEarnedThisLesson }); }
+    else { await saveLocalGuestProgress(); }
+    history.pushState({}, '', '/'); router();
+  };
+  const extra = !getToken() ? {
+    onSave: async () => {
+      let gid = await getOrSetGuestId();
+      await saveLocalGuestProgress();
+      await new Promise(r => setTimeout(r, 50));
+      location.href = getLoginDeepLink();
+    }
+  } : undefined;
+  showCompletionModal(state.score, pack.steps.length, onContinue, extra);
+}
+
+export async function handleNextClick(){
+  if (state.lessonLocked) return;
+  const step = state.lesson.steps[state.idx];
+  if (state.answered) { advanceOrFinish(); return; }
+  const isCorrect = checkAnswer(step);
+  if (isCorrect) {
+    feedback(randomPraise(), true); burstConfetti(); state.answered = true; state.score++;
+    const perStep = 2; let award = perStep;
+    if (typeof state.coinsCapRemaining === 'number') { award = Math.min(perStep, Math.max(0, state.coinsCapRemaining)); state.coinsCapRemaining -= award; }
+    if (award <= 0) {
+      const f=document.querySelector('#feedback'); if (f){ f.textContent='Daily coin limit reached. Progress saved, no more coins today.'; f.className='feedback-toast bad'; f.hidden=false; setTimeout(()=>f.hidden=true,1200); }
+    } else { state.lessonCoinsPending += award; }
+    updateUiCounters(); setTimeout(advanceOrFinish, 1200);
+  } else {
+    if (state.retries < 1) {
+      state.retries++; feedback('✋ Try once more', false);
+      if (step.type === 'match_pairs' && typeof state._resetMatchPairs === 'function') { state._resetMatchPairs(); }
+      else { state.select=null; state.order=[]; state.text=''; state.pairs=[]; const btnNext=document.querySelector('#btnNext'); if (btnNext) btnNext.disabled=true; renderStep(step, document.querySelector('#stepHost')); }
+      return;
+    } else { feedback('❌ Keep going', false); state.answered = true; setTimeout(advanceOrFinish, 1200); }
+  }
+}
+
+export async function renderLesson(short){
+  const lessonTpl = document.getElementById('lessonTpl'); const app = document.querySelector('#app');
+  if (!lessonTpl) { app.innerHTML = `<div class="error-container"><h2>Error</h2><p>Could not load the lesson template.</p></div>`; return; }
+  app.innerHTML = lessonTpl.innerHTML; await new Promise(resolve => setTimeout(resolve, 0));
+  try {
+    const pack = await fetchPack(short);
+    if (!pack || !pack.steps) throw new Error(`Lesson pack invalid: ${short}`);
+    state.lesson = pack; state.idx = 0; state.score = 0; state.lessonCoinsPending = 0; state.lessonLocked = false; state.lessonStart = Date.now();
+    const lessonTitleEl = document.querySelector('#lessonTitle'); if (lessonTitleEl) lessonTitleEl.textContent = pack.title || '';
+    document.querySelector('#btnBack').onclick = () => { history.pushState({}, '', '/'); router(); };
+    document.querySelector('#btnNext').onclick = handleNextClick;
+    showNextStep();
+  } catch (error) { console.error('Failed to load lesson:', error); app.innerHTML = `<div class="error-container"><h2>Oops!</h2><p>Could not load this lesson.</p></div>`; }
+}

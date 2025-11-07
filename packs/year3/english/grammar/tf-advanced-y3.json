@@ -1,0 +1,10 @@
+{
+  "id": "year3/english/grammar/tf-advanced-y3",
+  "title": "True or False? (Y3)",
+  "version": 1,
+  "steps": [
+    { "id": "tf1", "type": "true_false", "prompt": "A noun names a person, place, or thing.", "answer": true  },
+    { "id": "tf2", "type": "true_false", "prompt": "An adjective is a doing word.",           "answer": false },
+    { "id": "tf3", "type": "true_false", "prompt": "Verbs can show actions or states.",        "answer": true  }
+  ]
+}

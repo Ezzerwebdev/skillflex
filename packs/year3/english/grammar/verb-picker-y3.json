@@ -1,0 +1,5 @@
+{ "id":"year3/english/grammar/verb-picker-y3", "title":"Verb Picker", "version":1, "steps":[
+  {"id":"vp1","type":"select_option","prompt":"Choose the verb:","options":[{"text":"run"},{"text":"red"},{"text":"rabbit"}],"answer":0},
+  {"id":"vp2","type":"select_option","prompt":"Choose the verb:","options":[{"text":"slowly"},{"text":"sing"},{"text":"stone"}],"answer":1},
+  {"id":"vp3","type":"select_option","prompt":"Choose the verb:","options":[{"text":"happy"},{"text":"jump"},{"text":"green"}],"answer":1}
+]}

@@ -1,0 +1,55 @@
+{
+  "id": "year4/maths/conversion-champions",
+  "title": "Conversion Champions",
+  "version": 1,
+  "steps": [
+    {
+      "id": "cc1",
+      "type": "select_option",
+      "prompt": "Is this statement true or false? 'These ten-frames and counters represent 2000.' (Shows 10 frames of 100)",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "cc2",
+      "type": "select_option",
+      "prompt": "How many hundreds are there in four thousand?",
+      "options": [
+        {
+          "text": "4"
+        },
+        {
+          "text": "400"
+        },
+        {
+          "text": "40"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "cc3",
+      "type": "select_option",
+      "prompt": "How many pencils are used if Year 4 uses 20 boxes and Year 5 uses 40 boxes? (Each box has 100 pencils)",
+      "options": [
+        {
+          "text": "600"
+        },
+        {
+          "text": "6000"
+        },
+        {
+          "text": "60"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

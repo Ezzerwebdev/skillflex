@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/digit-dilemmas",
+  "title": "Digit Dilemmas",
+  "version": 1,
+  "steps": [
+    {
+      "id": "dd1",
+      "type": "select_option",
+      "prompt": "Using the digits 2, 4, 8 only once, what is the smallest 3-digit number you can make?",
+      "options": [
+        {
+          "text": "842"
+        },
+        {
+          "text": "428"
+        },
+        {
+          "text": "248"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "dd2",
+      "type": "select_option",
+      "prompt": "Using the digits 2, 4, 8 only once, what is the largest 3-digit number you can make?",
+      "options": [
+        {
+          "text": "842"
+        },
+        {
+          "text": "482"
+        },
+        {
+          "text": "824"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "dd3",
+      "type": "select_option",
+      "prompt": "How many different 3-digit numbers can you make using the digits 2, 4, and 8 only once?",
+      "options": [
+        {
+          "text": "4"
+        },
+        {
+          "text": "6"
+        },
+        {
+          "text": "8"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "dd4",
+      "type": "select_option",
+      "prompt": "Using the digits 2, 4, 8 only once, what number is closest to 500?",
+      "options": [
+        {
+          "text": "284"
+        },
+        {
+          "text": "482"
+        },
+        {
+          "text": "824"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

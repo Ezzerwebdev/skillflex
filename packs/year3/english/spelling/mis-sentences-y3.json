@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/mis-sentences-y3", "title":"Sentence Shuffle: mis-", "version":1, "steps":[
+  {"id":"ms1","type":"select_option","prompt":"He didn’t hear clearly; he ___ the word.","options":[{"text":"misheard"},{"text":"mishear"},{"text":"missheard"}],"answer":0},
+  {"id":"ms2","type":"select_option","prompt":"I ___ my keys and can’t find them.","options":[{"text":"misplace"},{"text":"misplaced"},{"text":"misplacing"}],"answer":1},
+  {"id":"ms3","type":"order_words","prompt":"Make a sentence:","words":["I","misplaced","my","homework","."],"answer":["I","misplaced","my","homework","."]}
+]}

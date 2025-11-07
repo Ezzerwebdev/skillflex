@@ -1,0 +1,40 @@
+{
+    "id": "year5/spelling/word-breaker",
+    "title": "Word Breaker",
+    "version": 1,
+    "steps": [
+        {
+            "id": "y5wb1",
+            "type": "select_option",
+            "prompt": "Which prefix should you add to 'fair' to mean 'not fair'?",
+            "options": [
+                { "text": "mis-" },
+                { "text": "un-" },
+                { "text": "re-" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "y5wb2",
+            "type": "select_option",
+            "prompt": "To create a word that means 'the opposite of respect', which prefix do you need?",
+            "options": [
+                { "text": "dis-" },
+                { "text": "sub-" },
+                { "text": "anti-" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "y5wb3",
+            "type": "select_option",
+            "prompt": "Which prefix can be added to 'septic' to mean 'against germs'?",
+            "options": [
+                { "text": "re-" },
+                { "text": "anti-" },
+                { "text": "mis-" }
+            ],
+            "answer": 1
+        }
+    ]
+}

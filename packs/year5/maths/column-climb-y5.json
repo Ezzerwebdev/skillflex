@@ -1,0 +1,75 @@
+{
+  "id": "year5/maths/column-climb-y5",
+  "title": "Column Climb",
+  "version": 1,
+  "steps": [
+    {
+      "id": "cc1",
+      "type": "select_option",
+      "prompt": "3427 + 289 = ?",
+      "options": [
+        {
+          "text": "3716"
+        },
+        {
+          "text": "3714"
+        },
+        {
+          "text": "3726"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "cc2",
+      "type": "select_option",
+      "prompt": "4075 + 968 = ?",
+      "options": [
+        {
+          "text": "5043"
+        },
+        {
+          "text": "5033"
+        },
+        {
+          "text": "5143"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "cc3",
+      "type": "select_option",
+      "prompt": "2364 + 580 = ?",
+      "options": [
+        {
+          "text": "2944"
+        },
+        {
+          "text": "2844"
+        },
+        {
+          "text": "2940"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "cc4",
+      "type": "select_option",
+      "prompt": "Which has exactly ONE regroup?",
+      "options": [
+        {
+          "text": "1205 + 400"
+        },
+        {
+          "text": "1990 + 15"
+        },
+        {
+          "text": "350 + 650"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

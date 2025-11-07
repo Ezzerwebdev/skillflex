@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/ey-word-builder-y3","title":"Word Builder: ey","version":1,"steps":[
+  {"id":"s1","type":"order_words","prompt":"Build the word: \"money\"","words":["m","o","n","e","y"],"answer":["m","o","n","e","y"]},
+  {"id":"s2","type":"order_words","prompt":"Build the word: \"monkey\"","words":["m","o","n","k","e","y"],"answer":["m","o","n","k","e","y"]},
+  {"id":"s3","type":"select_option","prompt":"Choose the correct spelling","options":[{"text":"turky"},{"text":"turkey"},{"text":"turkie"}],"answer":1}
+]}

@@ -1,0 +1,6 @@
+{ "id":"year3/english/spelling/review-ai-quick-check-y3","title":"Review: ai Quick Check","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"Which is spelled correctly?","options":[{"text":"train"},{"text":"trayne"},{"text":"trane"}],"answer":0},
+  {"id":"s2","type":"order_words","prompt":"Make the sentence","words":["We","saw","a","snail","on","the","trail"],"answer":["We","saw","a","snail","on","the","trail"]},
+  {"id":"s3","type":"fill_blank","prompt":"Type the word: s__l (use 'ai')","answer":["sail"]},
+  {"id":"s4","type":"true_false","prompt":"'ai' is usually in the middle of a word, not at the end.","answer":true}
+]}

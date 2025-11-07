@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/sum-stories-y5",
+  "title": "Sum Stories",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ss1",
+      "type": "select_option",
+      "prompt": "A class collects 2,467 stickers on Monday and 589 on Tuesday. Total?",
+      "options": [
+        {
+          "text": "3,056"
+        },
+        {
+          "text": "3,046"
+        },
+        {
+          "text": "3,066"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ss2",
+      "type": "select_option",
+      "prompt": "A library adds 805 books to 3,270 already on shelves. New total?",
+      "options": [
+        {
+          "text": "4,075"
+        },
+        {
+          "text": "4,065"
+        },
+        {
+          "text": "3,975"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ss3",
+      "type": "select_option",
+      "prompt": "A shop sells 1,495 red and 506 blue badges. How many badges?",
+      "options": [
+        {
+          "text": "2,001"
+        },
+        {
+          "text": "1,991"
+        },
+        {
+          "text": "2,011"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

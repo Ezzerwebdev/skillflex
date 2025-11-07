@@ -1,0 +1,35 @@
+{
+  "id": "year4/english/spelling/w1-au-augh-pick-the-word",
+  "title": "Pick the Word (AUGH)",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "select_option",
+      "prompt": "Pick the word meaning ‘learned from a teacher’.",
+      "options": [
+        {"text": "taught"},
+        {"text": "caught"},
+        {"text": "tawt"}
+      ],
+      "answer": 0
+    },
+    {
+      "id": "s2",
+      "type": "select_option",
+      "prompt": "Pick the word for ‘took hold of’.",
+      "options": [
+        {"text": "cawt"},
+        {"text": "caught"},
+        {"text": "caut"}
+      ],
+      "answer": 1
+    },
+    {
+      "id": "s3",
+      "type": "fill_blank",
+      "prompt": "In the family tree, Sam is the son and Ana is their ______. (Word bank: daughter, author, teacher)",
+      "answer": "daughter"
+    }
+  ]
+}

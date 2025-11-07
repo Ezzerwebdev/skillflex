@@ -1,0 +1,63 @@
+{
+  "id": "year4/maths/true-or-false-challenge",
+  "title": "True or False Challenge",
+  "version": 1,
+  "steps": [
+    {
+      "id": "tofc1",
+      "type": "select_option",
+      "prompt": "True or False: 'Two 100s and five 1s' represents the number 205.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "tofc2",
+      "type": "select_option",
+      "prompt": "True or False: 7 hundreds, 2 tens, and 15 ones is the same as 735.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "tofc3",
+      "type": "select_option",
+      "prompt": "True or False: 400 + 120 + 3 is the same as 523.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "tofc4",
+      "type": "select_option",
+      "prompt": "True or False: The number 650 can be partitioned into 5 hundreds and 15 tens.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

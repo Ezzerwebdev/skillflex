@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/clue-crackers",
+  "title": "Clue Crackers",
+  "version": 1,
+  "steps": [
+    {
+      "id": "cc1",
+      "type": "select_option",
+      "prompt": "I have 4 hundreds. My tens digit is odd. My ones digit is 2. What number could I be?",
+      "options": [
+        {
+          "text": "425"
+        },
+        {
+          "text": "452"
+        },
+        {
+          "text": "542"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "cc2",
+      "type": "select_option",
+      "prompt": "My hundreds digit is greater than 6. My ones digit is less than 3. My tens digit is 4. What is my number?",
+      "options": [
+        {
+          "text": "642"
+        },
+        {
+          "text": "734"
+        },
+        {
+          "text": "741"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "cc3",
+      "type": "select_option",
+      "prompt": "The hundreds digit is double the ones digit. The tens digit is 5. The ones digit is 4. What's the number?",
+      "options": [
+        {
+          "text": "854"
+        },
+        {
+          "text": "458"
+        },
+        {
+          "text": "852"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "cc4",
+      "type": "select_option",
+      "prompt": "My tens digit is 2 less than my ones digit. My hundreds is 1 less than my tens. My ones digit is 9. What is my number?",
+      "options": [
+        {
+          "text": "679"
+        },
+        {
+          "text": "789"
+        },
+        {
+          "text": "579"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/homophone-hero-y3","title":"Homophone Hero","version":1,"steps":[
+  {"id":"h1","type":"select_option","prompt":"I left my book over ____.","options":[{"text":"there"},{"text":"their"},{"text":"they're"}],"answer":0},
+  {"id":"h2","type":"select_option","prompt":"We went ____ the park.","options":[{"text":"to"},{"text":"too"},{"text":"two"}],"answer":0},
+  {"id":"h3","type":"fill_blank","prompt":"They said ____ coming later.","answer":["they're","theyre"]}
+]}

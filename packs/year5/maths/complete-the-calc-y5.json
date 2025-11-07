@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/complete-the-calc-y5",
+  "title": "Complete the Calc",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ccal1",
+      "type": "select_option",
+      "prompt": "C + CCC = ?",
+      "options": [
+        {
+          "text": "CD"
+        },
+        {
+          "text": "D"
+        },
+        {
+          "text": "CCCC"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ccal2",
+      "type": "select_option",
+      "prompt": "LVI ÷ ? = 8",
+      "options": [
+        {
+          "text": "VI"
+        },
+        {
+          "text": "VII"
+        },
+        {
+          "text": "VIII"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ccal3",
+      "type": "select_option",
+      "prompt": "? × IX = LXIII",
+      "options": [
+        {
+          "text": "VII"
+        },
+        {
+          "text": "VIII"
+        },
+        {
+          "text": "V"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

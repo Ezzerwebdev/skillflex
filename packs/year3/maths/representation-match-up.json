@@ -1,0 +1,58 @@
+{
+  "id": "year3/maths/representation-match-up",
+  "title": "Representation Match-Up",
+  "version": 1,
+  "steps": [
+    {
+      "id": "rmu1",
+      "type": "select_option",
+      "prompt": "Which number matches '1 ten and 7 ones'?",
+      "options": [
+        {
+          "text": "71"
+        },
+        {
+          "text": "17"
+        },
+        {
+          "text": "107"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "rmu2",
+      "type": "select_option",
+      "prompt": "Which representation matches the number 27?",
+      "options": [
+        {
+          "text": "twenty-seven"
+        },
+        {
+          "text": "2 tens and 2 ones"
+        },
+        {
+          "text": "7 tens and 2 ones"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "rmu3",
+      "type": "select_option",
+      "prompt": "Which number is shown by two '10' blocks and three '1' blocks?",
+      "options": [
+        {
+          "text": "32"
+        },
+        {
+          "text": "23"
+        },
+        {
+          "text": "5"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

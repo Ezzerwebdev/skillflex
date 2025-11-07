@@ -1,0 +1,42 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Sign-in Complete</title>
+<meta name="robots" content="noindex">
+<style>
+  body { font: 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; }
+  .hidden { display:none; }
+</style>
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var token  = params.get('token') || null;
+
+  // If we have an opener (true popup): send token back, focus it, and close.
+  try {
+    if (window.opener && !window.opener.closed) {
+      // Post only to the same origin as this page (e.g., https://games.skillflex.education)
+      window.opener.postMessage({ type: 'sfAuth', token: token }, location.origin);
+      try { window.opener.focus(); } catch (e) {}
+      // Try to close quickly; if blocked, show a manual close link below.
+      setTimeout(function(){ window.close(); }, 100);
+      return;
+    }
+  } catch (e) { /* ignore */ }
+
+  // Fallback: no opener (popup blocked or opened in same tab).
+  // Redirect to the hub with ?token=... so the app can consume it.
+  if (token) {
+    location.replace('/?token=' + encodeURIComponent(token));
+  } else {
+    location.replace('/');
+  }
+})();
+</script>
+
+<noscript>
+  <p>JavaScript is required to complete sign-in. Please enable JavaScript and try again.</p>
+</noscript>
+
+<p id="fallback">Login complete. If this window didn’t close automatically,
+  <a href="#" onclick="window.close(); return false;">click here to close it</a>.
+</p>

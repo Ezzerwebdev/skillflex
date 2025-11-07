@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/over-gaps-y3", "title":"Fill the Gaps: over-", "version":1, "steps":[
+  {"id":"og1","type":"select_option","prompt":"Don’t ___ the soup!","options":[{"text":"overcook"},{"text":"overcooke"},{"text":"overcooked"}],"answer":0},
+  {"id":"og2","type":"select_option","prompt":"Try not to ___ about small things.","options":[{"text":"overreact"},{"text":"overract"},{"text":"overreacte"}],"answer":0},
+  {"id":"og3","type":"select_option","prompt":"We shouldn’t ___ in the morning.","options":[{"text":"oversleep"},{"text":"overslept"},{"text":"overslepe"}],"answer":0}
+]}

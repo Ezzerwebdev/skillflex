@@ -1,0 +1,5 @@
+{ "id": "year3/english/grammar/build-a-sentence-y3", "title": "Build‑a‑Sentence Quest", "version": 1, "steps": [
+  { "id": "bs1", "type": "order_words", "prompt": "Build a sentence:", "words": ["the","knight","rescued","a","villager","."], "answer": ["The","knight","rescued","a","villager","."] },
+  { "id": "bs2", "type": "order_words", "prompt": "Build a sentence:", "words": ["the","teacher","helped","the","class","."], "answer": ["The","teacher","helped","the","class","."] },
+  { "id": "bs3", "type": "order_words", "prompt": "Build a sentence:", "words": ["a","dragon","guarded","the","gate","."], "answer": ["A","dragon","guarded","the","gate","."] }
+] }

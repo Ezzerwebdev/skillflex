@@ -1,0 +1,14 @@
+{
+  "id":"year3/english/spelling/suffix-ment-builder-y3",
+  "title":"-ment Builder",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"match_pairs","leftLabel":"Verb","rightLabel":"Noun (-ment)","pairs":[
+      {"left":"enjoy","right":"enjoyment"},
+      {"left":"move","right":"movement"},
+      {"left":"agree","right":"agreement"}
+    ]},
+    {"id":"s2","type":"select_option","prompt":"Which is correct?","options":[{"text":"enjoyement"},{"text":"enjoyment"},{"text":"enjoymant"}],"answer":1},
+    {"id":"s3","type":"true_false","prompt":"The suffix '-ment' can turn a verb into a noun.","answer":true}
+  ]
+}

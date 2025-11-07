@@ -1,0 +1,58 @@
+{
+  "id": "year4/maths/addition-practice",
+  "title": "Addition Practice",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ap1",
+      "type": "select_option",
+      "prompt": "What is 5,254 + 100?",
+      "options": [
+        {
+          "text": "5,354"
+        },
+        {
+          "text": "5,264"
+        },
+        {
+          "text": "6,254"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ap2",
+      "type": "select_option",
+      "prompt": "What is 2,570 + 60?",
+      "options": [
+        {
+          "text": "2,630"
+        },
+        {
+          "text": "2,530"
+        },
+        {
+          "text": "3,170"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ap3",
+      "type": "select_option",
+      "prompt": "What is 4,274 + 40?",
+      "options": [
+        {
+          "text": "4,214"
+        },
+        {
+          "text": "4,314"
+        },
+        {
+          "text": "4,674"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "year3/english/spelling/match-advanced-y3",
+  "title": "Match the Morphemes (Y3)",
+  "version": 1,
+  "steps": [
+    {
+      "id": "mp1",
+      "type": "match_pairs",
+      "leftLabel": "Prefixes",
+      "rightLabel": "Base words",
+      "pairs": [
+        { "left": "un-",  "right": "kind"   },
+        { "left": "re-",  "right": "cycle"  },
+        { "left": "dis-", "right": "agree"  },
+        { "left": "mis-", "right": "spell"  },
+        { "left": "pre-", "right": "heat"   },
+        { "left": "over-","right": "cook"   },
+        { "left": "under-","right": "pay"   },
+        { "left": "non-", "right": "fiction"}
+      ]
+    }
+  ]
+}

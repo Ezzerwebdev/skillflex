@@ -1,0 +1,30 @@
+{
+  "id": "year4/english/spelling/w1-au-augh-correct-spell-1",
+  "title": "AU/AUGH Spell Pick 1",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "select_option",
+      "prompt": "Pick the correct spelling:",
+      "options": [
+        {"text": "naughty"},
+        {"text": "naughy"},
+        {"text": "nawty"}
+      ],
+      "answer": 0
+    },
+    {
+      "id": "s2",
+      "type": "fill_blank",
+      "prompt": "Type the word for ‘part of a sentence’:",
+      "answer": "clause"
+    },
+    {
+      "id": "s3",
+      "type": "true_false",
+      "prompt": "‘au’ makes the /aw/ sound in ‘author’.",
+      "answer": true
+    }
+  ]
+}

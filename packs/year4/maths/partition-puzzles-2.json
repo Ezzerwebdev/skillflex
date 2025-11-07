@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/partition-puzzles-2",
+  "title": "Partition Puzzles 2",
+  "version": 1,
+  "steps": [
+    {
+      "id": "pp2-1",
+      "type": "select_option",
+      "prompt": "Complete the statement: 400 + ___ = 402",
+      "options": [
+        {
+          "text": "20"
+        },
+        {
+          "text": "2"
+        },
+        {
+          "text": "0"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "pp2-2",
+      "type": "select_option",
+      "prompt": "Complete the statement: 200 + 90 + ___ = 293",
+      "options": [
+        {
+          "text": "3"
+        },
+        {
+          "text": "30"
+        },
+        {
+          "text": "300"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pp2-3",
+      "type": "select_option",
+      "prompt": "Complete the statement: 900 + 70 + ___ = 977",
+      "options": [
+        {
+          "text": "70"
+        },
+        {
+          "text": "77"
+        },
+        {
+          "text": "7"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "pp2-4",
+      "type": "select_option",
+      "prompt": "Complete the statement: 600 + ___ + 4 = 684",
+      "options": [
+        {
+          "text": "800"
+        },
+        {
+          "text": "8"
+        },
+        {
+          "text": "80"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

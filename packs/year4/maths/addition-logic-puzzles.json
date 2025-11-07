@@ -1,0 +1,41 @@
+{
+  "id": "year4/maths/addition-logic-puzzles",
+  "title": "Addition Logic Puzzles",
+  "version": 1,
+  "steps": [
+    {
+      "id": "alp1",
+      "type": "select_option",
+      "prompt": "Is this statement always, sometimes, or never true? 'If I add 100 to a number, only the hundreds column will change.'",
+      "options": [
+        {
+          "text": "Always True"
+        },
+        {
+          "text": "Sometimes True"
+        },
+        {
+          "text": "Never True"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "alp2",
+      "type": "select_option",
+      "prompt": "Why is the statement 'Sometimes True'? (Example: 1,950 + 100 = 2,050)",
+      "options": [
+        {
+          "text": "Because it can also change the thousands column."
+        },
+        {
+          "text": "Because it never changes the hundreds column."
+        },
+        {
+          "text": "Because it only changes the tens column."
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

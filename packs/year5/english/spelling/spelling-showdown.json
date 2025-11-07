@@ -1,0 +1,51 @@
+{
+    "id": "year5/spelling/spelling-showdown",
+    "title": "Spelling Showdown",
+    "version": 1,
+    "steps": [
+        {
+            "id": "sh1",
+            "type": "select_option",
+            "prompt": "Which spelling is correct?",
+            "options": [
+                { "text": "acommodate" },
+                { "text": "accommodate" },
+                { "text": "acomodate" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "sh2",
+            "type": "select_option",
+            "prompt": "Which of these words is spelled correctly?",
+            "options": [
+                { "text": "aggresive" },
+                { "text": "agressive" },
+                { "text": "aggressive" }
+            ],
+            "answer": 2
+        },
+        {
+            "id": "sh3",
+            "type": "select_option",
+            "prompt": "Choose the correct spelling.",
+            "options": [
+                { "text": "ancient" },
+                { "text": "ansient" },
+                { "text": "ancent" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "sh4",
+            "type": "select_option",
+            "prompt": "Which one is right?",
+            "options": [
+                { "text": "aparent" },
+                { "text": "apparent" },
+                { "text": "apparant" }
+            ],
+            "answer": 1
+        }
+    ]
+}

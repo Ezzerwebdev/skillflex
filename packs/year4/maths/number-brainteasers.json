@@ -1,0 +1,73 @@
+{
+  "id": "year4/maths/number-brainteasers",
+  "title": "Number Brainteasers",
+  "version": 1,
+  "steps": [
+    {
+      "id": "nb1",
+      "type": "select_option",
+      "prompt": "I am thinking of a number. The digit sum is 18. All digits are even. The hundreds digit is > 6 but < 9. What is the number?",
+      "options": [
+        {
+          "text": "846"
+        },
+        {
+          "text": "828"
+        },
+        {
+          "text": "864"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "nb2",
+      "type": "select_option",
+      "prompt": "Luca has 11 counters to make a 3-digit number. The hundreds digit is one more than the tens. Which number could he have made?",
+      "options": [
+        {
+          "text": "326"
+        },
+        {
+          "text": "434"
+        },
+        {
+          "text": "542"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "nb3",
+      "type": "order_words",
+      "prompt": "Using the digit cards 5, 4, 1, what is the smallest number you can make? (Put the digits in order)",
+      "words": [
+        "4",
+        "1",
+        "5"
+      ],
+      "answer": [
+        "1",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "id": "nb4",
+      "type": "select_option",
+      "prompt": "Using the digit cards 5, 4, 1, how many numbers less than 500 can you make?",
+      "options": [
+        {
+          "text": "2"
+        },
+        {
+          "text": "4"
+        },
+        {
+          "text": "6"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

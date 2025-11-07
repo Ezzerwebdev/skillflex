@@ -1,0 +1,5 @@
+{ "id": "year3/english/grammar/sentence-shuffle-y3", "title": "Sentence Shuffle", "version": 1, "steps": [
+  { "id": "ss1", "type": "order_words", "prompt": "Make a sentence:", "words": ["the","dog","chased","the","cat","."], "answer": ["The","dog","chased","the","cat","."] },
+  { "id": "ss2", "type": "order_words", "prompt": "Make a sentence:", "words": ["children","the","with","played","the","ball","."], "answer": ["The","children","played","with","the","ball","."] },
+  { "id": "ss3", "type": "order_words", "prompt": "Make a sentence:", "words": ["we","park","the","to","went","."], "answer": ["We","went","to","the","park","."] }
+] }

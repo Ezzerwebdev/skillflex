@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/counter-builders-y5",
+  "title": "Counter Builders",
+  "version": 1,
+  "steps": [
+    {
+      "id": "cb1",
+      "type": "select_option",
+      "prompt": "Which equals 3 thousands, 4 hundreds, 2 tens, 9 ones + 8 tens (no other change)?",
+      "options": [
+        {
+          "text": "3,519"
+        },
+        {
+          "text": "3,509"
+        },
+        {
+          "text": "3,489"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "cb2",
+      "type": "select_option",
+      "prompt": "Add 1 hundred to 2,760 then add 1 ten and 1 one.",
+      "options": [
+        {
+          "text": "2,871"
+        },
+        {
+          "text": "2,861"
+        },
+        {
+          "text": "2,971"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "cb3",
+      "type": "select_option",
+      "prompt": "Start 5,905. Add 9 tens. Result?",
+      "options": [
+        {
+          "text": "5,995"
+        },
+        {
+          "text": "5,914"
+        },
+        {
+          "text": "5,9950"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

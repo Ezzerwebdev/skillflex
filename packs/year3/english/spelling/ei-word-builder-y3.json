@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/ei-word-builder-y3","title":"Word Builder: ei","version":1,"steps":[
+  {"id":"s1","type":"order_words","prompt":"Build the word: \"weigh\"","words":["w","e","i","g","h"],"answer":["w","e","i","g","h"]},
+  {"id":"s2","type":"select_option","prompt":"Choose the correct spelling","options":[{"text":"vein"},{"text":"vain"},{"text":"vane"}],"answer":0},
+  {"id":"s3","type":"order_words","prompt":"Build the word: \"neighbour\"","words":["n","e","i","g","h","b","o","u","r"],"answer":["n","e","i","g","h","b","o","u","r"]}
+]}

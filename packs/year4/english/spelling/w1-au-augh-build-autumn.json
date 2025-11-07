@@ -1,0 +1,28 @@
+{
+  "id": "year4/english/spelling/w1-au-augh-build-autumn",
+  "title": "Build the Word: AU",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "order_words",
+      "prompt": "Build the word: autumn",
+      "words": ["a","u","t","u","m","n"],
+      "answer": ["a","u","t","u","m","n"]
+    },
+    {
+      "id": "s2",
+      "type": "order_words",
+      "prompt": "Build the word: caught",
+      "words": ["c","a","u","g","h","t"],
+      "answer": ["c","a","u","g","h","t"]
+    },
+    {
+      "id": "s3",
+      "type": "order_words",
+      "prompt": "Build the word: author",
+      "words": ["a","u","t","h","o","r"],
+      "answer": ["a","u","t","h","o","r"]
+    }
+  ]
+}

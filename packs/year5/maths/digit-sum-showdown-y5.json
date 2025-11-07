@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/digit-sum-showdown-y5",
+  "title": "Digit Sum Showdown",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ds1",
+      "type": "select_option",
+      "prompt": "Which has digit sum 20?",
+      "options": [
+        {
+          "text": "4,775"
+        },
+        {
+          "text": "5,902"
+        },
+        {
+          "text": "3,992"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ds2",
+      "type": "select_option",
+      "prompt": "Which also sums to 20?",
+      "options": [
+        {
+          "text": "6,104"
+        },
+        {
+          "text": "8,200"
+        },
+        {
+          "text": "9,200"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ds3",
+      "type": "select_option",
+      "prompt": "Pick the one that does NOT sum to 20.",
+      "options": [
+        {
+          "text": "9,101"
+        },
+        {
+          "text": "9,200"
+        },
+        {
+          "text": "5,500"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

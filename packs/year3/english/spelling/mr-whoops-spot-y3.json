@@ -1,0 +1,5 @@
+{ "id": "year3/english/spelling/mr-whoops-spot-y3", "title": "Mr Whoops: Spot the Mistake", "version": 1, "steps": [
+  { "id": "mw1", "type": "select_option", "prompt": "Choose the correct spelling:", "options": [ {"text": "knott"}, {"text": "knot"}, {"text": "knotte"} ], "answer": 1 },
+  { "id": "mw2", "type": "select_option", "prompt": "Choose the correct word to fit: I ___ my lunch quickly.", "options": [ {"text": "eight"}, {"text": "ate"}, {"text": "eet"} ], "answer": 1 },
+  { "id": "mw3", "type": "select_option", "prompt": "Choose the correct spelling:", "options": [ {"text": "wate"}, {"text": "weight"}, {"text": "waight"} ], "answer": 1 }
+] }

@@ -1,0 +1,25 @@
+{
+  "id": "year3/english/grammar/fill-advanced-y3",
+  "title": "Fill-in Challenge (Y3)",
+  "version": 1,
+  "steps": [
+    {
+      "id": "fb1",
+      "type": "fill_blank",
+      "prompt": "I ____ my homework before dinner.",
+      "answer": ["finished","did","completed"]
+    },
+    {
+      "id": "fb2",
+      "type": "fill_blank",
+      "prompt": "They were happy ____ it stopped raining.",
+      "answer": ["because","when","since"]
+    },
+    {
+      "id": "fb3",
+      "type": "fill_blank",
+      "prompt": "Please be ____ .",
+      "answer": ["quiet","silent"]
+    }
+  ]
+}

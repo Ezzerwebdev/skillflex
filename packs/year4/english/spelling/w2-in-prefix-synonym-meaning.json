@@ -1,0 +1,17 @@
+{
+  "id": "year4/english/spelling/w2-in-prefix-synonym-meaning",
+  "title": "in- Simple Synonyms",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "match_pairs",
+      "pairs": [
+        {"left": "incorrect", "right": "wrong"},
+        {"left": "incomplete", "right": "not finished"},
+        {"left": "inactive", "right": "not active"},
+        {"left": "inaccurate", "right": "not exact"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{ "id":"year3/english/spelling/review-mixed-match-y3","title":"Review: Mixed Match","version":1,"steps":[
+  {"id":"s1","type":"match_pairs","pairs":[
+    {"left":"sleigh","right":"snow vehicle"},
+    {"left":"rein","right":"strap to guide a horse"},
+    {"left":"vein","right":"a blood vessel"}]},
+  {"id":"s2","type":"select_option","prompt":"Which means 'blood vessel'?","options":[{"text":"vain"},{"text":"vein"},{"text":"vane"}],"answer":1},
+  {"id":"s3","type":"true_false","prompt":"'rein' and 'vain' are homophones.","answer":false}
+]}

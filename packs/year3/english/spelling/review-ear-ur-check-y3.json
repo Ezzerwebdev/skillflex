@@ -1,0 +1,8 @@
+{ "id":"year3/english/spelling/review-ear-ur-check-y3","title":"Review: ear = /ur/","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"Pick the correct spelling","options":[{"text":"pearl"},{"text":"perl"},{"text":"peerl"}],"answer":0},
+  {"id":"s2","type":"match_pairs","pairs":[
+    {"left":"learn","right":"'ear' says /ur/"},
+    {"left":"pear","right":"fruit"}]},
+  {"id":"s3","type":"fill_blank","prompt":"Type the word: l__rn (use 'ear')","answer":["learn"]},
+  {"id":"s4","type":"true_false","prompt":"In 'earth' the letters 'ear' make the /ur/ sound.","answer":true}
+]}

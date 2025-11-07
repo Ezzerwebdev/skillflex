@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/trail-adds-y5",
+  "title": "Trail Adds",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ta1",
+      "type": "select_option",
+      "prompt": "Start 3,470 → +80 → +400 = ?",
+      "options": [
+        {
+          "text": "3,950"
+        },
+        {
+          "text": "3,850"
+        },
+        {
+          "text": "3,960"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ta2",
+      "type": "select_option",
+      "prompt": "Start 1,906 → +90 → +10 = ?",
+      "options": [
+        {
+          "text": "2,006"
+        },
+        {
+          "text": "2,016"
+        },
+        {
+          "text": "1,996"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ta3",
+      "type": "select_option",
+      "prompt": "Start 7,025 → +975 = ?",
+      "options": [
+        {
+          "text": "8,000"
+        },
+        {
+          "text": "8,010"
+        },
+        {
+          "text": "7,1000"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id":"year3/english/spelling/challenge-suffix-showdown-y3",
+  "title":"Challenge: Suffix Showdown",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"select_option","prompt":"‘help_____’ meaning ‘full of help’.","options":[{"text":"helpness"},{"text":"helpful"},{"text":"helply"}],"answer":1},
+    {"id":"s2","type":"match_pairs","leftLabel":"Suffix","rightLabel":"Meaning","pairs":[
+      {"left":"-ful","right":"full of"},
+      {"left":"-less","right":"without"},
+      {"left":"-ment","right":"action/result"},
+      {"left":"-ness","right":"state/quality"}
+    ]},
+    {"id":"s3","type":"fill_blank","prompt":"Add -ness to ‘happy’. Type the whole word:","answer":["happiness"]}
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id":"year3/english/spelling/ei-meaning-match-y3",
+  "title":"EI Meaning Match",
+  "version":1,
+  "steps":[
+    { "id":"s1","type":"match_pairs","leftLabel":"Word","rightLabel":"Meaning",
+      "pairs":[
+        {"left":"rein","right":"strap to guide a horse"},
+        {"left":"vein","right":"a blood vessel"},
+        {"left":"sleigh","right":"snow vehicle"},
+        {"left":"beige","right":"a light brown colour"}
+      ]},
+    { "id":"s2","type":"select_option","prompt":"Pick the correct spelling:",
+      "options":[{"text":"sleygh"},{"text":"sleigh"},{"text":"sleig"}],"answer":1 },
+    { "id":"s3","type":"fill_blank","prompt":"Type the homophone for ‘rein’ (the weather one):",
+      "answer":["rain"] },
+    { "id":"s4","type":"true_false","prompt":"‘Vein’ is a strap used to control a horse.","answer":false }
+  ]
+}

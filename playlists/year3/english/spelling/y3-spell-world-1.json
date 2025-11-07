@@ -1,0 +1,197 @@
+{
+  "id": "tracks/y3-spell-world-1",
+  "title": "Year 3 Spelling · World 1 (admin)",
+  "version": 2,
+  "ui": {
+    "kid_track_title": "Year 3 Spelling Adventure",
+    "kid_world_title": "World 1 — Word Wizards"
+  },
+  "levels": [
+    {
+      "id": "L1-ei",
+      "title": "Week 1 — Long a: ei (admin)",
+      "kid_title": "Level 1: Magic “ei”",
+      "emoji": "✨",
+      "days_to_advance": 3,
+      "core_items": [
+        "year3/english/spelling/ei-word-builder-y3",
+        "year3/english/spelling/word-builder-hard-1-y3",
+        "year3/english/spelling/mixed-review-pack-a-y3"
+      ],
+      "bonus_items": [
+        "year3/english/spelling/ay-long-a-sort-y3",
+        "year3/english/spelling/a_e-long-a-sort-y3",
+        "year3/english/spelling/compound-words-y3"
+      ]
+    },
+    {
+      "id": "L2-ey",
+      "title": "Week 2 — Long a: ey (admin)",
+      "kid_title": "Level 2: Sneaky “ey”",
+      "emoji": "🕵️‍♀️",
+      "days_to_advance": 3,
+      "core_items": [
+        "year3/english/spelling/ey-word-builder-y3",
+        "year3/english/spelling/word-builder-hard-2-y3",
+        "year3/english/spelling/mixed-review-pack-b-y3"
+      ],
+      "bonus_items": [
+        "year3/english/spelling/ai-long-a-sort-y3",
+        "year3/english/spelling/a_e-long-a-sort-y3",
+        "year3/english/spelling/double-consonants-y3"
+      ]
+    },
+    {
+      "id": "L3-ai",
+      "title": "Week 3 — Long a: ai (admin)",
+      "kid_title": "Level 3: The Long‑a Team (ai/ay/a‑e)",
+      "emoji": "🔤",
+      "days_to_advance": 3,
+      "core_items": [
+        "year3/english/spelling/ai-long-a-sort-y3",
+        "year3/english/spelling/ay-long-a-sort-y3",
+        "year3/english/spelling/a_e-long-a-sort-y3"
+      ],
+      "bonus_items": [
+        "year3/english/spelling/ie-long-i-sort-y3",
+        "year3/english/spelling/igh-long-i-sort-y3",
+        "year3/english/spelling/i_e-long-i-sort-y3"
+      ]
+    },
+    {
+      "id": "L4-ear-ur",
+      "title": "Week 4 — ‘ear’ making /ur/ (admin)",
+      "kid_title": "Level 4: The ‘ear’ Detective (/ur/)",
+      "emoji": "🕵️",
+      "days_to_advance": 3,
+      "core_items": [
+        "year3/english/spelling/ear-ur-sound-sort-y3",
+        "year3/english/spelling/mini-reading-ear-ur-y3",
+        "year3/english/spelling/dictation-pack-1-y3"
+      ],
+      "bonus_items": [
+        "year3/english/spelling/search-unearth-activities-y3",
+        "year3/english/spelling/tricky-words-ear-ur-y3",
+        "year3/english/spelling/syllable-splits-y3"
+      ]
+    },
+    {
+      "id": "L5-homophones-a",
+      "title": "Week 5 — Homophones I (admin)",
+      "kid_title": "Level 5: Sound Twins I",
+      "emoji": "👯",
+      "days_to_advance": 3,
+      "core_items": [
+        "year3/english/spelling/homophones-there-their-theyre-y3",
+        "year3/english/spelling/homophones-to-too-two-y3",
+        "year3/english/spelling/homophones-where-wear-were-weir-y3"
+      ],
+      "bonus_items": [
+        "year3/english/spelling/word-builder-hard-1-y3",
+        "year3/english/spelling/dictation-pack-2-y3",
+        "year3/english/spelling/mixed-review-pack-a-y3"
+      ]
+    },
+    {
+      "id": "L6-homophones-b",
+      "title": "Week 6 — Homophones II (admin)",
+      "kid_title": "Level 6: Sound Twins II",
+      "emoji": "👯‍♂️",
+      "days_to_advance": 3,
+      "core_items": [
+        "year3/english/spelling/homophones-fair-fare-y3",
+        "year3/english/spelling/homophones-brake-break-y3",
+        "year3/english/spelling/homophones-meet-meat-y3"
+      ],
+      "bonus_items": [
+        "year3/english/spelling/dictation-pack-3-y3",
+        "year3/english/spelling/mixed-review-pack-b-y3",
+        "year3/english/spelling/synonyms-antonyms-y3"
+      ]
+    },
+    {
+      "id": "L7-review",
+      "title": "Week 7 — Review & Checkpoint (admin)",
+      "kid_title": "Level 7: Big Review Party 🎉",
+      "emoji": "🎉",
+      "days_to_advance": 2,
+      "core_items": [
+        "year3/english/spelling/mixed-review-pack-a-y3",
+        "year3/english/spelling/mixed-review-pack-b-y3",
+        "year3/english/spelling/dictation-pack-3-y3"
+      ],
+      "bonus_items": [
+        "year3/english/spelling/apostrophes-contractions-y3",
+        "year3/english/spelling/apostrophes-possession-y3",
+        "year3/english/spelling/plurals-s-es-ies-ves-y3"
+      ]
+    }
+  ],
+  "labels": {
+    "year3/english/spelling/ei-word-builder-y3": "Magic “ei” words",
+    "year3/english/spelling/ey-word-builder-y3": "Build with “ey”",
+    "year3/english/spelling/ai-long-a-sort-y3": "Long a: ai",
+    "year3/english/spelling/ay-long-a-sort-y3": "Long a: ay",
+    "year3/english/spelling/a_e-long-a-sort-y3": "Long a: a‑e",
+    "year3/english/spelling/word-builder-hard-1-y3": "Word Builder A",
+    "year3/english/spelling/word-builder-hard-2-y3": "Word Builder B",
+    "year3/english/spelling/mixed-review-pack-a-y3": "Mixed Review A",
+    "year3/english/spelling/mixed-review-pack-b-y3": "Mixed Review B",
+    "year3/english/spelling/ie-long-i-sort-y3": "Long i: ie",
+    "year3/english/spelling/igh-long-i-sort-y3": "Long i: igh",
+    "year3/english/spelling/i_e-long-i-sort-y3": "Long i: i‑e",
+    "year3/english/spelling/ear-ur-sound-sort-y3": "‘ear’ says /ur/",
+    "year3/english/spelling/mini-reading-ear-ur-y3": "Mini Reading: ‘ear’ /ur/",
+    "year3/english/spelling/dictation-pack-1-y3": "Mini Dictation 1",
+    "year3/english/spelling/dictation-pack-2-y3": "Mini Dictation 2",
+    "year3/english/spelling/dictation-pack-3-y3": "Mini Dictation 3",
+    "year3/english/spelling/search-unearth-activities-y3": "Search & Unearth",
+    "year3/english/spelling/tricky-words-ear-ur-y3": "Tricky ‘ear’ /ur/",
+    "year3/english/spelling/homophones-there-their-theyre-y3": "There/Their/They’re",
+    "year3/english/spelling/homophones-to-too-two-y3": "To/Too/Two",
+    "year3/english/spelling/homophones-where-wear-were-weir-y3": "Where/Wear/Were",
+    "year3/english/spelling/homophones-fair-fare-y3": "Fair/Fare",
+    "year3/english/spelling/homophones-brake-break-y3": "Brake/Break",
+    "year3/english/spelling/homophones-meet-meat-y3": "Meet/Meat",
+    "year3/english/spelling/apostrophes-contractions-y3": "Contractions (I’m, can’t)",
+    "year3/english/spelling/apostrophes-possession-y3": "Apostrophes: possession",
+    "year3/english/spelling/plurals-s-es-ies-ves-y3": "Plurals: s, es, ies, ves",
+    "year3/english/spelling/synonyms-antonyms-y3": "Word friends & opposites",
+    "year3/english/spelling/syllable-splits-y3": "Syllable splitter",
+    "year3/english/spelling/compound-words-y3": "Compound words"
+  },
+  "items": [
+    "year3/english/spelling/ei-word-builder-y3",
+    "year3/english/spelling/word-builder-hard-1-y3",
+    "year3/english/spelling/mixed-review-pack-a-y3",
+    "year3/english/spelling/ay-long-a-sort-y3",
+    "year3/english/spelling/a_e-long-a-sort-y3",
+    "year3/english/spelling/compound-words-y3",
+    "year3/english/spelling/ey-word-builder-y3",
+    "year3/english/spelling/word-builder-hard-2-y3",
+    "year3/english/spelling/mixed-review-pack-b-y3",
+    "year3/english/spelling/ai-long-a-sort-y3",
+    "year3/english/spelling/double-consonants-y3",
+    "year3/english/spelling/ie-long-i-sort-y3",
+    "year3/english/spelling/igh-long-i-sort-y3",
+    "year3/english/spelling/i_e-long-i-sort-y3",
+    "year3/english/spelling/ear-ur-sound-sort-y3",
+    "year3/english/spelling/mini-reading-ear-ur-y3",
+    "year3/english/spelling/dictation-pack-1-y3",
+    "year3/english/spelling/search-unearth-activities-y3",
+    "year3/english/spelling/tricky-words-ear-ur-y3",
+    "year3/english/spelling/syllable-splits-y3",
+    "year3/english/spelling/homophones-there-their-theyre-y3",
+    "year3/english/spelling/homophones-to-too-two-y3",
+    "year3/english/spelling/homophones-where-wear-were-weir-y3",
+    "year3/english/spelling/dictation-pack-2-y3",
+    "year3/english/spelling/homophones-fair-fare-y3",
+    "year3/english/spelling/homophones-brake-break-y3",
+    "year3/english/spelling/homophones-meet-meat-y3",
+    "year3/english/spelling/dictation-pack-3-y3",
+    "year3/english/spelling/synonyms-antonyms-y3",
+    "year3/english/spelling/apostrophes-contractions-y3",
+    "year3/english/spelling/apostrophes-possession-y3",
+    "year3/english/spelling/plurals-s-es-ies-ves-y3"
+  ]
+}

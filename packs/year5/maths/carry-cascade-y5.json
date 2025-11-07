@@ -1,0 +1,5 @@
+{ "id":"year5/maths/carry-cascade-y5","title":"Carry Cascade","version":1,"steps":[
+  {"id":"cc1","type":"select_option","prompt":"In 3,987 + 4,876, which columns need regrouping?","options":[{"text":"Ones, tens & hundreds"},{"text":"Only tens"},{"text":"Thousands only"}],"answer":0},
+  {"id":"cc2","type":"select_option","prompt":"6,458 + 5,769 = ?","options":[{"text":"12,117"},{"text":"12,227"},{"text":"12,237"}],"answer":1},
+  {"id":"cc3","type":"select_option","prompt":"When you carry from hundreds to thousands, what happens?","options":[{"text":"+1 to thousands"},{"text":"-1 to thousands"},{"text":"Nothing changes"}],"answer":0}
+]}

@@ -1,0 +1,9 @@
+{ "id":"year3/english/spelling/review-proofread-y3","title":"Review: Proofread","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"Choose the correctly spelled sentence","options":[
+    {"text":"They're going to the park."},
+    {"text":"Their going to the park."},
+    {"text":"There going to the park."}
+  ],"answer":0},
+  {"id":"s2","type":"true_false","prompt":"'Their going to the shop' is correct.","answer":false},
+  {"id":"s3","type":"fill_blank","prompt":"Type the correct word: Put it over ____","answer":["there"]}
+]}

@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/thousand-boosters-y5",
+  "title": "Thousand Boosters",
+  "version": 1,
+  "steps": [
+    {
+      "id": "tb1",
+      "type": "select_option",
+      "prompt": "Chart B shows 41,238. Add four counters to the thousands column. New number?",
+      "options": [
+        {
+          "text": "45,238"
+        },
+        {
+          "text": "44,238"
+        },
+        {
+          "text": "41,642"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "tb2",
+      "type": "select_option",
+      "prompt": "Which digit definitely changes when adding 4,000?",
+      "options": [
+        {
+          "text": "Hundreds"
+        },
+        {
+          "text": "Thousands"
+        },
+        {
+          "text": "Ones"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "tb3",
+      "type": "select_option",
+      "prompt": "41,238 + 4,000 = ?",
+      "options": [
+        {
+          "text": "45,238"
+        },
+        {
+          "text": "44,238"
+        },
+        {
+          "text": "41,638"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

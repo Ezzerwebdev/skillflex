@@ -1,0 +1,58 @@
+{
+  "id": "year4/maths/addition-experts",
+  "title": "Addition Experts",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ae1",
+      "type": "select_option",
+      "prompt": "What is 7,843 + 500?",
+      "options": [
+        {
+          "text": "7,893"
+        },
+        {
+          "text": "8,343"
+        },
+        {
+          "text": "7,343"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ae2",
+      "type": "select_option",
+      "prompt": "What is 3,057 + 60?",
+      "options": [
+        {
+          "text": "3,117"
+        },
+        {
+          "text": "3,017"
+        },
+        {
+          "text": "3,657"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ae3",
+      "type": "select_option",
+      "prompt": "What is 3,057 + 600?",
+      "options": [
+        {
+          "text": "3,657"
+        },
+        {
+          "text": "3,063"
+        },
+        {
+          "text": "9,057"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

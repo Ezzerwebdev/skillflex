@@ -1,0 +1,38 @@
+{
+  "id": "year3/maths/mistake-spotters-y3",
+  "title": "Mistake Spotters",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ms1",
+      "type": "select_option",
+      "prompt": "Oscar says the number shown by five '10' blocks and six '1' blocks is 506. Is he correct?",
+      "options": [
+        {
+          "text": "Yes, he is correct."
+        },
+        {
+          "text": "No, the number is 56."
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ms2",
+      "type": "select_option",
+      "prompt": "Anneta drew a part-whole model for 37 with parts of 10, 7, and 20. Is her model correct?",
+      "options": [
+        {
+          "text": "Yes, 10 + 7 + 20 = 37"
+        },
+        {
+          "text": "No, the parts should be 30 and 7."
+        },
+        {
+          "text": "Yes, but there are other ways too."
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

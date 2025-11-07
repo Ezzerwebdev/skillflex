@@ -1,0 +1,29 @@
+{
+  "id": "year4/english/spelling/w2-in-prefix-choose-sentence-1",
+  "title": "Choose the Word 1",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "select_option",
+      "prompt": "She felt ______ about her answers.",
+      "options": [
+        {"text": "insecure"},
+        {"text": "infinite"},
+        {"text": "inedible"}
+      ],
+      "answer": 0
+    },
+    {
+      "id": "s2",
+      "type": "select_option",
+      "prompt": "The puzzle seemed ______; it had no end.",
+      "options": [
+        {"text": "indecisive"},
+        {"text": "infinite"},
+        {"text": "inactive"}
+      ],
+      "answer": 1
+    }
+  ]
+}

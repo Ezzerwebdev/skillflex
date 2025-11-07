@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/suffix-rules-truth-check-y3","title":"Suffix Rules — Truth Check","version":1,"steps":[
+  {"id":"t1","type":"true_false","prompt":"Drop the silent 'e' before adding -ing (make → making).","answer":true},
+  {"id":"t2","type":"true_false","prompt":"Double the consonant after a short vowel (skip → skiped).","answer":false},
+  {"id":"t3","type":"true_false","prompt":"'y' often changes to 'i' before -er/-est (happy → happier).","answer":true}
+]}

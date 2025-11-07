@@ -1,0 +1,58 @@
+{
+  "id": "year3/maths/partition-match-up-y3",
+  "title": "Partition Match-Up",
+  "version": 1,
+  "steps": [
+    {
+      "id": "pmu1",
+      "type": "select_option",
+      "prompt": "The whole is 65. One part is 60. What is the other part?",
+      "options": [
+        {
+          "text": "5"
+        },
+        {
+          "text": "6"
+        },
+        {
+          "text": "15"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pmu2",
+      "type": "select_option",
+      "prompt": "The whole is 87. Which parts are correct?",
+      "options": [
+        {
+          "text": "8 and 7"
+        },
+        {
+          "text": "80 and 7"
+        },
+        {
+          "text": "70 and 8"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "pmu3",
+      "type": "select_option",
+      "prompt": "If the parts are 70 and 4, what is the whole?",
+      "options": [
+        {
+          "text": "47"
+        },
+        {
+          "text": "74"
+        },
+        {
+          "text": "704"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

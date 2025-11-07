@@ -1,0 +1,14 @@
+{
+  "id":"year3/english/spelling/challenge-proofread-pro-y3",
+  "title":"Challenge: Proofread Pro",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"select_option","prompt":"Choose the correctly spelled sentence.","options":[
+      {"text":"Their going to the park."},
+      {"text":"They're going to the park."},
+      {"text":"There going to the park."}
+    ],"answer":1},
+    {"id":"s2","type":"fill_blank","prompt":"Fix the mistake: ‘We are to busy.’ → ‘We are ____ busy.’","answer":["too"]},
+    {"id":"s3","type":"true_false","prompt":"‘there’ shows a place.","answer":true}
+  ]
+}

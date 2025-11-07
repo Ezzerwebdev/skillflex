@@ -1,0 +1,5 @@
+{ "id":"year3/english/grammar/verb-tense-match-y3", "title":"Verb Tense Match", "version":1, "steps":[
+  {"id":"vt1","type":"select_option","prompt":"Yesterday, I ___ to school.","options":[{"text":"walk"},{"text":"walked"},{"text":"walking"}],"answer":1},
+  {"id":"vt2","type":"select_option","prompt":"She has ___ her lunch.","options":[{"text":"finish"},{"text":"finished"},{"text":"finishing"}],"answer":1},
+  {"id":"vt3","type":"select_option","prompt":"We ___ football every Saturday.","options":[{"text":"play"},{"text":"played"},{"text":"playing"}],"answer":0}
+]}

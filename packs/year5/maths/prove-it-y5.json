@@ -1,0 +1,49 @@
+{
+  "id": "year5/maths/prove-it-y5",
+  "title": "Prove It!",
+  "version": 1,
+  "steps": [
+    {
+      "id": "pi1",
+      "type": "select_option",
+      "prompt": "Amrit says 8,324 − 100 = 8,224. Correct?",
+      "options": [
+        {
+          "text": "Yes"
+        },
+        {
+          "text": "No"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pi2",
+      "type": "select_option",
+      "prompt": "Zeke claims +1,000 to 9,450 = 10,450. Correct?",
+      "options": [
+        {
+          "text": "Yes"
+        },
+        {
+          "text": "No"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pi3",
+      "type": "select_option",
+      "prompt": "“Adding 10 never changes the hundreds digit.” True?",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

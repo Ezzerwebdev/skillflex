@@ -1,0 +1,58 @@
+{
+  "id": "year4/maths/pencil-problems",
+  "title": "Pencil Problems",
+  "version": 1,
+  "steps": [
+    {
+      "id": "pp1",
+      "type": "select_option",
+      "prompt": "Year 6 starts with 90 boxes of 100 pencils. They have 20 boxes left. How many pencils did they use?",
+      "options": [
+        {
+          "text": "70 pencils"
+        },
+        {
+          "text": "700 pencils"
+        },
+        {
+          "text": "7,000 pencils"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "pp2",
+      "type": "select_option",
+      "prompt": "Year 4 use 20 boxes of pencils and year 5 use 40 boxes. How many pencils do they use altogether?",
+      "options": [
+        {
+          "text": "6,000"
+        },
+        {
+          "text": "600"
+        },
+        {
+          "text": "60,000"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pp3",
+      "type": "select_option",
+      "prompt": "If a school has 50 boxes of 100 pencils, how many pencils do they have in total?",
+      "options": [
+        {
+          "text": "500"
+        },
+        {
+          "text": "50,000"
+        },
+        {
+          "text": "5,000"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

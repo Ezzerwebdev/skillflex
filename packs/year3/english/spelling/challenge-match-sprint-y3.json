@@ -1,0 +1,15 @@
+{
+  "id":"year3/english/spelling/challenge-match-sprint-y3",
+  "title":"Challenge: Match Sprint",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"match_pairs","leftLabel":"Prefix","rightLabel":"Example","pairs":[
+      {"left":"un-","right":"unhappy"},
+      {"left":"re-","right":"rewrite"},
+      {"left":"mis-","right":"misplace"},
+      {"left":"dis-","right":"dislike"}
+    ]},
+    {"id":"s2","type":"true_false","prompt":"‘preheat’ means ‘heat after’.","answer":false},
+    {"id":"s3","type":"select_option","prompt":"Choose the correct spelling.","options":[{"text":"pretest"},{"text":"pratest"},{"text":"pretist"}],"answer":0}
+  ]
+}

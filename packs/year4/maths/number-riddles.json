@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/number-riddles",
+  "title": "Number Riddles",
+  "version": 1,
+  "steps": [
+    {
+      "id": "nr1",
+      "type": "select_option",
+      "prompt": "I have 5 hundreds. My tens digit is 2 more than my hundreds. My ones digit is 4 less than my tens. What number am I?",
+      "options": [
+        {
+          "text": "524"
+        },
+        {
+          "text": "573"
+        },
+        {
+          "text": "571"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "nr2",
+      "type": "select_option",
+      "prompt": "I am a 3-digit number. All my digits are the same. The sum of my digits is 12. What number am I?",
+      "options": [
+        {
+          "text": "333"
+        },
+        {
+          "text": "444"
+        },
+        {
+          "text": "555"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "nr3",
+      "type": "select_option",
+      "prompt": "My tens digit is 8. My hundreds digit is half my tens digit. My ones digit is 0. What number am I?",
+      "options": [
+        {
+          "text": "840"
+        },
+        {
+          "text": "480"
+        },
+        {
+          "text": "280"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "nr4",
+      "type": "select_option",
+      "prompt": "My hundreds digit is greater than 7. My tens digit is 0. My ones digit is the same as my hundreds. What could I be?",
+      "options": [
+        {
+          "text": "707"
+        },
+        {
+          "text": "818"
+        },
+        {
+          "text": "909"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

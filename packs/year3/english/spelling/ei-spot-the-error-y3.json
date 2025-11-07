@@ -1,0 +1,6 @@
+{ "id":"year3/english/spelling/ei-spot-the-error-y3","title":"EI Spot the Error","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"Choose the correct spelling","options":[{"text":"weigth"},{"text":"weight"},{"text":"weitgh"}],"answer":1},
+  {"id":"s2","type":"select_option","prompt":"Choose the correct spelling","options":[{"text":"vail"},{"text":"veil"},{"text":"vale"}],"answer":1},
+  {"id":"s3","type":"true_false","prompt":"\"rein\" is used to control a horse.","answer":true},
+  {"id":"s4","type":"true_false","prompt":"\"vein\" and \"rein\" mean the same thing.","answer":false}
+]}

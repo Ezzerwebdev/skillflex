@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/borrowing-lab-y5",
+  "title": "Borrowing Lab",
+  "version": 1,
+  "steps": [
+    {
+      "id": "bl1",
+      "type": "select_option",
+      "prompt": "Why does 348 − 76 need a borrow?",
+      "options": [
+        {
+          "text": "8−6 ≥ 0"
+        },
+        {
+          "text": "40−70 < 0 needs regroup"
+        },
+        {
+          "text": "300−70 ≥ 0"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "bl2",
+      "type": "select_option",
+      "prompt": "Which statement is true?",
+      "options": [
+        {
+          "text": "Subtracting 100 can change thousands"
+        },
+        {
+          "text": "Subtracting 10 can change hundreds"
+        },
+        {
+          "text": "Subtracting 1 can change tens"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "bl3",
+      "type": "select_option",
+      "prompt": "Pick the difference with EXACTLY one borrow.",
+      "options": [
+        {
+          "text": "455 − 55"
+        },
+        {
+          "text": "600 − 400"
+        },
+        {
+          "text": "120 − 80"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

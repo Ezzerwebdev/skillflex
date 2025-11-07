@@ -1,0 +1,5 @@
+{ "id":"year5/maths/flugtag-flyers-y5","title":"Flugtag Flyers","version":1,"steps":[
+  {"id":"ff1","type":"select_option","prompt":"1,234 + 2,567 + 3,478 = ?","options":[{"text":"7,279"},{"text":"7,289"},{"text":"7,379"}],"answer":0},
+  {"id":"ff2","type":"select_option","prompt":"2,345 + 1,678 = ?","options":[{"text":"4,013"},{"text":"4,023"},{"text":"4,033"}],"answer":1},
+  {"id":"ff3","type":"select_option","prompt":"Which picture best shows carrying across two columns?","options":[{"text":"No carries"},{"text":"Carry ones only"},{"text":"Carry ones and tens"}],"answer":2}
+]}

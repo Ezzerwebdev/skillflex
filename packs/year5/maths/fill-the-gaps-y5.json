@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/fill-the-gaps-y5",
+  "title": "Fill the Gaps",
+  "version": 1,
+  "steps": [
+    {
+      "id": "fg1",
+      "type": "select_option",
+      "prompt": "?, 4 hundreds, 8 tens, 9 ones → 4,8 9. What are the thousands?",
+      "options": [
+        {
+          "text": "0"
+        },
+        {
+          "text": "3"
+        },
+        {
+          "text": "2"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "fg2",
+      "type": "select_option",
+      "prompt": "3 thousands, ? hundreds, 0 tens, 6 ones = 3,?06. Which number?",
+      "options": [
+        {
+          "text": "3,006"
+        },
+        {
+          "text": "3,106"
+        },
+        {
+          "text": "3,906"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "fg3",
+      "type": "select_option",
+      "prompt": "7 thousands, 2 hundreds, ? tens, 5 ones = 7,2?5. Choose tens.",
+      "options": [
+        {
+          "text": "0"
+        },
+        {
+          "text": "3"
+        },
+        {
+          "text": "4"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

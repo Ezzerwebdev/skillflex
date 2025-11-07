@@ -1,0 +1,49 @@
+{
+  "id": "year5/maths/jias-thousand-jumps-y5",
+  "title": "Jia’s Thousand Jumps",
+  "version": 1,
+  "steps": [
+    {
+      "id": "jj1",
+      "type": "select_option",
+      "prompt": "Jia counts ±1000 starting at 8,604. She will say 32,604.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "jj2",
+      "type": "select_option",
+      "prompt": "Counting forwards by 1000 from 8,604: 1st=9,604, 2nd=10,604, 3rd=11,604 (not 10,004).",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "jj3",
+      "type": "select_option",
+      "prompt": "She will say −1,604.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

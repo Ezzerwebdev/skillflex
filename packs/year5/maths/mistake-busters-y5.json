@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/mistake-busters-y5",
+  "title": "Mistake Busters",
+  "version": 1,
+  "steps": [
+    {
+      "id": "mb1",
+      "type": "select_option",
+      "prompt": "Amrit: 2,687 − 145 = 2,542. Correct?",
+      "options": [
+        {
+          "text": "No, it is 2,542"
+        },
+        {
+          "text": "No, it is 2,542 (typo) / Yes"
+        },
+        {
+          "text": "No, it is 2,542? (confused)"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "mb2",
+      "type": "select_option",
+      "prompt": "Zeke: 5,090 − 75 = 5,015. Correct?",
+      "options": [
+        {
+          "text": "Yes"
+        },
+        {
+          "text": "No, it’s 5,025"
+        },
+        {
+          "text": "No, it’s 5,005"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "mb3",
+      "type": "select_option",
+      "prompt": "Drew: 1,004 − 587 = 417. Fix?",
+      "options": [
+        {
+          "text": "1,004 − 587 = 417 is correct"
+        },
+        {
+          "text": "It should be 417? (no) → 417 is wrong"
+        },
+        {
+          "text": "It should be 417? (typo) → 417 is right"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

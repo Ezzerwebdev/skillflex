@@ -1,0 +1,49 @@
+{
+  "id": "year5/maths/spot-the-error-80452-y5",
+  "title": "Spot the Error: 80,452",
+  "version": 1,
+  "steps": [
+    {
+      "id": "se1",
+      "type": "select_option",
+      "prompt": "Joseph says “the digit in the thousands column is 8.” Correct? (Number 80,452)",
+      "options": [
+        {
+          "text": "Yes"
+        },
+        {
+          "text": "No"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "se2",
+      "type": "select_option",
+      "prompt": "Priya says “the digit 5 has a value of 500.” Correct?",
+      "options": [
+        {
+          "text": "Yes"
+        },
+        {
+          "text": "No"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "se3",
+      "type": "select_option",
+      "prompt": "Bartek says “each digit in this number is even.” Correct?",
+      "options": [
+        {
+          "text": "Yes"
+        },
+        {
+          "text": "No"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

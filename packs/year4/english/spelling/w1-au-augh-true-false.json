@@ -1,0 +1,25 @@
+{
+  "id": "year4/english/spelling/w1-au-augh-true-false",
+  "title": "AU/AUGH True or False",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "true_false",
+      "prompt": "‘au’ and ‘augh’ can both spell the /aw/ sound.",
+      "answer": true
+    },
+    {
+      "id": "s2",
+      "type": "true_false",
+      "prompt": "‘clause’ and ‘cause’ mean the same thing.",
+      "answer": false
+    },
+    {
+      "id": "s3",
+      "type": "true_false",
+      "prompt": "In ‘caught’, the letters ‘gh’ make a sound.",
+      "answer": false
+    }
+  ]
+}

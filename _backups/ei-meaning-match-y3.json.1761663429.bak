@@ -1,0 +1,8 @@
+{ "id":"year3/english/spelling/ei-meaning-match-y3","title":"EI Meaning Match","version":1,"steps":[
+  {"id":"mp1","type":"match_pairs","leftLabel":"Word","rightLabel":"Meaning","pairs":[
+    {"left":"rein","right":"strap to guide a horse"},
+    {"left":"vein","right":"tube that carries blood"},
+    {"left":"veil","right":"covering worn on the head/face"}
+  ]},
+  {"id":"s2","type":"true_false","prompt":"A \"rein\" and a \"vein\" are homophones.","answer":true}
+]}

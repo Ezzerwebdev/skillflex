@@ -1,0 +1,11 @@
+{
+  "id":"year3/english/spelling/to-too-two-choices-y3",
+  "title":"To/Too/Two Choices",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"select_option","prompt":"I have ____ apples.","options":[{"text":"to"},{"text":"too"},{"text":"two"}],"answer":2},
+    {"id":"s2","type":"select_option","prompt":"It's time ____ go home.","options":[{"text":"to"},{"text":"too"},{"text":"two"}],"answer":0},
+    {"id":"s3","type":"select_option","prompt":"This bag is ____ heavy.","options":[{"text":"to"},{"text":"too"},{"text":"two"}],"answer":1},
+    {"id":"s4","type":"true_false","prompt":"We spell the number 2 as 'too'.","answer":false}
+  ]
+}

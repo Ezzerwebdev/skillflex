@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/re-match-y3", "title":"Word Match: re-", "version":1, "steps":[
+  {"id":"r1","type":"select_option","prompt":"Choose the best 're-' word for: do again","options":[{"text":"replay"},{"text":"redo"},{"text":"revisit"}],"answer":1},
+  {"id":"r2","type":"select_option","prompt":"Choose the best 're-' word for: visit again","options":[{"text":"redo"},{"text":"revisit"},{"text":"resee"}],"answer":1},
+  {"id":"r3","type":"order_words","prompt":"Build the word: \"rewrite\"","words":["r","e","w","r","i","t","e"],"answer":["r","e","w","r","i","t","e"]}
+]}

@@ -1,0 +1,11 @@
+{
+  "id": "year3/english/grammar/tf-test",
+  "title": "True/False Test",
+  "version": 1,
+  "steps": [
+    { "id": "tf1", "type": "true_false",
+      "prompt": "A verb is an action word.",
+      "answer": true
+    }
+  ]
+}

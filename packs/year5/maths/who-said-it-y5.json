@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/who-said-it-y5",
+  "title": "Who Said It?",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ws1",
+      "type": "select_option",
+      "prompt": "Amrit: “My number is 4 thousands, 1 hundred, 3 tens, 2 ones.” Which?",
+      "options": [
+        {
+          "text": "4,132"
+        },
+        {
+          "text": "4,312"
+        },
+        {
+          "text": "4,123"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ws2",
+      "type": "select_option",
+      "prompt": "Zeke: “If I add 100, only the hundreds digit changes.” Start 5,482. New?",
+      "options": [
+        {
+          "text": "5,582"
+        },
+        {
+          "text": "5,482"
+        },
+        {
+          "text": "6,482"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ws3",
+      "type": "select_option",
+      "prompt": "Drew: “My number is between 3,900 and 4,000 and ends with 7.”",
+      "options": [
+        {
+          "text": "3,917"
+        },
+        {
+          "text": "3,997"
+        },
+        {
+          "text": "4,007"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

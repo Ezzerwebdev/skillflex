@@ -1,0 +1,6 @@
+{ "id":"year3/english/spelling/suffix-meaning-match-y3","title":"Suffix Meaning Match","version":1,"steps":[
+  {"id":"m1","type":"match_pairs","prompt":"Match meaning to suffix",
+   "pairs":[{"left":"full of","right":"-ful"},{"left":"without","right":"-less"},{"left":"state of","right":"-ness"},{"left":"action/result","right":"-ment"}]},
+  {"id":"s1","type":"select_option","prompt":"move + ment = ?","options":[{"text":"movement"},{"text":"movment"},{"text":"moveement"}],"answer":0},
+  {"id":"f1","type":"fill_blank","prompt":"dark + ____ = darkness","answer":["ness"]}
+]}

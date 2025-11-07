@@ -1,0 +1,40 @@
+{
+    "id": "year5/spelling/prefix-power",
+    "title": "Prefix Power",
+    "version": 1,
+    "steps": [
+        {
+            "id": "y5pp1",
+            "type": "select_option",
+            "prompt": "The prefix 're-' in the word 'refresh' means to do something...",
+            "options": [
+                { "text": "again" },
+                { "text": "before" },
+                { "text": "badly" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "y5pp2",
+            "type": "select_option",
+            "prompt": "What does the prefix 'mis-' mean in a word like 'mistrust'?",
+            "options": [
+                { "text": "not" },
+                { "text": "wrongly or badly" },
+                { "text": "under" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "y5pp3",
+            "type": "select_option",
+            "prompt": "The prefix 'anti-' in 'antisocial' means...",
+            "options": [
+                { "text": "with or together" },
+                { "text": "below or under" },
+                { "text": "against or opposite" }
+            ],
+            "answer": 2
+        }
+    ]
+}

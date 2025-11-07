@@ -1,0 +1,20 @@
+{
+  "pathTitle": "Y3 · Spelling · Challenge!",
+  "units": [
+    {
+      "id": "u1",
+      "title": "Unit 1",
+      "emoji": "🔡",
+      "lessons": [
+        {
+          "id": "year3/english/spelling/homophone-hunt-y3",
+          "title": "Homophone Hunt"
+        },
+        {
+          "id": "year3/english/spelling/mr-whoops-spot-y3",
+          "title": "Mr Whoops Spot the Mistake"
+        }
+      ]
+    }
+  ]
+}

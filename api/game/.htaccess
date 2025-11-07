@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Route everything under /api/game/* to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ index.php [QSA,NC,L]
+
+# Ensure PHP sees the Authorization header
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1

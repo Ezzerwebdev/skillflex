@@ -1,0 +1,5 @@
+{ "id":"year5/maths/word-problems-hangar-y5","title":"Word Problems: Hangar","version":1,"steps":[
+  {"id":"wph1","type":"select_option","prompt":"A team flew 2,486 m, then 3,795 m, then 1,659 m. Total?","options":[{"text":"7,930"},{"text":"7,940"},{"text":"7,950"}],"answer":1},
+  {"id":"wph2","type":"select_option","prompt":"A builder orders 2,409 + 2,409 + 1,582 bricks. Total?","options":[{"text":"6,300"},{"text":"6,400"},{"text":"6,500"}],"answer":1},
+  {"id":"wph3","type":"select_option","prompt":"You add 1,999 + 2,001. What is true?","options":[{"text":"No regrouping happens"},{"text":"Regrouping needed in ones"},{"text":"Regrouping in tens and hundreds only"}],"answer":1}
+]}

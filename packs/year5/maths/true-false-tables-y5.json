@@ -1,0 +1,63 @@
+{
+  "id": "year5/maths/true-false-tables-y5",
+  "title": "True/False Tables",
+  "version": 1,
+  "steps": [
+    {
+      "id": "tft1",
+      "type": "select_option",
+      "prompt": "Table shows 80,452. “The digit in the thousands place is 5.”",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "tft2",
+      "type": "select_option",
+      "prompt": "80,452 → “the 5 has value 500.”",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "tft3",
+      "type": "select_option",
+      "prompt": "“All digits in 80,452 are even.”",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "tft4",
+      "type": "select_option",
+      "prompt": "Change 80,452 by +1,000. Only the thousands digit changes.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

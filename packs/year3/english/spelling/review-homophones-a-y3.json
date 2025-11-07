@@ -1,0 +1,9 @@
+{ "id":"year3/english/spelling/review-homophones-a-y3","title":"Review: There/Their/They're","version":1,"steps":[
+  {"id":"s1","type":"match_pairs","pairs":[
+    {"left":"there","right":"the place"},
+    {"left":"their","right":"belonging to them"},
+    {"left":"they're","right":"they are"}]},
+  {"id":"s2","type":"select_option","prompt":"Choose the correct word: I put it over ___","options":[{"text":"there"},{"text":"their"},{"text":"they're"}],"answer":0},
+  {"id":"s3","type":"fill_blank","prompt":"Type the missing word: I think ___ coming.","answer":["they're"]},
+  {"id":"s4","type":"true_false","prompt":"'their' means 'they are'.","answer":false}
+]}

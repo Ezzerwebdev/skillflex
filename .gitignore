@@ -1,0 +1,14 @@
+node_modules/
+.vscode/
+.idea/
+*.log
+.DS_Store
+
+# if any build artifacts/output dir
+dist/
+build/
+
+# server-only stuff (if present)
+.env
+.env.*
+php_errorlog

@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/un-match-y3", "title":"Prefix Match: un-", "version":1, "steps":[
+  {"id":"u1","type":"select_option","prompt":"Choose the correct 'un-' word for: not tidy","options":[{"text":"untidy"},{"text":"untide"},{"text":"untid"}],"answer":0},
+  {"id":"u2","type":"select_option","prompt":"Choose the correct 'un-' word for: not fair","options":[{"text":"unfare"},{"text":"unfair"},{"text":"unfaer"}],"answer":1},
+  {"id":"u3","type":"order_words","prompt":"Build the word: \"unhappy\"","words":["u","n","h","a","p","p","y"],"answer":["u","n","h","a","p","p","y"]}
+]}

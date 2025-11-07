@@ -1,0 +1,52 @@
+{
+  "id": "year5/maths/true-or-false-roman-logic-y5",
+  "title": "True or False: Roman Logic",
+  "version": 1,
+  "steps": [
+    {
+      "id": "tf1",
+      "type": "select_option",
+      "prompt": "Which is **greater**?",
+      "options": [
+        {
+          "text": "MDCCI"
+        },
+        {
+          "text": "MDCXCIX"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "tf2",
+      "type": "select_option",
+      "prompt": "Who is correct? ‘The year MDCCI was after the year MDCXCIX.’",
+      "options": [
+        {
+          "text": "Abi is correct"
+        },
+        {
+          "text": "Drew is correct"
+        },
+        {
+          "text": "Neither is correct"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "tf3",
+      "type": "select_option",
+      "prompt": "Is this statement true? ‘CD is 600.’",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

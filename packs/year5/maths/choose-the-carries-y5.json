@@ -1,0 +1,5 @@
+{ "id":"year5/maths/choose-the-carries-y5","title":"Choose the Carries","version":1,"steps":[
+  {"id":"ctc1","type":"select_option","prompt":"For 5,768 + 6,459, the carry from tens to hundreds is…","options":[{"text":"0"},{"text":"1"},{"text":"2"}],"answer":1},
+  {"id":"ctc2","type":"select_option","prompt":"5,768 + 6,459 = ?","options":[{"text":"12,127"},{"text":"12,227"},{"text":"12,327"}],"answer":1},
+  {"id":"ctc3","type":"select_option","prompt":"Which is TRUE about this addition? (5,768 + 6,459)","options":[{"text":"No carries happen"},{"text":"Carries occur in ones, tens, hundreds and thousands"},{"text":"Only the ones place carries"}],"answer":1}
+]}

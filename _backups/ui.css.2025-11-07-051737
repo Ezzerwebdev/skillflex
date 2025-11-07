@@ -1,0 +1,1749 @@
+
+:root {
+  /* type */
+  --font-display: "Fredoka", system-ui, sans-serif;
+  --font-ui: "Poppins", system-ui, sans-serif;
+
+  /* radii */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+
+  /* elevation */
+  --shadow-1: 0 1px 2px rgba(2,6,23,.06), 0 8px 24px -18px rgba(2,6,23,.24);
+  --shadow-2: 0 10px 30px -16px rgba(2,6,23,.30);
+
+    /* back-compat aliases */
+  --display-font: var(--font-display);
+  --ui-font: var(--font-ui);
+  --elev-1: var(--shadow-1);
+  --elev-2: var(--shadow-2);
+  --shadow: var(--shadow-1);
+  --shadow-lg: var(--shadow-2);
+
+  /* brand aliases used across your CSS */
+  --brand-primary: hsl(var(--brand-1));
+  --brand-secondary: hsl(var(--brand-2));
+  --brand-english: hsl(339 84% 66%);
+  --brand-maths:   hsl(38 92% 54%);
+
+
+  /* brand hues */
+  --brand-1: 254 90% 66%;   /* purple */
+  --brand-2: 214 90% 56%;   /* blue  */
+  --brand-grad: linear-gradient(135deg, hsl(var(--brand-1)), hsl(var(--brand-2)));
+
+  /* feedback */
+  --success-hsl: 152 76% 40%;
+  --warning-hsl: 38 96% 54%;
+  --error-hsl:   0 84% 60%;
+
+  /* unit accent (mint) */
+  --unit-edge-hsl: 150 70% 64%;
+}
+
+/* LIGHT palette */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-hsl:        264 71% 97%;
+  --surface-1-hsl: 0   0% 100%;
+  --surface-2-hsl: 240 33% 99%;
+  --surface-3-hsl: 240 25% 98%;
+
+  --text-hsl:      222 47% 11%;
+  --text-soft-hsl: 215 20% 35%;
+  --border-hsl:    220 14% 93%;
+  --muted-hsl:     220 15% 96%;
+
+  --overlay: rgba(2,6,23,.55);
+
+  /* back-compat aliases */
+  --brand-light: hsl(var(--bg-hsl));
+  --text-dark:   hsl(var(--text-hsl));
+  --text-light:  #ffffff;
+
+  --unit-bg-hsl:   150 60% 96%;
+  --unit-glow-rgb: 16 185 129;
+}
+
+/* DARK palette */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-hsl:        222 53% 8%;
+  --surface-1-hsl: 222 40% 12%;
+  --surface-2-hsl: 222 36% 16%;
+  --surface-3-hsl: 222 30% 20%;
+
+  --text-hsl:      210 40% 92%;
+  --text-soft-hsl: 215 18% 70%;
+  --border-hsl:    218 22% 28%;
+  --muted-hsl:     220 16% 22%;
+
+  --overlay: rgba(2,6,23,.65);
+
+  --brand-light: hsl(var(--bg-hsl));
+  --text-dark:   hsl(var(--text-hsl));
+  --text-light:  #ffffff;
+
+  --unit-bg-hsl:   160 22% 16%;
+  --unit-glow-rgb: 34 197 94;
+}
+
+
+/* Semantic mapping (used by components) */
+:root {
+  --bg:        hsl(var(--bg-hsl));
+  --surface-1: hsl(var(--surface-1-hsl));
+  --surface-2: hsl(var(--surface-2-hsl));
+  --surface-3: hsl(var(--surface-3-hsl));
+  --ink:       hsl(var(--text-hsl));
+  --ink-soft:  hsl(var(--text-soft-hsl));
+  --border:    hsl(var(--border-hsl));
+  --muted:     hsl(var(--muted-hsl));
+
+  --success:   hsl(var(--success-hsl));
+  --warning:   hsl(var(--warning-hsl));
+  --error:     hsl(var(--error-hsl));
+
+  /* back-compat “grey” tokens used in existing rules */
+  --grey-100: var(--muted);
+  --grey-200: var(--border);
+  --grey-400: var(--ink-soft);
+  --grey-600: var(--ink);
+
+  /* unit vars used in existing rules */
+  --unit-bg:        hsl(var(--unit-bg-hsl));
+  --unit-edge:      hsl(var(--unit-edge-hsl));
+  --unit-edge-soft: color-mix(in oklab, hsl(var(--unit-edge-hsl)) 60%, white);
+  --unit-glow:      rgba(var(--unit-glow-rgb) / .30);
+}   /* ← LAST LINE of the tokens block */
+
+
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Always respect the hidden attribute */
+[hidden] { display: none !important; }
+
+/* Base */
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: var(--ui-font);
+}
+
+body.in-lesson { background-color: var(--text-light); }
+
+main {
+  flex-grow: 1;
+  padding: 1rem 1rem 4rem;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Header & Footer */
+.hero{
+  position: sticky; top: 0; z-index: 50;
+  background: linear-gradient(135deg, rgba(139,92,246,.92), rgba(59,130,246,.92));
+  color: var(--text-light);
+  padding: 1rem;
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: var(--elev-1);
+  backdrop-filter: saturate(160%) blur(10px);
+  -webkit-backdrop-filter: saturate(160%) blur(10px);
+}
+
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: var(--display-font);
+  letter-spacing: .3px;
+}
+
+/* Navigation */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap; /* Wrap on small screens */
+  gap: 1rem;      /* Spacing between wrapped items */
+}
+
+.nav span{
+  background:#eef2ff;
+  border:1px solid #c7d2fe;
+  color:#3730a3;
+  padding: .35rem .8rem;
+  border-radius:999px;
+  font-weight:700;
+  letter-spacing:.2px;
+}
+
+
+.nav-stats, .nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Consistent spacing */
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+  .nav { flex-direction: column; align-items: flex-start; }
+  .hero { flex-direction: column; align-items: flex-start; }
+  .logo { margin-bottom: 0.5rem; }
+}
+
+.foot { text-align: center; padding: 1rem; color: var(--grey-400); font-size: 0.9rem; }
+
+/* Buttons */
+.btn, .btn-check, .btn-icon, .btn-back, .btn-change {
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1.5rem;
+  font-size: 1.05rem; /* slightly bigger */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.btn.btn-primary, .btn-check {
+  background-image: var(--brand-grad);
+  color: var(--text-light);
+  box-shadow: 0 .5px 0 rgba(255,255,255,.6) inset, 0 10px 20px -10px rgba(59,130,246,.55);
+}
+
+.btn.btn-primary:active { transform: scale(.98); }
+
+.btn.btn-secondary {
+  background-color: var(--grey-200);
+  color: var(--grey-600);
+}
+
+.btn.ghost { background: transparent; color: var(--text-light); }
+.btn-back { background-color: var(--grey-200); color: var(--grey-600); }
+.btn-change { background-color: transparent; color: var(--brand-primary); padding: 0.5rem 1rem; }
+
+.btn:hover, .btn-check:hover, .btn-back:hover { transform: translateY(-2px); box-shadow: var(--elev-1); }
+.btn.btn-primary:hover { transform: none; }
+
+.btn-check:disabled { background-color: var(--grey-200); color: var(--grey-400); cursor: not-allowed; transform: none; box-shadow: none; }
+
+.btn-icon { background: none; border: none; font-size: 1.5rem; padding: 0.5rem; line-height: 1; }
+
+/* Dim the primary button when not ready */
+.btn.btn-primary[data-notready="1"] {
+  opacity: .7;
+  transform: none;          /* keep it calm */
+  box-shadow: none;
+}
+
+/* Optional: don’t “lift” on hover when not ready */
+.btn.btn-primary[data-notready="1"]:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Home — Selection Hub */
+.selection-step { padding: 2rem 0; }
+
+.selection-step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+}
+
+.selection-step-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  text-align: center;
+  flex-grow: 1;
+  letter-spacing: .2px;
+  font-family: var(--display-font);
+}
+
+.selection-step-header .btn-back { visibility: visible; }
+
+.selection-step-header::after {
+  content: '';
+  display: block;
+  width: 90px;
+  visibility: hidden;
+}
+
+.selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.selection-card {
+  background-color: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--elev-1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.selection-card:hover { transform: translateY(-4px); box-shadow: var(--elev-1); border-color: rgba(15,23,42,.18); }
+
+.selection-card.disabled {
+  background-color: var(--grey-100);
+  color: var(--grey-400);
+  cursor: not-allowed;
+  border-color: var(--grey-200);
+}
+
+.selection-card.disabled:hover { transform: none; box-shadow: var(--elev-1); }
+
+.subject-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+.selection-card-img { width: 100%; border-radius: 12px; margin-bottom: 1rem; }
+.selection-card-title { display: block; }
+
+/* Home — Daily Challenge List */
+.activity-list { padding: 2rem 0; }
+
+.activity-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.activity-list-header h2 { font-size: 2.5rem; font-weight: 800; margin: 0; font-family: var(--display-font); }
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.activity-card {
+  background-color: var(--surface-1);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--elev-1);
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.2s ease;
+  order: 1px solid var(--border);
+}
+
+.activity-card:hover { transform: translateY(-4px); box-shadow: var(--elev-1); border-color: var(--brand-secondary); }
+
+.activity-icon { font-size: 2.5rem; }
+.activity-title { font-size: 1.2rem; font-weight: 600; }
+
+
+/* If you *only* want line-through on the main (core) path: */
+.core-card.completed .activity-title { text-decoration: line-through; }
+
+
+/* Lesson Page */
+.lesson-wrapper { display: flex; flex-direction: column; height: calc(100vh - 4rem); max-width: 800px; margin: 0 auto; }
+
+.lesson-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  flex-shrink: 0;
+}
+
+.lesson-title-text {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.progress-bar { flex-grow: 1; height: 16px; background-color: var(--grey-200); border-radius: 8px; overflow: hidden; max-width: 400px; }
+.progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #5eead4, var(--success)); transition: width 0.3s ease; background: var(--brand-grad); }
+
+.hearts { font-size: 1.2rem; color: var(--error); flex-shrink: 0; }
+
+.step-host { flex-grow: 1; overflow-y: auto; padding: 1rem 0; }
+.step-host p { font-size: 1.5rem; text-align: center; margin-bottom: 2rem; font-weight: 500; }
+
+.lesson-footer { padding: 1rem; text-align: center; background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border-top: 1px solid var(--grey-100); flex-shrink: 0; position: sticky; bottom: 0; }
+
+.btn-check { width: 100%; max-width: 400px; padding: 1rem; font-size: 1.2rem; }
+
+
+
+.option-card { border: 1px solid #e9edf9; border-radius: 14px; padding: 14px 18px; min-height: 64px; background: none; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+
+.option-card:hover { border-color: var(--brand-secondary); background-color: #eff6ff; }
+
+.option-card.sel { border-color: var(--brand-primary); background-color: #e0e7ff; }
+
+.option-card .option-text { font-size: 1.2rem; font-weight: 700; }
+
+
+/* Layout matches existing option grid */
+.option-grid.word-bank,
+.option-grid.sentence-builder {
+  justify-content: center;  /* center like other activities */
+  gap: 10px 12px;
+}
+
+/* Make word cards look like your normal cards but smaller width */
+.option-card.word-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  min-height: 44px;              /* touch target */
+  min-width: 88px;               /* similar footprint to other cards */
+  border-radius: 999px;          /* pill look */
+  font-size: 16px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* When selected (moved to sentence) keep same look */
+.option-card.word-card.chosen {
+  /* optional subtle highlight */
+  box-shadow: 0 0 0 2px rgba(99,102,241,.15);
+}
+
+/* Disabled in bank after chosen */
+.option-card.word-card:disabled {
+  opacity: .35;
+  pointer-events: none;
+}
+
+/* Punctuation token: allow it to be smaller */
+.option-card.word-card.punc {
+  min-width: 44px;
+  padding: 10px 12px;
+}
+
+/* Hint styling */
+.builder-hint {
+  font-size: .9rem;
+  opacity: .7;
+  margin: .25rem 0 .5rem;
+  text-align: center;
+}
+
+/* Mobile: slightly larger targets */
+@media (max-width: 420px) {
+  .option-card.word-card { min-height: 48px; font-size: 17px; }
+}
+
+
+.wordbank, .answerline { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; padding: 1rem; min-height: 50px; }
+
+.answerline { border-bottom: 2px solid var(--grey-200); }
+
+.token { background-color: var(--text-light); border: 1px solid var(--grey-200); box-shadow: 0 2px 2px var(--grey-100); border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; cursor: pointer; }
+
+.feedback-toast { position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); padding: 1rem 2rem; border-radius: 12px; color: var(--text-light); font-size: 1.2rem; font-weight: 600; z-index: 100; box-shadow: var(--elev-1); }
+
+.feedback-toast.good { background-color: var(--success); }
+.feedback-toast.bad { background-color: var(--error); }
+
+/* Completion Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(30, 58, 95, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--surface-1);
+  padding: 2.5rem;
+  border-radius: 24px;
+  text-align: center;
+  max-width: 450px;
+  width: calc(100% - 2rem);
+  box-shadow: var(--elev-1);
+}
+
+.modal-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--brand-primary);
+  margin: 0 0 1rem;
+}
+
+.modal-text { font-size: 1.1rem; color: var(--grey-600); margin: 0 0 1.5rem; }
+
+.modal-score {
+  background-color: var(--grey-100);
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.modal-score strong { color: var(--brand-secondary); font-weight: 700; }
+
+/* Pills */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #3730a3;
+}
+
+.pill.success { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+
+/* Accessibility */
+:focus { outline: none; }
+
+a:focus, button:focus, .selection-card:focus, .activity-card:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, .45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+@media (hover: none) {
+  .selection-card:hover,
+  .activity-card:hover,
+  .btn:hover { transform: none; box-shadow: var(--elev-1); }
+}
+
+/* Screen-reader only helpers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.confetti {
+position: fixed;
+top: -10px;
+width: 8px;
+height: 14px;
+background-color: hsl(var(--hue, 0), 80%, 60%);
+animation: fall 1.5s linear forwards;
+transform: rotate(15deg);
+}
+
+
+.confetti:nth-child(odd) { background-color: #f59e0b; }
+.confetti:nth-child(even) { background-color: #3b82f6; }
+
+
+@keyframes fall {
+to {
+transform: translateY(100vh) rotate(720deg);
+opacity: 0;
+}
+}
+
+
+/* ---------- Mobile polish ---------- */
+:root { --safe-bottom: env(safe-area-inset-bottom, 0px); }
+
+@media (max-width: 420px) {
+  .hero { position: sticky; top: 0; z-index: 50; }
+  .nav { gap: .5rem; }
+  .nav-actions, .nav-stats { gap: .5rem; }
+  .pill, .btn { font-size: .95rem; padding: .6rem 1rem; }
+  #auth-pill { padding: 6px 10px; font-size: .85rem; }
+
+  .activity-list-header { 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: .5rem; 
+    margin-bottom: 1.25rem;
+  }
+  .activity-list-header h2 { 
+    font-size: clamp(1.4rem, 6vw, 1.8rem); 
+    margin: 0; 
+  }
+
+  /* One column on very small screens */
+  .activity-grid { grid-template-columns: 1fr; }
+
+  .activity-card { 
+    padding: 1rem; 
+    border-radius: 14px; 
+    min-height: 64px;     /* big tap target */
+  }
+  .activity-icon { font-size: 2.2rem; }
+}
+
+/* Keep titles from breaking on hyphens */
+.activity-title { 
+  word-break: keep-all; 
+  hyphens: manual; 
+}
+
+/* Respect iOS safe area at bottom */
+main { padding-bottom: calc(3.5rem + var(--safe-bottom)); }
+.foot { padding-bottom: calc(1rem + var(--safe-bottom)); }
+
+/* Dim primary button when not ready (guest without progress) */
+.btn.btn-primary[data-notready="1"] { opacity: .7; transform: none; box-shadow: none; }
+.btn.btn-primary[data-notready="1"]:hover { transform: none; box-shadow: none; }
+
+/* ---------- shuffle Button ---------- */
+
+@media (max-width: 420px) {
+  #shuffleBtn.fab {
+    position: fixed; right: 16px; bottom: calc(16px + var(--safe-bottom));
+    border-radius: 999px;
+    padding: .9rem 1rem;
+    box-shadow: var(--elev-1);
+    background: var(--brand-secondary); color: #fff;
+  }
+}
+ 
+
+ /* === Fill-blank input (keep this one) === */
+.fill-blank{
+  display:flex;
+  justify-content:center;
+  margin:24px 0 8px;
+}
+.fill-blank .text-input{
+  width: clamp(260px, 60vw, 640px);
+  font-size: clamp(16px, 2.2vw, 22px);
+  line-height: 1.4;
+  padding: 12px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background:#fff;
+  outline: none;
+}
+.fill-blank .text-input:focus{
+  border-color:#60a5fa;
+  box-shadow:0 0 0 3px rgba(96,165,250,.25);
+}
+
+/* Shared option grid — centered like Duolingo */
+.option-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 260px)); /* fixed-ish card width */
+  gap: 12px;
+  justify-content: center;        /* centers the tracks */
+  margin: 16px auto 0;            /* centers the grid box */
+  max-width: 880px;               /* 2–3 cards per row nicely */
+}
+
+.option-card.sel { outline: 3px solid var(--brand-secondary); }
+
+/* ---- match_pairs (grid) ---- */
+.match-pairs{
+  max-width: 880px;
+  margin: 24px auto 0;
+  padding: 8px 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  position: relative;
+  min-height: 320px;
+}
+.match-pairs::after{
+  content: "";
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,.06), rgba(0,0,0,.06) 6px,
+    transparent 6px, transparent 12px
+  );
+  transform: translateX(-0.5px);
+  pointer-events: none;
+}
+.match-col{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.match-col .option-card{
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 1.05rem;
+  padding: 14px 16px;
+  min-height: 54px;
+  border-radius: 12px;
+  margin: 6px 0;
+}
+.match-col.left  .option-card{ align-self: flex-end; }
+.match-col.right .option-card{ align-self: flex-start; }
+.match-col .option-card.sel{
+  outline: 3px solid var(--accent, #38bdf8);
+  transform: translateY(-1px);
+}
+.match-col .option-card:disabled{
+  opacity: .55;
+  filter: grayscale(.1);
+  cursor: default;
+}
+/* Column header label (no layout override) */
+.col-label{
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  text-align: center;
+  color: #333;
+}
+@media (max-width: 600px){
+  .match-pairs{ grid-template-columns: 1fr; gap: 18px; }
+  .match-pairs::after{ display:none; }
+  .match-col.left  .option-card,
+  .match-col.right .option-card{ align-self: stretch; }
+}
+
+
+/* show paired state clearly */
+.match-col .option-card.chosen { background:#eef2ff; border-color:#c7d2fe; box-shadow:0 0 0 2px #c7d2fe inset; }
+/* ensure any old tick rule is neutralized */
+.match-col.right .option-card.chosen::after { content:none !important; }
+/* ensure option-card looks clickable */
+.match-col .option-card { cursor: pointer; position: relative; }
+
+
+.match-status { margin: 6px 0 10px; text-align:center; color:#374151; }
+.match-status .hint { color:#6b7280; margin-left:.25rem; }
+.match-actions { text-align:center; margin-bottom: 8px; }
+.match-actions .link-reset { background:none; border:0; color:#6b7280; text-decoration:underline; cursor:pointer; }
+.match-actions .link-reset:hover { color:#111827; }
+
+/* ---- sort_items ---- */
+.sort-items .builder-hint {
+  text-align: center; color:#6b7280; margin-bottom: 8px;
+}
+.sort-items .sentence-builder,
+.sort-items .word-bank {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 10px;
+}
+.sort-items .word-card { min-width: 64px; }
+
+
+
+/* ---- true_false (keep this one) ---- */
+.true-false .option-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  max-width: 720px;
+  margin: 16px auto 0;
+  justify-content: center;
+}
+.true-false .option-card {
+  font-size: 1.25rem;
+  padding: 16px 18px;
+  min-height: 64px;
+  border-radius: 12px;
+}
+.true-false .option-card.sel {
+  outline: 3px solid var(--accent, #38bdf8);
+  transform: translateY(-1px);
+}
+@media (max-width: 480px) {
+  .true-false .option-grid { grid-template-columns: 1fr; }
+}
+
+
+/* Grown-ups card */
+.grownups-card {
+  margin: 2rem auto 3rem;
+  max-width: 840px;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: var(--elev-1);
+}
+
+.grownups-card h2 {
+  margin: 0 0 .25rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.grownups-blurb {
+  margin: 0 0 .75rem;
+  color: #555;
+  font-size: .95rem;
+}
+
+/* A subtle outline button that works on white cards */
+.btn.outline {
+  background: #fff;
+  color: var(--brand-primary);
+  border: 2px solid var(--brand-primary);
+}
+.btn.outline:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--elev-1);
+  background: #fafaff;
+}
+
+
+/* Small helper subtitle under big headings */
+.subtitle { 
+  margin: .25rem 0 1rem; 
+  color: #555; 
+  font-size: 1rem;
+}
+
+.modal-grownups {
+  margin-top: .75rem;
+  text-align: center;
+  font-size: .9rem;
+  opacity: .9;
+}
+.modal-grownups a { text-decoration: underline; }
+
+@media (max-width: 640px){
+  .grownups{ grid-template-columns: 1fr; row-gap: 12px; }
+  .grownups .btn{ justify-self: start; }
+}
+
+
+
+
+/* =============================
+   SkillFlex Kids — PRO polish overrides
+   ============================= */
+
+/* Wider, cleaner canvas */
+main { max-width: 1120px; }
+
+/* Section wrappers */
+.section {
+  margin: 28px auto 40px;
+  padding: clamp(16px, 3vw, 24px);
+  background: #fff;
+  border: 1px solid #eef2ff;
+  border-radius: var(--radius-xl);
+  box-shadow:
+    0 1px 1px rgba(0,0,0,.04),
+    0 10px 30px -12px rgba(80,56,205,.18);
+}
+
+/* Headings */
+.selection-step-header h1,
+.activity-list-header h2 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  letter-spacing: .2px;
+  color: #0f172a;
+}
+
+/* -------------------------------
+   Subject hero tiles (clean + responsive + premium)
+   ------------------------------- */
+
+/* Responsive grid for the two big tiles */
+.subject-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(14px, 2vw, 24px);
+}
+
+/* Hide any placeholder image inside the card (we paint backgrounds via CSS) */
+.selection-card.large-card .selection-card-img{ display:none; }
+
+/* Make sure only the styled title shows (prevents duplicate text) */
+.selection-card.large-card{ font-size:0; }            /* hides stray raw text nodes */
+.selection-card.large-card .selection-card-title{     /* restore real title size */
+  font-size: clamp(26px, 5vw, 42px);
+}
+
+/* Tile styling */
+.selection-card.large-card{
+  display: flex;
+  align-items: center;       /* center vertically */
+  justify-content: center;   /* center horizontally */
+  padding: clamp(16px, 2.2vw, 24px);
+  border: 1px solid rgba(15, 23, 42, .06);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;             /* keeps proportion on any screen */
+  height: auto;
+  background: #fff;
+  box-shadow: 0 14px 38px -18px rgba(2,6,23,.28);
+  isolation: isolate;
+}
+
+/* Painted gradient backgrounds (per subject) */
+.selection-card.large-card::before{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(135deg, #7dd3fc 0%, #60a5fa 35%, #8b5cf6 100%); /* default */
+  z-index:-2;
+}
+.selection-card.large-card[data-key="english"]::before{
+  background: linear-gradient(135deg, #fda4af 0%, #f472b6 40%, #a78bfa 100%);
+}
+.selection-card.large-card[data-key="maths"]::before{
+  background: linear-gradient(135deg, #34d399 0%, #3b82f6 55%, #22c55e 110%);
+}
+
+/* Soft sheen + bottom vignette for legibility */
+.selection-card.large-card::after{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(100% 140% at 100% 0%, rgba(255,255,255,.28), transparent 60%),
+    linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,0) 38%, rgba(0,0,0,.25));
+  mix-blend-mode: overlay;
+  z-index:-1;
+}
+
+/* Title (bottom-left) */
+.selection-card.large-card .selection-card-title{
+  margin:0;
+  color:#fff;
+  text-align:left;
+  font-family: var(--display-font);
+  font-weight:800;
+  letter-spacing:.2px;
+  text-shadow:0 2px 10px rgba(0,0,0,.25);
+
+  /* added so the emoji can sit on the right */
+  position: relative;
+  display: inline-block;
+  padding-right: clamp(40px, 6vw, 60px);
+}
+
+/* Pull the emoji from data-emoji and place it top-right of the title */
+.selection-card.large-card .selection-card-title::before{
+  content: attr(data-emoji);
+  position: absolute;
+  right: 0;
+  top: -6px;
+  font-size: clamp(28px, 5vw, 46px);
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.25));
+}
+
+
+/* Tasteful lift on hover/focus */
+.selection-card.large-card:hover{ transform: translateY(-4px) scale(1.01); }
+.selection-card.large-card:focus-visible{ outline:3px solid rgba(99,102,241,.6); outline-offset:3px; }
+
+/* Slightly shorter tiles on very small screens */
+@media (max-width:640px){
+  .selection-card.large-card{ aspect-ratio: 7 / 4; }
+}
+
+/* Optional caption below each tile */
+.activity-caption{
+  display:flex; justify-content:center; gap:.5rem; align-items:center;
+  margin-top:10px; color:#0f172a; font-weight:700;
+}
+
+/* Daily cards — crisper, “paid” feel */
+.activity-card{
+  border:1px solid #e9edf9;
+  box-shadow: 0 1px 1px rgba(0,0,0,.02), 0 12px 24px -20px rgba(3,7,18,.4);
+}
+
+/* === Duolingo-style gating states (place after all .activity-card rules) === */
+
+.activity-card.locked:hover,
+.activity-card.locked:focus {
+  transform: none;
+  box-shadow: none;
+}
+
+/* highlight the step you should do next */
+.activity-card.current {
+  box-shadow: 0 0 0 3px rgba(0,200,120,.4);
+}
+
+/* subtle difference for completed */
+.activity-card.completed { opacity: .9; }
+
+/* optional: gentle pulse on the current step’s icon */
+.activity-card.current .activity-icon { animation: sf-pulse 1.2s infinite; }
+@keyframes sf-pulse { 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
+
+/* belt-and-suspenders: if a locked card accidentally has data-link, ignore clicks */
+.activity-card.locked[data-link] { pointer-events: none; }
+
+
+/* Buttons polish */
+.btn.btn-primary{
+  box-shadow: 0 .5px 0 rgba(255,255,255,.6) inset, 0 10px 20px -10px rgba(59,130,246,.6);
+}
+.btn.btn-secondary{ border:1px solid #e5e7eb; background:#fff; }
+
+/* -------------------------------
+   Grown-ups card (desktop + mobile fix)
+   ------------------------------- */
+
+/* Prevent iOS auto-zoom on small text lines */
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+
+/* Matches your current markup: <section class="grownups-card">… */
+.grownups-card{
+  margin: 2rem auto 3rem;
+  max-width: 840px;
+  padding: 18px 20px;
+  border: 1px solid #e9edf9;
+  border-radius: var(--radius-xl);
+  background:#fff;
+  box-shadow: 0 12px 28px -20px rgba(16,24,40,.3);
+}
+.grownups-card h2{
+  margin:0 0 .25rem;
+  font-size:1.1rem;
+  font-weight:700;
+  color:var(--text-dark);
+}
+.grownups-blurb{
+  margin:0 .0 .75rem;
+  color:#334155;
+  font-size:.95rem;
+}
+
+/* Mobile layout: stack nicely + full-width CTA */
+@media (max-width:640px){
+  .grownups-card{ padding:16px; }
+  .grownups-card h2{ font-size:1rem; line-height:1.2; margin-bottom:.25rem; }
+  .grownups-blurb{ font-size:.95rem; }
+  .grownups-card .btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    margin-top:.5rem;
+    border-radius:999px;
+  }
+}
+
+/* Trust strip (kept) */
+.badge{
+  display:inline-flex; align-items:center; gap:6px;
+  background:#fff; color:#0f172a; border:1px solid rgba(255,255,255,.7);
+  border-radius:999px; padding:6px 10px; font-weight:700; font-size:12px;
+  box-shadow:0 4px 16px -8px rgba(0,0,0,.35);
+}
+.trust-strip{
+  display:flex; gap:14px; align-items:center; color:#475569;
+  justify-content:center; margin:8px 0 0;
+}
+.trust-strip .dots{
+  display:inline-block; width:46px; height:10px;
+  background: radial-gradient(#fbbf24 2px, transparent 3px) 0 0/10px 10px repeat-x;
+}
+
+/* === Center the subject hero titles (both tiles) === */
+.selection-card.large-card{
+  align-items: center;     /* was flex-end */
+  justify-content: center; /* center horizontally too */
+}
+
+/* keep the emoji-on-title, but center the text block */
+.selection-card.large-card .selection-card-title{
+  text-align: center;
+  line-height: 1.15;               /* tidy line height */
+  padding-right: clamp(40px, 6vw, 60px); /* room for the emoji (keep) */
+}
+
+/* --- Pro polish: subject tiles --- */
+
+/* soft animated drift in the gradient (respects reduced motion) */
+.selection-card.large-card::before{
+  background-size: 180% 180%;
+  animation: heroDrift 14s ease-in-out infinite;
+}
+@keyframes heroDrift{
+  0%{   background-position: 0% 50%; }
+  50%{  background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
+@media (prefers-reduced-motion: reduce){
+  .selection-card.large-card::before{ animation: none; }
+}
+
+/* subtle glow on hover/focus to feel 'clickable' */
+.selection-card.large-card{
+  transition: transform .25s ease, box-shadow .25s ease, outline-color .2s ease;
+}
+.selection-card.large-card:hover{
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    0 1px 1px rgba(0,0,0,.05),
+    0 18px 48px -20px rgba(2,6,23,.45),
+    0 0 0 1px rgba(255,255,255,.25) inset;
+}
+.selection-card.large-card:active{ transform: translateY(-1px) scale(.995); }
+.selection-card.large-card:focus-visible{
+  outline: 3px solid rgba(99,102,241,.55);
+  outline-offset: 3px;
+}
+
+/* ultra-subtle ‘grain’ to kill gradient banding */
+.selection-card.large-card::after{
+  /* keep your existing sheen; append tiny grain layer */
+  background:
+    radial-gradient(100% 140% at 100% 0%, rgba(255,255,255,.28), transparent 60%),
+    linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,0) 38%, rgba(0,0,0,.22)),
+    url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'>\
+<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='1' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/>\
+<feComponentTransfer><feFuncA type='table' tableValues='0 0 .03 0'/></feComponentTransfer></filter>\
+<rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-blend-mode: overlay, normal, normal;
+}
+
+/* centered titles (keep your emoji on the right) */
+.selection-card.large-card{
+  align-items: center;
+  justify-content: center;
+}
+.selection-card.large-card .selection-card-title{
+  text-align: center;
+  line-height: 1.15;
+}
+
+/* Glass nav with subtle blur (desktop too) */
+.hero{
+  position: sticky; top: 0; z-index: 50;
+  background: linear-gradient(135deg, rgba(139,92,246,.92), rgba(59,130,246,.92));
+  backdrop-filter: saturate(160%) blur(10px);
+  -webkit-backdrop-filter: saturate(160%) blur(10px);
+}
+
+/* Type scale: hero > section headings */
+.home-hero h1{
+  font-family: var(--display-font);
+  font-weight: 900;
+  letter-spacing: .2px;
+  line-height: 1.12;
+  font-size: clamp(2rem, 3.4vw, 2.75rem);   /* bigger than the others */
+  margin: 0 0 .35rem;
+  text-wrap: balance;                        /* prettier line breaks */
+}
+
+/* subtle gradient underline for the hero title */
+.home-hero h1::after{
+  content: "";
+  display: block;
+  width: min(140px, 24%);
+  height: 6px;
+  border-radius: 999px;
+  margin-top: 8px;
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+}
+
+.home-hero p,
+.section > p { max-width: 68ch; }
+
+/* Even spacing below each major block */
+.section, .selection-step, .activity-list{ margin-block: 24px 36px; }
+
+
+/* Skeleton cards */
+.skel{
+  background: linear-gradient(90deg, #eef2ff 25%, #f5f7ff 37%, #eef2ff 63%);
+  background-size: 400% 100%;
+  animation: skel 1.2s ease-in-out infinite;
+  border-radius: var(--radius-lg); height: 84px;
+  box-shadow: var(--elev-1);
+}
+@keyframes skel{ 0%{background-position:100% 0} 100%{background-position:0 0} }
+
+
+/* Track labels */
+.track-label { font-weight: 700; margin: 12px 4px 8px; display:flex; align-items:center; gap:8px; }
+.track-label.core { color: #0E7C66; }
+.track-label.bonus { color: #6E3FF3; }
+.track-label .track-emoji { font-size: 1.15em; }
+.track-label small { opacity: .7; font-weight: 600; }
+
+
+/* Card accents */
+.core-card { border: 2px solid rgba(14,124,102,.25); box-shadow: 0 6px 18px rgba(14,124,102,.08); }
+.bonus-card { border: 2px dashed rgba(110,63,243,.35); box-shadow: 0 6px 18px rgba(110,63,243,.10); background: linear-gradient(180deg, rgba(110,63,243,.05), rgba(110,63,243,.02)); }
+
+
+/* Progress badge in header */
+.path-progress { font-weight:800; color:#0E7C66; margin-left:6px; }
+
+
+
+
+.activity-card.bonus-card {
+  background: #fff9ec;
+  border: 2px solid #f6d38e;
+}
+
+.activity-list-header.sub h3 {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.activity-list-header.sub .subcopy {
+  font-weight: 500;
+  opacity: .7;
+}
+
+/* Section lock banner for bonus row */
+.bonus-lock-banner {
+  margin-top: .5rem;
+  font-weight: 600;
+  background: #fff1d6;
+  border: 1px dashed #f2b95c;
+  color: #a56a00;
+  padding: .35rem .6rem;
+  border-radius: .6rem;
+  display: inline-block;
+}
+
+/* Slightly different icons/opacity when locked */
+.activity-card.locked {
+  opacity: .65;
+  filter: grayscale(.3);
+  cursor: not-allowed;
+}
+.activity-card.locked .activity-icon { filter: grayscale(1); }
+
+/* keep lock overlays inside each card */
+.activity-card {
+  position: relative;
+  overflow: hidden;   /* preserves rounded corners */
+}
+
+
+/* Overlay message on locked cards (esp. bonus when section-locked) */
+.activity-card .lock-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: .5rem 1rem;
+  background: rgba(255, 255, 255, .75);
+  color: #5a5a5a;
+  font-weight: 700;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* --- Completed card: glow + smile-friendly palette (no strike-through) --- */
+.activity-card.completed {
+  background: #f0fdf4;                  /* soft mint */
+  border: 2px solid #86efac;            /* green rim */
+  box-shadow:
+    0 0 0 3px rgba(34,197,94,.18),
+    0 10px 24px -14px rgba(16,185,129,.35);
+  opacity: 1;                            /* don’t dim finished items */
+  animation: doneGlow 1.2s ease-out 1;
+}
+
+/* Keep titles readable and positive */
+.activity-card.completed .activity-title {
+  text-decoration: none !important;      /* kill any old line-through */
+  color: #065f46;                        /* deep green text */
+}
+
+/* Let the icon (which you'll set via JS) pop a little */
+.activity-card.completed .activity-icon {
+  filter: drop-shadow(0 4px 10px rgba(16,185,129,.25));
+  transform: translateY(1px);
+}
+
+/* One-time halo animation */
+@keyframes doneGlow {
+  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.35); }
+  70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .activity-card.completed { animation: none; }
+}
+
+/* If you had a core-only strike-through, neutralize it */
+.core-card.completed .activity-title { text-decoration: none !important; }
+
+
+/* === State-specific overrides so Current vs Completed are unmistakable === */
+
+/* (Optional) neutral baseline for core so states can take over */
+.activity-card.core-card {
+  background: #fff;
+  border: 1px solid #e9edf9;
+}
+
+/* CURRENT — next up: cool blue tint + subtle pulse */
+.activity-card.core-card.current {
+  background: #eef2ff;
+  border: 2px solid #93c5fd;
+  box-shadow:
+    0 0 0 3px rgba(59,130,246,.18),
+    0 12px 26px -16px rgba(59,130,246,.35);
+}
+.activity-card.core-card.current .activity-title { color: #1e3a8a; }
+.activity-card.core-card.current .activity-icon {
+  filter: drop-shadow(0 4px 10px rgba(59,130,246,.25));
+  animation: cardNudge 1.2s ease-in-out infinite;
+}
+
+/* COMPLETED — happy mint glow (no strike-through) */
+.activity-card.core-card.completed {
+  background: #ecfdf5;
+  border: 2px solid #86efac;
+  box-shadow:
+    0 0 0 3px rgba(34,197,94,.18),
+    0 12px 26px -16px rgba(16,185,129,.32);
+}
+.activity-card.core-card.completed .activity-title {
+  color: #065f46;
+  text-decoration: none !important;   /* kill any old line-through */
+}
+.activity-card.core-card.completed .activity-icon {
+  filter: drop-shadow(0 4px 10px rgba(16,185,129,.25));
+}
+
+/* Tiny “Next”/“Done” pills on the left label (no HTML changes) */
+.activity-card .activity-step {
+  position: relative;
+  font-weight: 700;
+}
+.activity-card.core-card.current .activity-step::after {
+  content: "Next";
+  margin-left: .5rem;
+  font-size: .75rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  background: #dbeafe;
+  border: 1px solid #bfdbfe;
+  padding: .1rem .4rem;
+  border-radius: 999px;
+}
+.activity-card.core-card.completed .activity-step::after {
+  content: "Done";
+  margin-left: .5rem;
+  font-size: .75rem;
+  font-weight: 800;
+  color: #065f46;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  padding: .1rem .4rem;
+  border-radius: 999px;
+}
+
+/* Keep locked distinct (your existing look is fine) */
+.activity-card.locked { opacity: .6; filter: grayscale(.3); }
+
+/* Motion */
+@keyframes cardNudge {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .activity-card.core-card.current .activity-icon { animation: none; }
+}
+
+/* =========================================================
+   SkillFlex — Kids Mode Theme (scoped to <body class="kids">)
+   Safe to paste at the end of ui.css
+   ======================================================= */
+
+/* Tokens */
+.kids{
+  --sf-bg-1:#f5f0ff;         /* lilac */
+  --sf-bg-2:#ecfbff;         /* sky */
+  --sf-card:#ffffff;
+  --sf-ink:#1d1b2a;
+  --sf-ink-soft:#4c4a62;
+  --sf-shadow:0 8px 20px rgba(0,0,0,.06);
+  --sf-radius-xl:20px;
+  --sf-radius-2xl:28px;
+}
+
+/* Soft background */
+.kids, .kids .app-bg{
+  background:
+    radial-gradient(1200px 600px at 0% -10%, var(--sf-bg-2), transparent 60%),
+    radial-gradient(1000px 600px at 100% -10%, var(--sf-bg-1), transparent 60%),
+    #f7f5ff;
+}
+
+/* Header polish */
+.kids .hero{
+  background: linear-gradient(90deg, #7b7cff, #5bc8ff);
+  color:#fff;
+  box-shadow:0 6px 18px rgba(64,88,180,.25);
+}
+.kids .nav .btn{
+  font-family:"Fredoka", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  border-radius:999px;
+  padding:.55rem .9rem;
+}
+
+/* Title on chooser pages */
+.kids .selection-step-header h1,
+.kids #home-title{
+  font-family:"Fredoka", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:700;
+  font-size:clamp(28px,3.6vw,40px);
+  color:var(--sf-ink);
+  letter-spacing:.3px;
+}
+
+/* Back button → big pill */
+.kids .btn.btn-back{
+  border-radius:999px;
+  padding:10px 16px;
+  font-size:16px;
+  background:#fff;
+  box-shadow:var(--sf-shadow);
+}
+
+/* Grid spacing & responsiveness */
+.kids .selection-grid{
+  display:grid;
+  gap:24px;
+  grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+  padding:8px 12px 24px;
+}
+
+/* Base selection card */
+.kids .selection-card{
+  position:relative;
+  display:grid;
+  place-items:center;
+  min-height:92px;
+  padding:20px 18px;
+  border-radius:var(--sf-radius-xl);
+  background:var(--sf-card);
+  border:0;
+  box-shadow:var(--sf-shadow);
+  font-family:"Fredoka", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:600;
+  font-size:clamp(16px,2.1vw,18px);
+  color:var(--sf-ink);
+  transition:transform .08s ease, box-shadow .12s ease, background .2s ease;
+  cursor:pointer;
+}
+.kids .selection-card:hover,
+.kids .selection-card:focus-visible{
+  transform:translateY(-1px);
+  box-shadow:0 12px 26px rgba(0,0,0,.08);
+  outline:none;
+}
+.kids .selection-card:focus-visible{
+  /* bigger focus ring for accessibility */
+  box-shadow:0 0 0 3px #ffd166, 0 12px 26px rgba(0,0,0,.08);
+}
+.kids .selection-card:active{ transform:translateY(0); }
+
+/* Large subject cards with emoji badge */
+.kids .selection-card.large-card{
+  min-height:128px;
+  border-radius:var(--sf-radius-2xl);
+  isolation:isolate;
+  overflow:hidden;
+
+  /* center content */
+  display: grid;
+  place-items: center;
+}
+
+.kids .selection-card.large-card .selection-card-title{
+  position: relative;
+  display: inline-block;                 /* so padding applies to the text box */
+  text-align: center;
+  padding-right: clamp(40px, 6vw, 60px); /* reserve space for the RIGHT-side emoji */
+  font-size: clamp(26px, 5vw, 42px);     /* bigger title */
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+
+.kids .selection-card.large-card { position: relative; }
+
+
+
+.kids .selection-card.large-card .selection-card-emoji {
+  position: absolute;
+  right: clamp(12px, 3vw, 20px);
+  top: clamp(10px, 3vw, 18px);
+  font-size: clamp(28px, 7vw, 48px);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+/* Subject-specific soft gradients (key comes from data-key) */
+.kids .selection-card.large-card[data-key="english"]{
+  background:linear-gradient(180deg,#fff5fb,#ffe9f7);
+}
+.kids .selection-card.large-card[data-key="maths"]{
+  background:linear-gradient(180deg,#f1fbff,#e7f7ff);
+}
+
+/* Topic / year tiles: color chip on the left */
+.kids .selection-card:not(.large-card)::before{
+  content:"";
+  position:absolute;
+  left:0; top:0; bottom:0; width:8px;
+  border-top-left-radius:inherit;
+  border-bottom-left-radius:inherit;
+  background:linear-gradient(#c8d9ff,#b6f0ff);
+  opacity:.9;
+}
+
+/* Disabled tiles (e.g., “Coming Soon”) */
+.kids .selection-card.disabled{
+  opacity:.55; cursor:not-allowed; filter:grayscale(.2);
+}
+.kids .selection-card.disabled::after{
+  content:"Coming soon";
+  position:absolute; right:12px; bottom:10px;
+  font-size:12px; font-weight:600; color:var(--sf-ink-soft);
+  background:#fff; padding:4px 8px; border-radius:999px; box-shadow:var(--sf-shadow);
+}
+
+/* Gentle playful hover on capable devices */
+@media (hover:hover){
+  .kids .selection-card:hover{ animation:sf-wiggle .22s ease-out; }
+}
+@keyframes sf-wiggle{
+  0%{ transform:translateY(0) scale(1); }
+  50%{ transform:translateY(-2px) scale(1.01); }
+  100%{ transform:translateY(-1px) scale(1); }
+}
+
+/* Buttons palette (optional but nice) */
+.kids .btn.btn-primary{
+  border-radius:999px;
+  font-family:"Fredoka", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+.kids .btn.btn-primary{ background:#6e85ff; border-color:#6e85ff; }
+.kids .btn.btn-primary:hover{ filter:brightness(1.05); }
+.kids .btn.btn-secondary{ border-radius:999px; }
+
+/* Progress bar look inside lesson */
+.kids .progress-bar{ height:6px; border-radius:999px; background:#eee; }
+.kids .progress-fill{ background:linear-gradient(90deg,#7b7cff,#5bc8ff); border-radius:inherit; }
+
+/* === SkillFlex Units: Level Modal === */
+.sf-modal-ovl{position:fixed;inset:0;background:rgba(2,6,23,.55);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;z-index:9999}
+.sf-modal{width:min(880px,92vw);max-height:88vh;overflow:auto;background:#0f172a;color:#e2e8f0;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.sf-head{padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+.sf-head h3{margin:0;font-size:20px}
+.sf-body{padding:22px}
+.sf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.sf-card{position:relative;border-radius:16px;border:1px solid rgba(255,255,255,.08);padding:16px 14px;background:rgba(255,255,255,.02);cursor:pointer;transition:.15s transform ease,.15s box-shadow ease}
+.sf-card:hover{transform:translateY(-2px)}
+.sf-card .title{font-weight:800;font-size:18px;margin:8px 0}
+.sf-card .sub{opacity:.8;font-size:13px;margin-top:4px}
+.sf-badge{position:absolute;top:10px;right:10px;font-size:12px;border-radius:999px;padding:.2rem .5rem;border:1px solid rgba(255,255,255,.15)}
+.sf-badge.lock{background:#1f2937;color:#9ca3af;border-color:#374151}
+.sf-badge.ok{background:#14b8a6;color:#042f2e;border-color:#0d9488}
+.sf-foot{padding:14px 22px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:flex-end;gap:10px}
+.sf-btn{appearance:none;border:0;border-radius:12px;padding:.6rem .9rem;font-weight:700}
+.sf-btn.gray{background:#1f2937;color:#e5e7eb}
+.sf-btn.blue{background:#3b82f6;color:white}
+.sf-quiz-q{margin:0 0 10px 0;font-weight:800}
+.sf-quiz-opt{display:block;margin:8px 0;padding:.6rem .8rem;border-radius:12px;border:1px solid rgba(255,255,255,.08);cursor:pointer;background:rgba(255,255,255,.03)}
+.sf-quiz-opt:hover{background:rgba(255,255,255,.06)}
+.sf-chip{display:inline-flex;align-items:center;gap:6px;padding:.25rem .5rem;border-radius:999px;background:#0ea5e9;color:#022c22;font-size:12px}
+
+
+/* --- Home scaffold & Continue card --- */
+#hubGrid{
+  display:grid;
+  grid-template-columns: 1fr;   /* ← single column = visually centered */
+  gap:24px;
+  align-items:start;
+}
+
+#hubMain{ min-width:0; }
+#motivationRail{ position:sticky; top:84px; display:flex; flex-direction:column; gap:12px; }
+
+@media (max-width:1024px){
+  #hubGrid{ grid-template-columns:1fr; }
+  #motivationRail{ position:static; }
+}
+
+/* Continue / Resume card (brand default) */
+.continue-card{
+  border-radius: var(--radius-xl);
+  padding: 16px 18px;
+  background: var(--brand-grad);          /* ← match header/buttons */
+  color: #fff;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* soft sheen so white text always reads on gradients */
+.continue-card::after{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(120% 180% at 100% 0%, rgba(255,255,255,.24), transparent 50%),
+    linear-gradient(0deg, rgba(0,0,0,.12), transparent 40%);
+  mix-blend-mode: overlay;
+  pointer-events:none;
+}
+
+/* headline + pills inside the card */
+.continue-card h2, .continue-card .title{
+  margin: 0 0 .5rem;
+  color:#fff;
+  font-family: var(--display-font);
+  letter-spacing:.2px;
+}
+.continue-card .pill{
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.28);
+  color:#fff;
+}
+.continue-card .btn{
+  border-radius: var(--radius-lg);
+  background:#fff; color:#1f2937;            /* high-contrast CTA on gradient */
+  box-shadow: var(--shadow);
+}
+.continue-card .btn:hover{ transform:none; }  /* premium = steadier CTA */
+
+.section.continue-card{
+  background: var(--brand-grad);
+  color:#fff;
+  border:0;
+  box-shadow: var(--elev-2);
+}
+
+/* --- Unit tiles: restore crisp frame + radius --- */
+
+/* 1) Fix typos (if you keep the original blocks, this ensures radius always applies) */
+.selection-card,
+.activity-card,
+.grownups-card,
+.skel { border-radius: var(--radius-lg); }
+
+/* 2) Stronger default card frame */
+.activity-card{
+  border: 2px solid #E6EAF5;           /* crisper than #e9edf9 */
+  background:#fff;
+  box-shadow: var(--elev-1);
+}
+
+/* 3) Hover should feel premium, not float away */
+.activity-card:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--elev-2);
+  border-color: #D6DBEE;               /* subtle lift */
+}
+
+/* 4) Keep the CURRENT step obvious, regardless of other classes present */
+.activity-card.current{
+  background: #F1FBF6;                 /* gentle mint fill */
+  border-color: #86EFAE;
+  box-shadow: 0 8px 20px rgba(16,185,129,.15);
+}
+
+/* 5) Locked shouldn’t look dead; keep the edge visible */
+.activity-card.locked{
+  background:#FBFCFF;
+  border-color:#E5E7EB;
+  opacity:.85;                          /* was .6 */
+  filter: grayscale(.15);               /* was .3 */
+}
+
+/* 6) Completed stays positive (no heavy dim) */
+.activity-card.completed{
+  opacity: 1;
+  background:#F0FDF4;
+  border-color:#86EFAC;
+}
+
+/* Optional: stronger frame just inside Units sections, if you use a wrapper class */
+.section .activity-card{ border-color:#E2E8F0; }
+
+/* === Unit tiles: restore mint edge + glow (must stay last) === */
+.activity-card.core-card{
+  background: var(--unit-bg);
+  border: 2px solid var(--unit-edge-soft);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 0 0 2px rgba(134,239,172,.28) inset,
+    0 10px 24px -16px var(--unit-glow);
+}
+
+.activity-card.core-card.current{
+  background: #ecfdf5;
+  border-color: var(--unit-edge);
+  box-shadow:
+    0 0 0 2px rgba(134,239,172,.38) inset,
+    0 12px 26px -14px var(--unit-glow);
+}
+
+.activity-card.core-card.completed{
+  background: #ecfdf5;
+  border: 2px solid var(--unit-edge);
+  box-shadow:
+    0 0 0 3px rgba(34,197,94,.18),
+    0 12px 26px -16px rgba(16,185,129,.32);
+}
+
+/* guard: never let a generic frame wash these out */
+.activity-card.core-card { border-image: initial; }
+
+
+

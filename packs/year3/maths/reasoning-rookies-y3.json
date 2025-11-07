@@ -1,0 +1,41 @@
+{
+  "id": "year3/maths/reasoning-rookies-y3",
+  "title": "Reasoning Rookies",
+  "version": 1,
+  "steps": [
+    {
+      "id": "rr1",
+      "type": "select_option",
+      "prompt": "Hari is looking at two numbers. One is made of 7 tens and 6 ones. The other is made of 6 tens and 7 ones. Does he have two different numbers?",
+      "options": [
+        {
+          "text": "No, they are both the same number."
+        },
+        {
+          "text": "Yes, he has the numbers 76 and 67."
+        },
+        {
+          "text": "Yes, he has the numbers 76 and 76."
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "rr2",
+      "type": "select_option",
+      "prompt": "Priya has two numbers. Number A is 59. Number B is 61. Priya thinks A is bigger because the digit 9 is bigger than 6 and 1. Is she correct?",
+      "options": [
+        {
+          "text": "Yes, 9 is the biggest digit so 59 is the biggest number."
+        },
+        {
+          "text": "No, you must look at the tens digit first to compare numbers."
+        },
+        {
+          "text": "No, 61 is smaller than 59."
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

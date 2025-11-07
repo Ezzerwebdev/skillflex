@@ -1,0 +1,6 @@
+{ "id":"year3/english/spelling/prefixes-truth-check-y3","title":"Prefixes Truth Check","version":1,"steps":[
+  {"id":"t1","type":"true_false","prompt":"'un-' can make 'fair' mean the opposite.","answer":true},
+  {"id":"t2","type":"true_false","prompt":"'re-' means 'not'.","answer":false},
+  {"id":"t3","type":"true_false","prompt":"'mis-' can mean 'wrongly'.","answer":true},
+  {"id":"t4","type":"true_false","prompt":"'dis-' can make 'agree' the opposite.","answer":true}
+]}
