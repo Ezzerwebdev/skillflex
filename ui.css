@@ -8,12 +8,13 @@
   --radius-xs: 8px;
   --radius-sm: 12px;
   --radius-md: 16px;
-  --radius-lg: 20px;
-  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
 
   /* elevation */
   --shadow-1: 0 1px 2px rgba(2,6,23,.06), 0 8px 24px -18px rgba(2,6,23,.24);
   --shadow-2: 0 10px 30px -16px rgba(2,6,23,.30);
+  --shadow-elev: 0 1px 1px rgba(0,0,0,.04), 0 10px 30px -12px rgba(80,56,205,.18);
 
     /* back-compat aliases */
   --display-font: var(--font-display);
@@ -33,7 +34,7 @@
   /* brand hues */
   --brand-1: 254 90% 66%;   /* purple */
   --brand-2: 214 90% 56%;   /* blue  */
-  --brand-grad: linear-gradient(135deg, hsl(var(--brand-1)), hsl(var(--brand-2)));
+  --brand-grad: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
 
   /* feedback */
   --success-hsl: 152 76% 40%;
@@ -142,7 +143,7 @@ body {
   font-family: var(--ui-font);
 }
 
-body.in-lesson { background-color: var(--text-light); }
+body.in-lesson { background-color: var(--surface-1); }
 
 main {
   flex-grow: 1;
@@ -151,18 +152,6 @@ main {
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
-}
-
-/* Header & Footer */
-.hero{
-  position: sticky; top: 0; z-index: 50;
-  background: linear-gradient(135deg, rgba(139,92,246,.92), rgba(59,130,246,.92));
-  color: var(--text-light);
-  padding: 1rem;
-  display: flex; justify-content: space-between; align-items: center;
-  box-shadow: var(--elev-1);
-  backdrop-filter: saturate(160%) blur(10px);
-  -webkit-backdrop-filter: saturate(160%) blur(10px);
 }
 
 
@@ -226,7 +215,7 @@ main {
 .btn.btn-primary, .btn-check {
   background-image: var(--brand-grad);
   color: var(--text-light);
-  box-shadow: 0 .5px 0 rgba(255,255,255,.6) inset, 0 10px 20px -10px rgba(59,130,246,.55);
+  box-shadow: var(--shadow-elev);
 }
 
 .btn.btn-primary:active { transform: scale(.98); }
@@ -237,11 +226,15 @@ main {
 }
 
 .btn.ghost { background: transparent; color: var(--text-light); }
-.btn-back { background-color: var(--grey-200); color: var(--grey-600); }
+.btn-back  { background-color: var(--grey-200); color: #111827; /* dark ink on light pill */ }
 .btn-change { background-color: transparent; color: var(--brand-primary); padding: 0.5rem 1rem; }
 
-.btn:hover, .btn-check:hover, .btn-back:hover { transform: translateY(-2px); box-shadow: var(--elev-1); }
-.btn.btn-primary:hover { transform: none; }
+.btn:hover:not(.btn-primary):not(.btn-check), .btn-back:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-elev);
+}
+.btn.btn-primary:hover,
+.btn-check:hover { transform: none; box-shadow: var(--shadow-elev); }
 
 .btn-check:disabled { background-color: var(--grey-200); color: var(--grey-400); cursor: not-allowed; transform: none; box-shadow: none; }
 
@@ -300,7 +293,7 @@ main {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
-  box-shadow: var(--elev-1);
+  box-shadow: var(--shadow-elev);
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: center;
@@ -308,7 +301,15 @@ main {
   font-weight: 600;
 }
 
-.selection-card:hover { transform: translateY(-4px); box-shadow: var(--elev-1); border-color: rgba(15,23,42,.18); }
+/* Shared rounded corners for non-activity cards */
+.selection-card,
+.grownups-card,
+.skel {
+  border-radius: var(--radius-lg);
+}
+
+
+.selection-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-elev); border-color: rgba(15,23,42,.18); }
 
 .selection-card.disabled {
   background-color: var(--grey-100);
@@ -317,7 +318,7 @@ main {
   border-color: var(--grey-200);
 }
 
-.selection-card.disabled:hover { transform: none; box-shadow: var(--elev-1); }
+.selection-card.disabled:hover { transform: none; box-shadow: var(--shadow-elev); }
 
 .subject-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 
@@ -342,28 +343,10 @@ main {
   gap: 1.5rem;
 }
 
-.activity-card {
-  background-color: var(--surface-1);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  box-shadow: var(--elev-1);
-  text-decoration: none;
-  color: var(--ink);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  transition: all 0.2s ease;
-  order: 1px solid var(--border);
-}
 
-.activity-card:hover { transform: translateY(-4px); box-shadow: var(--elev-1); border-color: var(--brand-secondary); }
 
 .activity-icon { font-size: 2.5rem; }
 .activity-title { font-size: 1.2rem; font-weight: 600; }
-
-
-/* If you *only* want line-through on the main (core) path: */
-.core-card.completed .activity-title { text-decoration: line-through; }
 
 
 /* Lesson Page */
@@ -396,19 +379,102 @@ main {
 .step-host { flex-grow: 1; overflow-y: auto; padding: 1rem 0; }
 .step-host p { font-size: 1.5rem; text-align: center; margin-bottom: 2rem; font-weight: 500; }
 
-.lesson-footer { padding: 1rem; text-align: center; background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border-top: 1px solid var(--grey-100); flex-shrink: 0; position: sticky; bottom: 0; }
+/* Light: soft glass footer */
+.lesson-footer {
+  padding: 1.25rem 1rem;
+  text-align: center;
+  background: transparent;   /* no slab */
+  border-top: 0;
+  position: sticky;
+  bottom: 0;
+  flex-shrink: 0;
+}
 
-.btn-check { width: 100%; max-width: 400px; padding: 1rem; font-size: 1.2rem; }
+
+/* Dark: let it blend into the page, no big box */
+body[data-theme="dark"] .lesson-footer {
+  background: transparent;          /* no dark slab */
+  border-top-color: transparent;    /* remove light divider */
+  backdrop-filter: none;
+}
+
+/* Check button: same in both themes */
+.btn-check {
+  width: 100%;
+  max-width: 400px;
+  padding: 1rem;
+  font-size: 1.2rem;
+  border: 0;
+  border-radius: 999px;
+  background-image: var(--brand-grad);
+  color: var(--text-light);
+  box-shadow: var(--shadow-elev);
+}
+
+.btn-check:disabled {
+  background-image: none;
+  background-color: var(--grey-200);
+  color: var(--grey-400);
+  box-shadow: none;
+}
 
 
 
-.option-card { border: 1px solid #e9edf9; border-radius: 14px; padding: 14px 18px; min-height: 64px; background: none; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
 
-.option-card:hover { border-color: var(--brand-secondary); background-color: #eff6ff; }
+/* Base layout (shared) */
+.option-card {
+  border-radius: 14px;
+  padding: 14px 18px;
+  min-height: 64px;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
 
-.option-card.sel { border-color: var(--brand-primary); background-color: #e0e7ff; }
+.option-card .option-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
 
-.option-card .option-text { font-size: 1.2rem; font-weight: 700; }
+/* --- LIGHT THEME (your current look) --- */
+
+body[data-theme="light"] .option-card {
+  border: 1px solid #e9edf9;
+  color: #111827;
+}
+
+body[data-theme="light"] .option-card:hover {
+  border-color: var(--brand-secondary);
+  background-color: #eff6ff;
+}
+
+body[data-theme="light"] .option-card.sel {
+  border-color: var(--brand-primary);
+  background-color: #e0e7ff;
+}
+
+/* --- DARK THEME --- */
+
+body[data-theme="dark"] .option-card {
+  border: 1px solid rgba(148, 163, 253, 0.18);  /* soft indigo */
+  color: #e5e7eb;
+}
+
+body[data-theme="dark"] .option-card:hover {
+  background-color: rgba(129, 140, 248, 0.14);  /* subtle glow */
+  border-color: rgba(129, 140, 248, 0.85);
+}
+
+body[data-theme="dark"] .option-card.sel {
+  background-color: rgba(129, 140, 248, 0.22);
+  border-color: var(--brand-primary);
+  box-shadow: 0 10px 32px rgba(15, 23, 42, 0.7);
+}
+
 
 
 /* Layout matches existing option grid */
@@ -492,12 +558,13 @@ main {
 
 .modal-content {
   background-color: var(--surface-1);
+  color: var(--ink);
   padding: 2.5rem;
   border-radius: 24px;
   text-align: center;
   max-width: 450px;
   width: calc(100% - 2rem);
-  box-shadow: var(--elev-1);
+  box-shadow: var(--shadow-elev);
 }
 
 .modal-title {
@@ -548,7 +615,7 @@ a:focus, button:focus, .selection-card:focus, .activity-card:focus {
 @media (hover: none) {
   .selection-card:hover,
   .activity-card:hover,
-  .btn:hover { transform: none; box-shadow: var(--elev-1); }
+  .btn:hover { transform: none; box-shadow: var(--shadow-elev); }
 }
 
 /* Screen-reader only helpers */
@@ -703,11 +770,12 @@ main { padding-bottom: calc(3.5rem + var(--safe-bottom)); }
   transform: translateX(-0.5px);
   pointer-events: none;
 }
-.match-col{
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
+
+.match-col{ display: flex; flex-direction: column; align-items: stretch; }
+.match-col.left  .option-card{ align-self: flex-end; }
+.match-col.right .option-card{ align-self: flex-start; }
+
+/* Base card inside matching (single source of truth) */
 .match-col .option-card{
   display: block;
   width: 100%;
@@ -717,26 +785,63 @@ main { padding-bottom: calc(3.5rem + var(--safe-bottom)); }
   min-height: 54px;
   border-radius: 12px;
   margin: 6px 0;
+  cursor: pointer; position: relative;
+
+  border: 2px solid var(--border);
+  background: var(--surface-1);
+  color: var(--ink);
+  box-shadow: var(--elev-1);
+  transition: transform .12s ease, box-shadow .12s ease,
+              border-color .12s ease, background-color .12s ease;
 }
-.match-col.left  .option-card{ align-self: flex-end; }
-.match-col.right .option-card{ align-self: flex-start; }
-.match-col .option-card.sel{
-  outline: 3px solid var(--accent, #38bdf8);
-  transform: translateY(-1px);
+.match-pairs .option-card:hover{ transform: translateY(-1px); box-shadow: var(--shadow-elev); }
+.match-pairs .option-card:focus-visible{
+  outline: 3px solid color-mix(in oklab, var(--brand-primary) 55%, transparent);
+  outline-offset: 2px;
 }
-.match-col .option-card:disabled{
-  opacity: .55;
-  filter: grayscale(.1);
+
+/* Selected (waiting for pair) */
+:root[data-theme="light"] .match-pairs .option-card[aria-pressed="true"],
+:root[data-theme="light"] .match-pairs .option-card.chosen{
+  background:#eef2ff;
+  border-color:#c7d2fe;
+  box-shadow: 0 0 0 2px #c7d2fe inset, var(--elev-1);
+}
+:root[data-theme="dark"] .match-pairs .option-card[aria-pressed="true"],
+:root[data-theme="dark"] .match-pairs .option-card.chosen{
+  background: rgba(129,140,248,.16);
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 2px rgba(129,140,248,.9) inset, var(--shadow-1);
+}
+
+/* Correct pair locked in */
+.match-pairs .option-card[data-state="matched"]{
+  border-color:#22c55e;
+  background: color-mix(in oklab, #22c55e 9%, var(--surface-1));
+  box-shadow: 0 0 0 2px rgba(34,197,94,.45) inset, var(--elev-1);
   cursor: default;
 }
-/* Column header label (no layout override) */
+
+/* Wrong flash feedback */
+@keyframes mpBad {
+  0%{box-shadow:0 0 0 0 rgba(239,68,68,0)}
+  40%{box-shadow:0 0 0 3px rgba(239,68,68,.65) inset}
+  100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}
+}
+.match-pairs .option-card.is-wrong{ animation: mpBad .45s ease-out; }
+
+/* Disable but keep text legible */
+.match-pairs .option-card:disabled{ opacity:.5; filter:none; cursor: default; }
+
+/* Column header label */
 .col-label{
   font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
   text-align: center;
-  color: #333;
+  color: var(--ink-soft);
 }
+
 @media (max-width: 600px){
   .match-pairs{ grid-template-columns: 1fr; gap: 18px; }
   .match-pairs::after{ display:none; }
@@ -744,20 +849,30 @@ main { padding-bottom: calc(3.5rem + var(--safe-bottom)); }
   .match-col.right .option-card{ align-self: stretch; }
 }
 
-
-/* show paired state clearly */
-.match-col .option-card.chosen { background:#eef2ff; border-color:#c7d2fe; box-shadow:0 0 0 2px #c7d2fe inset; }
-/* ensure any old tick rule is neutralized */
+/* neutralize any old tick marker */
 .match-col.right .option-card.chosen::after { content:none !important; }
-/* ensure option-card looks clickable */
-.match-col .option-card { cursor: pointer; position: relative; }
+
+/* Match status & Reset link */
+.match-status {
+  margin: 6px 0 10px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+.match-status .hint { color: var(--grey-400); margin-left: .25rem; }
+.match-actions { text-align: center; margin-bottom: 8px; }
+.match-actions .link-reset {
+  background: none; border: 0;
+  color: var(--brand-secondary);
+  text-decoration: underline; cursor: pointer;
+}
+.match-actions .link-reset:hover { color: var(--brand-primary); }
+
+:root[data-theme="dark"] .match-status { color: var(--ink-soft); }
+:root[data-theme="dark"] .match-status .hint { color: var(--grey-400); }
+:root[data-theme="dark"] .match-actions .link-reset { color: var(--brand-secondary); }
+:root[data-theme="dark"] .match-actions .link-reset:hover { color: var(--brand-primary); }
 
 
-.match-status { margin: 6px 0 10px; text-align:center; color:#374151; }
-.match-status .hint { color:#6b7280; margin-left:.25rem; }
-.match-actions { text-align:center; margin-bottom: 8px; }
-.match-actions .link-reset { background:none; border:0; color:#6b7280; text-decoration:underline; cursor:pointer; }
-.match-actions .link-reset:hover { color:#111827; }
 
 /* ---- sort_items ---- */
 .sort-items .builder-hint {
@@ -794,30 +909,6 @@ main { padding-bottom: calc(3.5rem + var(--safe-bottom)); }
   .true-false .option-grid { grid-template-columns: 1fr; }
 }
 
-
-/* Grown-ups card */
-.grownups-card {
-  margin: 2rem auto 3rem;
-  max-width: 840px;
-  padding: 1rem 1.25rem;
-  border: 1px solid rgba(0,0,0,.08);
-  border-radius: var(--radius-lg);
-  background: #fff;
-  box-shadow: var(--elev-1);
-}
-
-.grownups-card h2 {
-  margin: 0 0 .25rem;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-dark);
-}
-
-.grownups-blurb {
-  margin: 0 0 .75rem;
-  color: #555;
-  font-size: .95rem;
-}
 
 /* A subtle outline button that works on white cards */
 .btn.outline {
@@ -866,12 +957,10 @@ main { max-width: 1120px; }
 .section {
   margin: 28px auto 40px;
   padding: clamp(16px, 3vw, 24px);
-  background: #fff;
-  border: 1px solid #eef2ff;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  box-shadow:
-    0 1px 1px rgba(0,0,0,.04),
-    0 10px 30px -12px rgba(80,56,205,.18);
+  box-shadow: var(--shadow-elev);
 }
 
 /* Headings */
@@ -915,7 +1004,7 @@ main { max-width: 1120px; }
   aspect-ratio: 16 / 9;             /* keeps proportion on any screen */
   height: auto;
   background: #fff;
-  box-shadow: 0 14px 38px -18px rgba(2,6,23,.28);
+  box-shadow: var(--shadow-elev);
   isolation: isolate;
 }
 
@@ -986,39 +1075,10 @@ main { max-width: 1120px; }
   margin-top:10px; color:#0f172a; font-weight:700;
 }
 
-/* Daily cards — crisper, “paid” feel */
-.activity-card{
-  border:1px solid #e9edf9;
-  box-shadow: 0 1px 1px rgba(0,0,0,.02), 0 12px 24px -20px rgba(3,7,18,.4);
-}
-
-/* === Duolingo-style gating states (place after all .activity-card rules) === */
-
-.activity-card.locked:hover,
-.activity-card.locked:focus {
-  transform: none;
-  box-shadow: none;
-}
-
-/* highlight the step you should do next */
-.activity-card.current {
-  box-shadow: 0 0 0 3px rgba(0,200,120,.4);
-}
-
-/* subtle difference for completed */
-.activity-card.completed { opacity: .9; }
-
-/* optional: gentle pulse on the current step’s icon */
-.activity-card.current .activity-icon { animation: sf-pulse 1.2s infinite; }
-@keyframes sf-pulse { 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
-
-/* belt-and-suspenders: if a locked card accidentally has data-link, ignore clicks */
-.activity-card.locked[data-link] { pointer-events: none; }
-
 
 /* Buttons polish */
 .btn.btn-primary{
-  box-shadow: 0 .5px 0 rgba(255,255,255,.6) inset, 0 10px 20px -10px rgba(59,130,246,.6);
+  box-shadow: var(--shadow-elev);
 }
 .btn.btn-secondary{ border:1px solid #e5e7eb; background:#fff; }
 
@@ -1154,10 +1214,15 @@ html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
 /* Glass nav with subtle blur (desktop too) */
 .hero{
   position: sticky; top: 0; z-index: 50;
-  background: linear-gradient(135deg, rgba(139,92,246,.92), rgba(59,130,246,.92));
+  background: var(--brand-grad);
+  color: var(--text-light);
+  padding: 1rem;
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: var(--shadow-elev);
   backdrop-filter: saturate(160%) blur(10px);
   -webkit-backdrop-filter: saturate(160%) blur(10px);
 }
+
 
 /* Type scale: hero > section headings */
 .home-hero h1{
@@ -1206,195 +1271,241 @@ html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
 .track-label .track-emoji { font-size: 1.15em; }
 .track-label small { opacity: .7; font-weight: 600; }
 
+/* === START: Canonical Learning Path block === */
+/* =========================================
+   SkillFlex — Learning Path (canonical)
+   One source of truth for .activity-card + states
+   ========================================= */
 
-/* Card accents */
-.core-card { border: 2px solid rgba(14,124,102,.25); box-shadow: 0 6px 18px rgba(14,124,102,.08); }
-.bonus-card { border: 2px dashed rgba(110,63,243,.35); box-shadow: 0 6px 18px rgba(110,63,243,.10); background: linear-gradient(180deg, rgba(110,63,243,.05), rgba(110,63,243,.02)); }
-
-
-/* Progress badge in header */
-.path-progress { font-weight:800; color:#0E7C66; margin-left:6px; }
-
-
-
-
-.activity-card.bonus-card {
-  background: #fff9ec;
-  border: 2px solid #f6d38e;
-}
-
-.activity-list-header.sub h3 {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-}
-.activity-list-header.sub .subcopy {
-  font-weight: 500;
-  opacity: .7;
-}
-
-/* Section lock banner for bonus row */
-.bonus-lock-banner {
-  margin-top: .5rem;
-  font-weight: 600;
-  background: #fff1d6;
-  border: 1px dashed #f2b95c;
-  color: #a56a00;
-  padding: .35rem .6rem;
-  border-radius: .6rem;
-  display: inline-block;
-}
-
-/* Slightly different icons/opacity when locked */
-.activity-card.locked {
-  opacity: .65;
-  filter: grayscale(.3);
-  cursor: not-allowed;
-}
-.activity-card.locked .activity-icon { filter: grayscale(1); }
-
-/* keep lock overlays inside each card */
+/* Base card (neutral) */
 .activity-card {
   position: relative;
-  overflow: hidden;   /* preserves rounded corners */
-}
-
-
-/* Overlay message on locked cards (esp. bonus when section-locked) */
-.activity-card .lock-overlay {
-  position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface-1);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-elev);
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease;
+  overflow: hidden; /* for strip/overlay */
+}
+
+.activity-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-elev);
+}
+
+/* Inner bits (safe if duplicated earlier) */
+.activity-icon { font-size: 2.5rem; }
+.activity-title { font-size: 1.2rem; font-weight: 600; }
+.activity-card .activity-step { font-weight: 700; }
+
+/* Lock overlay (shared) */
+.activity-card .lock-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
   text-align: center;
   padding: .5rem 1rem;
-  background: rgba(255, 255, 255, .75);
-  color: #5a5a5a;
-  font-weight: 700;
   border-radius: inherit;
   pointer-events: none;
+  font-weight: 600;
 }
 
-/* --- Completed card: glow + smile-friendly palette (no strike-through) --- */
-.activity-card.completed {
-  background: #f0fdf4;                  /* soft mint */
-  border: 2px solid #86efac;            /* green rim */
-  box-shadow:
-    0 0 0 3px rgba(34,197,94,.18),
-    0 10px 24px -14px rgba(16,185,129,.35);
-  opacity: 1;                            /* don’t dim finished items */
-  animation: doneGlow 1.2s ease-out 1;
-}
+/* States (shared semantics) */
+.activity-card.locked { cursor: not-allowed; filter: grayscale(.2); opacity: .85; }
+.activity-card.locked[data-link] { pointer-events: none; }
+.activity-card.completed { opacity: 1; }
 
-/* Keep titles readable and positive */
-.activity-card.completed .activity-title {
-  text-decoration: none !important;      /* kill any old line-through */
-  color: #065f46;                        /* deep green text */
-}
-
-/* Let the icon (which you'll set via JS) pop a little */
-.activity-card.completed .activity-icon {
-  filter: drop-shadow(0 4px 10px rgba(16,185,129,.25));
-  transform: translateY(1px);
-}
-
-/* One-time halo animation */
-@keyframes doneGlow {
-  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.35); }
-  70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
-  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .activity-card.completed { animation: none; }
-}
-
-/* If you had a core-only strike-through, neutralize it */
+/* Never strike through titles when completed */
 .core-card.completed .activity-title { text-decoration: none !important; }
 
+/* Identity hooks */
+.activity-card.core-card {}
+.activity-card.bonus-card {}
 
-/* === State-specific overrides so Current vs Completed are unmistakable === */
-
-/* (Optional) neutral baseline for core so states can take over */
-.activity-card.core-card {
+/* -----------------------------
+   LIGHT THEME
+   ----------------------------- */
+:root[data-theme="light"] .activity-card {
+  /* Neutral, subtle indigo edge */
   background: #fff;
-  border: 1px solid #e9edf9;
+  border-color: rgba(148,163,253,.32);
 }
 
-/* CURRENT — next up: cool blue tint + subtle pulse */
-.activity-card.core-card.current {
-  background: #eef2ff;
-  border: 2px solid #93c5fd;
+/* Gradient strip (premium) */
+:root[data-theme="light"] .activity-card::before {
+  content: "";
+  position: absolute;
+  left: 14px; right: 14px; top: 10px;
+  height: 3px; border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+  opacity: 0; transform: translateY(3px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+:root[data-theme="light"] .activity-card.current::before,
+:root[data-theme="light"] .activity-card:hover::before {
+  opacity: 1; transform: translateY(0);
+}
+
+/* Core path — gentle mint */
+:root[data-theme="light"] .activity-card.core-card {
+  background: var(--unit-bg);
+  border: 2px solid var(--unit-edge-soft);
+  box-shadow:
+    0 0 0 1px rgba(148,163,253,.10) inset,
+    0 10px 24px rgba(15,23,42,.05);
+}
+
+/* Core → current */
+:root[data-theme="light"] .activity-card.core-card.current {
+  background: #ecfdf5;
+  border-color: var(--unit-edge);
   box-shadow:
     0 0 0 3px rgba(59,130,246,.18),
-    0 12px 26px -16px rgba(59,130,246,.35);
+    0 12px 26px -14px var(--unit-glow);
 }
-.activity-card.core-card.current .activity-title { color: #1e3a8a; }
-.activity-card.core-card.current .activity-icon {
-  filter: drop-shadow(0 4px 10px rgba(59,130,246,.25));
-  animation: cardNudge 1.2s ease-in-out infinite;
-}
+:root[data-theme="light"] .activity-card.core-card.current .activity-title { color: #1e3a8a; }
 
-/* COMPLETED — happy mint glow (no strike-through) */
-.activity-card.core-card.completed {
+/* Core → completed */
+:root[data-theme="light"] .activity-card.core-card.completed {
   background: #ecfdf5;
-  border: 2px solid #86efac;
+  border-color: var(--unit-edge);
   box-shadow:
     0 0 0 3px rgba(34,197,94,.18),
     0 12px 26px -16px rgba(16,185,129,.32);
 }
-.activity-card.core-card.completed .activity-title {
-  color: #065f46;
-  text-decoration: none !important;   /* kill any old line-through */
-}
-.activity-card.core-card.completed .activity-icon {
+:root[data-theme="light"] .activity-card.core-card.completed .activity-title { color: #065f46; }
+:root[data-theme="light"] .activity-card.core-card.completed .activity-icon {
   filter: drop-shadow(0 4px 10px rgba(16,185,129,.25));
 }
 
-/* Tiny “Next”/“Done” pills on the left label (no HTML changes) */
-.activity-card .activity-step {
-  position: relative;
-  font-weight: 700;
-}
-.activity-card.core-card.current .activity-step::after {
-  content: "Next";
-  margin-left: .5rem;
-  font-size: .75rem;
-  font-weight: 800;
-  color: #1e3a8a;
-  background: #dbeafe;
-  border: 1px solid #bfdbfe;
-  padding: .1rem .4rem;
-  border-radius: 999px;
-}
-.activity-card.core-card.completed .activity-step::after {
-  content: "Done";
-  margin-left: .5rem;
-  font-size: .75rem;
-  font-weight: 800;
-  color: #065f46;
-  background: #dcfce7;
-  border: 1px solid #86efac;
-  padding: .1rem .4rem;
-  border-radius: 999px;
+
+/* Bonus card — warm “extra” */
+:root[data-theme="light"] .activity-card.bonus-card {
+  background: #fff9ec;
+  border: 2px dashed #f2b95c;
+  box-shadow: 0 10px 24px rgba(251,191,36,.12);
 }
 
-/* Keep locked distinct (your existing look is fine) */
-.activity-card.locked { opacity: .6; filter: grayscale(.3); }
-
-/* Motion */
-@keyframes cardNudge {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
-  100% { transform: translateY(0); }
+/* Locked — muted but readable */
+:root[data-theme="light"] .activity-card.locked {
+  background: #fbfcff;
+  border-color: #e5e7eb;
+}
+:root[data-theme="light"] .activity-card .lock-overlay {
+  background: rgba(255,255,255,.75);
+  color: #5a5a5a;
 }
 
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .activity-card.core-card.current .activity-icon { animation: none; }
+/* -----------------------------
+   DARK THEME
+   ----------------------------- */
+:root[data-theme="dark"] .activity-card {
+  background: var(--surface-2);
+  border-color: var(--border);
+  box-shadow: var(--shadow-1);
 }
+
+/* Core current — mint outline + glow */
+:root[data-theme="dark"] .activity-card.core-card.current {
+  background: var(--surface-3);
+  border-color: var(--unit-edge);
+  box-shadow:
+    0 0 0 2px var(--unit-edge) inset,
+    var(--shadow-2);
+}
+
+/* Core completed — subtle mint accent */
+:root[data-theme="dark"] .activity-card.core-card.completed {
+  background: var(--surface-3);
+  border-color: #16a34a;
+  box-shadow:
+    0 0 0 2px rgba(22,163,74,.35) inset,
+    var(--shadow-2);
+}
+
+/* Bonus — dashed but calm on dark */
+:root[data-theme="dark"] .activity-card.bonus-card {
+  background: var(--surface-2);
+  border: 2px dashed color-mix(in oklab, #f2b95c 70%, var(--border));
+}
+
+/* Locked — dimmed, legible */
+:root[data-theme="dark"] .activity-card.locked {
+  background: var(--surface-1);
+  border-color: var(--border);
+  opacity: .55;
+  filter: grayscale(.35);
+}
+:root[data-theme="dark"] .activity-card .lock-overlay {
+  background: rgba(0,0,0,.6);
+  color: var(--ink-soft);
+}
+/* === END: Canonical Learning Path block === */
+
+/* =========================================
+   Activity card — bold state accents
+   ========================================= */
+.activity-card { position: relative; }
+
+/* LIGHT */
+:root[data-theme="light"] .activity-card.core-card.current{
+  background: color-mix(in oklab, var(--unit-bg) 78%, white);
+  border-color: var(--unit-edge);
+  border-left: 6px solid var(--brand-secondary);
+  padding-left: calc(1.5rem - 4px);
+  box-shadow: 0 0 0 3px rgba(59,130,246,.18), 0 14px 32px rgba(2,6,23,.08);
+}
+:root[data-theme="light"] .activity-card.core-card.completed{
+  background: color-mix(in oklab, var(--unit-bg) 65%, white);
+  border-color: var(--unit-edge);
+  border-left: 6px solid var(--success);
+  padding-left: calc(1.5rem - 4px);
+  box-shadow: 0 0 0 2px rgba(34,197,94,.18) inset, 0 12px 28px rgba(16,185,129,.16);
+}
+:root[data-theme="light"] .activity-card.locked{
+  background: #fbfcff;
+  border-left: 6px solid var(--border);
+  padding-left: calc(1.5rem - 4px);
+}
+
+/* Corner chips (no markup) */
+.activity-card.core-card.current::after,
+.activity-card.core-card.completed::after{
+  position:absolute; top:12px; right:12px;
+  padding:.28rem .55rem; border-radius:999px;
+  font-size:.72rem; font-weight:900; letter-spacing:.3px; line-height:1;
+  content:""; box-shadow:var(--shadow-1);
+}
+.activity-card.core-card.current::after   { content:"NOW";  color:#fff; background:var(--brand-grad); }
+.activity-card.core-card.completed::after { content:"DONE"; color:#065f46; background:#dcfce7; border:1px solid #86efac; }
+
+/* DARK */
+:root[data-theme="dark"] .activity-card.core-card.current{
+  background: var(--surface-3);
+  border-color: var(--unit-edge);
+  border-left: 6px solid var(--brand-secondary);
+  padding-left: calc(1.5rem - 4px);
+  box-shadow: 0 0 0 2px var(--unit-edge) inset, var(--shadow-2);
+}
+:root[data-theme="dark"] .activity-card.core-card.completed{
+  background: var(--surface-3);
+  border-color: #16a34a;
+  border-left: 6px solid #16a34a;
+  padding-left: calc(1.5rem - 4px);
+  box-shadow: 0 0 0 2px rgba(22,163,74,.35) inset, var(--shadow-2);
+}
+:root[data-theme="dark"] .activity-card.locked{
+  border-left: 6px solid var(--border);
+  padding-left: calc(1.5rem - 4px);
+}
+:root[data-theme="dark"] .activity-card.core-card.current::after   { content:"NOW";  color:#fff; background:var(--brand-grad); border:1px solid rgba(148,163,253,.28); }
+:root[data-theme="dark"] .activity-card.core-card.completed::after { content:"DONE"; color:#022c22; background:#14b8a6; border:1px solid #0d9488; }
+
 
 /* =========================================================
    SkillFlex — Kids Mode Theme (scoped to <body class="kids">)
@@ -1411,6 +1522,8 @@ html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
   --sf-shadow:0 8px 20px rgba(0,0,0,.06);
   --sf-radius-xl:20px;
   --sf-radius-2xl:28px;
+  --brand-1: 238 95% 70%;  /* #7b7cff */
+  --brand-2: 199 90% 70%;  /* #5bc8ff */
 }
 
 /* Soft background */
@@ -1421,12 +1534,7 @@ html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
     #f7f5ff;
 }
 
-/* Header polish */
-.kids .hero{
-  background: linear-gradient(90deg, #7b7cff, #5bc8ff);
-  color:#fff;
-  box-shadow:0 6px 18px rgba(64,88,180,.25);
-}
+
 .kids .nav .btn{
   font-family:"Fredoka", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   border-radius:999px;
@@ -1449,7 +1557,9 @@ html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
   padding:10px 16px;
   font-size:16px;
   background:#fff;
-  box-shadow:var(--sf-shadow);
+  background-color: #ffffff;
+  color: #111827;
+  box-shadow: var(--sf-shadow);
 }
 
 /* Grid spacing & responsiveness */
@@ -1581,28 +1691,187 @@ html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
 .kids .progress-bar{ height:6px; border-radius:999px; background:#eee; }
 .kids .progress-fill{ background:linear-gradient(90deg,#7b7cff,#5bc8ff); border-radius:inherit; }
 
-/* === SkillFlex Units: Level Modal === */
-.sf-modal-ovl{position:fixed;inset:0;background:rgba(2,6,23,.55);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;z-index:9999}
-.sf-modal{width:min(880px,92vw);max-height:88vh;overflow:auto;background:#0f172a;color:#e2e8f0;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
-.sf-head{padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
-.sf-head h3{margin:0;font-size:20px}
-.sf-body{padding:22px}
-.sf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.sf-card{position:relative;border-radius:16px;border:1px solid rgba(255,255,255,.08);padding:16px 14px;background:rgba(255,255,255,.02);cursor:pointer;transition:.15s transform ease,.15s box-shadow ease}
-.sf-card:hover{transform:translateY(-2px)}
-.sf-card .title{font-weight:800;font-size:18px;margin:8px 0}
-.sf-card .sub{opacity:.8;font-size:13px;margin-top:4px}
-.sf-badge{position:absolute;top:10px;right:10px;font-size:12px;border-radius:999px;padding:.2rem .5rem;border:1px solid rgba(255,255,255,.15)}
-.sf-badge.lock{background:#1f2937;color:#9ca3af;border-color:#374151}
-.sf-badge.ok{background:#14b8a6;color:#042f2e;border-color:#0d9488}
-.sf-foot{padding:14px 22px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:flex-end;gap:10px}
-.sf-btn{appearance:none;border:0;border-radius:12px;padding:.6rem .9rem;font-weight:700}
-.sf-btn.gray{background:#1f2937;color:#e5e7eb}
-.sf-btn.blue{background:#3b82f6;color:white}
-.sf-quiz-q{margin:0 0 10px 0;font-weight:800}
-.sf-quiz-opt{display:block;margin:8px 0;padding:.6rem .8rem;border-radius:12px;border:1px solid rgba(255,255,255,.08);cursor:pointer;background:rgba(255,255,255,.03)}
-.sf-quiz-opt:hover{background:rgba(255,255,255,.06)}
-.sf-chip{display:inline-flex;align-items:center;gap:6px;padding:.25rem .5rem;border-radius:999px;background:#0ea5e9;color:#022c22;font-size:12px}
+/* === SkillFlex Units: Level Modal (theme aware) === */
+
+/* Structure (same for both themes) */
+.sf-modal-ovl {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+  z-index: 9999;
+}
+
+.sf-modal {
+  width: min(880px, 92vw);
+  max-height: 88vh;
+  overflow: auto;
+  border-radius: 20px;
+  box-shadow: 0 24px 72px rgba(15, 23, 42, 0.32);
+}
+
+.sf-head {
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid transparent;
+}
+
+.sf-head h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.sf-body {
+  padding: 22px;
+}
+
+.sf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.sf-card {
+  position: relative;
+  padding: 16px 14px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: 0.15s transform ease, 0.15s box-shadow ease, 0.15s background-color ease;
+  border: 1px solid transparent;
+}
+
+.sf-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.14);
+}
+
+.sf-card .title {
+  font-weight: 800;
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+.sf-card .sub {
+  opacity: 0.8;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.sf-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  border-radius: 999px;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid transparent;
+}
+
+.sf-foot {
+  padding: 14px 22px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid transparent;
+}
+
+.sf-btn {
+  appearance: none;
+  border: 0;
+  border-radius: 12px;
+  padding: 0.6rem 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* LIGHT THEME */
+:root[data-theme="light"] .sf-modal-ovl {
+  background: rgba(15, 23, 42, 0.10);
+}
+
+:root[data-theme="light"] .sf-modal {
+  background: #ffffff;
+  color: var(--ink);
+}
+
+:root[data-theme="light"] .sf-head,
+:root[data-theme="light"] .sf-foot {
+  border-color: rgba(15, 23, 42, 0.06);
+}
+
+:root[data-theme="light"] .sf-card {
+  background: var(--surface-2);
+  border-color: rgba(15, 23, 42, 0.06);
+}
+
+:root[data-theme="light"] .sf-badge.lock {
+  background: #f9fafb;
+  color: #6b7280;
+  border-color: #e5e7eb;
+}
+
+:root[data-theme="light"] .sf-badge.ok {
+  background: #bbf7d0;
+  color: #064e3b;
+  border-color: #22c55e;
+}
+
+:root[data-theme="light"] .sf-btn.gray {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+:root[data-theme="light"] .sf-btn.blue {
+  background: #6366f1;
+  color: #ffffff;
+}
+
+/* DARK THEME */
+:root[data-theme="dark"] .sf-modal-ovl {
+  background: rgba(2, 6, 23, 0.75);
+}
+
+:root[data-theme="dark"] .sf-modal {
+  background: #020817;
+  color: var(--text-light);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.9);
+}
+
+:root[data-theme="dark"] .sf-head,
+:root[data-theme="dark"] .sf-foot {
+  border-color: rgba(148, 163, 253, 0.16);
+}
+
+:root[data-theme="dark"] .sf-card {
+  background: #020817;
+  border-color: rgba(148, 163, 253, 0.22);
+}
+
+:root[data-theme="dark"] .sf-badge.lock {
+  background: #111827;
+  color: #9ca3af;
+  border-color: #374151;
+}
+
+:root[data-theme="dark"] .sf-badge.ok {
+  background: #14b8a6;
+  color: #022c22;
+  border-color: #0d9488;
+}
+
+:root[data-theme="dark"] .sf-btn.gray {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+:root[data-theme="dark"] .sf-btn.blue {
+  background: #3b82f6;
+  color: #ffffff;
+}
 
 
 /* --- Home scaffold & Continue card --- */
@@ -1625,9 +1894,9 @@ html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
 .continue-card{
   border-radius: var(--radius-xl);
   padding: 16px 18px;
-  background: var(--brand-grad);          /* ← match header/buttons */
+  background: var(--brand-grad);
   color: #fff;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-elev);
   position: relative;
   overflow: hidden;
 }
@@ -1666,84 +1935,1064 @@ html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
   background: var(--brand-grad);
   color:#fff;
   border:0;
-  box-shadow: var(--elev-2);
+  box-shadow: var(--shadow-elev);
 }
 
-/* --- Unit tiles: restore crisp frame + radius --- */
+/* =========================================
+   Dark theme polish (no markup changes)
+   ========================================= */
 
-/* 1) Fix typos (if you keep the original blocks, this ensures radius always applies) */
-.selection-card,
-.activity-card,
-.grownups-card,
-.skel { border-radius: var(--radius-lg); }
 
-/* 2) Stronger default card frame */
-.activity-card{
-  border: 2px solid #E6EAF5;           /* crisper than #e9edf9 */
-  background:#fff;
+/* Keep disabled/locked states softer, not invisible */
+:root[data-theme="dark"] .selection-card.disabled,
+:root[data-theme="dark"] .activity-card.locked {
+  opacity: .7;
+}
+
+/* Lesson background should also follow theme */
+:root[data-theme="dark"] body.in-lesson {
+  background-color: var(--bg);
+}
+
+/* Hero + continue card: keep gradient but use the shared shadow */
+:root[data-theme="dark"] .hero,
+:root[data-theme="dark"] .continue-card,
+:root[data-theme="dark"] .section.continue-card {
+  box-shadow: var(--shadow-elev);
+}
+
+/* Kids pastel background: only for light theme */
+:root[data-theme="light"] .kids,
+:root[data-theme="light"] .kids .app-bg {
+  background:
+    radial-gradient(1200px 600px at 0% -10%, var(--sf-bg-2), transparent 60%),
+    radial-gradient(1000px 600px at 100% -10%, var(--sf-bg-1), transparent 60%),
+    #f7f5ff;
+}
+
+/* In dark theme, let kids mode respect the dark tokens */
+:root[data-theme="dark"] .kids,
+:root[data-theme="dark"] .kids .app-bg {
+  background: var(--bg);
+}
+
+
+/* =========================================
+   Final dark theme contrast fixes
+   ========================================= */
+
+/* Main hero + intro copy */
+:root[data-theme="dark"] .home-hero h1,
+:root[data-theme="dark"] .home-hero p {
+  color: var(--ink); /* light text in dark theme */
+}
+
+/* Hub / selection headings */
+:root[data-theme="dark"] .selection-step-header h1,
+:root[data-theme="dark"] .activity-list-header h2,
+:root[data-theme="dark"] .section > h1,
+:root[data-theme="dark"] .section > h2,
+:root[data-theme="dark"] .section > h3 {
+  color: var(--ink);
+}
+
+/* Learning Path title (if it's using a generic heading in that area) */
+:root[data-theme="dark"] .learning-path-title,
+:root[data-theme="dark"] h1.learning-path-title {
+  color: var(--ink);
+}
+
+/* =========================================
+   Final dark theme heading contrast
+   ========================================= */
+
+:root[data-theme="dark"] .home-hero h1,
+:root[data-theme="dark"] .home-hero h2,
+:root[data-theme="dark"] .home-hero .section-title,
+:root[data-theme="dark"] .selection-step-header h1,
+:root[data-theme="dark"] .activity-list-header h2 {
+  color: var(--ink) !important;       /* light text for dark bg */
+}
+
+:root[data-theme="dark"] .home-hero p,
+:root[data-theme="dark"] .home-hero li {
+  color: var(--ink-soft) !important;  /* softer but readable */
+}
+  
+
+/* --- Dark: fix washed-out secondary buttons in modals etc. --- */
+:root[data-theme="dark"] .btn.btn-secondary,
+:root[data-theme="dark"] .btn-secondary {
+  background: #020817;
+  color: var(--text-light);
+  border: 1px solid rgba(148, 163, 253, 0.4);
+  box-shadow: var(--shadow-1);
+}
+
+/* =============================
+   Light mode: make cards pop
+   ============================= */
+
+/* Unit / wrapper sections: clear frame so they don't float away */
+:root[data-theme="light"] .section {
+  border: 1px solid rgba(148, 163, 253, 0.18);          /* soft indigo outline */
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.04);       /* gentle lift */
+  border-radius: 24px;
+}
+
+
+/* =========================================================
+   Activity Options — ONE SOURCE (applies to all activities)
+   Scope: inside the lesson (.step-host)
+   ======================================================= */
+
+/* Base option style (overrides old theme rules just in lesson) */
+.step-host :where(.option-card){
+  border: 2px solid color-mix(in oklab, var(--border) 80%, transparent);
+  background: var(--surface-1);
+  color: var(--ink);
   box-shadow: var(--elev-1);
+  transition: transform .12s ease, box-shadow .12s ease,
+              border-color .12s ease, background-color .12s ease;
 }
 
-/* 3) Hover should feel premium, not float away */
-.activity-card:hover{
-  transform: translateY(-2px);
-  box-shadow: var(--elev-2);
-  border-color: #D6DBEE;               /* subtle lift */
+.step-host :where(.option-card:hover){
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-elev);
 }
 
-/* 4) Keep the CURRENT step obvious, regardless of other classes present */
-.activity-card.current{
-  background: #F1FBF6;                 /* gentle mint fill */
-  border-color: #86EFAE;
-  box-shadow: 0 8px 20px rgba(16,185,129,.15);
+.step-host :where(.option-card:focus-visible){
+  outline: 3px solid color-mix(in oklab, var(--brand-primary) 55%, transparent);
+  outline-offset: 2px;
 }
 
-/* 5) Locked shouldn’t look dead; keep the edge visible */
-.activity-card.locked{
-  background:#FBFCFF;
-  border-color:#E5E7EB;
-  opacity:.85;                          /* was .6 */
-  filter: grayscale(.15);               /* was .3 */
+/* Selected (waiting/checking) — support .sel and aria-pressed */
+:root[data-theme="light"] .step-host :is(.option-card.sel, .option-card[aria-pressed="true"]){
+  background:#eef2ff;
+  border-color:#c7d2fe;
+  box-shadow: 0 0 0 2px #c7d2fe inset, var(--elev-1);
 }
 
-/* 6) Completed stays positive (no heavy dim) */
-.activity-card.completed{
+:root[data-theme="dark"] .step-host :is(.option-card.sel, .option-card[aria-pressed="true"]){
+  background: rgba(129,140,248,.16);
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 2px rgba(129,140,248,.9) inset, var(--shadow-1);
+}
+
+/* Correct (locked) — shared across activities */
+.step-host :is(.option-card[data-state="matched"], .option-card.is-correct){
+  border-color:#22c55e;
+  background: color-mix(in oklab, #22c55e 9%, var(--surface-1));
+  box-shadow: 0 0 0 2px rgba(34,197,94,.45) inset, var(--elev-1);
+  cursor: default;
+}
+
+/* Wrong flash feedback */
+@keyframes actBad {
+  0%{box-shadow:0 0 0 0 rgba(239,68,68,0)}
+  40%{box-shadow:0 0 0 3px rgba(239,68,68,.65) inset}
+  100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}
+}
+.step-host .option-card.is-wrong{ animation: actBad .45s ease-out; }
+
+/* Disabled (don’t nuke contrast) */
+.step-host .option-card:disabled{
+  opacity:.5;
+  filter:none;
+  cursor: default;
+}
+
+/* -------- Layouts (keep, but tiny cleanups) -------- */
+
+/* Matching layout stays, just remove its old color states */
+.match-pairs{
+  max-width: 880px;
+  margin: 24px auto 0;
+  padding: 8px 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  position: relative;
+  min-height: 320px;
+}
+.match-pairs::after{
+  content:"";
+  position:absolute; left:50%; top:0; bottom:0; width:1px;
+  background: repeating-linear-gradient(to bottom,
+    rgba(0,0,0,.06), rgba(0,0,0,.06) 6px, transparent 6px, transparent 12px);
+  transform: translateX(-0.5px);
+  pointer-events:none;
+}
+.match-col{ display:flex; flex-direction:column; align-items:stretch; }
+.match-col.left  .option-card{ align-self:flex-end; }
+.match-col.right .option-card{ align-self:flex-start; }
+.match-col .option-card{
+  display:block; width:100%; text-align:left;
+  font-size:1.05rem; padding:14px 16px; min-height:54px;
+  border-radius:12px; margin:6px 0;
+  cursor:pointer; position:relative;
+}
+/* Neutralize any legacy tick marker */
+.match-col.right .option-card.sel::after { content:none !important; }
+
+@media (max-width: 600px){
+  .match-pairs{ grid-template-columns: 1fr; gap: 18px; }
+  .match-pairs::after{ display:none; }
+  .match-col.left .option-card,
+  .match-col.right .option-card{ align-self:stretch; }
+}
+
+/* True/False grid (uses the same card states above) */
+.true-false .option-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:14px;
+  max-width:720px; margin:16px auto 0; justify-content:center;
+}
+@media (max-width:480px){ .true-false .option-grid{ grid-template-columns:1fr; } }
+
+/* Sort items & word bank keep pill look but inherit states */
+.option-card.word-card{ border-radius:999px; min-height:44px; min-width:88px; padding:10px 16px; }
+
+/* Keep builder hints */
+.builder-hint{ font-size:.9rem; opacity:.7; margin:.25rem 0 .5rem; text-align:center; }
+
+/* Subject picker: space between the two hero-tile rows */
+.selection-step .selection-grid + .selection-grid { margin-top: 24px; }
+
+
+/* ---------- Shop hovercard ---------- */
+.shop-anchor { position: relative; }
+
+#shopHover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 90;
+  opacity: 0;
+  transform: translateY(-4px) scale(.98);
+  transition: opacity .16s ease, transform .16s ease;
+  pointer-events: none;
+}
+
+#shopHover.open {
   opacity: 1;
-  background:#F0FDF4;
-  border-color:#86EFAC;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
 }
 
-/* Optional: stronger frame just inside Units sections, if you use a wrapper class */
-.section .activity-card{ border-color:#E2E8F0; }
-
-/* === Unit tiles: restore mint edge + glow (must stay last) === */
-.activity-card.core-card{
-  background: var(--unit-bg);
-  border: 2px solid var(--unit-edge-soft);
-  border-radius: var(--radius-lg);
-  box-shadow:
-    0 0 0 2px rgba(134,239,172,.28) inset,
-    0 10px 24px -16px var(--unit-glow);
+#shopHover .shop-card {
+  min-width: 320px;
+  max-width: 420px;
+  border-radius: 20px;
+  padding: 16px 18px;
+  background: var(--surface-1);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-elev);
 }
 
-.activity-card.core-card.current{
-  background: #ecfdf5;
-  border-color: var(--unit-edge);
-  box-shadow:
-    0 0 0 2px rgba(134,239,172,.38) inset,
-    0 12px 26px -14px var(--unit-glow);
+#shopHover::before {
+  content:"";
+  position:absolute;
+  top:-8px; right:16px;
+  width:16px; height:16px;
+  transform: rotate(45deg);
+  background: var(--surface-1);
+  border-left:1px solid var(--border);
+  border-top:1px solid var(--border);
 }
 
-.activity-card.core-card.completed{
-  background: #ecfdf5;
-  border: 2px solid var(--unit-edge);
-  box-shadow:
-    0 0 0 3px rgba(34,197,94,.18),
-    0 12px 26px -16px rgba(16,185,129,.32);
+#shopHover .shop-head {
+  display:flex; align-items:center; gap:8px;
+  font-family: var(--display-font);
+  font-weight: 900; font-size: 22px;
+  margin-bottom: 12px;
 }
 
-/* guard: never let a generic frame wash these out */
-.activity-card.core-card { border-image: initial; }
+#shopHover .coins { 
+  font-weight:800;
+  color: var(--ink);
+  background: var(--muted);
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:.3rem .6rem;
+ }
+
+#shopHover .shop-list { display:grid; gap:10px; }
+
+#shopHover .shop-item {
+  width:100%;
+  display:flex; align-items:center; gap:12px;
+  padding:12px 14px;
+  border-radius:18px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+#shopHover .shop-item:enabled:hover { transform: translateY(-1px); box-shadow: var(--shadow-elev); }
+#shopHover .shop-item[disabled] { opacity:1; cursor:not-allowed; filter:none; background: color-mix(in oklab, var(--muted) 70%, var(--surface-1)); border-color: var(--border); color: var(--ink-soft); }
+#shopHover .price { margin-left:auto; opacity:1; padding:.35rem .65rem; border-radius:999px; border:1px solid var(--border); background: var(--muted); color: var(--ink); font-weight:800; }
+
+/* Dark tweaks */
+:root[data-theme="dark"] #shopHover .shop-card { background: var(--surface-2); color: var(--text-light); }
+:root[data-theme="dark"] #shopHover::before { background: var(--surface-3); color: var(--text-light);  border-color: var(--border); }
 
 
 
+/* Profile */
+.pf-wrap{
+  max-width: 1180px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+.pf-hero{
+  position: relative;
+  display:flex;justify-content:space-between;align-items:center;
+  gap: 24px;
+  padding: 28px clamp(20px,3vw,36px);
+  min-height: 120px;
+  border-radius: var(--radius-xl);
+  background: var(--brand-grad);           /* uses your tokens */
+  color:#fff;
+  box-shadow: var(--shadow-elev);
+}
+.pf-hero::after{
+  content:"";
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(0,0,0,.05));
+  pointer-events:none;
+  border-radius:inherit;
+}
+
+.pf-hero-left{display:flex;gap:20px;align-items:center}
+.pf-hero-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-left:auto}
+.pf-avatar{width:84px;height:84px;border-radius:22px;display:grid;place-items:center;background:#ffffff26;font-size:34px}
+.pf-title{margin:0;font-size:clamp(24px,2.6vw,32px);line-height:1.2}
+.pf-sub{opacity:.9;font-size:14px;margin-top:2px}
+.pf-tabs{margin-top:10px;display:flex;gap:12px;flex-wrap:wrap}
+.pf-tab{
+  border:0;border-radius:999px;
+  padding:10px 18px;
+  background: rgba(255,255,255,.22);
+  color:#fff; cursor:pointer; text-decoration:none; font-weight:700;
+}
+.pf-tab.active{
+  background:#fff; color: var(--ink);      /* token-aware */
+  box-shadow: var(--shadow-elev);
+}
+.pf-chips{display:flex;gap:10px;flex-wrap:wrap}
+.pf-chip{background:#ffffff1f;color:#fff;border-radius:999px;padding:8px 12px;font-weight:600}
+.pf-gear-wrap{position:relative}
+.pf-gear{
+  border:0;
+  background:rgba(255,255,255,.18);
+  color:#fff;
+  width:42px;height:42px;
+  border-radius:50%;
+  display:grid;place-items:center;
+  cursor:pointer;
+  font-size:20px;
+  transition:transform .2s ease, background .2s ease;
+}
+.pf-gear:hover{transform:rotate(20deg);background:rgba(255,255,255,.26);}
+.pf-gear:focus-visible{outline:3px solid rgba(255,255,255,.65);outline-offset:2px;}
+.pf-gear-pop{
+  position:absolute;
+  top:calc(100% + 10px);
+  right:0;
+  width:min(280px,80vw);
+  background:var(--surface-1);
+  color:var(--ink);
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:var(--shadow-elev);
+  padding:16px;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(-6px);
+  transition:opacity .2s ease, transform .2s ease;
+  pointer-events:none;
+  z-index:20;
+}
+
+.pf-gear-wrap.open .pf-gear-pop{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.pf-gear-pop[hidden]{display:none !important;}
+:root[data-theme="dark"] .pf-gear-pop{
+  background:var(--surface-2);
+  color:var(--text-light);
+  border-color:rgba(255,255,255,.16);
+}
+.pf-menu-label{
+  font-weight:700;
+  margin-bottom:4px;
+}
+.pf-theme-switch{
+  display:inline-flex;
+  border:1px solid var(--border);
+  border-radius:999px;
+  overflow:hidden;
+}
+:root[data-theme="dark"] .pf-menu-section{color:var(--text-light);}
+.pf-menu-section{margin-bottom:14px;}
+:root[data-theme="dark"] .pf-theme-switch{border-color:rgba(255,255,255,.2);}
+.pf-theme-btn{
+  flex:1;
+  padding:6px 12px;
+  border:0;
+  background:transparent;
+  font-weight:600;
+  cursor:pointer;
+  color:inherit;
+  min-width:70px;
+  min-height:44px;
+}
+.pf-theme-btn.active{
+  background:var(--brand-grad);
+  color:#fff;
+}
+.pf-theme-btn:not(.active):hover{background:rgba(0,0,0,.04);}
+.pf-menu-item{
+  width:100%;
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,.08);
+  background:#fff;
+  text-align:left;
+  font-weight:600;
+  cursor:pointer;
+  min-height:44px;
+}
+:root[data-theme="dark"] .pf-menu-item{
+  background:var(--surface-3);
+  border-color:rgba(255,255,255,.12);
+  color:var(--text-light);
+}
+.pf-menu-item:hover:not(.pf-menu-disabled){background:rgba(0,0,0,.03);}
+.pf-menu-disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  position:relative;
+}
+.pf-badge-soon{
+  display:inline-flex;
+  align-items:center;
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink);
+  background:rgba(0,0,0,.08);
+  border-radius:999px;
+  padding:2px 8px;
+  margin-left:8px;
+}
+:root[data-theme="dark"] .pf-badge-soon{color:var(--text-light);background:rgba(255,255,255,.18);}
+.pf-menu-sub{
+  margin-top:10px;
+  padding:12px;
+  border-radius:14px;
+  border:1px dashed rgba(0,0,0,.15);
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.pf-menu-sub[hidden]{display:none;}
+:root[data-theme="dark"] .pf-menu-sub{border-color:rgba(255,255,255,.2);}
+.pf-menu-note{font-size:14px;opacity:.8;}
+.pf-menu-links{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:6px;
+}
+.pf-link-btn{
+  flex:1;
+  border:0;
+  border-radius:12px;
+  padding:10px;
+  font-weight:700;
+  cursor:pointer;
+  background:var(--brand-primary);
+  color:#fff;
+  min-height:44px;
+}
+.pf-link-btn:nth-child(2){background:var(--brand-secondary);}
+.pf-link-btn:focus-visible{outline:3px solid rgba(59,130,246,.5);}
+.pf-menu-divider{
+  height:1px;
+  background:rgba(0,0,0,.08);
+  margin:12px 0;
+}
+:root[data-theme="dark"] .pf-menu-divider{background:rgba(255,255,255,.15);}
+
+/* --- Profile: Path section --- */
+.pf-path { margin-top: 20px; }
+.pf-path-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+  flex-wrap:wrap;
+}
+.pf-path-titles h2{
+  margin:0;
+  font-family: var(--display-font);
+  font-weight:900;
+  letter-spacing:.2px;
+}
+.pf-path-titles .subtitle{
+  margin:.25rem 0 0;
+  opacity:.85;
+}
+.pf-path-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.pf-path-grid .selection-card.large-card{
+  min-height:120px;
+}
+.pf-path-empty{
+  display:grid;
+  gap:12px;
+  padding:16px;
+  border:1px dashed var(--border);
+  border-radius:16px;
+  background: var(--surface-1);
+  color: var(--ink);
+  box-shadow: var(--shadow-elev);
+}
+:root[data-theme="dark"] .pf-path-empty{
+  border-color:rgba(255,255,255,.2);
+  background:var(--surface-2);
+  color:var(--text-light);
+}
+.pf-path-empty-title{ font-weight:800; }
+.pf-path-empty-cta{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+@media (max-width:720px){
+  .pf-path-actions{ width:100%; justify-content:flex-start; }
+  .pf-path-grid .selection-card.large-card{ min-height:100px; }
+}
+
+body.has-mb-tabs main{
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+}
+#mbTabs{
+  position:fixed;
+  left:0; right:0; bottom:0;
+  display:flex;
+  gap:8px;
+  padding:8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+  background:var(--surface-2);
+  border-top:1px solid var(--border);
+  box-shadow:var(--shadow-elev);
+  backdrop-filter:blur(10px) saturate(140%);
+  z-index:120;
+}
+#mbTabs button{
+  flex:1;
+  border:0;
+  border-radius:14px;
+  min-height:56px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  font-weight:800;
+  color:var(--ink);
+  background:transparent;
+  cursor:pointer;
+}
+#mbTabs button[aria-current="page"]{
+  background:var(--surface-1);
+  box-shadow:var(--shadow-elev);
+}
+#mbTabs .mb-tab-icon{ font-size:20px; }
+#mbTabs .mb-tab-label{ font-size:11px; text-transform:uppercase; letter-spacing:.04em; }
+
+@media (max-width:720px){
+  .pf-gear-pop{
+    position:static;
+    width:100%;
+    margin-top:12px;
+    opacity:1;
+    visibility:visible;
+    transform:none;
+    pointer-events:auto;
+    box-shadow:none;
+    display:none;
+  }
+  .pf-gear-wrap.open .pf-gear-pop{display:block;}
+}
+
+.pf-body{ margin-top:20px; }
+.pf-cards-row{ display:grid; gap:22px; margin-bottom:22px; }
+.pf-cards-row:nth-of-type(1){ grid-template-columns: repeat(3, 1fr); }
+.pf-cards-row:nth-of-type(2){ grid-template-columns: repeat(2, 1fr); }
+ @media (max-width:980px){
+  .pf-cards-row{ grid-template-columns:1fr; }
+}
+.pf-card{
+  background: var(--surface-1);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  box-shadow: var(--shadow-elev);
+}
+/* dark mode support if your theme flips CSS vars */
+:root.dark .pf-card{--card-bg:#0d1220;--card-fg:#e6e8ef;box-shadow:0 2px 14px rgba(0,0,0,.35)}
+.pf-card-h{font-weight:700;margin-bottom:12px}
+.pf-stat-title{opacity:.7;font-weight:600}
+.pf-stat-big{font-size:32px;font-weight:800;margin:6px 0 2px}
+.pf-stat-sub{opacity:.65}
+
+.pf-list .pf-session-list{list-style:none;margin:0;padding:0}
+.pf-session-list li{
+  display:grid;
+  grid-template-columns: 140px 1fr 140px 80px;
+  gap:8px; align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+}
+:root.dark .pf-session-list li{border-bottom-color:#ffffff14}
+.pf-session-list li:last-child{border-bottom:0}
+.pf-s-date{font-weight:700;opacity:.85}
+.pf-s-note{opacity:.7}
+.pf-s-score{font-weight:600}
+.pf-s-coins{font-weight:700}
+.pf-empty{opacity:.7;padding:12px 0}
+
+.pf-look{display:flex;flex-direction:column;gap:12px}
+.pf-look-box{display:flex;gap:12px;align-items:center}
+.pf-look-avatar{width:64px;height:64px;border-radius:16px;display:grid;place-items:center;border:2px solid rgba(0,0,0,.06);font-size:28px}
+:root.dark .pf-look-avatar{border-color:#ffffff22}
+.pf-look-title{font-weight:700}
+
+/* responsive */
+@media (max-width:900px){
+  .pf-cards-row{grid-template-columns:1fr}
+  .pf-hero{flex-direction:column;align-items:flex-start;gap:14px}
+  .pf-chips{align-self:flex-start}
+}
+/* Make the backdrop dark and the panel readable in dark mode */
+:root[data-theme="dark"] .modal-backdrop { background: rgba(0,0,0,.6); }
+:root[data-theme="dark"] .shop-modal,
+:root[data-theme="dark"] .modal-panel,
+:root[data-theme="dark"] .shop-card {
+  background: #1f2430;
+  color: #e5e7eb;
+}
+:root[data-theme="dark"] .shop-card .price { color: #cbd5e1; }
+
+.pf-shop-host{
+  background:#222a38; color:#f3f6ff;
+  border-radius:12px; padding:10px; overflow:auto;
+}
+:root[data-theme="dark"] .pf-shop-host{ background:#1c2433; color:#e6eaf6; }
+
+
+/* ---- Profile: dark-mode pill contrast & focus ---- */
+.pf-tabs .pf-tab{ 
+  transition: background .15s, color .15s, box-shadow .15s; 
+  white-space: nowrap;
+}
+
+/* make inactive pills readable on dark */
+:root[data-theme="dark"] .pf-tabs .pf-tab{
+  background: rgba(255,255,255,.10);
+  color:#fff;
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+/* active pill in dark */
+:root[data-theme="dark"] .pf-tabs .pf-tab.active{
+  background:#0f172a;               /* deep navy */
+  color:#e7eaf3;
+  box-shadow: 0 8px 22px rgba(0,0,0,.45);
+  border-color: transparent;
+}
+
+/* keyboard focus ring */
+.pf-tabs .pf-tab:focus-visible{
+  outline:3px solid rgba(255,255,255,.66);
+  outline-offset:2px;
+}
+:root[data-theme="light"] .pf-tabs .pf-tab:focus-visible{
+  outline-color: rgba(99,102,241,.55);
+}
+
+/* dark chip contrast */
+:root[data-theme="dark"] .pf-chip{
+  background: rgba(0,0,0,.35);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+/* ---- Profile: small-screen stack ---- */
+@media (max-width: 640px){
+  .pf-wrap{ padding: 12px; }
+  .pf-hero{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 18px;
+    border-radius: 22px;
+    min-height: auto;
+  }
+  .pf-hero-left{ width: 100%; }
+  .pf-tabs{ margin-top: 6px; gap: 8px; flex-wrap: wrap; }
+  .pf-tabs .pf-tab{ padding: 9px 12px; font-size: 15px; }
+  .pf-chips{ width: 100%; justify-content: space-between; }
+
+  /* one-column cards */
+  .pf-cards-row{ grid-template-columns: 1fr !important; }
+
+  /* compress session rows */
+  .pf-session-list li{ grid-template-columns: 1fr auto; }
+  .pf-s-date{ display: none; }
+}
+/* --- PROFILE: mobile layout & readability --- */
+@media (max-width: 720px){
+  .pf-hero{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 18px;
+    border-radius: 22px;
+  }
+  .pf-hero-left{ align-items: center; gap: 12px; }
+  .pf-avatar{ width: 64px; height: 64px; border-radius: 16px; font-size: 24px; }
+
+  .pf-title{ font-size: 22px; }
+  .pf-sub{ font-size: 12px; }
+
+  /* Tabs become a single horizontal scroller */
+  .pf-tabs{
+    order: 3;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pf-tabs::-webkit-scrollbar{ display:none; }
+  .pf-tabs .pf-tab{ white-space: nowrap; padding: 8px 14px; }
+
+  /* Coins/Streak chips sit under the tabs */
+  .pf-chips{ order: 4; gap: 8px; justify-content: flex-start; }
+}
+
+/* Standardize older :root.dark usages */
+:root.dark .pf-card,
+:root.dark .pf-look-avatar,
+:root.dark .pf-session-list li {
+  /* replace selector only; keep the declarations you already have */
+}
+:root[data-theme="dark"] .pf-card{ --card-bg:#0d1220; --card-fg:#e6e8ef; box-shadow:0 2px 14px rgba(0,0,0,.35) }
+:root[data-theme="dark"] .pf-look-avatar{ border-color:#ffffff22 }
+:root[data-theme="dark"] .pf-session-list li{ border-bottom-color:#ffffff14 }
+
+/* 4) Neutralize extra frame if profile is inside a .section wrapper */
+.section > .pf-wrap{
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* 5) Single mobile profile layout (replace both 640px & 720px pf-hero blocks) */
+@media (max-width: 720px){
+  .pf-wrap{ padding: 12px; }
+  .pf-hero{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 18px;
+    border-radius: 22px;
+    min-height: auto;
+  }
+  .pf-hero-left{ align-items: center; gap: 12px; }
+  .pf-avatar{ width: 64px; height: 64px; border-radius: 16px; font-size: 24px; }
+  .pf-title{ font-size: 22px; }
+  .pf-sub{ font-size: 12px; }
+
+  /* Tabs: horizontal scroller */
+  .pf-tabs{ display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
+  .pf-tabs::-webkit-scrollbar{ display:none; }
+  .pf-tabs .pf-tab{ white-space:nowrap; padding:8px 14px; font-size:15px; }
+
+  /* Chips under tabs */
+  .pf-chips{ gap:8px; justify-content:flex-start; width:100%; }
+
+  /* Cards = single column */
+  .pf-cards-row{ grid-template-columns: 1fr !important; }
+
+  /* Compact session list */
+  .pf-session-list li{ grid-template-columns: 1fr auto; }
+  .pf-s-date{ display:none; }
+}
+
+/* 6) Inactive pills readable on dark (keeps contrast without overpowering) */
+:root[data-theme="dark"] .pf-tabs .pf-tab{
+  background: rgba(255,255,255,.10);
+  color:#fff;
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+/* --- Gear popover: no hover gap + bridge --- */
+.pf-gear-pop{ top:calc(100% + 2px); }      /* was +10px somewhere */
+
+.pf-gear-wrap::after{
+  content:"";
+  position:absolute;
+  top:100%;
+  right:0;
+  width:260px;
+  height:12px;                              /* invisible “bridge” */
+}
+
+:root[data-theme="light"] .pf-gear-pop{
+  background:#fff;
+  color:var(--ink);
+  border-color: rgba(2,6,23,.10);
+  box-shadow: var(--shadow-elev);
+}
+:root[data-theme="light"] .pf-theme-switch{
+  background: var(--muted);
+  border-color: rgba(2,6,23,.10);
+}
+:root[data-theme="light"] .pf-theme-btn{ font-weight:700; }
+:root[data-theme="light"] .pf-menu-item{
+  background:#fff;
+  color:var(--ink);
+  border-color: rgba(2,6,23,.10);
+}
+
+.pf-shop-host{
+  background: var(--surface-2);
+  color: var(--ink);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:16px 18px;
+  box-shadow: var(--shadow-elev);
+}
+.pf-shop-host .pill,
+.pf-shop-host .shop-item,
+.pf-shop-host button{
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:10px 14px;
+  font-size:16px; font-weight:800;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--ink);
+}
+:root[data-theme="dark"] .pf-shop-host .pill,
+:root[data-theme="dark"] .pf-shop-host .shop-item,
+:root[data-theme="dark"] .pf-shop-host button{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.14);
+  color:#e6eaf6;
+}
+
+
+body.has-mb-tabs main{ padding-bottom: calc(80px + env(safe-area-inset-bottom,0)); }
+#mbTabs{
+  position:fixed; left:0; right:0; bottom:0; display:flex; gap:8px;
+  padding:8px 12px calc(8px + env(safe-area-inset-bottom,0));
+  background:var(--surface-2); border-top:1px solid var(--border); box-shadow:var(--shadow-elev);
+  backdrop-filter:blur(10px) saturate(140%); z-index:120;
+}
+#mbTabs button{
+  flex:1; border:0; border-radius:14px; min-height:56px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:2px; font-weight:800; color:var(--ink); background:transparent; cursor:pointer;
+}
+#mbTabs button[aria-current="page"]{ background:var(--surface-1); box-shadow:var(--shadow-elev); }
+#mbTabs .mb-tab-icon{ font-size:20px; }  #mbTabs .mb-tab-label{ font-size:11px; text-transform:uppercase; letter-spacing:.04em; }
+
+
+body.in-lesson header.site-header,
+body.in-lesson #mbTabs,
+body.in-lesson .pf-hero { display:none !important; }
+
+
+body.logged-in .home-hero,
+body.logged-in .grownups.section,
+body.logged-in .trust-strip { display:none !important; }
+
+@media (max-width:720px){
+  .pill .label { display:none; }          /* if any text labels exist */
+  .pill { padding: 6px 10px; min-width: auto; }
+}
+
+
+
+/* ===== Global Main Header (Duolingo-style) ===== */
+
+/* Header shell */
+.mh {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  background: rgba(255,255,255,.86);
+  backdrop-filter: saturate(160%) blur(8px);
+}
+[data-theme="dark"] .mh {
+  background: rgba(14,16,22,.86);
+  border-color: rgba(255,255,255,.06);
+}
+
+.mh-left { display:flex; align-items:center; gap:12px; }
+.mh-logo {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:28px; height:28px; border-radius:8px;
+  background: conic-gradient(from 160deg, #6ee7b7, #22d3ee);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset;
+}
+.mh-title { font-weight:700; letter-spacing:.2px; opacity:.85; }
+
+/* Tabs */
+.mh-tabs { display:flex; gap:8px; margin-left:8px; }
+.mh-tab {
+  appearance:none; border:0; background:transparent;
+  padding:8px 10px; border-radius:10px;
+  font-weight:600; opacity:.85; cursor:pointer;
+  text-decoration:none; color:inherit;
+}
+.mh-tab[aria-current="page"] {
+  box-shadow: 0 0 0 1px rgba(0,0,0,.12) inset;
+}
+[data-theme="dark"] .mh-tab[aria-current="page"] {
+  box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
+}
+.mh-tab.disabled { opacity:.45; cursor:not-allowed; }
+
+.mh-spacer { flex:1; }
+
+/* Chips */
+.mh-chips { display:flex; gap:10px; align-items:center; }
+.mh-chip {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 10px; border-radius:999px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.12) inset;
+  background: rgba(255,255,255,.6);
+}
+[data-theme="dark"] .mh-chip {
+  background: rgba(255,255,255,.06);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset;
+}
+.mh-chip svg { display:block; }
+.mh-num { font-weight:800; }
+
+/* Mobile: hide tabs/title, keep chips */
+@media (max-width: 719px){
+  .mh { padding:10px 12px; }
+  .mh-title, .mh-tabs { display:none; }
+}
+
+
+/* --- View flags (alias): treat .path-view same as .profile-focus --- */
+body.path-view {} /* hook for learning path/profile pages */
+
+/* 1) Default off: don't render the big profile header unless we're on path/profile */
+.pf-hero { display: none; }
+
+
+
+
+/* 3) Mobile ↔ Desktop swap on path/profile pages:
+      - mobile: keep the small header (.mh), hide pf-hero
+      - desktop: hide .mh, show pf-hero */
+@media (max-width: 719px){
+  body.profile-focus .mh,
+  body.path-view .mh { display: flex !important; }
+
+  body.profile-focus .pf-hero,
+  body.path-view .pf-hero { display: none !important; }
+}
+
+@media (min-width: 720px){
+  body.profile-focus .mh,
+  body.path-view .mh { display: none !important; }
+
+  body.profile-focus .pf-hero,
+  body.path-view .pf-hero { display: flex !important; }
+}
+
+/* 4) Inside an activity: absolutely no header of any kind */
+body.in-lesson .mh,
+body.in-lesson .hero,
+body.in-lesson .nav,
+body.in-lesson header.site-header,
+body.in-lesson .pf-hero { display: none !important; }
+
+
+
+/* Desktop: make the profile header act as the global header */
+@media (min-width: 720px){
+  body.logged-in:not(.in-lesson) .pf-hero {
+    position: sticky;
+    top: 8px;
+    z-index: 70;
+    margin: 16px auto 10px;
+    border-radius: 28px;
+  }
+}
+
+
+/* === FINAL OVERRIDE: header swap & lesson state === */
+
+/* default: keep profile header off unless we’re on path/profile */
+.pf-hero { display: none; }
+
+/* show profile header only on path/profile pages */
+body.profile-focus .pf-hero,
+body.path-view .pf-hero { display: flex; }
+
+/* MOBILE: keep the small header, hide profile header */
+@media (max-width: 719px){
+  body.profile-focus .mh,
+  body.path-view .mh { display: flex !important; }
+  body.profile-focus .pf-hero,
+  body.path-view .pf-hero { display: none !important; }
+}
+
+/* DESKTOP: hide small header, use profile header (sticky) */
+@media (min-width: 720px){
+  body.profile-focus .mh,
+  body.path-view .mh { display: none !important; }
+  body.logged-in:not(.in-lesson) .pf-hero {
+    position: sticky; top: 8px; z-index: 70;
+    margin: 16px auto 10px; border-radius: 28px;
+  }
+}
+
+/* LESSONS: no headers at all */
+body.in-lesson .mh,
+body.in-lesson .pf-hero { display: none !important; }
+
+
+/* Hide legacy hero/nav once logged in, on *all* pages */
+body.logged-in .hero,
+body.logged-in .nav,
+body.logged-in header.site-header {
+  display: none !important;
+}

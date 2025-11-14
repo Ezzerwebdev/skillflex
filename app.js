@@ -9,7 +9,18 @@
 import { showCompletionModal, showSaveNudge } from './ui.js';
 import { idbGet, idbPut, idbDelete } from './db.js';
 import { installUnitsFeature } from './js/features/units.js?v=1762242680';
-import './js/theme.js'; // side-effect import; it auto-inits on DOM ready
+import { setThemePreference, getThemePreference } from './js/theme.js'; // auto-inits on import
+import { initProfileStore, nextMode } from './js/core/profile.js';
+import { getTodayKey, calcStreak } from './js/core/streak.js';
+import { awardCoins } from './js/core/coins.js';
+import { maybeUnlockBadges } from './js/core/badges.js';
+import { emitTelemetry } from './js/core/analytics.js';
+import { getShopItems, purchaseItem } from './js/core/shop.js';
+import { generateTimesTableSet } from './js/generators/timesTables.js';
+import { generateComparativeSet } from './js/generators/englishComparatives.js';
+import { generateTrueFalseSet } from './js/generators/trueFalse.js';
+import { ensureModalHost, showSummaryModal, showShopModal } from './js/ui/modals.js';
+import { CONFIG } from './js/core/config.js';
 
 
 
@@ -146,6 +157,246 @@ const USER_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
 
 const DAILY_TARGET = 3;   // require 3 completions per day for streak, but allow more play
 
+const DAILY_QUESTION_COUNT = 10;
+const QUESTION_FACTORIES = {
+  maths: generateTimesTableSet,
+  english: generateComparativeSet,
+  literacy: generateTrueFalseSet
+};
+const profileStore = initProfileStore();
+const dailySessionCache = new Map();
+const PROFILE_COPY = {
+  gearTitle: 'Settings',
+  theme: 'Theme',
+  themeLight: 'Light',
+  themeDark: 'Dark',
+  changeLook: 'Change look',
+  languageSoon: 'Language (coming soon)',
+  grownups: 'Grown-ups & Account',
+  parentsSoon: 'For parents (coming soon)',
+  teachersSoon: 'For teachers (coming soon)',
+  manageSoon: 'Manage account (coming soon)',
+  findTutors: 'Find tutors',
+  becomeTutor: 'Become a tutor',
+  grownupGateTitle: 'Grown-ups only',
+  grownupGateHint: 'Please solve to continue',
+  pathTitle: 'Path',
+  pathSubtitle: 'Jump back in where you left off.',
+  pathContinue: 'Continue',
+  pathViewAll: 'View all',
+  pathEmpty: 'Start your path with a quick challenge.'
+};
+
+// --- Mobile tabs ---
+const MOBILE_TABS = [
+  { key: 'path',   icon: '🏠', label: 'Path',   href: '/profile?tab=path' },
+  { key: 'units',  icon: '🗺️', label: 'Units',  href: '/units' },
+  { key: 'shop',   icon: '🛍️', label: 'Shop',   href: '/profile?tab=shop' },
+  { key: 'quests', icon: '🎯', label: 'Quests', href: '/profile?tab=history' },
+  { key: 'more',   icon: '⚙️', label: 'More',   action: 'more' }
+];
+let pendingGearOpen = false;
+let gearCleanupFns = [];
+
+// --- Mobile tabs (exported on window to avoid hoisting surprises) ---
+window.shouldShowMobileTabs = function shouldShowMobileTabs(){
+  return !!JWT_TOKEN && typeof window !== 'undefined' && window.innerWidth < 720;
+};
+
+window.mountMobileTabs = function mountMobileTabs(){
+  const body = document.body;
+  const should = window.shouldShowMobileTabs?.();
+  const existing = document.getElementById('mbTabs');
+  body.classList.toggle('has-mb-tabs', !!should);
+  if (!should) { existing?.remove(); return; }
+  if (existing) return;
+
+  const nav = document.createElement('nav');
+  nav.id = 'mbTabs';
+  nav.setAttribute('role','navigation');
+  nav.setAttribute('aria-label','Primary');
+  nav.innerHTML = MOBILE_TABS.map(t => `
+    <button type="button" data-key="${t.key}" ${t.href?`data-href="${t.href}"`:''} ${t.action?`data-action="${t.action}"`:''}>
+      <span class="mb-tab-icon">${t.icon}</span>
+      <span class="mb-tab-label">${t.label}</span>
+    </button>`).join('');
+  document.body.appendChild(nav);
+  nav.addEventListener('click', onMobileTabClick);
+  nav.addEventListener('touchend', onMobileTabClick, { passive:false });
+};
+
+function onMobileTabClick(e){
+  const btn = e.target.closest('button[data-key]');
+  if (!btn) return;
+
+  if (btn.dataset.action === 'more'){
+  e.preventDefault();
+  e.stopImmediatePropagation();   // << key change
+
+  // If we're not on /profile, navigate there and open after render.
+  if (location.pathname !== '/profile'){
+    pendingGearOpen = true;
+    history.pushState({}, '', '/profile');
+    router();
+
+    // Failsafe: if something delays render, open a moment later.
+    setTimeout(() => { 
+      if (pendingGearOpen) window.openProfileGearMenu?.(); 
+    }, 50);
+    return;
+  }
+
+  // Already on /profile — open immediately (creates overlay if needed)
+  window.openProfileGearMenu?.();
+  return;
+}
+
+
+  const href = btn.dataset.href;
+  if (!href) return;
+  e.preventDefault();
+  history.pushState({}, '', href);
+  router();
+}
+
+
+window.updateMobileTabsVisibility = function updateMobileTabsVisibility(){ window.mountMobileTabs?.(); };
+
+window.resolveMobileTabKey = function resolveMobileTabKey(path){
+  const url = new URL(path, location.origin);
+  const p   = url.pathname;
+  const tab = (url.searchParams.get('tab') || '').toLowerCase();
+
+  // Profile views:
+  if (p === '/profile') {
+    if (tab === 'shop')    return 'shop';
+    if (tab === 'history') return 'quests'; // your "History" / "Quests" mapping
+    // tab === 'path' (or overview/badges/etc.) → primary tab = Path
+    return 'path';
+  }
+
+  // Units / home
+  if (p === '/' || p === '/units') return 'units';
+
+  // If you ever have separate shop/quests routes:
+  if (p === '/shop')   return 'shop';
+  if (p === '/quests') return 'quests';
+
+  return null;
+};
+
+
+window.updateMobileTabsActive = function updateMobileTabsActive(path){
+  const nav = document.getElementById('mbTabs'); if (!nav) return;
+  const key = window.resolveMobileTabKey?.(path);
+  nav.querySelectorAll('button[data-key]').forEach(b => {
+    if (b.dataset.key === key) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
+  });
+};
+
+window.openProfileGearMenu = function openProfileGearMenu() {
+  let wrap = getVisibleGearWrap();
+  if (!wrap) {
+    wrap = document.querySelector('.pf-gear-wrap.pf-gear-overlay');
+    if (!wrap) wrap = createGearOverlay();
+  }
+  if (wrap && typeof wrap._pfSetOpen === 'function') {
+    wrap._pfSetOpen(true);
+  }
+};
+
+function getVisibleGearWrap() {
+  const wraps = Array.from(document.querySelectorAll('.pf-gear-wrap'));
+  return wraps.find((el) => {
+    if (!el) return false;
+    if (el.classList.contains('pf-gear-overlay')) return true;
+    const style = window.getComputedStyle(el);
+    if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) return false;
+    const rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  });
+}
+
+function createGearOverlay() {
+  const themeMode = getThemePreference?.() || document.documentElement.dataset.theme || 'light';
+  const temp = document.createElement('div');
+  temp.innerHTML = buildProfileGearMenu(themeMode);
+  const wrap = temp.querySelector('.pf-gear-wrap');
+  if (!wrap) return null;
+
+  wrap.classList.add('pf-gear-overlay');
+  wrap.style.position = 'fixed';
+  wrap.style.right = '16px';
+  wrap.style.bottom = 'calc(90px + env(safe-area-inset-bottom, 0px))';
+  wrap.style.zIndex = '220';
+
+  const gearBtn = wrap.querySelector('.pf-gear');
+  if (gearBtn) {
+    gearBtn.style.display = 'none';
+    gearBtn.setAttribute('aria-hidden', 'true');
+  }
+
+  document.body.appendChild(wrap);
+  // ❗ important: wire JUST this wrap
+  wireProfileSettingsMenu(wrap);
+  return wrap;
+}
+
+
+
+// --- PWA install nudge (mobile only) ---
+let _deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  _deferredPrompt = e; // stash for later
+});
+
+function maybeShowInstallNudge(){
+  // shouldShowMobileTabs() is defined below; it's fine to call here at runtime
+  if (_deferredPrompt && shouldShowMobileTabs()){
+    _deferredPrompt.prompt();
+    _deferredPrompt.userChoice.finally(() => { _deferredPrompt = null; });
+  }
+}
+
+// first gentle nudge a moment after load/route
+setTimeout(maybeShowInstallNudge, 2000);
+
+
+
+// Expose for devtools
+window.profileStore = profileStore; // handy for devtools
+
+// --- DEV: mock login so local builds behave like "signed in"
+const DEV_MOCK_LOGIN =
+  /[?&](devLogin|mockLogin|mock)=1/.test(location.search) ||
+  localStorage.sf_mock_login === '1';
+
+if (DEV_MOCK_LOGIN) {
+  try { localStorage.setItem('sf_mock_login', '1'); } catch {}
+  // Pretend we have a token so "logged-in" paths render
+  if (!window.JWT_TOKEN) window.JWT_TOKEN = 'dev.mock.token';
+
+  // Give yourself some test coins/streak so Shop/headers look alive
+  const p = profileStore.get();
+  if ((p.coins || 0) < 200) {
+    profileStore.update(d => {
+      d.coins = 200;
+      d.streak.current = Math.max(d.streak?.current || 0, 5);
+      d.streak.best = Math.max(d.streak?.best || 0, d.streak.current);
+      d.streak.lastActiveISO = new Date().toISOString();
+    });
+  }
+}
+
+// Toggle from console: window.toggleMockLogin(true/false)
+window.toggleMockLogin = function(on){
+  try { localStorage.setItem('sf_mock_login', on ? '1' : '0'); } catch {}
+  location.reload();
+};
+
+
 // === Auth init (single source of truth for headers/credentials) ===
 function authInit(method, body){
  const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
@@ -273,8 +524,6 @@ window.state = state;
 
 
 
-// ADD ↓↓↓ right after `window.state = state;`
-
 
 function persistDaily(){
  try {
@@ -318,6 +567,11 @@ function _slug(sel, id){
 
 
 function renderContinueCard(){
+  if (window.innerWidth < 720 && location.pathname === '/units') {
+    const slot = document.getElementById('continueCard');
+    if (slot) slot.hidden = true;
+    return;
+  }
   try{
     const slot = document.getElementById('continueCard');
     const btn  = document.getElementById('continueBtn');
@@ -459,14 +713,71 @@ async function saveLocalGuestProgress() {
   updateUiCounters?.();
 }
 
+// --- Shop/UI sync helpers (local only) ---
+function refreshShopUi() {
+  try {
+    const coins = Number(
+  (window.profileStore?.get()?.coins ??
+   (state.coins + (state.lessonCoinsPending ?? 0))) ?? 0
+);
+
+
+    const hover = document.getElementById('shopHover');
+    if (!hover) return;
+
+    // big coin badge in the hover
+    const coinsChip = hover.querySelector('.coins');
+    if (coinsChip) coinsChip.textContent = `${coins} coin${coins === 1 ? '' : 's'}`;
+
+    // enable/disable each item based on price
+    hover.querySelectorAll('.shop-item').forEach(el => {
+      const price = Number(
+        el.dataset.price ??
+        el.getAttribute('data-price') ??
+        el.dataset.cost ?? 0
+      );
+
+      const owned =
+        el.getAttribute('data-owned') === '1' ||
+        el.dataset.owned === '1' ||
+        el.classList.contains('owned');
+
+      if (!owned) {
+        if (price > coins) el.setAttribute('disabled', '');
+        else el.removeAttribute('disabled');
+      }
+
+      const priceEl = el.querySelector('.price');
+      if (priceEl && priceEl.textContent.trim() === '') {
+        priceEl.textContent = `— ${price}`;
+      }
+    });
+  } catch {}
+}
+
+function syncCoinsToProfileStore() {
+  try {
+    if (!window.profileStore) return;
+    const preview = Number(state.coins || 0) + Number(state.lessonCoinsPending || 0);
+    const current = Number(window.profileStore.get()?.coins || 0);
+    if (preview !== current) {
+      window.profileStore.update(d => { d.coins = preview; });
+    }
+  } catch {}
+}
+// (optional) expose for console debugging
+window.syncCoinsToProfileStore = syncCoinsToProfileStore;
 
 
 function updateUiCounters() {
- if (coinsEl && streakEl) {
-   const previewCoins = state.coins + (state.lessonCoinsPending || 0);
-   coinsEl.textContent  = `🪙 ${previewCoins}`;
-   streakEl.textContent = `🔥 ${state.streak}`;
- }
+  if (coinsEl && streakEl) {
+    const previewCoins = state.coins + (state.lessonCoinsPending || 0);
+    coinsEl.textContent  = `🪙 ${previewCoins}`;
+    streakEl.textContent = `🔥 ${state.streak}`;
+  }
+  // NEW
+  try { refreshShopUi(); } catch {}
+  try { syncCoinsToProfileStore(); } catch {}
 }
 
 
@@ -606,48 +917,55 @@ async function logout() {
  JWT_TOKEN = null;
  GUEST_ID = null;
  Object.assign(state, { coins: 0, streak: 0, completedToday: [], coinsCapRemaining: null });
+ // 🔁 Send user to Home as a guest
+  const HOME_PATH = '/';          // ⬅️ if your real home is '/units', change this
+  if (location.pathname !== HOME_PATH) {
+    history.pushState({}, '', HOME_PATH);
+  }
  initializeApp();
 }
 
 
 function updateLoginButton() {
- const loginButton  = document.getElementById('login-button');
- const logoutButton = document.getElementById('logout-button');
- const authPill     = document.getElementById('auth-pill');
- if (!loginButton || !logoutButton || !authPill) return;
+  const loginButton  = document.getElementById('login-button');
+  const logoutButton = document.getElementById('logout-button');
+  const authPill     = document.getElementById('auth-pill');
+  const profileBtn   = document.getElementById('profile-button'); // ← add this
+  if (!loginButton || !logoutButton || !authPill) return;
 
+  if (JWT_TOKEN) {
+    // Logged in
+    loginButton.hidden  = true;
+    logoutButton.hidden = false;
+    authPill.hidden     = false;
+    loginButton.removeAttribute('href');
+    loginButton.removeAttribute('aria-label');
+    loginButton.onclick = null;
+    loginButton.dataset.notready = '0';
+    loginButton.title = '';
 
- if (JWT_TOKEN) {
-   // Logged in
-   loginButton.hidden  = true;
-   logoutButton.hidden = false;
-   authPill.hidden     = false;
-   loginButton.removeAttribute('href');
-   loginButton.removeAttribute('aria-label');
-   loginButton.onclick = null;
-   loginButton.dataset.notready = '0';
-   loginButton.title = '';
-   return;
- }
+    if (profileBtn) profileBtn.hidden = false; // ← show Profile when logged in
+    return;
+  }
 
+  // Guest (always allow login from header)
+  authPill.hidden     = true;
+  logoutButton.hidden = true;
+  loginButton.hidden  = false;
 
+  loginButton.className = 'btn ghost';
+  loginButton.textContent = 'Log in / Sign up';
+  loginButton.removeAttribute('href');
+  loginButton.setAttribute('data-action', 'login');
+  loginButton.setAttribute('aria-label', 'Log in to save your progress');
+  loginButton.onclick = null;
 
-// Guest (always allow login from header)
-authPill.hidden     = true;
-logoutButton.hidden = true;
-loginButton.hidden  = false;
+  loginButton.dataset.notready = '0';
+  loginButton.title = 'Log in to save your progress';
 
-loginButton.className = 'btn ghost';
-loginButton.textContent = 'Log in / Sign up';
-loginButton.removeAttribute('href');
-loginButton.setAttribute('data-action', 'login');
-loginButton.setAttribute('aria-label', 'Log in to save your progress');
-loginButton.onclick = null;
-
-loginButton.dataset.notready = '0';
-loginButton.title = 'Log in to save your progress';
-
+  if (profileBtn) profileBtn.hidden = true; // ← hide Profile for guests
 }
+
 
 
 // --- Core Application Logic ---
@@ -697,6 +1015,62 @@ async function router() {
 
 
  const path = location.pathname;
+ mountMainHeader();
+
+ document.body.dataset.route = path;
+  document.body.classList.toggle('logged-in', !!JWT_TOKEN);
+ // If logged in, land on /profile instead of Home
+ if (JWT_TOKEN && (path === '/' || path === '/home')) {
+  const dest = (window.innerWidth < 720) ? '/profile' : '/units';
+  history.replaceState({}, '', dest);
+  router();
+  return;
+}
+
+ document.body.classList.toggle('profile-focus', path === '/profile' && !!JWT_TOKEN);
+ if (path !== '/profile' && window._pfGearCleanup) {
+  window._pfGearCleanup();
+  window._pfGearCleanup = null;
+ }
+   
+ injectUnitsDesktopHeader(path);
+
+ const fullPath = location.pathname + location.search;
+    updateMobileTabsVisibility();
+    updateMobileTabsActive(fullPath);
+    maybeShowInstallNudge();
+
+
+ // NEW: /profile route (put this before the lesson/home branches)
+// Profile + aliases: /profile, /path, /units
+if (path === '/profile' || path === '/path') {
+  document.body.classList.remove('in-lesson');
+  app.classList.remove('lesson-active');
+
+  const url = new URL(location.href);
+
+  // Always render on /profile; decide which tab via ?tab
+  if (url.pathname !== '/profile') {
+    url.pathname = '/profile';
+  }
+
+  // Default tab:
+  // - /profile → overview
+  // - /path or /units → path
+  if (!url.searchParams.get('tab')) {
+    const defaultTab = (path === '/profile') ? 'overview' : 'path';
+    url.searchParams.set('tab', defaultTab);
+    history.replaceState({}, '', url.pathname + '?' + url.searchParams + url.hash);
+  }
+
+  renderProfile();
+
+  if (pendingGearOpen) {
+    pendingGearOpen = false;
+    window.openProfileGearMenu?.();
+  }
+  return;
+}
 
 
  if (/^\/lesson\//.test(path)) {
@@ -772,8 +1146,7 @@ async function router() {
 }
 
 
-
- /// Home route
+/// Home route
 document.body.classList.remove('in-lesson');
 app.classList.remove('lesson-active');
 
@@ -786,6 +1159,7 @@ if (homeTplEl) {
 
   // then build the subject/year/topic UI
   renderChallengeHub();
+  injectUnitsDesktopHeader(path);
 } else {
   console.error('CRITICAL: Home template not found!');
 }
@@ -881,90 +1255,148 @@ function setHomeInfoVisible(show) {
 
 
 function renderSelectionStep(step) {
- const hubContainer = $('#challengeHubContainer');
- if (!hubContainer) return;
+  const hubContainer = document.querySelector('#challengeHubContainer');
+  if (!hubContainer) return;
 
-
+  // --- build options ---
   let title, options, gridClass = 'selection-grid';
- switch (step) {
-   case 'subject':
- title = 'Pick Your Adventure!';
- gridClass = 'selection-grid subject-grid';
-   options = {
-   english: { label: 'Word & Story Lab', emoji: '📖' },
-   maths:   { label: 'Number Quest',     emoji: '🔢' }
- };
-
-
- break;
-
-
-   case 'year':
-     title = 'Pick Your Class!';
-     options = { '3': '🎒 Year 3 Explorers', '4': '🗺️ Year 4 Adventurers', '5': '🏆 Year 5 Champions', '6': '🚀 Year 6 Trailblazers (Coming Soon!)' };
-     break;
-   case 'topic':
-     title = 'Pick a quest!';
-     if (state.selections.subject === 'english') {
-           options = { 'spelling': '✍️ Spelling Wizards', 'grammar': '📚 Grammar Heroes' };
-         } else {
-            options = { 'addition': '➕ Adding Adventurers', 'subtraction': '➖ Subtraction Squad', 'place-value': '🧭 Place Value Pals', 'number-line': '📏 Number Line Hoppers', 'thousands': '⛰️ Thousand Trekkers', 'shapes': '🔺 Shape Explorers', 'roman-numerals': '🏛️ Roman Numeral Rangers' };
-         }
-          break;
+  if (step === 'subject') {
+    title = 'Pick Your Adventure!';
+    gridClass = 'selection-grid subject-grid';
+    options = {
+      english: { label: 'Word & Story Lab', emoji: '📖' },
+      maths:   { label: 'Number Quest',     emoji: '🔢' }
+    };
+  } else if (step === 'year') {
+    title = 'Pick Your Class!';
+    options = {
+      '3': '🎒 Year 3 Explorers',
+      '4': '🗺️ Year 4 Adventurers',
+      '5': '🏆 Year 5 Champions',
+      '6': '🚀 Year 6 Trailblazers (Coming Soon!)'
+    };
+  } else { // topic
+    title = 'Pick a quest!';
+    if ((state.selections || {}).subject === 'english') {
+      options = { spelling: '✍️ Spelling Wizards', grammar: '📚 Grammar Heroes' };
+    } else {
+      options = {
+        'addition': '➕ Adding Adventurers',
+        'subtraction': '➖ Subtraction Squad',
+        'place-value': '🧭 Place Value Pals',
+        'number-line': '📏 Number Line Hoppers',
+        'thousands': '⛰️ Thousand Trekkers',
+        'shapes': '🔺 Shape Explorers',
+        'roman-numerals': '🏛️ Roman Numeral Rangers'
+      };
     }
- let backButtonHTML = '';
- if (step !== 'subject') backButtonHTML = `<button id="backBtn" class="btn btn-back">← Go Back</button>`;
+  }
 
+  const backBtn = (step !== 'subject')
+    ? `<button id="backBtn" class="btn btn-back">← Go Back</button>`
+    : '';
 
- const gridContent = Object.entries(options).map(([key, value]) => {
-   if (step === 'subject') {
-  return `
-    <button
-      class="selection-card large-card"
-      data-key="${key}"
-      type="button"
-      aria-label="${value.label}"
-    >
-      <span class="selection-card-title">${value.label}</span>
-      <span class="selection-card-emoji" aria-hidden="true">${value.emoji}</span>
-    </button>
+  // --- SUBJECT SCREEN: two rows of your hero tiles ---
+  // --- SUBJECT SCREEN: two rows of your hero tiles ---
+if (step === 'subject') {
+  const subjectsRow = `
+    <div class="${gridClass}">
+      <button class="selection-card large-card" data-key="english" type="button" aria-label="${options.english.label}">
+        <span class="selection-card-title">${options.english.label}</span>
+        <span class="selection-card-emoji" aria-hidden="true">${options.english.emoji}</span>
+      </button>
+      <button class="selection-card large-card" data-key="maths" type="button" aria-label="${options.maths.label}">
+        <span class="selection-card-title">${options.maths.label}</span>
+        <span class="selection-card-emoji" aria-hidden="true">${options.maths.emoji}</span>
+      </button>
+    </div>`;
+
+  const actionsRow = `
+    <div class="${gridClass}">
+      <button id="dailyCard" class="selection-card large-card" type="button" aria-label="Daily Challenge">
+        <span class="selection-card-title">Daily Challenge</span>
+        <span class="selection-card-emoji" aria-hidden="true">🎯</span>
+      </button>
+      <button id="tablesCard" class="selection-card large-card" type="button" aria-label="Times Tables">
+        <span class="selection-card-title">Times Tables</span>
+        <span class="selection-card-emoji" aria-hidden="true">✖️</span>
+      </button>
+    </div>`;
+
+  hubContainer.innerHTML = `
+    <div class="selection-step">
+      <div class="selection-step-header">${backBtn}<h1>${title}</h1></div>
+      ${subjectsRow}
+      ${actionsRow}
+    </div>
   `;
+} else {
+    // --- YEAR/TOPIC SCREENS: original simple cards ---
+    const gridContent = Object.entries(options).map(([key, value]) => {
+      const isComingSoon = typeof value === 'string' && value.includes('Coming Soon');
+      return `<button class="selection-card ${isComingSoon ? 'disabled' : ''}" data-key="${key}">${value}</button>`;
+    }).join('');
+
+    hubContainer.innerHTML = `
+      <div class="selection-step">
+        <div class="selection-step-header">${backBtn}<h1>${title}</h1></div>
+        <div class="${gridClass}">${gridContent}</div>
+      </div>
+    `;
+  }
+
+  // --- back button wiring ---
+  const back = document.getElementById('backBtn');
+  if (back) {
+    back.onclick = () => {
+      if (step === 'year') delete state.selections.subject;
+      if (step === 'topic') delete state.selections.year;
+      saveSelections();
+      renderChallengeHub();
+    };
+  }
+
+  // --- normal picker cards (subject/year/topic) ---
+  hubContainer.querySelectorAll('.selection-card[data-key]').forEach(card => {
+  card.onclick = () => {
+    if (card.classList.contains('disabled')) return;
+    state.selections[step] = card.dataset.key;
+    saveSelections();
+    renderChallengeHub();
+  };
+});
+
+
+  // --- extra actions on subject only ---
+  if (step === 'subject') {
+    const dailyBtn = document.getElementById('dailyCard');
+    if (dailyBtn) {
+      dailyBtn.onclick = (e) => {
+        e.preventDefault();
+        // Gate on click (visible to all; only logged-in can run)
+        if (!JWT_TOKEN) {
+          showSaveNudge?.({
+            variant: 'post',
+            title: 'Daily Challenge needs a login',
+            message: 'Log in to unlock Daily Challenge and save your coins & streak.',
+            onLogin: gotoLoginSameTab
+          });
+          return;
+        }
+        startDailyChallenge();
+      };
+    }
+    const tablesBtn = document.getElementById('tablesCard');
+    if (tablesBtn) {
+      tablesBtn.onclick = (e) => { e.preventDefault(); startTablesSprint(); };
+    }
+  }
+
+  // Show hero/teacher sections only on the subject picker
+  setHomeInfoVisible(step === 'subject');
 }
 
 
-
-   const isComingSoon = typeof value === 'string' && value.includes('Coming Soon');
-   return `<button class="selection-card ${isComingSoon ? 'disabled' : ''}" data-key="${key}">${value}</button>`;
- }).join('');
-
-
- hubContainer.innerHTML = `
-   <div class="selection-step">
-     <div class="selection-step-header">${backButtonHTML}<h1>${title}</h1></div>
-     <div class="${gridClass}">${gridContent}</div>
-   </div>
- `;
-
-
- if ($('#backBtn')) {
-   $('#backBtn').onclick = () => {
-     if (step === 'year') delete state.selections.subject;
-     if (step === 'topic') delete state.selections.year;
-     saveSelections();
-     renderChallengeHub();
-   };
- }
- hubContainer.querySelectorAll('.selection-card').forEach(card => {
-   card.onclick = () => {
-     if (card.classList.contains('disabled')) return;
-     state.selections[step] = card.dataset.key;
-     saveSelections();
-     renderChallengeHub();
-   };
- });
- // Home-only sections are visible only on the subject picker
- setHomeInfoVisible(step === 'subject');
-}
 
 
 function simpleHash(str) {
@@ -1689,7 +2121,61 @@ function buildActivityKeyForCurrentLesson() {
  return (`lesson:${id}|${s.subject||'any'}|${s.year||'any'}|${s.topic||'any'}`).slice(0, 190);
 }
 
+function recordLessonToProfile({ pack, score, coinsGained, streakEarned }) {
+  try {
+    const todayKey = getTodayKey(new Date(), USER_TZ);
+    const totalSteps = Array.isArray(pack?.steps) ? pack.steps.length : 0;
 
+    // Treat normal lessons as the current subject mode (nice for History list)
+    const mode = state?.selections?.subject || 'lesson';
+
+    const summary = {
+      correct: score,
+      wrong: Math.max(0, totalSteps - score),
+      coinsEarned: coinsGained,
+      streakDelta: streakEarned ? 1 : 0,
+      mode
+    };
+
+    // Unlock any badges tied to this summary
+    const before = profileStore.get();
+    const badgeResult = maybeUnlockBadges(before, summary);
+
+    profileStore.update(d => {
+      d.history ||= {};
+      const prev = d.history[todayKey] || { correct:0, wrong:0, total:0, coinsEarned:0, mode };
+      d.history[todayKey] = {
+        ...prev,
+        dateISO: new Date().toISOString(),
+        mode,
+        correct: (prev.correct || 0) + summary.correct,
+        wrong:   (prev.wrong   || 0) + summary.wrong,
+        total:   (prev.total   || 0) + totalSteps,
+        coinsEarned: (prev.coinsEarned || 0) + summary.coinsEarned,
+      };
+
+      // Keep streak in the profile store in sync (so chips/tabs show right away)
+      if (streakEarned) {
+        const s = d.streak || { current:0, best:0, lastActiveISO:'' };
+        s.current = (s.current || 0) + 1;
+        s.best = Math.max(s.best || 0, s.current);
+        s.lastActiveISO = new Date().toISOString();
+        d.streak = s;
+      }
+
+      if (badgeResult?.unlocked?.length) {
+        d.badges = Array.from(new Set([...(d.badges || []), ...badgeResult.unlocked]));
+      }
+    });
+
+    // If you’re sitting on the profile page, refresh it
+    if (location.pathname === '/profile') {
+      try { renderProfile(); } catch {}
+    }
+  } catch (e) {
+    console.warn('recordLessonToProfile failed:', e);
+  }
+}
 
 
 async function advanceOrFinish() {
@@ -1743,18 +2229,34 @@ async function advanceOrFinish() {
 
 
  // 🟣 Apply coins: pending per-step coins + completion bonus (respect cap if known)
- let completionBonus = 10;
- if (typeof state.coinsCapRemaining === 'number') {
-   completionBonus = Math.min(completionBonus, Math.max(0, state.coinsCapRemaining));
-   state.coinsCapRemaining -= completionBonus;
- }
- state.coins += (state.lessonCoinsPending || 0) + completionBonus;
- state.lessonCoinsPending = 0;
+ // 🟣 Apply coins: pending per-step coins + completion bonus (respect cap if known)
+let completionBonus = 10;
+if (typeof state.coinsCapRemaining === 'number') {
+  completionBonus = Math.min(completionBonus, Math.max(0, state.coinsCapRemaining));
+  state.coinsCapRemaining -= completionBonus;
+}
 
+// Calculate BEFORE zeroing pending
+const coinsGained = (state.lessonCoinsPending || 0) + completionBonus;
 
- // Guests manage streak locally; logged-in relies on server truth
- if (!JWT_TOKEN && streakEarnedThisLesson) state.streak++;
- updateUiCounters();
+// Apply coins
+state.coins += coinsGained;
+state.lessonCoinsPending = 0;
+
+// Guests manage streak locally; logged-in relies on server truth
+if (!JWT_TOKEN && streakEarnedThisLesson) state.streak++;
+updateUiCounters();
+
+// NEW: write to profileStore so History/Badges update
+try {
+  recordLessonToProfile({
+    pack,
+    score: state.score,
+    coinsGained,
+    streakEarned: streakEarnedThisLesson
+  });
+} catch {}
+
 
 
  // ── DAILY PATH: advance the gate if this lesson is in today's plan and user "passed"
@@ -2052,11 +2554,9 @@ async function renderLesson(short) {
     return;
   }
 
-  // Paint template and ensure DOM nodes exist
-  app.innerHTML = lessonTpl.innerHTML;
+    // Paint template and ensure DOM nodes exist
+   app.innerHTML = lessonTpl.innerHTML;
   await new Promise(r => setTimeout(r, 0));
-
-  
 
   try {
     // ✅ Load pack FIRST
@@ -2091,8 +2591,751 @@ async function renderLesson(short) {
     console.error('Failed to load lesson:', error);
     app.innerHTML = `<div class="error-container"><h2>Oops!</h2><p>Could not load this lesson.</p></div>`;
   }
+
+
+} // ← end of function renderLesson(short)
+
+/* === Profile route (paste the full block you have) === */
+
+// ---- SkillFlex inline icons (SVG) ----
+const SFIcon = {
+  coin: (size = 18) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <linearGradient id="sfCoinG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"  stop-color="#FFE066"/>
+          <stop offset="50%" stop-color="#FFC247"/>
+          <stop offset="100%" stop-color="#E5A93B"/>
+        </linearGradient>
+      </defs>
+      <circle cx="12" cy="12" r="9" fill="url(#sfCoinG)" stroke="#D89A33"/>
+      <circle cx="12" cy="12" r="5" fill="rgba(255,255,255,.25)"/>
+    </svg>
+  `,
+  flame: (size = 18) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <linearGradient id="sfFlameG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#FF8A00"/>
+          <stop offset="100%" stop-color="#FF3D00"/>
+        </linearGradient>
+      </defs>
+      <path d="M12 2c2.2 3 2.5 5.6.8 8 3-1 6.2 1.6 6.2 5.1a7 7 0 11-14 0c0-2.3 1.2-4.3 3-5.5C7.8 7.8 9.6 4.9 12 2z" fill="url(#sfFlameG)"/>
+      <path d="M13.2 12.5c1.3 1 .9 3.6-1.2 4.5-1.8.8-3.8-.2-3.8-2 0-1 .6-1.9 1.5-2.4.3 1.1 1.5 1.8 2.6 1.2.5-.3.8-.7.9-1.3z" fill="#FFD08A"/>
+    </svg>
+  `,
+  avatar: (streak = 0, size = 36) => {
+    const fill = streak >= 20 ? '#7C3AED' : streak >= 10 ? '#2563EB' : streak >= 5 ? '#10B981' : '#94A3B8';
+    return `
+      <svg width="${size}" height="${size}" viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <linearGradient id="sfFaceG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="${fill}"/>
+            <stop offset="100%" stop-color="#0B1020"/>
+          </linearGradient>
+        </defs>
+        <circle cx="24" cy="24" r="21" fill="url(#sfFaceG)"/>
+        <circle cx="17.5" cy="20.5" r="2.5" fill="#fff"/>
+        <circle cx="30.5" cy="20.5" r="2.5" fill="#fff"/>
+        <path d="M16 29c2.5 4 13.5 4 16 0" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/>
+      </svg>
+    `;
+  }
+};
+
+// ===== Main (global) header =====
+function buildMainHeader({ coins = 0, streak = 0, loggedIn = false, active = '' } = {}) {
+  const tab = (t, label) => {
+    const locked = !loggedIn;
+    const href = `/profile?tab=${t}`;
+    const cur = active === t ? 'aria-current="page"' : '';
+    const classes = locked ? 'mh-tab disabled' : 'mh-tab';
+    const aria = locked ? 'aria-disabled="true" title="Log in to use this"' : '';
+    return `<a ${cur} class="${classes}" ${aria} data-tab="${t}" href="${href}">${label}</a>`;
+  };
+  return `
+    <header id="mainHeader" class="mh" role="banner">
+      <div class="mh-left">
+        <a href="/" data-link class="mh-logo" aria-label="SkillFlex home"></a>
+        <div class="mh-title">SkillFlex Kids</div>
+        <nav class="mh-tabs" aria-label="Profile">
+          ${tab('overview','Overview')}
+          ${tab('shop','Shop')}
+          ${tab('history','History')}
+          ${tab('badges','Badges')}
+        </nav>
+      </div>
+      <div class="mh-spacer"></div>
+      <div class="mh-chips">
+        <span class="mh-chip" aria-label="${coins} coins">${SFIcon.coin(16)}<span class="mh-num" id="mhCoins">${coins}</span></span>
+        <span class="mh-chip" aria-label="${streak} day streak">${SFIcon.flame(16)}<span class="mh-num" id="mhStreak">${streak}</span></span>
+      </div>
+    </header>
+  `;
 }
 
+function currentProfileTabFromLocation(){
+  const u = new URL(location.href);
+  if (u.pathname !== '/profile') return '';
+  return (u.searchParams.get('tab') || 'overview').toLowerCase();
+}
+
+function mountMainHeader(){
+  try {
+    const profile = (window.profileStore?.get && window.profileStore.get()) || {};
+    const coins  = Number(profile?.coins || 0);
+    const streak = Number(profile?.streak?.current || profile?.streak || 0);
+    const loggedIn = !!window.JWT_TOKEN;
+    const active = currentProfileTabFromLocation();
+
+    // ✅ Small header is MOBILE-ONLY and LOGGED-IN only
+    const wantMini = loggedIn && window.innerWidth < 720;
+
+    let host = document.getElementById('mainHeader');
+
+    if (!wantMini) {
+      // remove if it exists (prevents duplicates on /units desktop)
+      if (host) host.remove();
+      return;
+    }
+
+    const html = buildMainHeader({ coins, streak, loggedIn, active });
+
+    if (!host) {
+      const wrap = document.createElement('div');
+      wrap.innerHTML = html;
+      host = wrap.firstElementChild;
+      const appRoot = document.getElementById('app');
+      (appRoot?.parentElement || document.body).insertBefore(host, appRoot || document.body.firstChild);
+    } else {
+      host.outerHTML = html;
+      host = document.getElementById('mainHeader');
+    }
+
+    const nav = host.querySelector('.mh-tabs');
+    if (nav && !nav._wired) {
+      nav._wired = true;
+      nav.addEventListener('click', (e) => {
+        const a = e.target.closest('a.mh-tab');
+        if (!a) return;
+        if (a.classList.contains('disabled')) {
+          e.preventDefault();
+          gotoLoginSameTab();
+          return;
+        }
+        e.preventDefault();
+        const href = a.getAttribute('href');
+        if (!href) return;
+        history.pushState({}, '', href);
+        router();
+      });
+    }
+
+    const cEl = document.getElementById('mhCoins');
+    const sEl = document.getElementById('mhStreak');
+    if (cEl) cEl.textContent = coins;
+    if (sEl) sEl.textContent = streak;
+  } catch {}
+}
+
+
+if (typeof window !== 'undefined') window.mountMainHeader = mountMainHeader;
+
+
+function renderProfile() {
+  if (!JWT_TOKEN) {
+    app.innerHTML = `
+      <section class="pf-wrap pf-guest">
+        <div class="pf-card pf-stat pf-empty">Profile view coming soon for guests.</div>
+      </section>
+    `;
+    return;
+  }
+
+  const profile   = profileStore.get();
+  const items     = getShopItems(profile) || [];
+  const equipped  = items.find(i => i.equipped);
+  const coins     = Number(profile?.coins || 0);
+  const streak    = Number(profile?.streak?.current || 0);
+  const best      = Number(profile?.streak?.best || 0);
+  const badgesCt  = (profile?.badges || []).length;
+  const themeMode = getThemePreference() || document.documentElement.dataset.theme || 'light';
+
+   const params = new URLSearchParams(location.search);
+  let tab = (params.get('tab') || 'overview').toLowerCase();
+
+  // clean route: /path → Learn
+  if (location.pathname === '/path') {
+  tab = 'path';
+}
+
+  // ---- Body view flags (for CSS) ----
+  const body = document.body;
+  body.classList.add('logged-in');                          // hide old kids hero
+  body.classList.remove('profile-focus', 'path-view', 'in-lesson');
+
+  if (tab === 'path') {
+    body.classList.add('path-view');
+  } else {
+    body.classList.add('profile-focus');
+  }
+
+  // ---- What to show on mobile vs desktop ----
+  const onMobile = window.innerWidth < 720;   // UI decision only
+
+  // Learn/Path tab
+  const showPath  = (tab === 'path');
+
+  // Body:
+  // - mobile: hide body when you're on Learn/Path (full-bleed path)
+  // - desktop: always show body under the hero
+  const showBody  = onMobile ? (tab !== 'path') : true;
+
+
+
+const mobileHeader = `
+  <div class="pf-hero pf-hero-xs">
+    <div class="pf-hero-left">
+      <div class="pf-avatar pf-avatar-xs">${SFIcon.avatar(streak, 36)}</div>
+    </div>
+    <div class="pf-hero-right">
+      <div class="pf-chips">
+        <span class="pf-chip" aria-label="${coins} coins">
+          ${SFIcon.coin(18)}<span class="pf-num">${coins}</span>
+        </span>
+        <span class="pf-chip" aria-label="${streak} day streak">
+          ${SFIcon.flame(18)}<span class="pf-num">${streak}</span>
+        </span>
+      </div>
+      ${buildProfileGearMenu(themeMode)}
+    </div>
+  </div>`;
+
+
+  // ===== Panels =====
+  const overviewHTML = `
+    <div class="pf-cards-row">
+      <div class="pf-card pf-stat">
+        <div class="pf-stat-title">Coins</div>
+        <div class="pf-stat-big">${coins}</div>
+        <div class="pf-stat-sub">Spend in the Shop</div>
+      </div>
+      <div class="pf-card pf-stat">
+        <div class="pf-stat-title">Streak</div>
+        <div class="pf-stat-big">${streak}</div>
+        <div class="pf-stat-sub">Best: ${best}</div>
+      </div>
+      <div class="pf-card pf-stat">
+        <div class="pf-stat-title">Badges</div>
+        <div class="pf-stat-big">${badgesCt}</div>
+        <div class="pf-stat-sub">Unlocked so far</div>
+      </div>
+    </div>
+
+    <div class="pf-cards-row">
+      <div class="pf-card pf-look">
+        <div class="pf-card-h">Current Look</div>
+        <div class="pf-look-box">
+          <div class="pf-look-avatar">${equipped?.emoji ?? '🪄'}</div>
+          <div class="pf-look-meta">
+            <div class="pf-look-title">${equipped ? (equipped.title || equipped.name || 'Equipped') : 'Default'}</div>
+            <div class="pf-stat-sub">Your active frame/flair</div>
+          </div>
+        </div>
+        <button class="btn" data-action="change-look">✨ ${PROFILE_COPY.changeLook}</button>
+      </div>
+    </div>
+  `;
+
+  const shopHTML = `
+    <div class="pf-card pf-list">
+      <div class="pf-card-h">Shop</div>
+      <div id="pfShopHost" class="pf-shop-host"></div>
+    </div>
+  `;
+
+  const sessionHistory = profile.history || {};
+  const historyHTML = `
+    <div class="pf-card pf-list">
+      <div class="pf-card-h">All Sessions</div>
+      <ul class="pf-session-list">
+        ${
+          Object.entries(sessionHistory).length
+            ? Object.entries(sessionHistory).sort((a,b)=>b[0].localeCompare(a[0])).map(([k, s])=>{
+                const total = s.total ?? (Number(s.correct||0)+Number(s.wrong||0));
+                return `<li><span class="pf-s-date">${k}</span><span class="pf-s-note">${s.mode||'lesson'}</span><span class="pf-s-score">${s.correct||0}/${total||0} correct</span><span class="pf-s-coins">+${s.coinsEarned||0}</span></li>`;
+              }).join('')
+            : `<li class="pf-empty">No sessions yet.</li>`
+        }
+      </ul>
+    </div>
+  `;
+
+  const badgesHTML = `
+    <div class="pf-card pf-list">
+      <div class="pf-card-h">Badges</div>
+      <div class="pf-badges">
+        ${
+          badgesCt
+            ? (profile.badges || []).map(b => `<span class="pf-badge">${b}</span>`).join('')
+            : `<div class="pf-empty">No badges yet</div>`
+        }
+      </div>
+    </div>
+  `;
+
+  // ===== Hero (desktop only). On mobile we render just a small gear anchor so “More” can open. =====
+  // Big desktop hero (tabs + chips). Safe to replace your existing one.
+const desktopHero = `
+  <div class="pf-hero">
+    <div class="pf-hero-left">
+      <div class="pf-avatar">✨</div>
+      <div class="pf-title-block">
+        <h1 class="pf-title">Your Profile</h1>
+        <div class="pf-sub">@player</div>
+        <nav class="pf-tabs">
+          <a href="/profile?tab=path"
+            data-tab="path"
+            class="pf-tab ${tab==='path' ? 'active' : ''}">
+            Learn
+            </a>
+
+          <a href="/profile?tab=overview" data-tab="overview" class="pf-tab ${tab==='overview'?'active':''}">Overview</a>
+          <a href="/profile?tab=shop"     data-tab="shop"     class="pf-tab ${tab==='shop'?'active':''}">Shop</a>
+          <a href="/profile?tab=history"  data-tab="history"  class="pf-tab ${tab==='history'?'active':''}">History</a>
+          <a href="/profile?tab=badges"   data-tab="badges"   class="pf-tab ${tab==='badges'?'active':''}">Badges</a>
+        </nav>
+      </div>
+    </div>
+    <div class="pf-hero-right">
+      <div class="pf-chips">
+        <span class="pf-chip">🪙 ${coins} coins</span>
+        <span class="pf-chip">🔥 ${streak} day streak</span>
+      </div>
+      ${buildProfileGearMenu(themeMode)}
+    </div>
+  </div>`;
+
+  // Tiny gear dock so the “More” bottom tab has something to open on mobile
+  const gearDockMobile = `
+  <div class="pf-hero pf-hero-xs">
+    <div class="pf-hero-right">
+      ${buildProfileGearMenu(themeMode)}
+    </div>
+  </div>`;
+
+  app.innerHTML = `
+  <section class="pf-wrap">
+    ${desktopHero}
+    ${showPath ? renderProfilePathSection(profile) : ''}
+
+    ${showBody ? `
+      <div class="pf-body">
+        ${
+          tab==='overview' ? overviewHTML :
+          tab==='shop'     ? shopHTML :
+          tab==='history'  ? historyHTML : badgesHTML
+        }
+      </div>
+    ` : ''}
+
+    <p><a class="btn" href="/" data-link>← Back home</a></p>
+  </section>
+`;
+
+// Hide "Back home" on mobile (bottom tabs replace it)
+  if (shouldShowMobileTabs()) {
+    const backLink = app.querySelector('.pf-wrap > p > a.btn[href="/"]');
+    if (backLink) backLink.parentElement.hidden = true; // hide the <p>
+  }
+  // Wire up interactions that still apply
+  wireProfileInteractions();
+  wireProfileSettingsMenu();
+
+
+  // Tabs on hero (desktop + mobile)
+app.querySelectorAll('.pf-tab').forEach(btn => {
+  btn.addEventListener('click', (ev) => {
+    ev.preventDefault();                         // SPA nav
+    const t = btn.dataset.tab;
+    const url = new URL(location.href);
+
+    url.pathname = '/profile';                   // always stay on /profile
+    url.searchParams.set('tab', t);
+
+    history.pushState({}, '', url.pathname + '?' + url.searchParams + url.hash);
+    renderProfile();
+  });
+});
+
+  // SPA navigation for internal links inside Profile (Path cards, View all, Continue, etc.)
+  app.querySelectorAll('.pf-wrap a[href]').forEach(a => {
+    // Skip the hero tabs – they already have a custom handler above
+    if (a.classList.contains('pf-tab')) return;
+
+    a.addEventListener('click', (ev) => {
+      // Respect right clicks / modifier keys / already-handled events
+      if (ev.defaultPrevented || ev.button !== 0) return;
+      if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+
+      const href = a.getAttribute('href');
+      if (!href) return;
+
+      const url = new URL(href, location.href);
+
+      // Only intercept same-origin, internal links (no downloads / _blank / external)
+      const sameOrigin = url.origin === location.origin;
+      const internal   = sameOrigin && url.pathname.startsWith('/');
+      const skip =
+        a.hasAttribute('download') ||
+        a.target === '_blank' ||
+        (a.rel && a.rel.includes('external'));
+
+      if (!internal || skip) return; // let the browser handle these normally
+
+      ev.preventDefault();
+
+      const dest = url.pathname + url.search + url.hash;
+      const cur  = location.pathname + location.search + location.hash;
+      if (dest !== cur) {
+        history.pushState({}, '', dest);
+      }
+
+      // Let the main SPA router take over (so /units, etc. work correctly)
+      router();
+    });
+  });
+
+
+
+  // Inline shop (when tab = shop)
+  const shopHost = document.getElementById('pfShopHost');
+  if (shopHost) {
+    renderShopHoverCard(shopHost);
+    profileStore.subscribe(() => renderShopHoverCard(shopHost));
+  }
+}
+
+
+
+function buildProfileGearMenu(themeMode = 'light') {
+  if (!JWT_TOKEN) return '';
+  return `
+    <div class="pf-gear-wrap">
+      <button type="button" class="pf-gear" aria-haspopup="menu" aria-expanded="false" aria-label="${PROFILE_COPY.gearTitle}">
+        ⚙️
+      </button>
+      <div class="pf-gear-pop" role="menu" aria-label="${PROFILE_COPY.gearTitle}" hidden>
+        <div class="pf-menu-label">${PROFILE_COPY.theme}</div>
+        <div class="pf-theme-switch" role="group" aria-label="${PROFILE_COPY.theme}">
+          <button type="button" class="pf-theme-btn ${themeMode === 'light' ? 'active' : ''}" data-theme="light" role="menuitemradio" aria-checked="${themeMode === 'light'}">${PROFILE_COPY.themeLight}</button>
+          <button type="button" class="pf-theme-btn ${themeMode === 'dark' ? 'active' : ''}" data-theme="dark" role="menuitemradio" aria-checked="${themeMode === 'dark'}">${PROFILE_COPY.themeDark}</button>
+        </div>
+
+        <!-- 🌐 Language (still disabled) -->
+        <button type="button" class="pf-menu-item pf-menu-disabled" disabled role="menuitem">
+          🌐 ${PROFILE_COPY.languageSoon}
+          <span class="pf-badge-soon">soon</span>
+        </button>
+
+        <!-- 🚪 NEW: Logout button under language -->
+        <button type="button" class="pf-menu-item pf-logout-btn" data-action="logout" role="menuitem">
+          🚪 Log out
+        </button>
+
+        <div class="pf-menu-divider"></div>
+        <button type="button" class="pf-menu-item pf-menu-parent" data-action="toggle-grownups" role="menuitem" aria-expanded="false">${PROFILE_COPY.grownups}</button>
+        <div class="pf-menu-sub" hidden>
+          <p class="pf-menu-note">👨‍👩‍👧 ${PROFILE_COPY.parentsSoon}</p>
+          <p class="pf-menu-note">🧑‍🏫 ${PROFILE_COPY.teachersSoon}</p>
+          <p class="pf-menu-note">🔐 ${PROFILE_COPY.manageSoon}</p>
+          <div class="pf-menu-links">
+            <button type="button" class="pf-link-btn" data-link="${CONFIG.BACKEND_PORTAL_URL}/parents/tutors" role="menuitem">${PROFILE_COPY.findTutors}</button>
+            <button type="button" class="pf-link-btn" data-link="${CONFIG.BACKEND_PORTAL_URL}/teachers/apply" role="menuitem">${PROFILE_COPY.becomeTutor}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+
+function wireProfileSettingsMenu(wrapOverride) {
+  if (!wrapOverride && gearCleanupFns.length) {
+    gearCleanupFns.forEach((fn) => fn());
+    gearCleanupFns = [];
+    window._pfGearCleanup = null;
+  }
+
+  const wraps = wrapOverride
+    ? (Array.isArray(wrapOverride) ? wrapOverride : [wrapOverride])
+    : Array.from(document.querySelectorAll('.pf-gear-wrap'));
+
+  if (!wraps.length) return;
+
+  wraps.forEach((wrap) => {
+    const cleanup = setupGearWrap(wrap);
+    if (cleanup) gearCleanupFns.push(cleanup);
+  });
+
+  if (!window._pfGearCleanup) {
+    window._pfGearCleanup = () => {
+      gearCleanupFns.forEach((fn) => fn());
+      gearCleanupFns = [];
+      window._pfGearCleanup = null;
+    };
+  }
+}
+
+function setupGearWrap(wrap) {
+  const btn = wrap?.querySelector('.pf-gear');
+  const pop = wrap?.querySelector('.pf-gear-pop');
+  if (!wrap || !btn || !pop) return null;
+
+  const prefersHover = matchMedia('(hover: hover) && (pointer: fine)').matches;
+  const cleanup = [];
+  let isOpen = false;
+  let hideTimer = null;
+
+  const add = (node, type, handler, options) => {
+    node.addEventListener(type, handler, options);
+    cleanup.push(() => node.removeEventListener(type, handler, options));
+  };
+
+  const setOpen = (state) => {
+    isOpen = state;
+    wrap.classList.toggle('open', state);
+    if (state) {
+      pop.removeAttribute('hidden');
+      btn.setAttribute('aria-expanded', 'true');
+      const first = pop.querySelector('.pf-theme-btn, .pf-menu-item, .pf-link-btn');
+      first?.focus?.();
+    } else {
+      pop.setAttribute('hidden', '');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  };
+  wrap._pfSetOpen = setOpen;
+
+  add(btn, 'click', (e) => {
+    e.preventDefault();
+    setOpen(!isOpen);
+  });
+
+  if (prefersHover) {
+    const enter = () => { clearTimeout(hideTimer); setOpen(true); };
+    const leave = () => { hideTimer = setTimeout(() => setOpen(false), 160); };
+    add(wrap, 'mouseenter', enter);
+    add(wrap, 'mouseleave', leave);
+    add(pop, 'mouseenter', enter);
+    add(pop, 'mouseleave', leave);
+  }
+
+  const outside = (e) => {
+    if (!wrap.contains(e.target)) setOpen(false);
+  };
+  add(document, 'click', outside);
+
+  add(document, 'keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+
+  wrap.querySelectorAll('.pf-theme-btn').forEach((themeBtn) => {
+    add(themeBtn, 'click', (e) => {
+      e.preventDefault();
+      const mode = themeBtn.dataset.theme === 'dark' ? 'dark' : 'light';
+      setThemePreference(mode, true);
+      wrap.querySelectorAll('.pf-theme-btn').forEach((btnEl) => {
+        const active = btnEl.dataset.theme === mode;
+        btnEl.classList.toggle('active', active);
+        btnEl.setAttribute('aria-checked', String(active));
+      });
+    });
+  });
+
+  const changeLookBtn = wrap.querySelector('[data-action="change-look"]');
+  if (changeLookBtn) {
+    add(changeLookBtn, 'click', (e) => {
+      e.preventDefault();
+      setOpen(false);
+      handleChangeLookRequest();
+    });
+  }
+
+  const logoutBtn = wrap.querySelector('[data-action="logout"]');
+  if (logoutBtn) {
+    add(logoutBtn, 'click', async (e) => {
+      e.preventDefault();
+      setOpen(false);
+      try { await logout(); } catch (err) { console.error('Logout failed:', err); }
+    });
+  }
+
+  const grownupsBtn = wrap.querySelector('[data-action="toggle-grownups"]');
+  const grownupsPanel = wrap.querySelector('.pf-menu-sub');
+  if (grownupsBtn && grownupsPanel) {
+    add(grownupsBtn, 'click', (e) => {
+      e.preventDefault();
+      const expanded = !grownupsPanel.hasAttribute('hidden');
+      if (expanded) grownupsPanel.setAttribute('hidden', '');
+      else grownupsPanel.removeAttribute('hidden');
+      grownupsBtn.setAttribute('aria-expanded', String(!expanded));
+    });
+  }
+
+  wrap.querySelectorAll('.pf-link-btn').forEach((linkBtn) => {
+    const url = linkBtn.dataset.link;
+    if (!url) return;
+    add(linkBtn, 'click', (e) => {
+      e.preventDefault();
+      maybeOpenGrownupLink(url);
+      setOpen(false);
+    });
+  });
+
+  return () => {
+    cleanup.forEach((fn) => fn());
+    wrap._pfSetOpen = null;
+  };
+}
+
+
+function handleChangeLookRequest() {
+  const profile = profileStore.get();
+  const owned = (getShopItems(profile) || []).filter((i) => i.owned);
+  if (!owned.length) {
+    history.pushState({}, '', '/profile?tab=shop');
+    router();
+    return;
+  }
+  showShopModal({
+    items: owned,
+    coins: profile.coins,
+    onPurchase: (id) => {
+      const res = purchaseItem(profileStore, id);
+      if (res?.ok) emitTelemetry('equip_look', { item: res.item.id });
+      renderProfile();
+      return res;
+    }
+  });
+}
+
+function hasAnyProfileProgress(profile) {
+  return Boolean(
+    (profile?.streak?.current ?? 0) > 0 ||
+    (Array.isArray(profile?.progress) && profile.progress.length) ||
+    profile?.lastLesson ||
+    profile?.lastUnitId
+  );
+}
+
+function renderProfilePathSection(profile) {
+  const hasProgress = hasAnyProfileProgress(profile);
+  const teaser = `
+    <div class="selection-grid subject-grid pf-path-grid">
+      <a class="selection-card large-card" href="/units" data-key="english">
+        <span class="selection-card-title" data-emoji="✨">English</span>
+      </a>
+      <a class="selection-card large-card" href="/units" data-key="maths">
+        <span class="selection-card-title" data-emoji="🔢">Maths</span>
+      </a>
+    </div>
+  `;
+  const empty = `
+    <div class="pf-path-empty">
+      <div class="pf-path-empty-title">${PROFILE_COPY.pathEmpty}</div>
+      <div class="pf-path-empty-cta">
+        <button class="btn btn-primary" data-action="continue">${PROFILE_COPY.pathContinue}</button>
+        <a href="/units" class="btn btn-secondary" data-action="view-all">${PROFILE_COPY.pathViewAll}</a>
+      </div>
+    </div>
+  `;
+  return `
+    <section class="section pf-path" aria-labelledby="pf-path-title">
+      <div class="pf-path-head">
+        <div class="pf-path-titles">
+          <h2 id="pf-path-title">${PROFILE_COPY.pathTitle}</h2>
+          <p class="subtitle">${PROFILE_COPY.pathSubtitle}</p>
+        </div>
+        <div class="pf-path-actions">
+          <a href="/units" class="btn btn-secondary" data-action="view-all">${PROFILE_COPY.pathViewAll}</a>
+          <button class="btn btn-primary" data-action="continue">${PROFILE_COPY.pathContinue}</button>
+        </div>
+      </div>
+      <div class="pf-path-body">
+        ${hasProgress ? teaser : empty}
+      </div>
+    </section>
+  `;
+}
+
+function injectUnitsDesktopHeader(path) {
+  if (!app) return;
+  const existing = app.querySelector('.pf-units-hero');
+  const shouldShow =
+    path === '/units' &&
+    !!JWT_TOKEN &&
+    typeof window !== 'undefined' &&
+    window.innerWidth >= 720;
+
+  if (!shouldShow) {
+    existing?.remove();
+    return;
+  }
+
+  const profile = profileStore.get();
+  const coins = Number(profile?.coins || 0);
+  const streak = Number(profile?.streak?.current || 0);
+  const themeMode = getThemePreference?.() || document.documentElement.dataset.theme || 'light';
+
+  const section = document.createElement('section');
+  section.className = 'pf-wrap pf-units-hero';
+  section.innerHTML = `
+    <div class="pf-hero pf-hero-inline">
+      <div class="pf-hero-left">
+        <div class="pf-avatar">✨</div>
+        <div class="pf-title-block">
+          <h1 class="pf-title">Your Profile</h1>
+          <div class="pf-sub">Keep earning coins and streaks</div>
+        </div>
+      </div>
+      <div class="pf-hero-right">
+        <div class="pf-chips">
+          <span class="pf-chip">🪙 ${coins} coins</span>
+          <span class="pf-chip">🔥 ${streak} day streak</span>
+        </div>
+        ${buildProfileGearMenu(themeMode)}
+      </div>
+    </div>
+  `;
+
+  if (existing) existing.replaceWith(section);
+  else app.prepend(section);
+
+  wireProfileSettingsMenu();
+}
+
+function requiresGrownupGate() {
+  if (matchMedia('(pointer: coarse)').matches) return true;
+  if (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) return true;
+  return 'ontouchstart' in window;
+}
+
+
+function maybeOpenGrownupLink(url) {
+  if (!url) return;
+  const needsGate = requiresGrownupGate();
+  if (needsGate) {
+    const answer = window.prompt(`${PROFILE_COPY.grownupGateTitle}\n${PROFILE_COPY.grownupGateHint}\n2 + 5 = ?`);
+    if (String(answer || '').trim() !== '7') {
+      feedback('Oops! Try again.', false);
+      return;
+    }
+  }
+  window.open(url, '_blank', 'noopener');
+}
+
+/* === end Profile route === */
 
 
 // --- Selection UI + Challenge Hub ---
@@ -2362,12 +3605,6 @@ function renderDailyChallenges() {
 
 
 
-
-
-
-
-
-
 // --- App Initialization ---
 async function initializeApp() {
  trace('init:start');
@@ -2390,14 +3627,14 @@ await idbPut('meta', { key: 'jwt', value: JWT_TOKEN });
 try { localStorage.setItem('sf_jwt', JWT_TOKEN); } catch {}
 
 
-// Keep the exact page (lesson/hub), just remove auth params we used
-const u = new URL(location.href);
-u.searchParams.delete('token');
-u.searchParams.delete('guestGameId');   // if you pass this
-u.searchParams.delete('redirect');      // optional tidy-up
+  // Keep the exact page (lesson/hub), just remove auth params we used
+ const u = new URL(location.href);
+ u.searchParams.delete('token');
+  u.searchParams.delete('guestGameId');   // if you pass this
+ u.searchParams.delete('redirect');      // optional tidy-up
 
 
-history.replaceState(
+ history.replaceState(
  null,
  '',
  u.pathname + (u.searchParams.toString() ? `?${u.searchParams}` : '') + (u.hash || '')
@@ -2423,6 +3660,8 @@ history.replaceState(
 
  // 3) Update header buttons immediately (avoid flicker)
  updateLoginButton();
+ mountMainHeader();
+ profileStore.subscribe(() => mountMainHeader());
 
 
  // 4) Guest merge & progress hydrate
@@ -2455,14 +3694,73 @@ history.replaceState(
  await loadActivities();
 
 
- document.body.addEventListener('click', e => {
-   const a = e.target.closest('a[data-link]');
-   if (!a) return;
-   e.preventDefault();
-   history.pushState({}, '', a.getAttribute('href'));
-   router();
- });
- window.addEventListener('popstate', router);
+ // SINGLE delegator for internal navigation
+document.body.addEventListener('click', (e) => {
+  // ignore already-handled, right/middle clicks, or with modifiers
+  if (e.defaultPrevented || e.button !== 0) return;
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+  // 1) Prefer explicit SPA links (works on <a> or any element with data-href)
+  let a = e.target.closest('a[data-link], [data-link][href], [data-link][data-href]');
+  let href = a?.getAttribute?.('href') ?? a?.getAttribute?.('data-href');
+
+  // 2) Otherwise handle plain same-origin anchors like <a href="/profile?tab=shop">
+  if (!a) {
+    const cand = e.target.closest('a[href]');
+    if (cand) {
+      const url = new URL(cand.getAttribute('href'), location.href);
+      const sameOrigin = url.origin === location.origin;
+      const internal   = sameOrigin && url.pathname.startsWith('/');
+      const skip =
+        cand.hasAttribute('download') ||
+        cand.target === '_blank' ||
+        cand.rel?.includes('external');
+
+      if (internal && !skip) {
+        a = cand;
+        href = url.pathname + url.search + url.hash;
+      }
+    }
+  }
+
+  if (!a || !href) return;
+
+  e.preventDefault();
+
+  const dest = href.startsWith('http')
+    ? new URL(href).pathname + new URL(href).search + new URL(href).hash
+    : href;
+
+  // avoid pushing identical URL
+  const cur = location.pathname + location.search + location.hash;
+  if (dest !== cur) history.pushState({}, '', dest);
+
+  router();
+});
+
+
+// keep this once (don’t add duplicates)
+let _rsT;
+window.addEventListener('resize', () => {
+  clearTimeout(_rsT);
+  _rsT = setTimeout(() => {
+    updateMobileTabsVisibility();
+    updateMobileTabsActive(location.pathname + location.search);
+    injectUnitsDesktopHeader(location.pathname);
+    maybeShowInstallNudge(); // ← add this
+  }, 120);
+});
+
+window.addEventListener('popstate', () => {
+  updateMobileTabsVisibility();
+  updateMobileTabsActive(location.pathname + location.search);
+  injectUnitsDesktopHeader(location.pathname);
+  maybeShowInstallNudge(); // ← add this
+  router();
+});
+
+
+
 
 
  // 6.5) Home button → always show subject picker
@@ -2560,9 +3858,6 @@ if (typeof window !== 'undefined') {
  window.renderLesson = renderLesson;
  window.router = router;
  window.state = state;
- window.sfUpdateUserProgress = updateUserProgress;         // ← used by units.js
- window.sfBuildActivityKey  = buildActivityKeyForCurrentLesson; // ← used by units.js
- window.saveLocalGuestProgress = saveLocalGuestProgress;   // ← used by units.js
  installUnitsFeature();
  window.goHome = goHome;
  // Helpers for feature modules (e.g., units.js)
@@ -2623,3 +3918,322 @@ if (DEBUG) {
   })();
 }
 
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    ensureModalHost();
+    hydrateProfileHeader(profileStore.get());
+    profileStore.subscribe(hydrateProfileHeader);
+    wireDailyCard();
+    wireShopButton();
+    observeDailyAnchors(); // ensures Daily wires once homeTpl is stamped
+  } catch (e) { console.error(e); }
+});
+function observeDailyAnchors() {
+  const root = document.getElementById('app') || document.body;
+  const obs = new MutationObserver(() => {
+    const btn = document.getElementById('continueBtn');
+    if (btn && !btn.dataset.dailyWired) {
+      btn.dataset.dailyWired = '1';
+      wireDailyCard(); // re-run now that #continueBtn exists in the live DOM
+    }
+  });
+  obs.observe(root, { childList: true, subtree: true });
+}
+
+
+// === Daily Challenge helpers (appended) ===
+function hydrateProfileHeader(profile) {
+  try {
+    const coinsEl = document.querySelector('#coins');
+    const streakEl = document.querySelector('#streak');
+    if (coinsEl) coinsEl.textContent = `🪙 ${profile?.coins ?? 0}`;
+    if (streakEl) streakEl.textContent = `🔥 ${profile?.streak?.current ?? 0}`;
+  } catch {}
+}
+
+function wireDailyCard() {
+  const btn = document.getElementById('continueBtn');
+  if (!btn) return;
+  btn.addEventListener('click', (e) => { e.preventDefault(); startDailyChallenge(); });
+  updateDailyCard(profileStore.get());
+  profileStore.subscribe(updateDailyCard);
+}
+
+function updateDailyCard(profile) {
+  const pill = document.getElementById('continueMeta');
+  if (!pill) return;
+  const tz = (typeof USER_TZ !== 'undefined' && USER_TZ) ? USER_TZ : (Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC');
+  const todayKey = getTodayKey(new Date(), tz);
+  const session = profile.history?.[todayKey];
+  const completed = session ? (session.correct + session.wrong) : 0;
+  pill.textContent = completed ? `${completed}/${DAILY_QUESTION_COUNT} today` : 'New day unlocked';
+}
+
+function renderShopHoverCard(host) {
+  const profile = profileStore.get();
+  const coins   = Number(profile?.coins || 0);
+  const items   = getShopItems(profile) || [];
+
+  host.innerHTML = `
+    <div class="shop-card">
+      <div class="shop-head">Shop • <span class="coins">${coins} coins</span></div>
+      <div class="shop-list">
+        ${items.map((it) => {
+          const title    = it.title ?? it.name ?? it.label ?? 'Untitled';
+          const price    = Number(it.price ?? it.cost ?? it.coins ?? 0);
+          const owned    = !!(it.owned ?? it.isOwned);
+          const equipped = !!(it.equipped ?? it.isEquipped);
+          const act      = owned ? 'equip' : 'buy';
+          const label    = owned ? (equipped ? 'Equipped' : 'Equip') : `— ${price}`;
+          const disabled = !owned && coins < price;
+
+          return `
+            <button class="shop-item" data-id="${it.id}" data-act="${act}" ${disabled ? 'disabled' : ''}>
+              <span class="emoji">${it.emoji ?? ''}</span>
+              <span class="name">${title}</span>
+              <span class="price">${label}</span>
+            </button>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  host.querySelectorAll('.shop-item').forEach((btn) => {
+    btn.onclick = () => {
+      const id  = btn.dataset.id;
+      const act = btn.dataset.act;
+      const res = act === 'buy'
+        ? purchaseItem(profileStore, id)
+        : purchaseItem(profileStore, id); // swap to equipItem(id) if you have one
+
+      if (!res?.ok && act === 'buy') { feedback(res?.error || 'Not enough coins', false); return; }
+      if (res?.ok && act === 'buy')   { emitTelemetry('shop_purchase', { item: res.item.id }); }
+      renderShopHoverCard(host); // refresh coins/labels instantly
+    };
+  });
+}
+
+function wireProfileInteractions() {
+  const root = document.getElementById('app') || document.body;
+  if (root._pfWired) return;            // idempotent
+  root._pfWired = true;
+
+  root.addEventListener('click', (e) => {
+    const changeLook = e.target.closest('[data-action="change-look"]');
+    if (changeLook) {
+      e.preventDefault();
+      handleChangeLookRequest();
+      return;
+    }
+    const continueBtn = e.target.closest('[data-action="continue"]');
+    if (continueBtn) {
+      e.preventDefault();
+      history.pushState({}, '', '/units?continue=1');
+      router();
+      return;
+    }
+    const viewAll = e.target.closest('[data-action="view-all"]');
+    if (viewAll) {
+      e.preventDefault();
+      history.pushState({}, '', '/units');
+      router();
+      return;
+    }
+  }, { passive: false });
+}
+
+
+function wireShopButton() {
+  const anchor  = document.querySelector('.shop-anchor');
+  const shopBtn = document.getElementById('shop-button');
+  const hover   = document.getElementById('shopHover');
+  if (!anchor || !shopBtn || !hover) return;
+
+  // ensure visible if your HTML had `hidden`
+  shopBtn.hidden = false;
+
+  // build the hovercard once
+  renderShopHoverCard(hover);
+  profileStore.subscribe(() => renderShopHoverCard(hover));
+
+  let hideTimer;
+  const open = () => {
+  clearTimeout(hideTimer);
+  hover.classList.add('open');
+  shopBtn.setAttribute('aria-expanded','true');
+  refreshShopUi(); // NEW
+};
+
+  const close = () => { hideTimer = setTimeout(()=>{ hover.classList.remove('open'); shopBtn.setAttribute('aria-expanded','false'); }, 120); };
+
+  // mouse + keyboard open/close (desktop)
+  anchor.addEventListener('mouseenter', open);
+  anchor.addEventListener('mouseleave', close);
+  anchor.addEventListener('focusin',  open);
+  anchor.addEventListener('focusout', (e)=>{ if (!anchor.contains(e.relatedTarget)) close(); });
+
+  // touch fallback: open the existing modal on tap
+  shopBtn.addEventListener('click', (e) => {
+    if (matchMedia('(hover: none)').matches) {
+      e.preventDefault();
+      const profile = profileStore.get();
+      showShopModal({
+        items: getShopItems(profile),
+        coins: profile.coins,
+        onPurchase: (id) => {
+          const res = purchaseItem(profileStore, id);
+          if (res?.ok) emitTelemetry('shop_purchase', { item: res.item.id });
+          return res;
+        }
+      });
+    }
+  });
+}
+
+
+function startTablesSprint() {
+  const profile = profileStore.get();
+  const tz = (typeof USER_TZ !== 'undefined' && USER_TZ) ? USER_TZ : (Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC');
+  const todayKey = getTodayKey(new Date(), tz);
+  const mode = 'maths';
+  const cacheKey = `${todayKey}:${mode}:sprint`;
+
+  let session = dailySessionCache.get(cacheKey);
+  if (!session) {
+    session = generateTimesTableSet({ seed: cacheKey, count: DAILY_QUESTION_COUNT, mastery: profile.mastery || {} });
+    dailySessionCache.set(cacheKey, session);
+  }
+  emitTelemetry('lesson_started', { mode, source: 'tables_sprint' });
+  runDailySession({ mode, session, todayKey });
+}
+
+
+async function startDailyChallenge() {
+  const profile = profileStore.get();
+  const tz = (typeof USER_TZ !== 'undefined' && USER_TZ) ? USER_TZ : (Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC');
+  const todayKey = getTodayKey(new Date(), tz);
+  const mode = nextMode(profile.lastMode || 'english', profile.mastery || {});
+  const cacheKey = `${todayKey}:${mode}`;
+  let session = dailySessionCache.get(cacheKey);
+  if (!session) {
+    const factory = QUESTION_FACTORIES[mode] || QUESTION_FACTORIES.maths;
+    session = factory({ seed: cacheKey, count: DAILY_QUESTION_COUNT, mastery: profile.mastery || {} });
+    dailySessionCache.set(cacheKey, session);
+  }
+  emitTelemetry('lesson_started', { mode, source: 'daily' });
+  runDailySession({ mode, session, todayKey });
+}
+
+function runDailySession({ mode, session, todayKey }) {
+  const queue = [...session.questions];
+  const results = { correct: 0, wrong: 0, total: queue.length };
+  (function next() {
+    if (!queue.length) { finalizeDailySession(results, todayKey, mode); return; }
+    const step = queue.shift();
+    renderDynamicStep(step, (correct) => {
+      if (correct) results.correct++; else results.wrong++;
+      emitTelemetry('question_answered', { id: step.id, correct });
+      next();
+    });
+  })();
+}
+
+function renderDynamicStep(step, onResult) {
+  const host = document.getElementById('stepHost') || document.getElementById('challengeHubContainer') || document.getElementById('app');
+  if (!host) return;
+  try {
+    host.innerHTML = '';
+    const prompt = document.createElement('p');
+    prompt.className = 'lesson-prompt';
+    prompt.textContent = step.prompt;
+    const grid = document.createElement('div');
+    grid.className = 'option-grid';
+    grid.tabIndex = 0;
+    grid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.option-card');
+      if (!btn) return;
+      evaluate(btn);
+    });
+    grid.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const btn = document.activeElement;
+      if (btn?.classList?.contains('option-card')) { e.preventDefault(); evaluate(btn); }
+    });
+    step.choices.forEach((label, index) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'option-card';
+      btn.dataset.index = String(index);
+      btn.setAttribute('aria-pressed', 'false');
+      btn.textContent = label;
+      grid.appendChild(btn);
+    });
+    host.appendChild(prompt);
+    host.appendChild(grid);
+
+    function evaluate(btn) {
+      const idx = Number(btn.dataset.index);
+      if (!Number.isFinite(idx)) return;
+      const correct = idx === step.answerIndex;
+      grid.querySelectorAll('.option-card').forEach((node, nodeIndex) => {
+        node.setAttribute('aria-pressed', String(nodeIndex === idx));
+        node.classList.toggle('correct', nodeIndex === step.answerIndex);
+        node.classList.toggle('incorrect', nodeIndex === idx && !correct);
+      });
+      grid.querySelectorAll('button').forEach((node) => node.disabled = true);
+      setTimeout(() => onResult(correct), 400);
+    }
+  } catch (err) {
+    console.error('Daily render error', err);
+    try { emitTelemetry('render_error', { message: err?.message }); } catch {}
+  }
+}
+
+function finalizeDailySession(results, todayKey, mode) {
+  const profile = profileStore.get();
+  const firstSession = !profile.history?.[todayKey];
+  const coinsAward = awardCoins({ base: 8, correctStreak: results.correct, firstSession, difficulty: profile.settings?.difficulty || 'auto' });
+  const nowISO = new Date().toISOString();
+  const sc = calcStreak(profile.streak?.lastActiveISO, nowISO, profile.streak?.current || 0, profile.streak?.freezeTokens || 0);
+  const summary = { correct: results.correct, wrong: results.wrong, coinsEarned: coinsAward.total, streakDelta: sc.delta || 0, mode };
+  const badgeResult = maybeUnlockBadges(profile, summary);
+
+  profileStore.update((draft) => {
+    draft.coins = Math.max(0, (draft.coins || 0) + coinsAward.total);
+    draft.streak = {
+      current: sc.current,
+      best: Math.max(draft.streak?.best || 0, sc.current),
+      lastActiveISO: nowISO,
+      freezeTokens: sc.freezeTokens
+    };
+    draft.history ||= {};
+    draft.history[todayKey] = {
+      dateISO: nowISO, mode,
+      correct: results.correct, wrong: results.wrong,
+      timeSec: (window.state?.lessonTime || 0),
+      coinsEarned: coinsAward.total, streakDelta: sc.delta || 0,
+      badgeUnlocks: badgeResult.unlocked
+    };
+    draft.badges = Array.from(new Set([...(draft.badges || []), ...badgeResult.unlocked]));
+    draft.lastMode = mode;
+    draft.mastery = updateMastery(draft.mastery || {}, mode, results);
+  });
+
+  try {
+    emitTelemetry('coins_awarded', { total: coinsAward.total, mode });
+    emitTelemetry('streak_updated', { current: profileStore.get().streak.current });
+    badgeResult.unlocked.forEach((id) => emitTelemetry('badge_unlocked', { id }));
+    emitTelemetry('session_completed', { ...summary, todayKey });
+  } catch {}
+
+  showSummaryModal({ results, coinsAward, streakCalc: sc, badgeResult });
+  updateDailyCard(profileStore.get());
+}
+
+function updateMastery(mastery, mode, results) {
+  const key = `mode:${mode}`;
+  const prev = mastery[key] || { correct: 0, wrong: 0, lastSeenISO: '' };
+  return { ...mastery, [key]: { correct: prev.correct + results.correct, wrong: prev.wrong + results.wrong, lastSeenISO: new Date().toISOString() } };
+}

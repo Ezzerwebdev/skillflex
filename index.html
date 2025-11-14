@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400..700&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Ctext y='50' font-size='48'%3E🎯%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="/ui.css?v=kids9">
+  <link rel="stylesheet" href="/ui.css?v=kids10">
 
 </head>
 <body class="kids">
@@ -26,22 +26,28 @@
     <span id="themeIcon">🌙</span>
   </button>
 
-<a href="/" id="btnHome" class="btn ghost" aria-label="Go to Home">Home</a>
+  <div class="shop-anchor">
+    <button id="shop-button" class="btn btn-secondary" type="button"
+            aria-haspopup="dialog" aria-expanded="false">Shop</button>
+    <div id="shopHover" role="dialog" aria-label="Shop"></div>
+  </div>
 
+  <a href="/" id="btnHome" class="btn ghost" aria-label="Go to Home">Home</a>
 
+  <!-- NEW: Profile -->
+  <a id="profile-button" class="btn ghost" href="/profile" data-link>Profile</a>
 
-<!-- Auth state: these are toggled by JS; never visible at the same time -->
-<span id="auth-pill" class="pill success" hidden aria-live="polite">Signed in ✅</span>
-
+  <!-- Auth state: these are toggled by JS; never visible at the same time -->
+  <span id="auth-pill" class="pill success" hidden aria-live="polite">Signed in ✅</span>
 
   <!-- Guest only (two options in a popup) -->
   <a id="login-button" class="btn btn-primary" data-action="login" hidden>Save my coins! 🪙</a>
   <button class="btn" data-action="login-email" hidden>Log in with Email</button>
 
-
-<!-- Logged-in only (button triggers logout()) -->
-<button id="logout-button" class="btn btn-secondary" hidden type="button">Logout</button>
+  <!-- Logged-in only (button triggers logout()) -->
+  <button id="logout-button" class="btn btn-secondary" hidden type="button">Logout</button>
 </div>
+
 </nav>
 </header>
 

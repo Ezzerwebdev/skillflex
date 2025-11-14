@@ -18,7 +18,32 @@
 
 // 1) === CURATED UNITS (hand-picked) ==================================
 // Year 3 · Spelling · Term 1A (PlanIt Weeks 1–7)
-const CURRICULUM = {};
+const CURRICULUM = {
+  'maths:tables:core': {
+    title: 'Times Tables Sprint',
+    emoji: '✖️',
+    units: [
+      {
+        id: 'tables-basics',
+        title: 'Build the Basics',
+        emoji: '🌱',
+        lessons: [
+          { id: 'tables-2-5', title: '2–5 Warm-Up', generator: 'tables', tables: [2,3,4,5] },
+          { id: 'tables-6-8', title: '6–8 Boosters', generator: 'tables', tables: [6,7,8] }
+        ]
+      },
+      {
+        id: 'tables-pro',
+        title: 'Speed Masters',
+        emoji: '⚡️',
+        lessons: [
+          { id: 'tables-9-12', title: '9–12 Showdown', generator: 'tables', tables: [9,10,11,12] },
+          { id: 'tables-mixed', title: 'Mixed Lightning', generator: 'tables', tables: [2,3,4,5,6,7,8,9,10,11,12] }
+        ]
+      }
+    ]
+  }
+};
 
 // 2) === AUTO FALLBACK (generated from custom_activities.json) ========
 // If there is NO curated entry for the current selection key, we try to
@@ -698,7 +723,7 @@ function renderUnitHubInto(container, s){
       const stepCurr   = current && j === currL;
       const stepLocked = locked || (current && j > currL);
 
-      const classes = ['activity-card',
+      const classes = ['activity-card', 'core-card',
         stepDone ? 'completed' : '',
         stepCurr ? 'current'   : '',
         stepLocked ? 'locked'  : ''
@@ -708,22 +733,31 @@ function renderUnitHubInto(container, s){
 
       // 🔒 LOCKED: non-anchor tile + data-step used by the nudge
       if (stepLocked) {
-        return `
-          <div class="${classes}" role="button" aria-disabled="true" data-step="${j+1}">
-            <div class="activity-step">Step ${j+1}</div>
-            <div class="activity-icon">${badge}</div>
-            <div class="activity-title">${lsn.title || 'Lesson'}</div>
-          </div>`;
-      }
+          return `
+        <div class="${classes}" role="button" aria-disabled="true"
+        aria-label="Step ${j+1}: ${lsn.title || 'Lesson'} — Locked"
+        title="Locked — finish Step ${Math.max(1, j)} first"
+        data-step="${j+1}">
+       <div class="activity-step">Step ${j+1}</div>
+       <div class="activity-icon">${badge}</div>
+      <div class="activity-title">${lsn.title || 'Lesson'}</div>
+     </div>`;
+
+    }
 
       // ✅ UNLOCKED: anchor + data-link so your SPA router picks it up
       const slug = slugOf(lsn);
       return `
-       <a href="/lesson/${toFullSlugForSelection(s, lsn.id)}" class="${classes}" data-link>
-        <div class="activity-step">Step ${j+1}</div>
-       <div class="activity-icon">${badge}</div>
-        <div class="activity-title">${lsn.title || 'Lesson'}</div>
-        </a>`;
+     <a href="/lesson/${toFullSlugForSelection(s, lsn.id)}"
+     class="${classes}" data-link
+     aria-label="Step ${j+1}: ${lsn.title || 'Lesson'} — ${stepCurr ? 'Current' : (stepDone ? 'Completed' : 'Available')}"
+     title="${stepCurr ? 'Current step' : (stepDone ? 'Completed' : 'Open')}"
+     ${stepCurr ? 'aria-current="step"' : ''}>
+     <div class="activity-step">Step ${j+1}</div>
+     <div class="activity-icon">${badge}</div>
+     <div class="activity-title">${lsn.title || 'Lesson'}</div>
+     </a>`;
+
 
        }).join('');
 
@@ -991,3 +1025,21 @@ if (typeof window.toFullSlugForSelection !== 'function') {
 /* make a global var alias so plain calls work */
 var toFullSlugForSelection = window.toFullSlugForSelection;
 /* --- end guarded definition --- */
+
+(window.sfTimesTablesMeta ||= {
+  getPlanForTables: () => (typeof CURRICULUM !== 'undefined' && CURRICULUM['maths:tables:core']) ? CURRICULUM['maths:tables:core'] : ({
+    id: 'maths:tables:core',
+    title: 'Times Tables Sprint',
+    emoji: '✖️',
+    units: [
+      { id: 'tables-basics', title: 'Build the Basics', emoji: '🌱', lessons: [
+        { id: 'tables-2-5', title: '2–5 Warm-Up', generator: 'tables', tables: [2,3,4,5] },
+        { id: 'tables-6-8', title: '6–8 Boosters', generator: 'tables', tables: [6,7,8] }
+      ]},
+      { id: 'tables-pro', title: 'Speed Masters', emoji: '⚡️', lessons: [
+        { id: 'tables-9-12', title: '9–12 Showdown', generator: 'tables', tables: [9,10,11,12] },
+        { id: 'tables-mixed', title: 'Mixed Lightning', generator: 'tables', tables: [2,3,4,5,6,7,8,9,10,11,12] }
+      ]}
+    ]
+  })
+});

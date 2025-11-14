@@ -353,7 +353,7 @@ main {
   align-items: center;
   gap: 1rem;
   transition: all 0.2s ease;
-  order: 1px solid var(--border);
+  border: 1px solid var(--border);
 }
 
 .activity-card:hover { transform: translateY(-4px); box-shadow: var(--elev-1); border-color: var(--brand-secondary); }

@@ -1,5 +1,8 @@
 export const API_BASE = 'https://skillflex.education/api';
 export const DEBUG = /[?&]debug=1/.test(location.search) || localStorage.sf_debug === '1';
+export const CONFIG = Object.freeze({
+  BACKEND_PORTAL_URL: 'https://portal.example.com'
+});
 
 const LOGBUF_MAX = 200; const LOGBUF = [];
 export function trace(...args){
