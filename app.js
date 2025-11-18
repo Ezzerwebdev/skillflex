@@ -99,6 +99,13 @@ trace('env', {
 // === App Configuration ===
 const API_BASE = 'https://skillflex.education/api';
 let JWT_TOKEN = null;
+const STORED_JWT_HINT = (() => {
+  try { return localStorage.getItem('sf_jwt'); }
+  catch { return null; }
+})();
+if (typeof document !== 'undefined' && document.body) {
+  document.body.classList.toggle('logged-in', !!STORED_JWT_HINT);
+}
 
 // Authoritative window shim (always try to define the accessor)
 if (typeof window !== 'undefined') {
@@ -164,6 +171,7 @@ const QUESTION_FACTORIES = {
   literacy: generateTrueFalseSet
 };
 const profileStore = initProfileStore();
+
 const dailySessionCache = new Map();
 const PROFILE_COPY = {
   gearTitle: 'Settings',
@@ -197,6 +205,18 @@ const MOBILE_TABS = [
 ];
 let pendingGearOpen = false;
 let gearCleanupFns = [];
+
+function closeGearMenus() {
+  if (typeof window._pfGearCleanup === 'function') {
+    window._pfGearCleanup();
+    window._pfGearCleanup = null;
+  }
+  pendingGearOpen = false;
+  gearCleanupFns = [];
+  const overlay = document.querySelector('.pf-gear-wrap.pf-gear-overlay');
+  overlay?.remove();
+}
+window.closeGearMenus = closeGearMenus;
 
 // --- Mobile tabs (exported on window to avoid hoisting surprises) ---
 window.shouldShowMobileTabs = function shouldShowMobileTabs(){
@@ -250,6 +270,8 @@ function onMobileTabClick(e){
   window.openProfileGearMenu?.();
   return;
 }
+
+  closeGearMenus();
 
 
   const href = btn.dataset.href;
@@ -656,18 +678,55 @@ function renderContinueCard(){
 }
 
 
+function makeGuestId() {
+  // Prefer strong randomness if available
+  try {
+    if (typeof crypto !== 'undefined') {
+      if (typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+      }
+      if (typeof crypto.getRandomValues === 'function') {
+        const buf = new Uint8Array(16);
+        crypto.getRandomValues(buf);
+        // RFC4122 v4-ish bits
+        buf[6] = (buf[6] & 0x0f) | 0x40;
+        buf[8] = (buf[8] & 0x3f) | 0x80;
+        const hex = Array.from(buf, b => b.toString(16).padStart(2, '0')).join('');
+        return (
+          hex.slice(0, 8) + '-' +
+          hex.slice(8, 12) + '-' +
+          hex.slice(12, 16) + '-' +
+          hex.slice(16, 20) + '-' +
+          hex.slice(20)
+        );
+      }
+    }
+  } catch (e) {
+    console.warn('makeGuestId: crypto failed, falling back:', e);
+  }
+
+  // If we have *no* crypto at all, just skip guest IDs in this env
+  // so we don't pretend this is secure.
+  return null;
+}
 
 
 
 // --- Progress persistence (guest & logged-in) ---
 async function getOrSetGuestId() {
- if (JWT_TOKEN) return null;
- const existing = await getGuestIdFromStorage();
- if (existing) return existing;
- const newGuestId = crypto.randomUUID();
- await setGuestIdPersisted(newGuestId);
- return newGuestId;
+  // If they are logged in, they are NOT a guest
+  if (JWT_TOKEN) return null;
+
+  const existing = await getGuestIdFromStorage();
+  if (existing) return existing;
+
+  const newGuestId = makeGuestId();
+  if (!newGuestId) return null;  // very old/locked-down browser: no guestId feature
+
+  await setGuestIdPersisted(newGuestId);
+  return newGuestId;
 }
+
 
 // Keep this near saveLocalGuestProgress
 function buildGuestProgressPayload(s) {
@@ -1009,161 +1068,154 @@ function checkStreak() {
 
 
 async function router() {
- if (!app) return;
- checkDate();
- checkStreak();
+  if (!app) return;
+  checkDate();
+  checkStreak();
 
+  const path = location.pathname;
+  closeGearMenus();
+  mountMainHeader();
 
- const path = location.pathname;
- mountMainHeader();
+  document.body.dataset.route = path;
+  document.body.classList.toggle('logged-in', !!(JWT_TOKEN || DEV_MOCK_LOGIN));
 
- document.body.dataset.route = path;
-  document.body.classList.toggle('logged-in', !!JWT_TOKEN);
- // If logged in, land on /profile instead of Home
- if (JWT_TOKEN && (path === '/' || path === '/home')) {
-  const dest = (window.innerWidth < 720) ? '/profile' : '/units';
-  history.replaceState({}, '', dest);
-  router();
-  return;
-}
-
- document.body.classList.toggle('profile-focus', path === '/profile' && !!JWT_TOKEN);
- if (path !== '/profile' && window._pfGearCleanup) {
-  window._pfGearCleanup();
-  window._pfGearCleanup = null;
- }
-   
- injectUnitsDesktopHeader(path);
-
- const fullPath = location.pathname + location.search;
-    updateMobileTabsVisibility();
-    updateMobileTabsActive(fullPath);
-    maybeShowInstallNudge();
-
-
- // NEW: /profile route (put this before the lesson/home branches)
-// Profile + aliases: /profile, /path, /units
-if (path === '/profile' || path === '/path') {
-  document.body.classList.remove('in-lesson');
-  app.classList.remove('lesson-active');
-
-  const url = new URL(location.href);
-
-  // Always render on /profile; decide which tab via ?tab
-  if (url.pathname !== '/profile') {
-    url.pathname = '/profile';
+  // If logged in, land on /profile or /units instead of Home
+  if (JWT_TOKEN && (path === '/' || path === '/home')) {
+    const dest = (window.innerWidth < 720) ? '/profile' : '/units';
+    history.replaceState({}, '', dest);
+    router();
+    return;
   }
 
-  // Default tab:
-  // - /profile → overview
-  // - /path or /units → path
-  if (!url.searchParams.get('tab')) {
-    const defaultTab = (path === '/profile') ? 'overview' : 'path';
-    url.searchParams.set('tab', defaultTab);
-    history.replaceState({}, '', url.pathname + '?' + url.searchParams + url.hash);
+  document.body.classList.toggle('profile-focus', path === '/profile' && !!JWT_TOKEN);
+  if (path !== '/profile' && window._pfGearCleanup) {
+    window._pfGearCleanup();
+    window._pfGearCleanup = null;
   }
 
-  renderProfile();
+  const fullPath = location.pathname + location.search;
+  updateMobileTabsVisibility();
+  updateMobileTabsActive(fullPath);
+  maybeShowInstallNudge();
 
-  if (pendingGearOpen) {
-    pendingGearOpen = false;
-    window.openProfileGearMenu?.();
-  }
-  return;
-}
+  // /profile route (keep this before lesson/home branches)
+  if (path === '/profile' || path === '/path') {
+    document.body.classList.remove('in-lesson');
+    app.classList.remove('lesson-active');
 
+    const url = new URL(location.href);
 
- if (/^\/lesson\//.test(path)) {
-  const lessonId = decodeURIComponent(path.substring('/lesson/'.length));
-
-  // Ensure we have a plan for today for the current selection set
-  try {
-    if (state.selections?.subject && state.selections?.year && state.selections?.topic) {
-      const potential = allActivities.filter(
-        a =>
-          a.subject == state.selections.subject &&
-          a.year == state.selections.year &&
-          a.topic == state.selections.topic
-      );
-      ensurePlanForToday(potential);
+    // Default tab:
+    // - /profile → overview
+    // - /path    → path
+    if (!url.searchParams.get('tab')) {
+      const defaultTab = (path === '/profile') ? 'overview' : 'path';
+      url.searchParams.set('tab', defaultTab);
+      history.replaceState({}, '', url.pathname + '?' + url.searchParams + url.hash);
     }
-  } catch (e) { /* noop */ }
 
-   // --- NEW: bonus lessons require login (protect deep-links)
-  // --- NEW: later steps in the path require login for guests (protect deep-links)
-  const planIdx = Array.isArray(state.dailyPlan)
-  ? state.dailyPlan.findIndex(x => normalizeId(x.id) === normalizeId(lessonId))
-  : -1;
+    renderProfile();
 
-  if (planIdx >= DAILY_TARGET && !JWT_TOKEN) {
-  showSaveNudge?.({
-    variant: 'post',
-    title: 'Next steps need a login',
-    message: 'Log in to continue your learning path and keep your coins across devices.',
-    onLogin: gotoLoginSameTab,
-    onLater: () => {
+    if (pendingGearOpen) {
+      pendingGearOpen = false;
+      window.openProfileGearMenu?.();
+    }
+    return;
+  }
+
+  // Lessons
+  if (/^\/lesson\//.test(path)) {
+    const lessonId = decodeURIComponent(path.substring('/lesson/'.length));
+
+    // Ensure we have a plan for today for the current selection set
+    try {
+      if (state.selections?.subject && state.selections?.year && state.selections?.topic) {
+        const potential = allActivities.filter(
+          a =>
+            a.subject == state.selections.subject &&
+            a.year == state.selections.year &&
+            a.topic == state.selections.topic
+        );
+        ensurePlanForToday(potential);
+      }
+    } catch (e) { /* noop */ }
+
+    // Daily target gate for guests
+    const planIdx = Array.isArray(state.dailyPlan)
+      ? state.dailyPlan.findIndex(x => normalizeId(x.id) === normalizeId(lessonId))
+      : -1;
+
+    if (planIdx >= DAILY_TARGET && !JWT_TOKEN) {
+      showSaveNudge?.({
+        variant: 'post',
+        title: 'Next steps need a login',
+        message: 'Log in to continue your learning path and keep your coins across devices.',
+        onLogin: gotoLoginSameTab,
+        onLater: () => {
+          history.replaceState({}, '', '/');
+          document.body.classList.remove('in-lesson');
+          app.classList.remove('lesson-active');
+          router();
+        }
+      });
       history.replaceState({}, '', '/');
       document.body.classList.remove('in-lesson');
       app.classList.remove('lesson-active');
       router();
+      return; // stop routing into the lesson
     }
-  });
-  history.replaceState({}, '', '/');
+
+    // 🔒 Units feature gate (if installed)
+    const unitsGate = window.sfHooks?.canOpenLessonOverride?.(lessonId);
+
+    if (unitsGate === false) {
+      feedback('Finish the previous step in this unit to unlock this one. 🎯', false);
+      history.replaceState({}, '', '/');
+      document.body.classList.remove('in-lesson');
+      app.classList.remove('lesson-active');
+      return router();
+    }
+
+    // Default daily-path gate only runs when Units isn’t handling gating
+    if (unitsGate === undefined && !allowedToOpenLesson(lessonId)) {
+      feedback('Finish today’s current challenge to unlock this one. You’ve got this! 🎯', false);
+      history.replaceState({}, '', '/');
+      document.body.classList.remove('in-lesson');
+      app.classList.remove('lesson-active');
+      return router();
+    }
+
+    document.body.classList.add('in-lesson');
+    app.classList.add('lesson-active');
+    return renderLesson(lessonId);
+  }
+
+  /// Home route (/ and /units share this)
   document.body.classList.remove('in-lesson');
   app.classList.remove('lesson-active');
-  router();   
-  return; // stop routing into the lesson
-}
 
+  const homeTplEl = document.getElementById('homeTpl');
+  if (homeTplEl) {
+    app.innerHTML = homeTplEl.innerHTML;
+    console.log('HOME DOM_CREATED', performance.now());
 
+    try { renderContinueCard(); } catch {}
+    renderChallengeHub();
 
-  // 🔒 Units feature gate (if installed):
-  //   - false  → block & bounce home with a friendly nudge
-  //   - true   → allow (skip daily gate)
-  //   - undefined → Units not installed; fall back to daily gate
-  const unitsGate = window.sfHooks?.canOpenLessonOverride?.(lessonId);
+    // --- Units hero injection (final) ---
+    injectUnitsDesktopHeader(location.pathname);
 
-  if (unitsGate === false) {
-    feedback('Finish the previous step in this unit to unlock this one. 🎯', false);
-    history.replaceState({}, '', '/');
-    document.body.classList.remove('in-lesson');
-    app.classList.remove('lesson-active');
-    return router();
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        injectUnitsDesktopHeader(location.pathname);
+      });
+    });
+
+  } else {
+    console.error('CRITICAL: Home template not found!');
   }
+} 
 
-  // Default daily-path gate only runs when Units isn’t handling gating
-  if (unitsGate === undefined && !allowedToOpenLesson(lessonId)) {
-    feedback('Finish today’s current challenge to unlock this one. You’ve got this! 🎯', false);
-    history.replaceState({}, '', '/');
-    document.body.classList.remove('in-lesson');
-    app.classList.remove('lesson-active');
-    return router();
-  }
-
-  document.body.classList.add('in-lesson');
-  app.classList.add('lesson-active');
-  return renderLesson(lessonId);
-}
-
-
-/// Home route
-document.body.classList.remove('in-lesson');
-app.classList.remove('lesson-active');
-
-const homeTplEl = document.getElementById('homeTpl');
-if (homeTplEl) {
-  app.innerHTML = homeTplEl.innerHTML;
-
-  // reveal the Continue card if we have a saved plan/selection
-  try { renderContinueCard(); } catch {}
-
-  // then build the subject/year/topic UI
-  renderChallengeHub();
-  injectUnitsDesktopHeader(path);
-} else {
-  console.error('CRITICAL: Home template not found!');
-}
-}
 
 
  function goHome() {
@@ -2885,36 +2937,7 @@ const mobileHeader = `
   `;
 
   // ===== Hero (desktop only). On mobile we render just a small gear anchor so “More” can open. =====
-  // Big desktop hero (tabs + chips). Safe to replace your existing one.
-const desktopHero = `
-  <div class="pf-hero">
-    <div class="pf-hero-left">
-      <div class="pf-avatar">✨</div>
-      <div class="pf-title-block">
-        <h1 class="pf-title">Your Profile</h1>
-        <div class="pf-sub">@player</div>
-        <nav class="pf-tabs">
-          <a href="/profile?tab=path"
-            data-tab="path"
-            class="pf-tab ${tab==='path' ? 'active' : ''}">
-            Learn
-            </a>
-
-          <a href="/profile?tab=overview" data-tab="overview" class="pf-tab ${tab==='overview'?'active':''}">Overview</a>
-          <a href="/profile?tab=shop"     data-tab="shop"     class="pf-tab ${tab==='shop'?'active':''}">Shop</a>
-          <a href="/profile?tab=history"  data-tab="history"  class="pf-tab ${tab==='history'?'active':''}">History</a>
-          <a href="/profile?tab=badges"   data-tab="badges"   class="pf-tab ${tab==='badges'?'active':''}">Badges</a>
-        </nav>
-      </div>
-    </div>
-    <div class="pf-hero-right">
-      <div class="pf-chips">
-        <span class="pf-chip">🪙 ${coins} coins</span>
-        <span class="pf-chip">🔥 ${streak} day streak</span>
-      </div>
-      ${buildProfileGearMenu(themeMode)}
-    </div>
-  </div>`;
+  const desktopHero = buildProfileDesktopHero(tab, profile, themeMode);
 
   // Tiny gear dock so the “More” bottom tab has something to open on mobile
   const gearDockMobile = `
@@ -2951,26 +2974,11 @@ const desktopHero = `
   // Wire up interactions that still apply
   wireProfileInteractions();
   wireProfileSettingsMenu();
-
-
-  // Tabs on hero (desktop + mobile)
-app.querySelectorAll('.pf-tab').forEach(btn => {
-  btn.addEventListener('click', (ev) => {
-    ev.preventDefault();                         // SPA nav
-    const t = btn.dataset.tab;
-    const url = new URL(location.href);
-
-    url.pathname = '/profile';                   // always stay on /profile
-    url.searchParams.set('tab', t);
-
-    history.pushState({}, '', url.pathname + '?' + url.searchParams + url.hash);
-    renderProfile();
-  });
-});
+  wireProfileHeroTabs(app);
 
   // SPA navigation for internal links inside Profile (Path cards, View all, Continue, etc.)
   app.querySelectorAll('.pf-wrap a[href]').forEach(a => {
-    // Skip the hero tabs – they already have a custom handler above
+    // Skip the hero tabs – handled via wireProfileHeroTabs
     if (a.classList.contains('pf-tab')) return;
 
     a.addEventListener('click', (ev) => {
@@ -3016,6 +3024,62 @@ app.querySelectorAll('.pf-tab').forEach(btn => {
   }
 }
 
+
+function buildProfileDesktopHero(activeTab = 'overview', profile = profileStore.get(), themeMode) {
+  if (!JWT_TOKEN) return '';
+  const safeProfile = profile || {};
+  const coins = Number(safeProfile?.coins || 0);
+  const streakSource = typeof safeProfile?.streak === 'number'
+    ? safeProfile.streak
+    : safeProfile?.streak?.current;
+  const streak = Number(streakSource || 0);
+  const rawHandle = (safeProfile?.handle || safeProfile?.username || '').trim();
+  const subtitle = rawHandle
+    ? (rawHandle.startsWith('@') ? rawHandle : `@${rawHandle}`)
+    : '@player';
+  const normalizedTab = (activeTab || '').toLowerCase();
+  const tabs = [
+    { key: 'path', label: 'Learn' },
+    { key: 'overview', label: 'Overview' },
+    { key: 'shop', label: 'Shop' },
+    { key: 'history', label: 'History' },
+    { key: 'badges', label: 'Badges' }
+  ];
+  const avatarMarkup = '✨';
+  const mode =
+    themeMode ||
+    getThemePreference?.() ||
+    document.documentElement.dataset.theme ||
+    'light';
+
+  return `
+    <div class="pf-hero">
+      <div class="pf-hero-left">
+        <div class="pf-avatar">${avatarMarkup}</div>
+        <div class="pf-title-block">
+          <h1 class="pf-title">Your Profile</h1>
+          <div class="pf-sub">${subtitle}</div>
+          <nav class="pf-tabs">
+            ${tabs.map(({ key, label }) => `
+              <a href="/profile?tab=${key}"
+                data-tab="${key}"
+                class="pf-tab ${normalizedTab === key ? 'active' : ''}">
+                ${label}
+              </a>
+            `).join('')}
+          </nav>
+        </div>
+      </div>
+      <div class="pf-hero-right">
+        <div class="pf-chips">
+          <span class="pf-chip">🪙 ${coins} coins</span>
+          <span class="pf-chip">🔥 ${streak} day streak</span>
+        </div>
+        ${buildProfileGearMenu(mode)}
+      </div>
+    </div>
+  `;
+}
 
 
 function buildProfileGearMenu(themeMode = 'light') {
@@ -3092,7 +3156,7 @@ function setupGearWrap(wrap) {
   const pop = wrap?.querySelector('.pf-gear-pop');
   if (!wrap || !btn || !pop) return null;
 
-  const prefersHover = matchMedia('(hover: hover) && (pointer: fine)').matches;
+  const prefersHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const cleanup = [];
   let isOpen = false;
   let hideTimer = null;
@@ -3199,6 +3263,25 @@ function setupGearWrap(wrap) {
   };
 }
 
+function wireProfileHeroTabs(root = document) {
+  const scope = root instanceof Element ? root : document;
+  scope.querySelectorAll('.pf-tab').forEach((btn) => {
+    if (!btn || btn._pfTabWired) return;
+    btn._pfTabWired = true;
+    btn.addEventListener('click', (ev) => {
+      if (ev.defaultPrevented || ev.button !== 0) return;
+      if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+      ev.preventDefault();
+      const tab = (btn.dataset.tab || 'overview').toLowerCase();
+      const url = new URL(location.href);
+      url.pathname = '/profile';
+      url.searchParams.set('tab', tab);
+      history.pushState({}, '', url.pathname + '?' + url.searchParams + url.hash);
+      router();
+    });
+  });
+}
+
 
 function handleChangeLookRequest() {
   const profile = profileStore.get();
@@ -3271,49 +3354,63 @@ function renderProfilePathSection(profile) {
 
 function injectUnitsDesktopHeader(path) {
   if (!app) return;
+
   const existing = app.querySelector('.pf-units-hero');
+
+  const loggedIn = !!(JWT_TOKEN || DEV_MOCK_LOGIN);
+  const onDesktop =
+    typeof window !== 'undefined' && window.innerWidth >= 720;
+
   const shouldShow =
     path === '/units' &&
-    !!JWT_TOKEN &&
-    typeof window !== 'undefined' &&
-    window.innerWidth >= 720;
+    loggedIn &&
+    onDesktop;
 
+  // If we shouldn't show it, clean up and bail
   if (!shouldShow) {
     existing?.remove();
     return;
   }
 
   const profile = profileStore.get();
-  const coins = Number(profile?.coins || 0);
-  const streak = Number(profile?.streak?.current || 0);
-  const themeMode = getThemePreference?.() || document.documentElement.dataset.theme || 'light';
+  const themeMode =
+    (typeof getThemePreference === 'function'
+      ? getThemePreference()
+      : null) ||
+    document.documentElement.dataset.theme ||
+    'light';
+
+  const heroMarkup = buildProfileDesktopHero('path', profile, themeMode);
+  if (!heroMarkup) {
+    existing?.remove();
+    return;
+  }
 
   const section = document.createElement('section');
   section.className = 'pf-wrap pf-units-hero';
-  section.innerHTML = `
-    <div class="pf-hero pf-hero-inline">
-      <div class="pf-hero-left">
-        <div class="pf-avatar">✨</div>
-        <div class="pf-title-block">
-          <h1 class="pf-title">Your Profile</h1>
-          <div class="pf-sub">Keep earning coins and streaks</div>
-        </div>
-      </div>
-      <div class="pf-hero-right">
-        <div class="pf-chips">
-          <span class="pf-chip">🪙 ${coins} coins</span>
-          <span class="pf-chip">🔥 ${streak} day streak</span>
-        </div>
-        ${buildProfileGearMenu(themeMode)}
-      </div>
-    </div>
-  `;
+  section.innerHTML = heroMarkup;
 
-  if (existing) existing.replaceWith(section);
-  else app.prepend(section);
+  if (existing) {
+    existing.replaceWith(section);
+  } else {
+    app.prepend(section);
+  }
 
-  wireProfileSettingsMenu();
+  // 🔑 KEY PART: mirror the body flags that make the hero visible on /profile
+  // We want the Learn/Path view styling on desktop.
+  const body = document.body;
+  body.classList.add('logged-in');
+  body.classList.remove('in-lesson');
+  body.classList.remove('profile-focus');
+  body.classList.add('path-view'); // same as "Learn" tab
+
+  // Re-use existing wiring
+  wireProfileHeroTabs(section);
+  const wrap = section.querySelector('.pf-gear-wrap');
+  if (wrap) wireProfileSettingsMenu(wrap);
+  wireProfileInteractions();
 }
+
 
 function requiresGrownupGate() {
   if (matchMedia('(pointer: coarse)').matches) return true;
