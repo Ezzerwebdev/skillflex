@@ -987,42 +987,44 @@ async function logout() {
 
 function updateLoginButton() {
   const loginButton  = document.getElementById('login-button');
+  if (!loginButton) return;
+
   const logoutButton = document.getElementById('logout-button');
   const authPill     = document.getElementById('auth-pill');
-  const profileBtn   = document.getElementById('profile-button'); // ← add this
-  if (!loginButton || !logoutButton || !authPill) return;
+  const profileBtn   = document.getElementById('profile-button');
 
-  if (JWT_TOKEN) {
-    // Logged in
-    loginButton.hidden  = true;
-    logoutButton.hidden = false;
-    authPill.hidden     = false;
+  const hasJwt    = !!JWT_TOKEN;
+  const hasDev    = !!DEV_MOCK_LOGIN;
+  let storedHint = STORED_JWT_HINT;
+  if (!storedHint) {
+    try { storedHint = localStorage.getItem('sf_jwt'); }
+    catch { storedHint = null; }
+  }
+  const hasStored = !!storedHint;
+  const loggedIn  = hasJwt || hasDev || hasStored;
+
+  loginButton.hidden = loggedIn;
+
+  if (logoutButton) logoutButton.hidden = !loggedIn;
+  if (authPill)     authPill.hidden     = !loggedIn;
+  if (profileBtn)   profileBtn.hidden   = !loggedIn;
+
+  if (!loggedIn) {
+    loginButton.className = 'btn ghost';
+    loginButton.textContent = 'Log in / Sign up';
+    loginButton.removeAttribute('href');
+    loginButton.setAttribute('data-action', 'login');
+    loginButton.setAttribute('aria-label', 'Log in to save your progress');
+    loginButton.onclick = null;
+    loginButton.dataset.notready = '0';
+    loginButton.title = 'Log in to save your progress';
+  } else {
     loginButton.removeAttribute('href');
     loginButton.removeAttribute('aria-label');
     loginButton.onclick = null;
     loginButton.dataset.notready = '0';
     loginButton.title = '';
-
-    if (profileBtn) profileBtn.hidden = false; // ← show Profile when logged in
-    return;
   }
-
-  // Guest (always allow login from header)
-  authPill.hidden     = true;
-  logoutButton.hidden = true;
-  loginButton.hidden  = false;
-
-  loginButton.className = 'btn ghost';
-  loginButton.textContent = 'Log in / Sign up';
-  loginButton.removeAttribute('href');
-  loginButton.setAttribute('data-action', 'login');
-  loginButton.setAttribute('aria-label', 'Log in to save your progress');
-  loginButton.onclick = null;
-
-  loginButton.dataset.notready = '0';
-  loginButton.title = 'Log in to save your progress';
-
-  if (profileBtn) profileBtn.hidden = true; // ← hide Profile for guests
 }
 
 
@@ -1197,7 +1199,7 @@ async function router() {
   const homeTplEl = document.getElementById('homeTpl');
   if (homeTplEl) {
     app.innerHTML = homeTplEl.innerHTML;
-    console.log('HOME DOM_CREATED', performance.now());
+    
 
     try { renderContinueCard(); } catch {}
     renderChallengeHub();
@@ -3025,6 +3027,15 @@ const mobileHeader = `
 }
 
 
+function getAvatarTier(profile = {}, streakValue = 0) {
+  const streak = Number(streakValue || profile?.streak?.current || profile?.streak) || 0;
+  if (streak >= 30) return 'legendary';
+  if (streak >= 10) return 'gold';
+  if (streak >= 3)  return 'silver';
+  return 'starter';
+}
+
+
 function buildProfileDesktopHero(activeTab = 'overview', profile = profileStore.get(), themeMode) {
   if (!JWT_TOKEN) return '';
   const safeProfile = profile || {};
@@ -3045,7 +3056,29 @@ function buildProfileDesktopHero(activeTab = 'overview', profile = profileStore.
     { key: 'history', label: 'History' },
     { key: 'badges', label: 'Badges' }
   ];
-  const avatarMarkup = '✨';
+  const avatarTier = getAvatarTier(safeProfile, streak);
+  const avatarSymbol =
+    safeProfile?.avatarIcon ||
+    safeProfile?.avatarEmoji ||
+    safeProfile?.avatar ||
+    '✨';
+  const avatarMarkup = `
+    <div class="pf-avatar-inner" data-avatar-tier="${avatarTier}">
+      ${avatarSymbol}
+    </div>
+  `;
+  const chipsMarkup = `
+    <div class="pf-chips">
+      <span class="pf-chip pf-chip-coins" aria-label="${coins} coins">
+        <span class="pf-chip-icon" aria-hidden="true">🪙</span>
+        <span class="pf-chip-value">${coins}</span>
+      </span>
+      <span class="pf-chip pf-chip-streak" aria-label="${streak} day streak">
+        <span class="pf-chip-icon" aria-hidden="true">🔥</span>
+        <span class="pf-chip-value">${streak}</span>
+      </span>
+    </div>
+  `;
   const mode =
     themeMode ||
     getThemePreference?.() ||
@@ -3071,10 +3104,7 @@ function buildProfileDesktopHero(activeTab = 'overview', profile = profileStore.
         </div>
       </div>
       <div class="pf-hero-right">
-        <div class="pf-chips">
-          <span class="pf-chip">🪙 ${coins} coins</span>
-          <span class="pf-chip">🔥 ${streak} day streak</span>
-        </div>
+        ${chipsMarkup}
         ${buildProfileGearMenu(mode)}
       </div>
     </div>
