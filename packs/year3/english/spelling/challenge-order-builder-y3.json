@@ -1,0 +1,10 @@
+{
+  "id":"year3/english/spelling/challenge-order-builder-y3",
+  "title":"Challenge: Order Builder",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"order_words","prompt":"Build the word:","words":["care","ful","ly"],"answer":["care","ful","ly"]},
+    {"id":"s2","type":"select_option","prompt":"Which means ‘without care’?","options":[{"text":"careful"},{"text":"careless"},{"text":"carely"}],"answer":1},
+    {"id":"s3","type":"true_false","prompt":"‘-ly’ can turn adjectives into adverbs.","answer":true}
+  ]
+}

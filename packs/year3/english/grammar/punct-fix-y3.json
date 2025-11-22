@@ -1,0 +1,5 @@
+{ "id":"year3/english/grammar/punct-fix-y3", "title":"Fix the Sentence", "version":1, "steps":[
+  {"id":"pf1","type":"select_option","prompt":"Choose the correctly punctuated sentence:","options":[{"text":"wheres my pen"},{"text":"Where's my pen?"},{"text":"Where's my pen."}],"answer":1},
+  {"id":"pf2","type":"select_option","prompt":"Choose the correctly punctuated sentence:","options":[{"text":"We played, and laughed."},{"text":"We played and laughed."},{"text":"we played and laughed"}],"answer":1},
+  {"id":"pf3","type":"select_option","prompt":"Choose the correctly punctuated sentence:","options":[{"text":"Open the door!"},{"text":"Open the door"},{"text":"open the door!"}],"answer":0}
+]}

@@ -1,0 +1,11 @@
+{
+  "id":"year3/english/spelling/ness-ly-truth-check-y3",
+  "title":"-ness/-ly Truth Check",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"true_false","prompt":"'kind' + 'ness' = 'kindness'.","answer":true},
+    {"id":"s2","type":"select_option","prompt":"Choose the adverb (-ly):","options":[{"text":"slowly"},{"text":"slow"},{"text":"slowness"}],"answer":0},
+    {"id":"s3","type":"fill_blank","prompt":"Add -ly: quick → ______","answer":"quickly"},
+    {"id":"s4","type":"select_option","prompt":"Which is a noun made with -ness?","options":[{"text":"happy"},{"text":"happiness"},{"text":"happily"}],"answer":1}
+  ]
+}

@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/suffix-swapper-y3","title":"Suffix Swapper","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"hope + ____ = hopeless","options":[{"text":"less"},{"text":"ful"},{"text":"ment"}],"answer":0},
+  {"id":"f1","type":"fill_blank","prompt":"care + ____ = careful","answer":["ful"]},
+  {"id":"t1","type":"true_false","prompt":"'-less' means 'without'.","answer":true}
+]}

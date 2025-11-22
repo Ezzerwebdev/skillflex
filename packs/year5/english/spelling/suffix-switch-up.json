@@ -1,0 +1,47 @@
+{
+    "id": "year5/spelling/suffix-switch-up",
+    "title": "Suffix Switch-Up",
+    "version": 1,
+    "steps": [
+        {
+            "id": "ssu1",
+            "type": "select_option",
+            "prompt": "Which suffix changes the verb 'inform' into a noun?",
+            "options": [
+                { "text": "-ly" },
+                { "text": "-ous" },
+                { "text": "-ation" }
+            ],
+            "answer": 2
+        },
+        {
+            "id": "ssu2",
+            "type": "select_option",
+            "prompt": "Adding the suffix '-ly' to an adjective like 'slow' usually turns it into...",
+            "options": [
+                { "text": "a verb (an action)" },
+                { "text": "a noun (a thing)" },
+                { "text": "an adverb (describes an action)" }
+            ],
+            "answer": 2
+        },
+        {
+            "id": "ssu3",
+            "type": "select_option",
+            "prompt": "Which word correctly adds a suffix to the root word 'poison'?",
+            "options": [
+                { "text": "poisonly" },
+                { "text": "poisonous" },
+                { "text": "poisonation" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "ssu4",
+            "type": "order_words",
+            "prompt": "Put these words in the correct order.",
+            "words": ["The", "musician", "played", "beautifully", "."],
+            "answer": ["The", "musician", "played", "beautifully", "."]
+        }
+    ]
+}

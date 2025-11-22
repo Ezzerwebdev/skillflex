@@ -1,0 +1,24 @@
+{
+  "id": "year4/english/spelling/w2-in-prefix-choose-word-endless",
+  "title": "Endless or Not?",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "select_option",
+      "prompt": "Choose the word meaning ‘not exact’.",
+      "options": [
+        {"text": "inaccurate"},
+        {"text": "infinite"},
+        {"text": "inedible"}
+      ],
+      "answer": 0
+    },
+    {
+      "id": "s2",
+      "type": "fill_blank",
+      "prompt": "The model is missing a wing; it is ______. (Word bank: incomplete, inaccurate, indecisive)",
+      "answer": "incomplete"
+    }
+  ]
+}

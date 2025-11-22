@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/dis-fixer-y3", "title":"Spot the Error: dis-", "version":1, "steps":[
+  {"id":"df1","type":"select_option","prompt":"Choose the correct spelling:","options":[{"text":"dissapear"},{"text":"dissappear"},{"text":"disappear"}],"answer":2},
+  {"id":"df2","type":"select_option","prompt":"Choose the correct spelling:","options":[{"text":"dishonest"},{"text":"disshonest"},{"text":"disohnest"}],"answer":0},
+  {"id":"df3","type":"select_option","prompt":"Choose the correct spelling:","options":[{"text":"dislike"},{"text":"dizlike"},{"text":"disslike"}],"answer":0}
+]}

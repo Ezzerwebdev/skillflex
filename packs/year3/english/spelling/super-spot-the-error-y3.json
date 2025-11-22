@@ -1,0 +1,11 @@
+{
+  "id":"year3/english/spelling/super-spot-the-error-y3",
+  "title":"Super Spot the Error",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"select_option","prompt":"Choose the correct spelling:","options":[{"text":"suprhero"},{"text":"superhero"},{"text":"super-heerow"}],"answer":1},
+    {"id":"s2","type":"true_false","prompt":"The word 'superman' uses the prefix 'super-'.","answer":true},
+    {"id":"s3","type":"fill_blank","prompt":"Type the word that means 'very fast': ______fast","answer":"superfast"},
+    {"id":"s4","type":"select_option","prompt":"Which uses the prefix 'super-'?","options":[{"text":"superstar"},{"text":"surprise"},{"text":"supersition"}],"answer":0}
+  ]
+}

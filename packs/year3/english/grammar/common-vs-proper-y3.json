@@ -1,0 +1,5 @@
+{ "id":"year3/english/grammar/common-vs-proper-y3", "title":"Common vs Proper", "version":1, "steps":[
+  {"id":"cp1","type":"select_option","prompt":"Which is a proper noun?","options":[{"text":"city"},{"text":"London"},{"text":"river"}],"answer":1},
+  {"id":"cp2","type":"select_option","prompt":"Which is a proper noun?","options":[{"text":"day"},{"text":"Monday"},{"text":"month"}],"answer":1},
+  {"id":"cp3","type":"select_option","prompt":"Which is a common noun?","options":[{"text":"Africa"},{"text":"teacher"},{"text":"Eric"}],"answer":1}
+]}

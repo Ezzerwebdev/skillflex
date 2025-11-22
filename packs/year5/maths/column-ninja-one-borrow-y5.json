@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/column-ninja-one-borrow-y5",
+  "title": "Column Ninja: One Borrow",
+  "version": 1,
+  "steps": [
+    {
+      "id": "cn1",
+      "type": "select_option",
+      "prompt": "Which column needs a borrow in 4,302 − 478?",
+      "options": [
+        {
+          "text": "Ones"
+        },
+        {
+          "text": "Tens"
+        },
+        {
+          "text": "Hundreds"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "cn2",
+      "type": "select_option",
+      "prompt": "Which has exactly ONE borrow?",
+      "options": [
+        {
+          "text": "1,205 − 400"
+        },
+        {
+          "text": "1,500 − 509"
+        },
+        {
+          "text": "950 − 650"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "cn3",
+      "type": "select_option",
+      "prompt": "6,003 − 275 = ?",
+      "options": [
+        {
+          "text": "5,728"
+        },
+        {
+          "text": "5,738"
+        },
+        {
+          "text": "5,7280"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

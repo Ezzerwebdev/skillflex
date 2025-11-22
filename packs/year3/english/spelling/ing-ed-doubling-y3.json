@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/ing-ed-doubling-y3","title":"-ing/-ed Doubling","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"plan + ing = ?", "options":[{"text":"planing"},{"text":"planning"},{"text":"plannning"}],"answer":1},
+  {"id":"s2","type":"select_option","prompt":"skip + ed = ?", "options":[{"text":"skiped"},{"text":"skipped"},{"text":"skippedd"}],"answer":1},
+  {"id":"s3","type":"true_false","prompt":"We double the final consonant after a short vowel (e.g., 'plan'→'planning').","answer":true}
+]}

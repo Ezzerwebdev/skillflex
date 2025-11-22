@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/interval-experts",
+  "title": "Interval Experts",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ie1",
+      "type": "select_option",
+      "prompt": "A number line from 0 to 1000 is split into 10 equal intervals. What is each interval worth?",
+      "options": [
+        {
+          "text": "10"
+        },
+        {
+          "text": "50"
+        },
+        {
+          "text": "100"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "ie2",
+      "type": "select_option",
+      "prompt": "A number line from 300 to 400 is split into 10 equal intervals. What is each interval worth?",
+      "options": [
+        {
+          "text": "1"
+        },
+        {
+          "text": "10"
+        },
+        {
+          "text": "20"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ie3",
+      "type": "select_option",
+      "prompt": "A number line from 0 to 1000 is split into 20 equal intervals. What is each interval worth?",
+      "options": [
+        {
+          "text": "20"
+        },
+        {
+          "text": "50"
+        },
+        {
+          "text": "100"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ie4",
+      "type": "select_option",
+      "prompt": "A number line from 800 to 900 is split into 5 equal intervals. What is each interval worth?",
+      "options": [
+        {
+          "text": "10"
+        },
+        {
+          "text": "20"
+        },
+        {
+          "text": "25"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

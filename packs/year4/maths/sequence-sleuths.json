@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/sequence-sleuths",
+  "title": "Sequence Sleuths",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ss1",
+      "type": "select_option",
+      "prompt": "Find the next number in the sequence: 3000, 4000, 5000, ...",
+      "options": [
+        {
+          "text": "5001"
+        },
+        {
+          "text": "6000"
+        },
+        {
+          "text": "5500"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ss2",
+      "type": "select_option",
+      "prompt": "Find the missing number: 8000, 7000, ..., 5000",
+      "options": [
+        {
+          "text": "6000"
+        },
+        {
+          "text": "6500"
+        },
+        {
+          "text": "7500"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ss3",
+      "type": "select_option",
+      "prompt": "What's the mistake in this sequence? 1000, 2000, 300, 4000",
+      "options": [
+        {
+          "text": "300 should be 3000"
+        },
+        {
+          "text": "4000 should be 400"
+        },
+        {
+          "text": "There is no mistake"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ss4",
+      "type": "select_option",
+      "prompt": "What's the mistake here? 9000, 8000, 7000, 6000, 4000",
+      "options": [
+        {
+          "text": "6000 should be 5000"
+        },
+        {
+          "text": "4000 should be 5000"
+        },
+        {
+          "text": "5000 is missing"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

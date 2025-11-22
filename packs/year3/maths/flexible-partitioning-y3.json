@@ -1,0 +1,58 @@
+{
+  "id": "year3/maths/flexible-partitioning-y3",
+  "title": "Flexible Partitioning",
+  "version": 1,
+  "steps": [
+    {
+      "id": "fp1",
+      "type": "select_option",
+      "prompt": "65 can be partitioned into 6 tens and 5 ones. What is another way to partition it?",
+      "options": [
+        {
+          "text": "5 tens and 15 ones"
+        },
+        {
+          "text": "6 tens and 15 ones"
+        },
+        {
+          "text": "5 tens and 5 ones"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "fp2",
+      "type": "select_option",
+      "prompt": "The number is 74. Which is a correct way to partition it?",
+      "options": [
+        {
+          "text": "60 + 4"
+        },
+        {
+          "text": "7 + 40"
+        },
+        {
+          "text": "50 + 24"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "fp3",
+      "type": "select_option",
+      "prompt": "If one part of 87 is 50, what is the other part?",
+      "options": [
+        {
+          "text": "37"
+        },
+        {
+          "text": "30"
+        },
+        {
+          "text": "82"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{ "id":"year3/english/grammar/noun-hunt-y3", "title":"Noun Hunt", "version":1, "steps":[
+  {"id":"nh1","type":"select_option","prompt":"Pick the noun:","options":[{"text":"quickly"},{"text":"garden"},{"text":"blue"}],"answer":1},
+  {"id":"nh2","type":"select_option","prompt":"Pick the noun:","options":[{"text":"cat"},{"text":"jump"},{"text":"soft"}],"answer":0},
+  {"id":"nh3","type":"select_option","prompt":"Pick the noun:","options":[{"text":"tree"},{"text":"slowly"},{"text":"happy"}],"answer":0}
+]}

@@ -1,0 +1,9 @@
+# macOS junk
+.DS_Store
+._*
+
+# editor / backup junk
+*.bak.*
+*.zip
+_backups/
+

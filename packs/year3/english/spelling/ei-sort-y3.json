@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/ei-sort-y3", "title":"EI Sort", "version":1, "steps":[
+  {"id":"s1","type":"select_option","prompt":"Which uses 'ei' correctly?","options":[{"text":"neghbour"},{"text":"neighbour"},{"text":"naybour"}],"answer":1},
+  {"id":"s2","type":"select_option","prompt":"Pick the correct spelling:","options":[{"text":"weght"},{"text":"weight"},{"text":"weyght"}],"answer":1},
+  {"id":"s3","type":"order_words","prompt":"Build the word: \"sleigh\"","words":["s","l","e","i","g","h"],"answer":["s","l","e","i","g","h"]}
+]}

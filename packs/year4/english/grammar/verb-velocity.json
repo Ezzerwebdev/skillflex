@@ -1,0 +1,47 @@
+{
+    "id": "year4/grammar/verb-velocity",
+    "title": "Verb Velocity",
+    "version": 1,
+    "steps": [
+        {
+            "id": "vv1",
+            "type": "select_option",
+            "prompt": "What is a verb?",
+            "options": [
+                { "text": "A naming word (like 'table')" },
+                { "text": "An action word (like 'jump')" },
+                { "text": "A describing word (like 'blue')" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "vv2",
+            "type": "select_option",
+            "prompt": "Which sentence has the strongest verb?",
+            "options": [
+                { "text": "The man went down the street." },
+                { "text": "The man walked down the street." },
+                { "text": "The man sprinted down the street." }
+            ],
+            "answer": 2
+        },
+        {
+            "id": "vv3",
+            "type": "order_words",
+            "prompt": "Put the words in the right order to make an exciting sentence.",
+            "words": ["stomped", "The", "monster", "angrily", "."],
+            "answer": ["The", "monster", "stomped", "angrily", "."]
+        },
+        {
+            "id": "vv4",
+            "type": "select_option",
+            "prompt": "Which verb makes this sentence more vivid? The knight ______ the dragon.",
+            "options": [
+                { "text": "fought" },
+                { "text": "battled" },
+                { "text": "met" }
+            ],
+            "answer": 1
+        }
+    ]
+}

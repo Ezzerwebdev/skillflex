@@ -1,0 +1,51 @@
+{
+    "id": "year5/spelling/word-transformers",
+    "title": "Word Transformers",
+    "version": 1,
+    "steps": [
+        {
+            "id": "wt1",
+            "type": "select_option",
+            "prompt": "What is the root word in 'dangerous'?",
+            "options": [
+                { "text": "danger" },
+                { "text": "ous" },
+                { "text": "anger" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "wt2",
+            "type": "select_option",
+            "prompt": "If you change the verb 'invent' into a noun, it becomes...",
+            "options": [
+                { "text": "invently" },
+                { "text": "invention" },
+                { "text": "inventous" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "wt3",
+            "type": "select_option",
+            "prompt": "Which suffix would you add to 'magic' to describe a person who does magic?",
+            "options": [
+                { "text": "-ous" },
+                { "text": "-ly" },
+                { "text": "-ian" }
+            ],
+            "answer": 2
+        },
+        {
+            "id": "wt4",
+            "type": "select_option",
+            "prompt": "What spelling change happens when you add '-ly' to 'angry'?",
+            "options": [
+                { "text": "No change, it's 'angryly'" },
+                { "text": "You drop the 'y' and add '-ily'" },
+                { "text": "You just add '-ly'" }
+            ],
+            "answer": 1
+        }
+    ]
+}

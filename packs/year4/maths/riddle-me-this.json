@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/riddle-me-this",
+  "title": "Riddle Me This",
+  "version": 1,
+  "steps": [
+    {
+      "id": "rmt1",
+      "type": "select_option",
+      "prompt": "My digit sum is 18. All my digits are even. My hundreds digit is > 6 but < 9. My ones digit is a multiple of 3. What am I?",
+      "options": [
+        {
+          "text": "828"
+        },
+        {
+          "text": "846"
+        },
+        {
+          "text": "864"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "rmt2",
+      "type": "select_option",
+      "prompt": "I am a 3-digit number and my digit sum is 11. My hundreds digit is one more than my tens. What number could I be?",
+      "options": [
+        {
+          "text": "326"
+        },
+        {
+          "text": "434"
+        },
+        {
+          "text": "542"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "rmt3",
+      "type": "select_option",
+      "prompt": "I am between 500 and 600. My tens digit is 7. My ones digit is half my hundreds digit (rounded down). What am I?",
+      "options": [
+        {
+          "text": "572"
+        },
+        {
+          "text": "573"
+        },
+        {
+          "text": "673"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "rmt4",
+      "type": "select_option",
+      "prompt": "I have 9 hundreds. My tens digit is 3 less than my hundreds digit. My ones digit is 0. What number am I?",
+      "options": [
+        {
+          "text": "930"
+        },
+        {
+          "text": "690"
+        },
+        {
+          "text": "960"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

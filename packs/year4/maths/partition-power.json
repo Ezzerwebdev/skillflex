@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/partition-power",
+  "title": "Partition Power",
+  "version": 1,
+  "steps": [
+    {
+      "id": "pp1",
+      "type": "select_option",
+      "prompt": "How would you partition the number 758?",
+      "options": [
+        {
+          "text": "700 + 50 + 8"
+        },
+        {
+          "text": "70 + 5 + 8"
+        },
+        {
+          "text": "700 + 5 + 80"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pp2",
+      "type": "select_option",
+      "prompt": "The number is 836. There are ___ hundreds, ___ tens and ___ ones.",
+      "options": [
+        {
+          "text": "8 hundreds, 6 tens, 3 ones"
+        },
+        {
+          "text": "8 hundreds, 3 tens, 6 ones"
+        },
+        {
+          "text": "3 hundreds, 8 tens, 6 ones"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "pp3",
+      "type": "select_option",
+      "prompt": "What number is made from 6 hundreds, 3 tens, and 8 ones?",
+      "options": [
+        {
+          "text": "368"
+        },
+        {
+          "text": "683"
+        },
+        {
+          "text": "638"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "pp4",
+      "type": "select_option",
+      "prompt": "Which of these correctly partitions 218?",
+      "options": [
+        {
+          "text": "200 + 10 + 8"
+        },
+        {
+          "text": "20 + 100 + 8"
+        },
+        {
+          "text": "200 + 1 + 80"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

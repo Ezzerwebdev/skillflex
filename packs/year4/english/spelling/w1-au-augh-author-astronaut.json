@@ -1,0 +1,53 @@
+{
+  "id": "year4/english/spelling/w1-au-augh-author-astronaut",
+  "title": "Author or Astronaut?",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "match_pairs",
+      "pairs": [
+        {
+          "left": "author",
+          "right": "writes books"
+        },
+        {
+          "left": "astronaut",
+          "right": "travels in space"
+        },
+        {
+          "left": "autumn",
+          "right": "season after summer"
+        },
+        {
+          "left": "applaud",
+          "right": "clap your hands to praise"
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "type": "select_option",
+      "prompt": "An ______ travels in a rocket.",
+      "options": [
+        {
+          "text": "author"
+        },
+        {
+          "text": "astronaut"
+        },
+        {
+          "text": "applaud"
+        }
+      ],
+      "answer": 1,
+      "image": "/medias/scenes/spacewalk.jpg"
+    },
+    {
+      "id": "s3",
+      "type": "fill_blank",
+      "prompt": "A person who writes books is an ______. (Word bank: author, astronaut, autumn)",
+      "answer": "author"
+    }
+  ]
+}

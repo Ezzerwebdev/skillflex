@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/counter-breakdowns-y5",
+  "title": "Counter Breakdowns",
+  "version": 1,
+  "steps": [
+    {
+      "id": "cbk1",
+      "type": "select_option",
+      "prompt": "3,429 − 80 = ?",
+      "options": [
+        {
+          "text": "3,349"
+        },
+        {
+          "text": "3,409"
+        },
+        {
+          "text": "3,489"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "cbk2",
+      "type": "select_option",
+      "prompt": "2,871 − 111 = ?",
+      "options": [
+        {
+          "text": "2,760"
+        },
+        {
+          "text": "2,770"
+        },
+        {
+          "text": "2,860"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "cbk3",
+      "type": "select_option",
+      "prompt": "5,995 − 90 = ?",
+      "options": [
+        {
+          "text": "5,905"
+        },
+        {
+          "text": "5,914"
+        },
+        {
+          "text": "5,915"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

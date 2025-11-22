@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/number-line-riddles",
+  "title": "Number Line Riddles",
+  "version": 1,
+  "steps": [
+    {
+      "id": "nlr1",
+      "type": "select_option",
+      "prompt": "I come before 530. My hundreds and ones digits are the same. My digit total is 11. What number am I?",
+      "options": [
+        {
+          "text": "515"
+        },
+        {
+          "text": "524"
+        },
+        {
+          "text": "425"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "nlr2",
+      "type": "select_option",
+      "prompt": "I am greater than 500. All my digits are even. My ones digit is half my tens, and my tens is half my hundreds. What am I?",
+      "options": [
+        {
+          "text": "630"
+        },
+        {
+          "text": "842"
+        },
+        {
+          "text": "421"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "nlr3",
+      "type": "select_option",
+      "prompt": "I am on a number line between 200 and 300. My tens digit is 9. My ones digit is 1. What number am I?",
+      "options": [
+        {
+          "text": "391"
+        },
+        {
+          "text": "192"
+        },
+        {
+          "text": "291"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "nlr4",
+      "type": "select_option",
+      "prompt": "My hundreds digit is 7. I am less than 710. My ones digit is 5. What number could I be?",
+      "options": [
+        {
+          "text": "715"
+        },
+        {
+          "text": "705"
+        },
+        {
+          "text": "695"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

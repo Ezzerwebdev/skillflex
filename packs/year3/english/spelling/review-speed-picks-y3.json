@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/review-speed-picks-y3","title":"Review: Speed Picks","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"Which word means 'king's rule'?","options":[{"text":"reign"},{"text":"rain"},{"text":"rein"}],"answer":0},
+  {"id":"s2","type":"select_option","prompt":"Spell it correctly:","options":[{"text":"they"},{"text":"thay"},{"text":"thye"}],"answer":0},
+  {"id":"s3","type":"select_option","prompt":"Pick the correct spelling:","options":[{"text":"train"},{"text":"trane"},{"text":"trein"}],"answer":0}
+]}

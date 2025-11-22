@@ -1,0 +1,75 @@
+{
+  "id": "year5/maths/digit-detectives-y5",
+  "title": "Digit Detectives",
+  "version": 1,
+  "steps": [
+    {
+      "id": "dd1",
+      "type": "select_option",
+      "prompt": "Starting at 4,382 add 100. Which digit changes?",
+      "options": [
+        {
+          "text": "Thousands"
+        },
+        {
+          "text": "Hundreds"
+        },
+        {
+          "text": "Tens"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "dd2",
+      "type": "select_option",
+      "prompt": "Starting at 4,382 add 1,000. New number?",
+      "options": [
+        {
+          "text": "5,382"
+        },
+        {
+          "text": "4,482"
+        },
+        {
+          "text": "4,392"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "dd3",
+      "type": "select_option",
+      "prompt": "Subtract 10 from 6,070. Result?",
+      "options": [
+        {
+          "text": "6,060"
+        },
+        {
+          "text": "6,007"
+        },
+        {
+          "text": "6,170"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "dd4",
+      "type": "select_option",
+      "prompt": "Which changes **only** the tens digit?",
+      "options": [
+        {
+          "text": "+10"
+        },
+        {
+          "text": "+100"
+        },
+        {
+          "text": "−1,000"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

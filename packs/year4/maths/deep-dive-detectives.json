@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/deep-dive-detectives",
+  "title": "Deep Dive Detectives",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ddd1",
+      "type": "select_option",
+      "prompt": "I have 7 hundreds. My tens digit is double my ones digit. My ones digit is > 2. What number am I?",
+      "options": [
+        {
+          "text": "721"
+        },
+        {
+          "text": "763"
+        },
+        {
+          "text": "784"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "ddd2",
+      "type": "select_option",
+      "prompt": "My hundreds digit > my tens digit. My ones digit is < 5 and > 1. What number am I?",
+      "options": [
+        {
+          "text": "453"
+        },
+        {
+          "text": "631"
+        },
+        {
+          "text": "824"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "ddd3",
+      "type": "select_option",
+      "prompt": "Olly's number has 3 digits. His hundreds is 1 less than his tens. His tens is 2 less than his ones. What is his number?",
+      "options": [
+        {
+          "text": "457"
+        },
+        {
+          "text": "345"
+        },
+        {
+          "text": "679"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ddd4",
+      "type": "select_option",
+      "prompt": "My number has 4 hundreds, 9 tens and 5 ones. What am I?",
+      "options": [
+        {
+          "text": "459"
+        },
+        {
+          "text": "945"
+        },
+        {
+          "text": "495"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

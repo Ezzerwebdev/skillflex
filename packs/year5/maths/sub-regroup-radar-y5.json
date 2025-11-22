@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/sub-regroup-radar-y5",
+  "title": "Regroup Radar: Subtraction",
+  "version": 1,
+  "steps": [
+    {
+      "id": "rrs1",
+      "type": "select_option",
+      "prompt": "4567 − 345: first borrow happens in…",
+      "options": [
+        {
+          "text": "Ones"
+        },
+        {
+          "text": "Tens"
+        },
+        {
+          "text": "Hundreds"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "rrs2",
+      "type": "select_option",
+      "prompt": "2905 − 110: borrow?",
+      "options": [
+        {
+          "text": "Ones"
+        },
+        {
+          "text": "Tens (9−1 no borrow)"
+        },
+        {
+          "text": "No borrow"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "rrs3",
+      "type": "select_option",
+      "prompt": "8034 − 969: how many borrows likely?",
+      "options": [
+        {
+          "text": "0"
+        },
+        {
+          "text": "1"
+        },
+        {
+          "text": "2+"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

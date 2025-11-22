@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/chart-champions-y5",
+  "title": "Chart Champions",
+  "version": 1,
+  "steps": [
+    {
+      "id": "cc1",
+      "type": "select_option",
+      "prompt": "On chart A: TTh=0, Th=2, H=5, T=4, O=9. Number in digits?",
+      "options": [
+        {
+          "text": "25,049"
+        },
+        {
+          "text": "25,490"
+        },
+        {
+          "text": "20,549"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "cc2",
+      "type": "select_option",
+      "prompt": "Write 25,491 in words.",
+      "options": [
+        {
+          "text": "twenty-five thousand, four hundred and ninety-one"
+        },
+        {
+          "text": "twenty-four thousand, five hundred and ninety-one"
+        },
+        {
+          "text": "twenty-five hundred and four ninety-one"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "cc3",
+      "type": "select_option",
+      "prompt": "Words → digits: “eighty thousand, one hundred and four”.",
+      "options": [
+        {
+          "text": "80,014"
+        },
+        {
+          "text": "80,104"
+        },
+        {
+          "text": "18,104"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

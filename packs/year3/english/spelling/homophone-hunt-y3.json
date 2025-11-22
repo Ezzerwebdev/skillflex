@@ -1,0 +1,6 @@
+{ "id": "year3/english/spelling/homophone-hunt-y3", "title": "Homophone Hunt", "version": 1, "steps": [
+  { "id": "hh1", "type": "select_option", "prompt": "I left my bag over ___.", "options": [ {"text": "there"}, {"text": "their"}, {"text": "they're"} ], "answer": 0 },
+  { "id": "hh2", "type": "select_option", "prompt": "Is this ___ cat?", "options": [ {"text": "there"}, {"text": "their"}, {"text": "they're"} ], "answer": 1 },
+  { "id": "hh3", "type": "select_option", "prompt": "___ going to the park after school.", "options": [ {"text": "There"}, {"text": "Their"}, {"text": "They're"} ], "answer": 2 },
+  { "id": "hh4", "type": "select_option", "prompt": "We put the tent over ___ by the trees.", "options": [ {"text": "there"}, {"text": "their"}, {"text": "they're"} ], "answer": 0 }
+] }

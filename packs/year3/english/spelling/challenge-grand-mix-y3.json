@@ -1,0 +1,16 @@
+{
+  "id":"year3/english/spelling/challenge-grand-mix-y3",
+  "title":"Challenge: Grand Mix",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"fill_blank","prompt":"Type the word: ‘quick____’ (add -ly).","answer":["quickly"]},
+    {"id":"s2","type":"select_option","prompt":"Opposite of ‘agree’.","options":[{"text":"misagree"},{"text":"disagree"},{"text":"unagree"}],"answer":1},
+    {"id":"s3","type":"match_pairs","leftLabel":"Word","rightLabel":"Meaning","pairs":[
+      {"left":"fearless","right":"without fear"},
+      {"left":"joyful","right":"full of joy"},
+      {"left":"payment","right":"the act/result of paying"}
+    ]},
+    {"id":"s4","type":"order_words","prompt":"Build the word:","words":["care","less"],"answer":["care","less"]},
+    {"id":"s5","type":"true_false","prompt":"‘two’ means the number 2.","answer":true}
+  ]
+}

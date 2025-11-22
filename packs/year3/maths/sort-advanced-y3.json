@@ -1,0 +1,21 @@
+{
+  "id": "year3/maths/sort-advanced-y3",
+  "title": "Sort the Sequence (Y3)",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "sort_items",
+      "prompt": "Order numbers from smallest to largest:",
+      "items": [12, 3, 25, 7, 19, 1, 14],
+      "answer": [1, 3, 7, 12, 14, 19, 25]
+    },
+    {
+      "id": "s2",
+      "type": "sort_items",
+      "prompt": "Put the words in alphabetical order:",
+      "items": ["pear","apple","banana","grape","orange"],
+      "answer": ["apple","banana","grape","orange","pear"]
+    }
+  ]
+}

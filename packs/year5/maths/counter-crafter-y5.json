@@ -1,0 +1,75 @@
+{
+  "id": "year5/maths/counter-crafter-y5",
+  "title": "Counter Crafter",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ccf1",
+      "type": "select_option",
+      "prompt": "Place-value frame shows: TTh=0, Th=12, H=3, T=4, O=9 ⇒ number?",
+      "options": [
+        {
+          "text": "12,349"
+        },
+        {
+          "text": "1,234,9"
+        },
+        {
+          "text": "12,439"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ccf2",
+      "type": "select_option",
+      "prompt": "Add 2 counters to the thousands column of 12,349. New number?",
+      "options": [
+        {
+          "text": "14,349"
+        },
+        {
+          "text": "12,549"
+        },
+        {
+          "text": "12,369"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ccf3",
+      "type": "select_option",
+      "prompt": "Remove 3 hundreds from 14,349. Result?",
+      "options": [
+        {
+          "text": "14,049"
+        },
+        {
+          "text": "14,0490"
+        },
+        {
+          "text": "14,649"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ccf4",
+      "type": "select_option",
+      "prompt": "Which change affects ONLY the tens digit?",
+      "options": [
+        {
+          "text": "+10"
+        },
+        {
+          "text": "+100"
+        },
+        {
+          "text": "+1,000"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

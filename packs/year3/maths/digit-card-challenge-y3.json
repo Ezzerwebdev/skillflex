@@ -1,0 +1,58 @@
+{
+  "id": "year3/maths/digit-card-challenge-y3",
+  "title": "Digit Card Challenge",
+  "version": 1,
+  "steps": [
+    {
+      "id": "dcc1",
+      "type": "select_option",
+      "prompt": "Using the digits 9, 6, and 3, what is the greatest 2-digit number you can make?",
+      "options": [
+        {
+          "text": "96"
+        },
+        {
+          "text": "69"
+        },
+        {
+          "text": "93"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "dcc2",
+      "type": "select_option",
+      "prompt": "Using the digits 9, 6, and 3, what is the smallest 2-digit number you can make?",
+      "options": [
+        {
+          "text": "39"
+        },
+        {
+          "text": "63"
+        },
+        {
+          "text": "36"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "dcc3",
+      "type": "select_option",
+      "prompt": "Using the digits 9, 6, and 3, how many different 2-digit numbers can you make?",
+      "options": [
+        {
+          "text": "3"
+        },
+        {
+          "text": "6"
+        },
+        {
+          "text": "9"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/trail-subtracts-y5",
+  "title": "Trail Subtracts",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ts1",
+      "type": "select_option",
+      "prompt": "Start 3,470 → −80 → −400 = ?",
+      "options": [
+        {
+          "text": "2,990"
+        },
+        {
+          "text": "2,990 is wrong"
+        },
+        {
+          "text": "2,980"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ts2",
+      "type": "select_option",
+      "prompt": "Start 1,906 → −90 → −10 = ?",
+      "options": [
+        {
+          "text": "1,806"
+        },
+        {
+          "text": "1,796"
+        },
+        {
+          "text": "1,906"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ts3",
+      "type": "select_option",
+      "prompt": "Start 7,025 → −975 = ?",
+      "options": [
+        {
+          "text": "6,050"
+        },
+        {
+          "text": "6,000"
+        },
+        {
+          "text": "6,1000"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

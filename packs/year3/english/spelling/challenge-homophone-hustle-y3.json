@@ -1,0 +1,11 @@
+{
+  "id":"year3/english/spelling/challenge-homophone-hustle-y3",
+  "title":"Challenge: Homophone Hustle",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"select_option","prompt":"We went ___ the park.","options":[{"text":"to"},{"text":"too"},{"text":"two"}],"answer":0},
+    {"id":"s2","type":"select_option","prompt":"They left ___ bags at home.","options":[{"text":"there"},{"text":"they're"},{"text":"their"}],"answer":2},
+    {"id":"s3","type":"true_false","prompt":"‘they're’ is short for ‘they are’.","answer":true},
+    {"id":"s4","type":"fill_blank","prompt":"Write the word that sounds like ‘sea’ (you use it to look).","answer":["see"]}
+  ]
+}

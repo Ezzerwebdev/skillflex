@@ -1,0 +1,12 @@
+{
+  "id":"year3/english/spelling/challenge-speed-picks-y3",
+  "title":"Challenge: Speed Picks",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"select_option","prompt":"Choose the correct word.","options":[{"text":"kindness"},{"text":"kindless"},{"text":"kindlyness"}],"answer":0},
+    {"id":"s2","type":"select_option","prompt":"Choose the correct word.","options":[{"text":"careful"},{"text":"carefull"},{"text":"carefool"}],"answer":0},
+    {"id":"s3","type":"select_option","prompt":"Choose the correct word.","options":[{"text":"rewrite"},{"text":"re-writ"},{"text":"rewrit"}],"answer":0},
+    {"id":"s4","type":"select_option","prompt":"Choose the correct word.","options":[{"text":"submarine"},{"text":"submarin"},{"text":"submarien"}],"answer":0},
+    {"id":"s5","type":"select_option","prompt":"Choose the correct word.","options":[{"text":"autopilot"},{"text":"autopilott"},{"text":"autoppilot"}],"answer":0}
+  ]
+}

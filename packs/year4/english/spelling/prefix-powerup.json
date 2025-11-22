@@ -1,0 +1,35 @@
+{
+  "id": "year4/spelling/prefix-perfect",
+  "title": "Prefix Perfect",
+  "version": 2,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "order_words",
+      "prompt": "Unscramble the sentence:",
+      "words": ["answer", "was", "The", "incorrect"],
+      "answer": ["The", "answer", "was", "incorrect"]
+    },
+    {
+      "id": "s2",
+      "type": "order_words",
+      "prompt": "Unscramble the sentence:",
+      "words": ["impolite", "interrupt", "to", "It", "is"],
+      "answer": ["It", "is", "impolite", "to", "interrupt"]
+    },
+    {
+      "id": "s3",
+      "type": "order_words",
+      "prompt": "Unscramble the sentence:",
+      "words": ["irresponsible", "driving", "is", "That"],
+      "answer": ["That", "is", "irresponsible", "driving"]
+    },
+    {
+      "id": "s4",
+      "type": "order_words",
+      "prompt": "Unscramble the sentence:",
+      "words": ["was", "Her", "writing", "illegible"],
+      "answer": ["Her", "writing", "was", "illegible"]
+    }
+  ]
+}

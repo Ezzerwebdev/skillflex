@@ -1,0 +1,47 @@
+{
+    "id": "year5/spelling/ough-mix-up",
+    "title": "The Great -ough Mix-up",
+    "version": 1,
+    "steps": [
+        {
+            "id": "ou1",
+            "type": "select_option",
+            "prompt": "Which word correctly completes the sentence? 'I've eaten ____ for today.'",
+            "options": [
+                { "text": "though" },
+                { "text": "enough" },
+                { "text": "through" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "ou2",
+            "type": "select_option",
+            "prompt": "Choose the correct word: 'The farmer used a ______ to turn over the soil.'",
+            "options": [
+                { "text": "plough" },
+                { "text": "cough" },
+                { "text": "dough" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "ou3",
+            "type": "select_option",
+            "prompt": "Which word fits here? 'I ______ I saw a bird in that tree.'",
+            "options": [
+                { "text": "thought" },
+                { "text": "tough" },
+                { "text": "though" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "ou4",
+            "type": "order_words",
+            "prompt": "Unscramble this sentence.",
+            "words": ["bad", "got", "a", "He's", "cough", "."],
+            "answer": ["He's", "got", "a", "bad", "cough", "."]
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+  "id":"year3/english/spelling/suffix-less-spot-y3",
+  "title":"-less Spotter",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"select_option","prompt":"Choose the correct spelling: 'without fear'.","options":[{"text":"fearless"},{"text":"fearles"},{"text":"fear less"}],"answer":0},
+    {"id":"s2","type":"fill_blank","prompt":"Write the word that means 'without hope':","answer":"hopeless"},
+    {"id":"s3","type":"true_false","prompt":"The suffix 'less' means 'with extra'.","answer":false},
+    {"id":"s4","type":"order_words","prompt":"Build the word: care + less","words":["care","less"],"answer":["care","less"]}
+  ]
+}

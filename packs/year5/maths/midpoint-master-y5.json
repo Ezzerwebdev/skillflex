@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/midpoint-master-y5",
+  "title": "Midpoint Master",
+  "version": 1,
+  "steps": [
+    {
+      "id": "mm1",
+      "type": "select_option",
+      "prompt": "Pick a valid B (>10,000, multiple of 10):",
+      "options": [
+        {
+          "text": "12,345"
+        },
+        {
+          "text": "14,020"
+        },
+        {
+          "text": "9,990"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "mm2",
+      "type": "select_option",
+      "prompt": "If B=14,020 then A (B−1,200)=?",
+      "options": [
+        {
+          "text": "12,820"
+        },
+        {
+          "text": "13,820"
+        },
+        {
+          "text": "15,220"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "mm3",
+      "type": "select_option",
+      "prompt": "If B=14,020 then C (halfway between B and 2B)=?",
+      "options": [
+        {
+          "text": "21,030"
+        },
+        {
+          "text": "28,040"
+        },
+        {
+          "text": "7,010"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

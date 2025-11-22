@@ -1,0 +1,35 @@
+{
+  "id": "year4/english/spelling/w1-au-augh-au-vs-augh",
+  "title": "AU vs AUGH",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "select_option",
+      "prompt": "Which word has ‘au’ (no ‘gh’)?",
+      "options": [
+        {"text": "taught"},
+        {"text": "cause"},
+        {"text": "caught"}
+      ],
+      "answer": 1
+    },
+    {
+      "id": "s2",
+      "type": "select_option",
+      "prompt": "Which word has ‘augh’?",
+      "options": [
+        {"text": "author"},
+        {"text": "daughter"},
+        {"text": "cause"}
+      ],
+      "answer": 1
+    },
+    {
+      "id": "s3",
+      "type": "true_false",
+      "prompt": "‘author’ uses ‘au’ but no ‘gh’.",
+      "answer": true
+    }
+  ]
+}

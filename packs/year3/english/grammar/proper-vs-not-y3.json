@@ -1,0 +1,5 @@
+{ "id":"year3/english/grammar/proper-vs-not-y3", "title":"Proper vs Not", "version":1, "steps":[
+  {"id":"pn1","type":"select_option","prompt":"Which needs a capital?","options":[{"text":"river nile"},{"text":"River Nile"},{"text":"river Nile"}],"answer":1},
+  {"id":"pn2","type":"select_option","prompt":"Which needs a capital?","options":[{"text":"mount kigali"},{"text":"Mount Kigali"},{"text":"mount Kigali"}],"answer":1},
+  {"id":"pn3","type":"select_option","prompt":"Which needs a capital?","options":[{"text":"rwanda"},{"text":"Rwanda"},{"text":"rWanda"}],"answer":1}
+]}

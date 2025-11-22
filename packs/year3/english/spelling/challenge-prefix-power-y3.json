@@ -1,0 +1,15 @@
+{
+  "id":"year3/english/spelling/challenge-prefix-power-y3",
+  "title":"Challenge: Prefix Power",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"select_option","prompt":"Make the opposite: ___happy","options":[{"text":"rehappy"},{"text":"unhappy"},{"text":"dishappy"}],"answer":1},
+    {"id":"s2","type":"match_pairs","leftLabel":"Prefix","rightLabel":"Meaning","pairs":[
+      {"left":"re-","right":"again"},
+      {"left":"un-","right":"not / opposite"},
+      {"left":"mis-","right":"wrong / badly"},
+      {"left":"pre-","right":"before"}
+    ]},
+    {"id":"s3","type":"true_false","prompt":"The prefix ‘pre-’ means ‘after’.","answer":false}
+  ]
+}

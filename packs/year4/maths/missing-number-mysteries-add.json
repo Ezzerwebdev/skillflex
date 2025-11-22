@@ -1,0 +1,58 @@
+{
+  "id": "year4/maths/missing-number-mysteries-add",
+  "title": "Missing Number Mysteries (Addition)",
+  "version": 1,
+  "steps": [
+    {
+      "id": "mnm1",
+      "type": "select_option",
+      "prompt": "Find the missing number: 2,345 + ? = 2,385",
+      "options": [
+        {
+          "text": "4"
+        },
+        {
+          "text": "400"
+        },
+        {
+          "text": "40"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "mnm2",
+      "type": "select_option",
+      "prompt": "Find the missing number: ? + 70 = 4,123",
+      "options": [
+        {
+          "text": "4,053"
+        },
+        {
+          "text": "4,193"
+        },
+        {
+          "text": "3,423"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "mnm3",
+      "type": "select_option",
+      "prompt": "Find the missing number: 6,821 + ? = 7,821",
+      "options": [
+        {
+          "text": "100"
+        },
+        {
+          "text": "1,000"
+        },
+        {
+          "text": "10"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/ey-spot-the-error-y3","title":"EY Spot the Error","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"Choose the correct spelling","options":[{"text":"journy"},{"text":"journey"},{"text":"jorney"}],"answer":1},
+  {"id":"s2","type":"select_option","prompt":"Choose the correct spelling","options":[{"text":"chimny"},{"text":"chimney"},{"text":"chimnay"}],"answer":1},
+  {"id":"s3","type":"true_false","prompt":"\"money\" ends with -ey.","answer":true}
+]}

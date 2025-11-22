@@ -1,0 +1,6 @@
+{ "id": "year3/english/grammar/word-class-sorter-y3", "title": "Word Class Sorter", "version": 1, "steps": [
+  { "id": "wc1", "type": "select_option", "prompt": "Which word is a noun?",      "options": [ {"text": "quickly"}, {"text": "dog"}, {"text": "blue"} ], "answer": 1 },
+  { "id": "wc2", "type": "select_option", "prompt": "Which word is an adjective?", "options": [ {"text": "run"}, {"text": "soft"}, {"text": "quietly"} ], "answer": 1 },
+  { "id": "wc3", "type": "select_option", "prompt": "Which word is an adverb?",    "options": [ {"text": "happy"}, {"text": "cat"}, {"text": "slowly"} ], "answer": 2 },
+  { "id": "wc4", "type": "select_option", "prompt": "Which word is a verb?",       "options": [ {"text": "jump"}, {"text": "blue"}, {"text": "dog"} ], "answer": 0 }
+] }

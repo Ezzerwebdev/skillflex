@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>SkillFlex Kids</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400..700&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Ctext y='50' font-size='48'%3E🎯%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/ui.css?v=kids12">
+
+</head>
+<body class="kids">
+   <header class="hero" role="banner">
+<div class="logo" aria-label="SkillFlex Kids home">🌟 SkillFlex</div>
+<nav class="nav" aria-label="Primary">
+<div class="nav-stats" aria-live="polite">
+<span id="coins" title="Coins earned">🪙 0</span>
+<span id="streak" title="Daily streak">🔥 0</span>
+</div>
+
+
+<div class="nav-actions">
+  <!-- THEME TOGGLE -->
+  <button id="themeToggle" class="btn btn-secondary" aria-pressed="false" aria-label="Toggle dark mode">
+    <span id="themeIcon">🌙</span>
+  </button>
+
+  <div class="shop-anchor">
+    <button id="shop-button" class="btn btn-secondary" type="button"
+            aria-haspopup="dialog" aria-expanded="false">Shop</button>
+    <div id="shopHover" role="dialog" aria-label="Shop"></div>
+  </div>
+
+  <a href="/" id="btnHome" class="btn ghost" aria-label="Go to Home">Home</a>
+
+  <!-- NEW: Profile -->
+  <a id="profile-button" class="btn ghost" href="/profile" data-link>Profile</a>
+
+  <!-- Auth state: these are toggled by JS; never visible at the same time -->
+  <span id="auth-pill" class="pill success" hidden aria-live="polite">Signed in ✅</span>
+
+  <!-- Guest only (two options in a popup) -->
+  <a id="login-button" class="btn btn-primary" data-action="login" hidden>Save my coins! 🪙</a>
+  <button class="btn" data-action="login-email" hidden>Log in with Email</button>
+
+  <!-- Logged-in only (button triggers logout()) -->
+  <button id="python3 -m http.server 8080" class="btn btn-secondary" hidden type="button">Logout</button>
+</div>
+
+</nav>
+</header>
+
+  <main id="app">
+      <div class="loading-fullscreen">
+          <p>🚀 Liftoff! Getting your adventure ready...</p>
+      </div>
+  </main>
+
+  <!-- New placeholder for modals and pop-ups -->
+  <div id="modal-host"></div>
+
+  <footer class="foot">
+    <p>Made with 💜 by SkillFlex</p>
+  </footer>
+
+  <template id="homeTpl">
+  <!-- Kid-friendly hero -->
+  <section class="home-hero" aria-labelledby="home-title">
+  <!-- (Shapes removed) -->
+
+  <h1 id="home-title">Learn by playing</h1>
+  <div class="h1-underline"></div>
+
+  <p class="home-sub">Quick English & Maths mini-challenges for Years 3–5. No sign-in needed.</p>
+
+  <ul class="how-it-works" aria-label="How it works">
+    <li><span class="step-dot">1</span> Pick a subject</li>
+    <li><span class="step-dot">2</span> Choose your class</li>
+    <li><span class="step-dot">3</span> Play a 2–3 min challenge</li>
+    <li><span class="step-dot">4</span> Earn coins & build a streak</li>
+  </ul>
+
+ 
+
+</section>
+
+  <!-- App will render the chooser/grid here -->
+  <!-- 2-column home scaffold: left = main path, right = motivation rail -->
+<div id="hubGrid">
+  <div id="hubMain">
+    <!-- Big friendly "Continue" card (hidden until JS fills it) -->
+    <section id="continueCard" class="section continue-card" hidden>
+      <div class="activity-list-header">
+        <h2>Ready to continue?</h2>
+      </div>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center">
+        <a id="continueBtn" class="btn btn-primary" data-link>Continue</a>
+        <small id="continueMeta" class="pill"></small>
+      </div>
+    </section>
+
+    <!-- Units/lessons hub goes here (rendered by units.js) -->
+    <div id="challengeHubContainer" aria-live="polite"></div>
+  </div>
+
+  <!-- Right rail (desktop); JS fills this -->
+  <aside id="motivationRail" aria-label="Your goals"></aside>
+</div>
+
+
+  <!-- Gentle, optional info for adults/teachers -->
+  <div class="grownups section" aria-labelledby="grownups-title">
+  <p id="grownups-title"><strong>For grown-ups:</strong> Tutors can offer 1:1 or group sessions on SkillFlex. Course publishing opens soon.</p>
+  <a class="btn btn-primary" href="[[TUTOR_FORM_URL]]" target="_blank" rel="noopener">
+    Teach or Tutor on SkillFlex
+  </a>
+</div>
+<div class="trust-strip">
+  <span class="dots" aria-hidden="true"></span>
+  <span>Trusted by schools & families</span>
+</div>
+
+
+</template>
+
+
+  <template id="lessonTpl">
+    <div class="lesson-wrapper">
+        <div class="lesson-header">
+            <button id="btnBack" class="btn-icon">❌</button>
+            <h1 id="lessonTitle" class="lesson-title-text">Loading Lesson...</h1>
+            <div id="progressBar" class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <div class="hearts">❤️ 5</div>
+        </div>
+        <div id="stepHost" class="step-host"></div>
+        <div id="feedback" class="feedback-toast" hidden></div>
+        <footer class="lesson-footer">
+            <button id="btnNext" class="btn-check" disabled>Check</button>
+        </footer>
+    </div>
+  </template>
+  <div id="panic" style="position:fixed;left:0;right:0;top:56px;background:#fee2e2;color:#991b1b;padding:.6rem 1rem;font-weight:700;font-family:system-ui, sans-serif;display:none;z-index:9999"></div>
+</body>
+  <!-- Put this JUST BEFORE your main.js script -->
+  <script>
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      // Point all /api calls at your real backend
+      window.API_BASE = 'https://games.skillflex.education/api';
+      console.log('[dev] API_BASE set to', window.API_BASE);
+    }
+  </script>
+
+<script type="module" src="/js/main.js?v=kids13"></script>
+
+
+</html>
+

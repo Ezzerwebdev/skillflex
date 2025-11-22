@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/odd-one-out",
+  "title": "Odd One Out",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ooo1",
+      "type": "select_option",
+      "prompt": "Which of these numbers is the odd one out because it's an even number?",
+      "options": [
+        {
+          "text": "631"
+        },
+        {
+          "text": "375"
+        },
+        {
+          "text": "452"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "ooo2",
+      "type": "select_option",
+      "prompt": "Find the odd one out. (Hint: Think about the sum of the digits)",
+      "options": [
+        {
+          "text": "123 (sum is 6)"
+        },
+        {
+          "text": "411 (sum is 6)"
+        },
+        {
+          "text": "250 (sum is 7)"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "ooo3",
+      "type": "select_option",
+      "prompt": "Which of these is NOT a way to partition 583?",
+      "options": [
+        {
+          "text": "500 + 80 + 3"
+        },
+        {
+          "text": "400 + 180 + 3"
+        },
+        {
+          "text": "500 + 8 + 30"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "ooo4",
+      "type": "select_option",
+      "prompt": "Which number is different? (Hint: Think about hundreds)",
+      "options": [
+        {
+          "text": "Six hundred and twenty-one"
+        },
+        {
+          "text": "6 hundreds, 2 tens, 1 one"
+        },
+        {
+          "text": "2 hundreds, 6 tens, 1 one"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

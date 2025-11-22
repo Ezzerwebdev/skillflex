@@ -1,0 +1,11 @@
+{
+  "id":"year3/english/spelling/anti-fill-the-gap-y3",
+  "title":"Anti Fill the Gap",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"fill_blank","prompt":"Opposite of 'clockwise' is ______clockwise.","answer":"anticlockwise"},
+    {"id":"s2","type":"select_option","prompt":"Which word means a medicine that fights bacteria?","options":[{"text":"antibiotics"},{"text":"antifreeze"},{"text":"antihair"}],"answer":0},
+    {"id":"s3","type":"true_false","prompt":"'Antifreeze' stops water from freezing.","answer":true},
+    {"id":"s4","type":"order_words","prompt":"Build the word: anti + viral","words":["anti","viral"],"answer":["anti","viral"]}
+  ]
+}

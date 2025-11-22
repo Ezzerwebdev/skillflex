@@ -1,0 +1,29 @@
+{
+  "id": "year4/english/spelling/w2-in-prefix-choose-sentence-2",
+  "title": "Choose the Word 2",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "select_option",
+      "prompt": "He had an ______ to swim.",
+      "options": [
+        {"text": "inability"},
+        {"text": "indecisive"},
+        {"text": "infinite"}
+      ],
+      "answer": 0
+    },
+    {
+      "id": "s2",
+      "type": "select_option",
+      "prompt": "The date was ______, so it might change.",
+      "options": [
+        {"text": "indefinite"},
+        {"text": "incomplete"},
+        {"text": "incorrect"}
+      ],
+      "answer": 0
+    }
+  ]
+}

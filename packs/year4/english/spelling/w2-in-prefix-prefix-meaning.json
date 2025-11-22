@@ -1,0 +1,30 @@
+{
+  "id": "year4/english/spelling/w2-in-prefix-prefix-meaning",
+  "title": "Make it Negative",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "true_false",
+      "prompt": "The prefix ‘in-’ can change a word to its opposite.",
+      "answer": true
+    },
+    {
+      "id": "s2",
+      "type": "select_option",
+      "prompt": "Which word is formed by adding ‘in-’ to ‘secure’?",
+      "options": [
+        {"text": "insecure"},
+        {"text": "insecurely"},
+        {"text": "securein"}
+      ],
+      "answer": 0
+    },
+    {
+      "id": "s3",
+      "type": "fill_blank",
+      "prompt": "The answer was wrong. Write the ______ form of ‘correct’. (Word bank: incorrect, incomplete, indecisive)",
+      "answer": "incorrect"
+    }
+  ]
+}

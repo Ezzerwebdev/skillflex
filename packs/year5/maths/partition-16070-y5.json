@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/partition-16070-y5",
+  "title": "Partition 16,070",
+  "version": 1,
+  "steps": [
+    {
+      "id": "p16070_1",
+      "type": "select_option",
+      "prompt": "Choose a correct partition of 16,070:",
+      "options": [
+        {
+          "text": "10,000 + 6,000 + 70"
+        },
+        {
+          "text": "16,000 + 700"
+        },
+        {
+          "text": "1,600 + 70"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "p16070_2",
+      "type": "select_option",
+      "prompt": "Another correct partition:",
+      "options": [
+        {
+          "text": "15,000 + 1,070"
+        },
+        {
+          "text": "6,070 + 10"
+        },
+        {
+          "text": "16,700 + 0"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "p16070_3",
+      "type": "select_option",
+      "prompt": "Which is NOT equal to 16,070?",
+      "options": [
+        {
+          "text": "8,000 + 8,000 + 70"
+        },
+        {
+          "text": "10,000 + 6,000 + 70"
+        },
+        {
+          "text": "16,000 + 70"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

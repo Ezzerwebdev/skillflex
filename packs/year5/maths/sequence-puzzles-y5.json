@@ -1,0 +1,56 @@
+{
+  "id": "year5/maths/sequence-puzzles-y5",
+  "title": "Sequence Puzzles",
+  "version": 1,
+  "steps": [
+    {
+      "id": "sp1",
+      "type": "select_option",
+      "prompt": "?, 4,300, 4,400, 4,500 (+100). Missing first?",
+      "options": [
+        {
+          "text": "4,100"
+        },
+        {
+          "text": "4,200"
+        },
+        {
+          "text": "4,250"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "sp2",
+      "type": "select_option",
+      "prompt": "7,000, 6,900, 6,800, ? (−100). Next?",
+      "options": [
+        {
+          "text": "6,600"
+        },
+        {
+          "text": "6,700"
+        },
+        {
+          "text": "6,750"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "sp3",
+      "type": "order_words",
+      "prompt": "Complete +1,000 pattern after 1,200:",
+      "words": [
+        "2,200",
+        "3,200",
+        "4,200"
+      ],
+      "answer": [
+        "2,200",
+        "3,200",
+        "4,200"
+      ]
+    }
+  ]
+}

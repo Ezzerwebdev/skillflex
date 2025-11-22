@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/abcd-riddle-y5",
+  "title": "A–B–C–D Riddle",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ar1",
+      "type": "select_option",
+      "prompt": "B>10,000, multiple of 10. A is 1,200 less than B; D is double B; C is halfway between B and D. If B=13,430 then A=?",
+      "options": [
+        {
+          "text": "12,230"
+        },
+        {
+          "text": "12,430"
+        },
+        {
+          "text": "14,630"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ar2",
+      "type": "select_option",
+      "prompt": "With B=13,430, D=?",
+      "options": [
+        {
+          "text": "26,860"
+        },
+        {
+          "text": "27,000"
+        },
+        {
+          "text": "13,460"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ar3",
+      "type": "select_option",
+      "prompt": "With B=13,430, C=?",
+      "options": [
+        {
+          "text": "20,145"
+        },
+        {
+          "text": "19,430"
+        },
+        {
+          "text": "13,430"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+    "id": "year5/spelling/meaning-match-up",
+    "title": "Meaning Match-Up",
+    "version": 1,
+    "steps": [
+        {
+            "id": "mm1",
+            "type": "select_option",
+            "prompt": "Which word means 'to go with someone'?",
+            "options": [
+                { "text": "achieve" },
+                { "text": "accompany" },
+                { "text": "aggressive" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "mm2",
+            "type": "select_option",
+            "prompt": "An 'amateur' is someone who does something as a...",
+            "options": [
+                { "text": "Job" },
+                { "text": "Hobby" },
+                { "text": "Secret" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "mm3",
+            "type": "select_option",
+            "prompt": "If something is 'apparent', it is...",
+            "options": [
+                { "text": "Clearly visible or understood" },
+                { "text": "Hidden or secret" },
+                { "text": "Very old" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "mm4",
+            "type": "select_option",
+            "prompt": "Which word describes something that is clumsy or difficult to handle?",
+            "options": [
+                { "text": "average" },
+                { "text": "appreciate" },
+                { "text": "awkward" }
+            ],
+            "answer": 2
+        }
+    ]
+}

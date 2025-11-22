@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/number-line-basics",
+  "title": "Number Line Adventure",
+  "version": 1,
+  "steps": [
+    {
+      "id": "nlb1",
+      "type": "select_option",
+      "prompt": "A number line goes from 0 to 1000. What number is at the halfway point?",
+      "options": [
+        {
+          "text": "100"
+        },
+        {
+          "text": "500"
+        },
+        {
+          "text": "1000"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "nlb2",
+      "type": "select_option",
+      "prompt": "On a number line from 0 to 1000, an arrow points to the first marker after 0 (out of 10 total intervals). What number is it pointing to?",
+      "options": [
+        {
+          "text": "10"
+        },
+        {
+          "text": "50"
+        },
+        {
+          "text": "100"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "nlb3",
+      "type": "select_option",
+      "prompt": "An arrow points to the marker exactly between 600 and 700. What number is it?",
+      "options": [
+        {
+          "text": "650"
+        },
+        {
+          "text": "625"
+        },
+        {
+          "text": "750"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "nlb4",
+      "type": "select_option",
+      "prompt": "On a number line from 0 to 1000, which number comes right before 900?",
+      "options": [
+        {
+          "text": "800"
+        },
+        {
+          "text": "850"
+        },
+        {
+          "text": "899"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

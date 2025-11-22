@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/mistake-detective-y5",
+  "title": "Mistake Detective",
+  "version": 1,
+  "steps": [
+    {
+      "id": "md1",
+      "type": "select_option",
+      "prompt": "Amrit: 2687 + 145 = 2822. What’s correct?",
+      "options": [
+        {
+          "text": "It should be 2832"
+        },
+        {
+          "text": "It should be 2821"
+        },
+        {
+          "text": "It is correct"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "md2",
+      "type": "select_option",
+      "prompt": "Zeke: 5090 + 75 = 5165. Correct?",
+      "options": [
+        {
+          "text": "Yes"
+        },
+        {
+          "text": "No, it’s 5160"
+        },
+        {
+          "text": "No, it’s 5170"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "md3",
+      "type": "select_option",
+      "prompt": "Drew: 349 + 672 = 1001. Correct fix?",
+      "options": [
+        {
+          "text": "1021"
+        },
+        {
+          "text": "1011"
+        },
+        {
+          "text": "1001 is right"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

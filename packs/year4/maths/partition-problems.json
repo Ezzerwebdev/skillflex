@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/partition-problems",
+  "title": "Partition Problems",
+  "version": 1,
+  "steps": [
+    {
+      "id": "pp1",
+      "type": "select_option",
+      "prompt": "Complete the statement: 300 + ___ + 4 = 384",
+      "options": [
+        {
+          "text": "8"
+        },
+        {
+          "text": "80"
+        },
+        {
+          "text": "800"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "pp2",
+      "type": "select_option",
+      "prompt": "Complete the statement: ___ + 70 + 9 = 579",
+      "options": [
+        {
+          "text": "500"
+        },
+        {
+          "text": "50"
+        },
+        {
+          "text": "900"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pp3",
+      "type": "select_option",
+      "prompt": "Complete the statement: 600 + ___ + 7 = 697",
+      "options": [
+        {
+          "text": "9"
+        },
+        {
+          "text": "70"
+        },
+        {
+          "text": "90"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "pp4",
+      "type": "select_option",
+      "prompt": "Complete the statement: ___ + 30 + 5 = 835",
+      "options": [
+        {
+          "text": "80"
+        },
+        {
+          "text": "8000"
+        },
+        {
+          "text": "800"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

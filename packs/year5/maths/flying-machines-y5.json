@@ -1,0 +1,5 @@
+{ "id":"year5/maths/flying-machines-y5","title":"Flying Machines","version":1,"steps":[
+  {"id":"fm1","type":"select_option","prompt":"4,256 + 3,487 + 2,768 = ?","options":[{"text":"10,501"},{"text":"10,511"},{"text":"10,521"}],"answer":1},
+  {"id":"fm2","type":"select_option","prompt":"5,321 + 2,478 + 1,234 = ?","options":[{"text":"9,023"},{"text":"9,033"},{"text":"9,043"}],"answer":1},
+  {"id":"fm3","type":"select_option","prompt":"Which is a good strategy before adding big numbers?","options":[{"text":"Ignore zeros"},{"text":"Estimate first"},{"text":"Add smallest place first"}],"answer":1}
+]}

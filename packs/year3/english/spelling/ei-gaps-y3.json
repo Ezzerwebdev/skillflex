@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/ei-gaps-y3", "title":"EI Fill the Gaps", "version":1, "steps":[
+  {"id":"g1","type":"select_option","prompt":"We carried the boxes by ___.","options":[{"text":"there"},{"text":"their"},{"text":"they're"}],"answer":1},
+  {"id":"g2","type":"select_option","prompt":"The bag felt very ___.","options":[{"text":"weigth"},{"text":"weight"},{"text":"weyt"}],"answer":1},
+  {"id":"g3","type":"select_option","prompt":"Our ___ lives next door.","options":[{"text":"naybour"},{"text":"neighbour"},{"text":"neibor"}],"answer":1}
+]}

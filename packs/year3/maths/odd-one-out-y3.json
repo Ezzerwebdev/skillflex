@@ -1,0 +1,61 @@
+{
+  "id": "year3/maths/odd-one-out-y3",
+  "title": "Odd One Out",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ooo1",
+      "type": "select_option",
+      "prompt": "Which of these is the odd one out? A) 4 tens and 2 ones, B) 24, C) 42",
+      "options": [
+        {
+          "text": "A"
+        },
+        {
+          "text": "B"
+        },
+        {
+          "text": "C"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ooo2",
+      "type": "select_option",
+      "prompt": "Which number is the odd one out? 35, 53, 33",
+      "options": [
+        {
+          "text": "35"
+        },
+        {
+          "text": "53"
+        },
+        {
+          "text": "33, because its digits are the same."
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "ooo3",
+      "type": "select_option",
+      "prompt": "Which representation is the odd one out?",
+      "options": [
+        {
+          "text": "A) five '10' blocks"
+        },
+        {
+          "text": "B) fifty '1' blocks"
+        },
+        {
+          "text": "C) four '10' blocks and ten '1' blocks"
+        },
+        {
+          "text": "D) four '10' blocks and one '1' block"
+        }
+      ],
+      "answer": 3
+    }
+  ]
+}

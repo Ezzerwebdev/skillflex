@@ -1,0 +1,6 @@
+{ "id":"year3/english/spelling/prefix-pairs-speedrun-y3","title":"Prefix Pairs Speedrun","version":1,"steps":[
+  {"id":"m1","type":"match_pairs","prompt":"Match prefix + base → word",
+   "pairs":[{"left":"re + write","right":"rewrite"},{"left":"un + tidy","right":"untidy"},{"left":"dis + like","right":"dislike"},{"left":"mis + place","right":"misplace"}]},
+  {"id":"s1","type":"select_option","prompt":"Choose the 'un-' word meaning 'not tidy'","options":[{"text":"untidy"},{"text":"untidie"},{"text":"un-tidy"}],"answer":0},
+  {"id":"t1","type":"true_false","prompt":"'mis-' can mean 'wrongly'.","answer":true}
+]}

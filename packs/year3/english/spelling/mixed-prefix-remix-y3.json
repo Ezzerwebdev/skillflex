@@ -1,0 +1,6 @@
+{ "id":"year3/english/spelling/mixed-prefix-remix-y3","title":"Mixed Prefix Remix","version":1,"steps":[
+  {"id":"m1","type":"match_pairs","prompt":"Match to make a correct word",
+   "pairs":[{"left":"un + kind","right":"unkind"},{"left":"dis + appear","right":"disappear"},{"left":"mis + spell","right":"misspell"},{"left":"re + start","right":"restart"}]},
+  {"id":"s1","type":"select_option","prompt":"Best 're-' word for 'do again'","options":[{"text":"redo"},{"text":"reagain"},{"text":"re-doo"}],"answer":0},
+  {"id":"t1","type":"true_false","prompt":"'dis-' can mean 'not' or 'opposite'.","answer":true}
+]}

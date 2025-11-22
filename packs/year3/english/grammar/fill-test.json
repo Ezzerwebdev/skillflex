@@ -1,0 +1,8 @@
+{
+  "id": "year3/english/grammar/fill-test",
+  "title": "Fill Test",
+  "version": 1,
+  "steps": [
+    { "id": "fb1", "type": "fill_blank", "prompt": "The sun ___ in the east.", "answer": ["rises","comes up"] }
+  ]
+}

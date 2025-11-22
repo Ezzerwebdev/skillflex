@@ -1,0 +1,5 @@
+{ "id":"year3/english/grammar/true-false-sentences-y3", "title":"True or False: Sentences", "version":1, "steps":[
+  {"id":"tf1","type":"select_option","prompt":"Which is correct?","options":[{"text":"the dog run fast."},{"text":"The dog runs fast."},{"text":"The dog run fast"}],"answer":1},
+  {"id":"tf2","type":"select_option","prompt":"Which is correct?","options":[{"text":"we Are happy."},{"text":"We are happy."},{"text":"We are happy"}],"answer":1},
+  {"id":"tf3","type":"select_option","prompt":"Which is correct?","options":[{"text":"Where is my book?"},{"text":"where is my book"},{"text":"Where is my book"}],"answer":0}
+]}

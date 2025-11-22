@@ -1,0 +1,58 @@
+{
+  "id": "year3/maths/part-whole-puzzlers",
+  "title": "Part-Whole Puzzlers",
+  "version": 1,
+  "steps": [
+    {
+      "id": "pwp1",
+      "type": "select_option",
+      "prompt": "If the whole is 82, and one part is 80, what is the other part?",
+      "options": [
+        {
+          "text": "2"
+        },
+        {
+          "text": "8"
+        },
+        {
+          "text": "20"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pwp2",
+      "type": "select_option",
+      "prompt": "If the parts are 50 and 9, what is the whole?",
+      "options": [
+        {
+          "text": "59"
+        },
+        {
+          "text": "95"
+        },
+        {
+          "text": "509"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pwp3",
+      "type": "select_option",
+      "prompt": "The whole is 45. Which of these are NOT the correct parts?",
+      "options": [
+        {
+          "text": "40 and 5"
+        },
+        {
+          "text": "30 and 15"
+        },
+        {
+          "text": "20 and 20"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

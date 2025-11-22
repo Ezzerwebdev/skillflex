@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/representation-rangers",
+  "title": "Representation Rangers",
+  "version": 1,
+  "steps": [
+    {
+      "id": "rr1",
+      "type": "select_option",
+      "prompt": "What number is shown by 3 hundreds, 2 tens, and 5 ones?",
+      "options": [
+        {
+          "text": "352"
+        },
+        {
+          "text": "235"
+        },
+        {
+          "text": "325"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "rr2",
+      "type": "select_option",
+      "prompt": "Which number is represented by the blocks? ",
+      "options": [
+        {
+          "text": "466"
+        },
+        {
+          "text": "646"
+        },
+        {
+          "text": "406"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "rr3",
+      "type": "select_option",
+      "prompt": "A number has 7 hundreds, 6 tens, and 8 ones. What is the number?",
+      "options": [
+        {
+          "text": "786"
+        },
+        {
+          "text": "768"
+        },
+        {
+          "text": "867"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "rr4",
+      "type": "select_option",
+      "prompt": "What number do these counters show? (Hundreds: 4, Tens: 9, Ones: 5)",
+      "options": [
+        {
+          "text": "459"
+        },
+        {
+          "text": "594"
+        },
+        {
+          "text": "495"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

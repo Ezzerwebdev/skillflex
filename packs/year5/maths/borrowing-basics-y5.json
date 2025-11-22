@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/borrowing-basics-y5",
+  "title": "Borrowing Basics",
+  "version": 1,
+  "steps": [
+    {
+      "id": "bb1",
+      "type": "select_option",
+      "prompt": "3427 − 289 = ?",
+      "options": [
+        {
+          "text": "3138"
+        },
+        {
+          "text": "3148"
+        },
+        {
+          "text": "3238"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "bb2",
+      "type": "select_option",
+      "prompt": "4075 − 968 = ?",
+      "options": [
+        {
+          "text": "3107"
+        },
+        {
+          "text": "3007"
+        },
+        {
+          "text": "3097"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "bb3",
+      "type": "select_option",
+      "prompt": "2364 − 580 = ?",
+      "options": [
+        {
+          "text": "1784"
+        },
+        {
+          "text": "1884"
+        },
+        {
+          "text": "1780"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

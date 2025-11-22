@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/y-to-ier-iest-y3","title":"y → ier/iest","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"happy → ?", "options":[{"text":"happier"},{"text":"happyer"},{"text":"happyer"}],"answer":0},
+  {"id":"s2","type":"select_option","prompt":"funny → ?", "options":[{"text":"funnier"},{"text":"funier"},{"text":"funniar"}],"answer":0},
+  {"id":"s3","type":"select_option","prompt":"happy (superlative) → ?", "options":[{"text":"happiest"},{"text":"happyest"},{"text":"happist"}],"answer":0}
+]}

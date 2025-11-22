@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/partition-patrol-56243-y5",
+  "title": "Partition Patrol: 56,243",
+  "version": 1,
+  "steps": [
+    {
+      "id": "pp1",
+      "type": "select_option",
+      "prompt": "Which partition is INCORRECT for 56,243?",
+      "options": [
+        {
+          "text": "50 thousands + 62 hundreds + 43 ones"
+        },
+        {
+          "text": "560 hundreds + 24 tens + 3 ones"
+        },
+        {
+          "text": "50,000 + 624 + 3"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pp2",
+      "type": "select_option",
+      "prompt": "Correct value of tens in 56,243?",
+      "options": [
+        {
+          "text": "4"
+        },
+        {
+          "text": "2"
+        },
+        {
+          "text": "24"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pp3",
+      "type": "select_option",
+      "prompt": "Which equals 56,243?",
+      "options": [
+        {
+          "text": "50,000 + 6,000 + 200 + 40 + 3"
+        },
+        {
+          "text": "56,000 + 200 + 30"
+        },
+        {
+          "text": "560,000 + 243"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

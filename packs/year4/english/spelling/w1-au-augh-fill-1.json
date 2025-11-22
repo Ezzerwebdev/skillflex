@@ -1,0 +1,28 @@
+{
+  "id": "year4/english/spelling/w1-au-augh-fill-1",
+  "title": "AU Words Fill 1",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "fill_blank",
+      "prompt": "At the town book festival, Mia met the ______ who signed her story.  (Word bank: author, astronaut, autumn, applaud)",
+      "answer": "author",
+      "image": "/medias/scenes/library.jpg"
+    },
+    {
+      "id": "s2",
+      "type": "fill_blank",
+      "prompt": "When the writer finished reading, the crowd began to ______ loudly.  (Word bank: author, astronaut, autumn, applaud)",
+      "answer": "applaud",
+      "image": "/medias/scenes/library.jpg"
+    },
+    {
+      "id": "s3",
+      "type": "fill_blank",
+      "prompt": "By ______, the leaves outside the library had turned red and gold.  (Word bank: author, astronaut, autumn, applaud)",
+      "answer": "autumn",
+      "image": "/medias/scenes/autumn-leaves.jpg"
+    }
+  ]
+}

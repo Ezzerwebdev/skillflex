@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/ing-ed-speedcheck-y3","title":"-ing/-ed Speed Check","version":1,"steps":[
+  {"id":"i1","type":"select_option","prompt":"stop + ing = ?","options":[{"text":"stopping"},{"text":"stoping"},{"text":"stoppinng"}],"answer":0},
+  {"id":"i2","type":"select_option","prompt":"plan + ed = ?","options":[{"text":"planed"},{"text":"planned"},{"text":"plannedd"}],"answer":1},
+  {"id":"t1","type":"true_false","prompt":"We double the consonant after a short vowel (stop → stopping).","answer":true}
+]}

@@ -1,0 +1,6 @@
+{ "id":"year3/english/spelling/ei-fill-the-gap-y3","title":"EI Fill the Gaps","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"Blood flows through a ___.","options":[{"text":"vain"},{"text":"vein"},{"text":"rein"}],"answer":1},
+  {"id":"s2","type":"select_option","prompt":"She wore a white ___.","options":[{"text":"vail"},{"text":"vale"},{"text":"veil"}],"answer":2},
+  {"id":"s3","type":"fill_blank","prompt":"The suitcase is very ___ (spell it).","answer":["heavy"]},
+  {"id":"s4","type":"select_option","prompt":"We live next to our ___.","options":[{"text":"neighbor"},{"text":"neighbour"},{"text":"naybour"}],"answer":1}
+]}

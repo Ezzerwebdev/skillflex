@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/table-fillers-100k-y5",
+  "title": "Table Fillers 100k",
+  "version": 1,
+  "steps": [
+    {
+      "id": "tf1",
+      "type": "select_option",
+      "prompt": "Complete: 72,060 in words…",
+      "options": [
+        {
+          "text": "seventy-two thousand and sixty"
+        },
+        {
+          "text": "seventy-two hundred and sixty"
+        },
+        {
+          "text": "seventeen thousand and two sixty"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "tf2",
+      "type": "select_option",
+      "prompt": "Which digits represent tens in 80,104?",
+      "options": [
+        {
+          "text": "0"
+        },
+        {
+          "text": "1"
+        },
+        {
+          "text": "10"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "tf3",
+      "type": "select_option",
+      "prompt": "Which has TTh=7, Th=0, H=3, T=2, O=2?",
+      "options": [
+        {
+          "text": "70,322"
+        },
+        {
+          "text": "70,232"
+        },
+        {
+          "text": "73,022"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

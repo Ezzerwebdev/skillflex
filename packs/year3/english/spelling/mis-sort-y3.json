@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/mis-sort-y3", "title":"Prefix Sort: mis-", "version":1, "steps":[
+  {"id":"m1","type":"select_option","prompt":"Pick the correct 'mis-' word for: hear wrongly","options":[{"text":"mishere"},{"text":"mishear"},{"text":"mishear-"}],"answer":1},
+  {"id":"m2","type":"select_option","prompt":"Pick the correct 'mis-' word for: spell wrongly","options":[{"text":"misspell"},{"text":"mispell"},{"text":"mis-spell"}],"answer":0},
+  {"id":"m3","type":"order_words","prompt":"Build the word: \"misplace\"","words":["m","i","s","p","l","a","c","e"],"answer":["m","i","s","p","l","a","c","e"]}
+]}

@@ -1,0 +1,66 @@
+{
+  "id": "year4/maths/number-line-debates",
+  "title": "Number Line Debates",
+  "version": 1,
+  "steps": [
+    {
+      "id": "nld1",
+      "type": "select_option",
+      "prompt": "Poppy says two arrows on different number lines (both 0-1000) are both pointing at 400. Is this possible?",
+      "options": [
+        {
+          "text": "Yes, if the intervals are different sizes."
+        },
+        {
+          "text": "Yes, if the number lines are the same."
+        },
+        {
+          "text": "No, it's impossible."
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "nld2",
+      "type": "select_option",
+      "prompt": "Rehan thinks an arrow further along a number line MUST be a larger number. Is he always right?",
+      "options": [
+        {
+          "text": "Yes, always."
+        },
+        {
+          "text": "No, it depends on the start and end points of the number line."
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "nld3",
+      "type": "select_option",
+      "prompt": "True or False: The number 750 is exactly halfway between 500 and 1000.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "nld4",
+      "type": "select_option",
+      "prompt": "If a number line goes from 0 to 100, is the number 101 on it?",
+      "options": [
+        {
+          "text": "Yes"
+        },
+        {
+          "text": "No"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

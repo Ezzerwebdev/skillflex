@@ -1,0 +1,75 @@
+{
+  "id": "year5/maths/roman-basics-y5",
+  "title": "Roman Basics",
+  "version": 1,
+  "steps": [
+    {
+      "id": "rb1",
+      "type": "select_option",
+      "prompt": "What number is represented by DCCXCIII?",
+      "options": [
+        {
+          "text": "693"
+        },
+        {
+          "text": "793"
+        },
+        {
+          "text": "893"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "rb2",
+      "type": "select_option",
+      "prompt": "Which Roman numeral equals 490?",
+      "options": [
+        {
+          "text": "CDX"
+        },
+        {
+          "text": "CDXC"
+        },
+        {
+          "text": "XD"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "rb3",
+      "type": "select_option",
+      "prompt": "Choose the value of CD.",
+      "options": [
+        {
+          "text": "450"
+        },
+        {
+          "text": "400"
+        },
+        {
+          "text": "350"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "rb4",
+      "type": "select_option",
+      "prompt": "Which is equal to 115?",
+      "options": [
+        {
+          "text": "CXV"
+        },
+        {
+          "text": "CVI"
+        },
+        {
+          "text": "CVX"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

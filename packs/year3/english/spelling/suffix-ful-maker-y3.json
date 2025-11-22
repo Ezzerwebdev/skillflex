@@ -1,0 +1,14 @@
+{
+  "id":"year3/english/spelling/suffix-ful-maker-y3",
+  "title":"-ful Maker",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"match_pairs","leftLabel":"Base","rightLabel":"With -ful","pairs":[
+      {"left":"help","right":"helpful"},
+      {"left":"use","right":"useful"},
+      {"left":"care","right":"careful"}
+    ]},
+    {"id":"s2","type":"select_option","prompt":"Pick the correct -ful word for 'full of pain':","options":[{"text":"painful"},{"text":"painfull"},{"text":"paneful"}],"answer":0},
+    {"id":"s3","type":"true_false","prompt":"We spell it 'carefull' with two l's.","answer":false}
+  ]
+}

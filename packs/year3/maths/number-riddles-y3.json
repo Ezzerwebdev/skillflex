@@ -1,0 +1,58 @@
+{
+  "id": "year3/maths/number-riddles-y3",
+  "title": "Number Riddles",
+  "version": 1,
+  "steps": [
+    {
+      "id": "nr1",
+      "type": "select_option",
+      "prompt": "I have an even amount of tens. I have an odd amount of ones. The tens digit is double the ones digit. What number am I?",
+      "options": [
+        {
+          "text": "63"
+        },
+        {
+          "text": "36"
+        },
+        {
+          "text": "21"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "nr2",
+      "type": "select_option",
+      "prompt": "I have 4 tens. My ones digit is 3 more than my tens digit. What number am I?",
+      "options": [
+        {
+          "text": "43"
+        },
+        {
+          "text": "47"
+        },
+        {
+          "text": "74"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "nr3",
+      "type": "select_option",
+      "prompt": "My tens digit and my ones digit add up to 10. My ones digit is 4. What number am I?",
+      "options": [
+        {
+          "text": "46"
+        },
+        {
+          "text": "14"
+        },
+        {
+          "text": "64"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

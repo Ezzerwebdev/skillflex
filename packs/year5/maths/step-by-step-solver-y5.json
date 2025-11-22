@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/step-by-step-solver-y5",
+  "title": "Step-by-Step Solver",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ss1",
+      "type": "select_option",
+      "prompt": "Start 2,760 → +100 → +10 → +1. Where do you land?",
+      "options": [
+        {
+          "text": "2,861"
+        },
+        {
+          "text": "2,871"
+        },
+        {
+          "text": "2,8710"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ss2",
+      "type": "select_option",
+      "prompt": "Start 9,025 → −1,000 → +10. Result?",
+      "options": [
+        {
+          "text": "8,035"
+        },
+        {
+          "text": "8,015"
+        },
+        {
+          "text": "9,035"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ss3",
+      "type": "select_option",
+      "prompt": "Start 4,999 → +1. What happens?",
+      "options": [
+        {
+          "text": "5,000"
+        },
+        {
+          "text": "4,9910"
+        },
+        {
+          "text": "4,100"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/word-builder-100k-y5",
+  "title": "Word Builder 100k",
+  "version": 1,
+  "steps": [
+    {
+      "id": "wb1",
+      "type": "select_option",
+      "prompt": "Using the words {six, hundred, and, two, thousand}: which is valid ≤100,000?",
+      "options": [
+        {
+          "text": "six hundred and two thousand"
+        },
+        {
+          "text": "two thousand six hundred"
+        },
+        {
+          "text": "six thousand two hundred thousand"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "wb2",
+      "type": "select_option",
+      "prompt": "Pick the correct digits for “seventy-two thousand and sixty”.",
+      "options": [
+        {
+          "text": "72,060"
+        },
+        {
+          "text": "72,600"
+        },
+        {
+          "text": "70,260"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "wb3",
+      "type": "select_option",
+      "prompt": "Which words match 50,780?",
+      "options": [
+        {
+          "text": "fifty thousand, seven hundred and eighty"
+        },
+        {
+          "text": "fifty thousand, seventy-eight"
+        },
+        {
+          "text": "five thousand, seventy-eight hundred"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

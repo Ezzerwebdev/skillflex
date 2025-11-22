@@ -1,0 +1,9 @@
+{ "id":"year3/english/spelling/review-homophones-b-y3","title":"Review: to/too/two","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"Choose the correct word: I ate ___ much.","options":[{"text":"too"},{"text":"to"},{"text":"two"}],"answer":0},
+  {"id":"s2","type":"select_option","prompt":"Choose the correct word: Bring ___ books to class.","options":[{"text":"too"},{"text":"to"},{"text":"two"}],"answer":1},
+  {"id":"s3","type":"match_pairs","pairs":[
+    {"left":"to","right":"direction / infinitive"},
+    {"left":"too","right":"also / excessively"},
+    {"left":"two","right":"number 2"}]},
+  {"id":"s4","type":"fill_blank","prompt":"Type the number word for 2:","answer":["two"]}
+]}

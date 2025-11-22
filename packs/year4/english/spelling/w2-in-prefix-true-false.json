@@ -1,0 +1,25 @@
+{
+  "id": "year4/english/spelling/w2-in-prefix-true-false",
+  "title": "in- True or False",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "true_false",
+      "prompt": "‘infinite’ means very small.",
+      "answer": false
+    },
+    {
+      "id": "s2",
+      "type": "true_false",
+      "prompt": "‘in-’ can also mean ‘into’ (as in some words).",
+      "answer": true
+    },
+    {
+      "id": "s3",
+      "type": "true_false",
+      "prompt": "‘incomplete’ means fully finished.",
+      "answer": false
+    }
+  ]
+}

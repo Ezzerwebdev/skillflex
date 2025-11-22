@@ -1,0 +1,35 @@
+{
+  "id": "year4/english/spelling/w1-au-augh-cause-clause",
+  "title": "Cause or Clause?",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "select_option",
+      "prompt": "The ______ has a subject and a verb.",
+      "options": [
+        {"text": "cause"},
+        {"text": "clause"},
+        {"text": "close"}
+      ],
+      "answer": 1
+    },
+    {
+      "id": "s2",
+      "type": "select_option",
+      "prompt": "The heavy rain was the ______ of the flood.",
+      "options": [
+        {"text": "cause"},
+        {"text": "clause"},
+        {"text": "pause"}
+      ],
+      "answer": 0
+    },
+    {
+      "id": "s3",
+      "type": "true_false",
+      "prompt": "A clause is always a full sentence.",
+      "answer": false
+    }
+  ]
+}

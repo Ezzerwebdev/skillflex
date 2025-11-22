@@ -1,0 +1,5 @@
+{ "id":"year3/english/grammar/adjective-builder-y3", "title":"Adjective Builder", "version":1, "steps":[
+  {"id":"ab1","type":"order_words","prompt":"Make a sentence:","words":["the","big","dog","barked","."],"answer":["The","big","dog","barked","."]},
+  {"id":"ab2","type":"order_words","prompt":"Make a sentence:","words":["a","small","cat","slept","."],"answer":["A","small","cat","slept","."]},
+  {"id":"ab3","type":"order_words","prompt":"Make a sentence:","words":["the","red","kite","flew","."],"answer":["The","red","kite","flew","."]}
+]}

@@ -1,0 +1,11 @@
+{
+  "id":"year3/english/spelling/challenge-ai-ay-mix-y3",
+  "title":"Challenge: ai/ay Mix",
+  "version":1,
+  "steps":[
+    {"id":"s1","type":"true_false","prompt":"In ‘play’, ‘ay’ comes at the end of the word.","answer":true},
+    {"id":"s2","type":"select_option","prompt":"Choose the correct spelling.","options":[{"text":"train"},{"text":"trane"},{"text":"trayn"}],"answer":0},
+    {"id":"s3","type":"fill_blank","prompt":"Type the word: pl__ground (ai/ay)","answer":["playground"]},
+    {"id":"s4","type":"select_option","prompt":"r__n (ai/ay)","options":[{"text":"rain"},{"text":"rayn"},{"text":"raan"}],"answer":0}
+  ]
+}

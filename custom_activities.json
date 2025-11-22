@@ -1,0 +1,2207 @@
+[
+  {
+    "id": "year3/english/grammar/adjective-builder-y3",
+    "title": "Adjective Builder",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/adjective-hunt-y3",
+    "title": "Adjective Hunt",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/build-a-sentence-y3",
+    "title": "Build-a-Sentence Quest",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "⚒️"
+  },
+  {
+    "id": "year3/english/grammar/capital-detective-y3",
+    "title": "Capital Detective",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/common-vs-proper-y3",
+    "title": "Common vs Proper",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/conjunction-insert-y3",
+    "title": "Conjunction Insert",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/conjunction-match-y3",
+    "title": "Conjunction Match",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/fill-advanced-y3",
+    "title": "Fill-in Challenge (Y3)",
+    "subject": "english",
+    "year": 3,
+    "level": "sprout",
+    "topic": "grammar",
+    "icon": "✍️"
+  },
+  {
+    "id": "year3/english/grammar/fill-test",
+    "title": "Fill Test",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "grammar",
+    "icon": "✍️"
+  },
+  {
+    "id": "year3/english/grammar/noun-hunt-y3",
+    "title": "Noun Hunt",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/proper-vs-not-y3",
+    "title": "Proper vs Not",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/punct-fix-y3",
+    "title": "Fix the Sentence",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/punct-picker-y3",
+    "title": "Punctuation Picker",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/punctuation-fixer-y3",
+    "title": "Punctuation Fixer",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "✍️"
+  },
+  {
+    "id": "year3/english/grammar/sentence-shuffle-1-y3",
+    "title": "Sentence Shuffle",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/sentence-shuffle-y3",
+    "title": "Sentence Shuffle",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "🧩"
+  },
+  {
+    "id": "year3/english/grammar/tf-advanced-y3",
+    "title": "True or False? (Y3)",
+    "subject": "english",
+    "year": 3,
+    "level": "sprout",
+    "topic": "grammar",
+    "icon": "⚖️"
+  },
+  {
+    "id": "year3/english/grammar/tf-test",
+    "title": "True/False Test",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "grammar",
+    "icon": "⚖️"
+  },
+  {
+    "id": "year3/english/grammar/true-false-sentences-y3",
+    "title": "True or False: Sentences",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/verb-picker-y3",
+    "title": "Verb Picker",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/verb-tense-match-y3",
+    "title": "Verb Tense Match",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📘"
+  },
+  {
+    "id": "year3/english/grammar/verb-transformer-y3",
+    "title": "Verb Transformer",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "🔄"
+  },
+  {
+    "id": "year3/english/grammar/word-class-sorter-y3",
+    "title": "Word Class Sorter",
+    "subject": "english",
+    "year": 3,
+    "topic": "grammar",
+    "icon": "📚"
+  },
+  {
+    "id": "year3/english/spelling/anti-fill-the-gap-y3",
+    "title": "Anti Fill the Gap",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/auto-meaning-match-y3",
+    "title": "Auto Meaning Match",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/challenge-ai-ay-mix-y3",
+    "title": "Challenge: ai/ay Mix",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🎯"
+  },
+  {
+    "id": "year3/english/spelling/challenge-ei-ey-mix-y3",
+    "title": "Challenge: ei/ey Mix",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🎯"
+  },
+  {
+    "id": "year3/english/spelling/challenge-grand-mix-y3",
+    "title": "Challenge: Grand Mix",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🏁"
+  },
+  {
+    "id": "year3/english/spelling/challenge-homophone-hustle-y3",
+    "title": "Challenge: Homophone Hustle",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/challenge-match-sprint-y3",
+    "title": "Challenge: Match Sprint",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🏃"
+  },
+  {
+    "id": "year3/english/spelling/challenge-order-builder-y3",
+    "title": "Challenge: Order Builder",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🧱"
+  },
+  {
+    "id": "year3/english/spelling/challenge-prefix-power-y3",
+    "title": "Challenge: Prefix Power",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "⚡"
+  },
+  {
+    "id": "year3/english/spelling/challenge-proofread-pro-y3",
+    "title": "Challenge: Proofread Pro",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "✍️"
+  },
+  {
+    "id": "year3/english/spelling/challenge-speed-picks-y3",
+    "title": "Challenge: Speed Picks",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "⚡"
+  },
+  {
+    "id": "year3/english/spelling/challenge-suffix-showdown-y3",
+    "title": "Challenge: Suffix Showdown",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🧩"
+  },
+  {
+    "id": "year3/english/spelling/dis-builder-y3",
+    "title": "Word Builder: dis-",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "sprout"
+  },
+  {
+    "id": "year3/english/spelling/dis-fixer-y3",
+    "title": "Spot the Error: dis-",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "sprout"
+  },
+  {
+    "id": "year3/english/spelling/dis-spot-the-error-y3",
+    "title": "DIS Spot the Error",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/drop-e-add-ing-y3",
+    "title": "Drop e, add -ing",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/ei-fill-the-gap-y3",
+    "title": "EI Fill the Gaps",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🧩"
+  },
+  {
+    "id": "year3/english/spelling/ei-gaps-y3",
+    "title": "EI Fill the Gaps",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "seedling"
+  },
+  {
+    "id": "year3/english/spelling/ei-meaning-match-y3",
+    "title": "EI Meaning Match",
+    "subject": "english",
+    "year": 3,
+    "level": "sprout",
+    "topic": "spelling",
+    "icon": "🤝"
+  },
+  {
+    "id": "year3/english/spelling/ei-sort-y3",
+    "title": "EI Sort",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "seedling"
+  },
+  {
+    "id": "year3/english/spelling/ei-spot-the-error-y3",
+    "title": "EI Spot the Error",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🛑"
+  },
+  {
+    "id": "year3/english/spelling/ei-truth-check-y3",
+    "title": "EI True/False",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "⚖️"
+  },
+  {
+    "id": "year3/english/spelling/ei-word-builder-y3",
+    "title": "Word Builder: ei",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/er-est-builder-y3",
+    "title": "-er/-est Builder",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/ey-fill-the-gap-y3",
+    "title": "EY Fill the Gaps",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🧩"
+  },
+  {
+    "id": "year3/english/spelling/ey-letter-order-y3",
+    "title": "EY Letter Order",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/ey-spot-the-error-y3",
+    "title": "EY Spot the Error",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🛑"
+  },
+  {
+    "id": "year3/english/spelling/ey-truth-check-y3",
+    "title": "EY True/False",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "⚖️"
+  },
+  {
+    "id": "year3/english/spelling/ey-word-builder-y3",
+    "title": "Word Builder: ey",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/homophone-hero-y3",
+    "title": "Homophone Hero",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/homophone-hunt-y3",
+    "title": "Homophone Hunt",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🎯",
+    "level": "challenge"
+  },
+  {
+    "id": "year3/english/spelling/ing-ed-doubling-y3",
+    "title": "-ing/-ed Doubling",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/ing-ed-speedcheck-y3",
+    "title": "-ing/-ed Speed Check",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/match-advanced-y3",
+    "title": "Match the Morphemes (Y3)",
+    "subject": "english",
+    "year": 3,
+    "level": "sprout",
+    "topic": "spelling",
+    "icon": "🧩"
+  },
+  {
+    "id": "year3/english/spelling/mis-sentences-y3",
+    "title": "MIS Sentences",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/mis-sort-y3",
+    "title": "Prefix Sort: mis-",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "seedling"
+  },
+  {
+    "id": "year3/english/spelling/mixed-prefix-remix-y3",
+    "title": "Mixed Prefix Remix",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/mr-whoops-spot-y3",
+    "title": "Mr Whoops Spot the Mistake",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🤡",
+    "level": "challenge"
+  },
+  {
+    "id": "year3/english/spelling/ness-ly-truth-check-y3",
+    "title": "-ness/-ly Truth Check",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/over-gaps-y3",
+    "title": "Fill the Gaps: over-",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "seedling"
+  },
+  {
+    "id": "year3/english/spelling/over-match-y3",
+    "title": "Word Match: over-",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "sprout"
+  },
+  {
+    "id": "year3/english/spelling/pre-categories-y3",
+    "title": "Categories: pre-",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "sprout"
+  },
+  {
+    "id": "year3/english/spelling/pre-correct-y3",
+    "title": "Correct It: pre-",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "sprout"
+  },
+  {
+    "id": "year3/english/spelling/prefix-pairs-speedrun-y3",
+    "title": "Prefix Pairs Speedrun",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/prefixes-truth-check-y3",
+    "title": "Prefixes Truth Check",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/proofreading-mini-y3",
+    "title": "Proofreading Mini",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/re-match-y3",
+    "title": "Word Match: re-",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "sprout"
+  },
+  {
+    "id": "year3/english/spelling/re-meaning-match-y3",
+    "title": "RE Meaning Match",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/re-write-y3",
+    "title": "Write It: re-",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "sprout"
+  },
+  {
+    "id": "year3/english/spelling/review-ai-quick-check-y3",
+    "title": "Review: ai Quick Check",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/review-ear-ur-check-y3",
+    "title": "Review: ear = /ur/",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/review-ei-ey-fill-y3",
+    "title": "Review: ei/ey Fill",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/review-homophones-a-y3",
+    "title": "Review: There/Their/They're",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/review-homophones-b-y3",
+    "title": "Review: to/too/two",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/review-mix-ei-ey-ai-y3",
+    "title": "Review Mix: ei/ey/ai",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/review-mixed-match-y3",
+    "title": "Review: Mixed Match",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/review-order-builders-y3",
+    "title": "Review: Order Builders",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/review-proofread-y3",
+    "title": "Review: Proofread",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/review-speed-picks-y3",
+    "title": "Review: Speed Picks",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/sub-word-builder-y3",
+    "title": "Sub Word Builder",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/suffix-ful-maker-y3",
+    "title": "-ful Maker",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/suffix-less-spot-y3",
+    "title": "-less Spotter",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/suffix-meaning-match-y3",
+    "title": "Suffix Meaning Match",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/suffix-ment-builder-y3",
+    "title": "-ment Builder",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/suffix-rules-truth-check-y3",
+    "title": "Suffix Rules — Truth Check",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/suffix-swapper-y3",
+    "title": "Suffix Swapper",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/super-spot-the-error-y3",
+    "title": "Super Spot the Error",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/there-their-theyre-y3",
+    "title": "There/Their/They're",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/to-too-two-choices-y3",
+    "title": "To/Too/Two Choices",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔡"
+  },
+  {
+    "id": "year3/english/spelling/un-match-y3",
+    "title": "Prefix Match: un-",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "seedling"
+  },
+  {
+    "id": "year3/english/spelling/un-sentences-y3",
+    "title": "Make Sentences: un-",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "sprout"
+  },
+  {
+    "id": "year3/english/spelling/un-word-builder-y3",
+    "title": "UN Word Builder",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/word-builder-long-ai-y3",
+    "title": "Word Builder: Long /ai/",
+    "subject": "english",
+    "year": 3,
+    "topic": "spelling",
+    "icon": "🔡",
+    "level": "sprout"
+  },
+  {
+    "id": "year3/english/spelling/y-to-i-mixer-y3",
+    "title": "y → i Mixer",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/english/spelling/y-to-ier-iest-y3",
+    "title": "y → ier/iest",
+    "subject": "english",
+    "year": 3,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year3/maths/addition-basics",
+    "title": "Adding Apples",
+    "subject": "maths",
+    "year": 3,
+    "level": "seedling",
+    "topic": "addition",
+    "icon": "➕"
+  },
+  {
+    "id": "year3/maths/advanced-part-whole-y3",
+    "title": "Advanced Part-Whole",
+    "subject": "maths",
+    "year": 3,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🤯"
+  },
+  {
+    "id": "year3/maths/digit-card-challenge-y3",
+    "title": "Digit Card Challenge",
+    "subject": "maths",
+    "year": 3,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🃏"
+  },
+  {
+    "id": "year3/maths/digit-card-dilemmas-y3",
+    "title": "Digit Card Dilemmas",
+    "subject": "maths",
+    "year": 3,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🎲"
+  },
+  {
+    "id": "year3/maths/flexible-partitioning-y3",
+    "title": "Flexible Partitioning",
+    "subject": "maths",
+    "year": 3,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🤸"
+  },
+  {
+    "id": "year3/maths/mistake-spotters-y3",
+    "title": "Mistake Spotters",
+    "subject": "maths",
+    "year": 3,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🕵️"
+  },
+  {
+    "id": "year3/maths/number-riddles-y3",
+    "title": "Number Riddles",
+    "subject": "maths",
+    "year": 3,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "❓"
+  },
+  {
+    "id": "year3/maths/number-word-whiz-y3",
+    "title": "Number Word Whiz",
+    "subject": "maths",
+    "year": 3,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "✍️"
+  },
+  {
+    "id": "year3/maths/odd-one-out-y3",
+    "title": "Odd One Out",
+    "subject": "maths",
+    "year": 3,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🧐"
+  },
+  {
+    "id": "year3/maths/order-the-numbers-y3",
+    "title": "Order the Numbers",
+    "subject": "maths",
+    "year": 3,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "📊"
+  },
+  {
+    "id": "year3/maths/part-whole-puzzlers",
+    "title": "Part-Whole Puzzlers",
+    "subject": "maths",
+    "year": 3,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🧩"
+  },
+  {
+    "id": "year3/maths/partition-match-up-y3",
+    "title": "Partition Match-Up",
+    "subject": "maths",
+    "year": 3,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🤝"
+  },
+  {
+    "id": "year3/maths/reasoning-rookies-y3",
+    "title": "Reasoning Rookies",
+    "subject": "maths",
+    "year": 3,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🤔"
+  },
+  {
+    "id": "year3/maths/representation-match-up",
+    "title": "Representation Match-Up",
+    "subject": "maths",
+    "year": 3,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🎨"
+  },
+  {
+    "id": "year3/maths/sort-advanced-y3",
+    "title": "Sort the Sequence (Y3)",
+    "subject": "maths",
+    "year": 3,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "↕️"
+  },
+  {
+    "id": "year3/maths/sort-test",
+    "title": "Sort Test",
+    "subject": "maths",
+    "year": 3,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "↕️"
+  },
+  {
+    "id": "year3/maths/tens-and-ones-tension",
+    "title": "Tens and Ones Tens-ion",
+    "subject": "maths",
+    "year": 3,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "⚡"
+  },
+  {
+    "id": "year3/maths/true-or-false-y3",
+    "title": "True or False",
+    "subject": "maths",
+    "year": 3,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "⚖️"
+  },
+  {
+    "id": "year3/maths/value-voters",
+    "title": "Value Voters",
+    "subject": "maths",
+    "year": 3,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🗳️"
+  },
+  {
+    "id": "year4/english/grammar/adverb-adventure",
+    "title": "Adverb Adventure",
+    "subject": "english",
+    "year": 4,
+    "level": "sprout",
+    "topic": "grammar",
+    "icon": "🚀"
+  },
+  {
+    "id": "year4/english/grammar/sentence-superchargers",
+    "title": "Sentence Superchargers",
+    "subject": "english",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "grammar",
+    "icon": "💪"
+  },
+  {
+    "id": "year4/english/grammar/verb-velocity",
+    "title": "Verb Velocity",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "grammar",
+    "icon": "⚡️"
+  },
+  {
+    "id": "year4/english/spelling/prefix-perfect",
+    "title": "Prefix Perfect",
+    "subject": "english",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "spelling",
+    "icon": "🏆"
+  },
+  {
+    "id": "year4/english/spelling/prefix-powerup",
+    "title": "Prefix Power-Up!",
+    "subject": "english",
+    "year": 4,
+    "level": "sprout",
+    "topic": "spelling",
+    "icon": "💥"
+  },
+  {
+    "id": "year4/english/spelling/prefix-puzzle",
+    "title": "The Prefix Puzzle",
+    "subject": "english",
+    "year": 4,
+    "level": "sprout",
+    "topic": "spelling",
+    "icon": "🧩"
+  },
+  {
+    "id": "year4/english/spelling/suffix-scramble",
+    "title": "Suffix Scramble",
+    "subject": "english",
+    "year": 4,
+    "level": "sprout",
+    "topic": "spelling",
+    "icon": "🎲"
+  },
+  {
+    "id": "year4/english/spelling/super-suffixes",
+    "title": "Super Suffixes",
+    "subject": "english",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "spelling",
+    "icon": "🌟"
+  },
+  {
+    "id": "year4/english/spelling/w1-au-augh-au-vs-augh",
+    "title": "AU vs AUGH",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w1-au-augh-author-astronaut",
+    "title": "Author or Astronaut?",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w1-au-augh-build-autumn",
+    "title": "Build the Word: AU",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w1-au-augh-cause-clause",
+    "title": "Cause or Clause?",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w1-au-augh-correct-spell-1",
+    "title": "AU/AUGH Spell Pick 1",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w1-au-augh-correct-spell-2",
+    "title": "AU/AUGH Spell Pick 2",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w1-au-augh-fill-1",
+    "title": "AU Words Fill 1",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w1-au-augh-meaning-match",
+    "title": "AU/AUGH Meaning Match",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w1-au-augh-pick-the-word",
+    "title": "Pick the Word (AUGH)",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w1-au-augh-true-false",
+    "title": "AU/AUGH True or False",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w2-in-prefix-build-indefinite",
+    "title": "Build: in- Words",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w2-in-prefix-choose-sentence-1",
+    "title": "Choose the Word 1",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w2-in-prefix-choose-sentence-2",
+    "title": "Choose the Word 2",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w2-in-prefix-choose-word-endless",
+    "title": "Endless or Not?",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w2-in-prefix-correct-spell-1",
+    "title": "in- Spell Pick 1",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w2-in-prefix-fill-1",
+    "title": "in- Fill 1",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w2-in-prefix-meaning-match",
+    "title": "in- Meaning Match",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w2-in-prefix-prefix-meaning",
+    "title": "Make it Negative",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w2-in-prefix-synonym-meaning",
+    "title": "in- Simple Synonyms",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/w2-in-prefix-true-false",
+    "title": "in- True or False",
+    "subject": "english",
+    "year": 4,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔤"
+  },
+  {
+    "id": "year4/english/spelling/word-ranger",
+    "title": "Root Word Ranger",
+    "subject": "english",
+    "year": 4,
+    "level": "sprout",
+    "topic": "spelling",
+    "icon": "🤠"
+  },
+  {
+    "id": "year4/maths/addition-experts",
+    "title": "Addition Experts",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "addition",
+    "icon": "🧑‍🏫"
+  },
+  {
+    "id": "year4/maths/addition-logic-puzzles",
+    "title": "Addition Logic Puzzles",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "addition",
+    "icon": "💡"
+  },
+  {
+    "id": "year4/maths/addition-practice",
+    "title": "Addition Practice",
+    "subject": "maths",
+    "year": 4,
+    "level": "seedling",
+    "topic": "addition",
+    "icon": "📝"
+  },
+  {
+    "id": "year4/maths/addition-word-problems",
+    "title": "Addition Word Problems",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "addition",
+    "icon": "📖"
+  },
+  {
+    "id": "year4/maths/archery-aces",
+    "title": "Archery Aces",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "thousands",
+    "icon": "🎯"
+  },
+  {
+    "id": "year4/maths/clue-crackers",
+    "title": "Clue Crackers",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🔑"
+  },
+  {
+    "id": "year4/maths/conversion-champions",
+    "title": "Conversion Champions",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "thousands",
+    "icon": "🏆"
+  },
+  {
+    "id": "year4/maths/deep-dive-detectives",
+    "title": "Deep Dive Detectives",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🔎"
+  },
+  {
+    "id": "year4/maths/digit-card-dash",
+    "title": "Digit Card Dash",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🏎️"
+  },
+  {
+    "id": "year4/maths/digit-dilemmas",
+    "title": "Digit Dilemmas",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🎲"
+  },
+  {
+    "id": "year4/maths/estimation-station",
+    "title": "Estimation Station",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "number-line",
+    "icon": "🎯"
+  },
+  {
+    "id": "year4/maths/flexible-partitioning",
+    "title": "Flexible Partitioning",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🤸"
+  },
+  {
+    "id": "year4/maths/interval-experts",
+    "title": "Interval Experts",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "number-line",
+    "icon": "🔧"
+  },
+  {
+    "id": "year4/maths/logic-legends",
+    "title": "Logic Legends",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "thousands",
+    "icon": "🧠"
+  },
+  {
+    "id": "year4/maths/missing-number-mysteries-add",
+    "title": "Missing Number Mysteries",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "addition",
+    "icon": "❓"
+  },
+  {
+    "id": "year4/maths/model-mix-ups",
+    "title": "Model Mix-ups",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🤔"
+  },
+  {
+    "id": "year4/maths/money-addition",
+    "title": "Money Addition",
+    "subject": "maths",
+    "year": 4,
+    "level": "seedling",
+    "topic": "addition",
+    "icon": "💰"
+  },
+  {
+    "id": "year4/maths/number-brainteasers",
+    "title": "Number Brainteasers",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🧠"
+  },
+  {
+    "id": "year4/maths/number-line-basics",
+    "title": "Number Line Basics",
+    "subject": "maths",
+    "year": 4,
+    "level": "seedling",
+    "topic": "number-line",
+    "icon": "📏"
+  },
+  {
+    "id": "year4/maths/number-line-debates",
+    "title": "Number Line Debates",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "number-line",
+    "icon": "🤔"
+  },
+  {
+    "id": "year4/maths/number-line-riddles",
+    "title": "Number Line Riddles",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "number-line",
+    "icon": "❓"
+  },
+  {
+    "id": "year4/maths/number-riddles",
+    "title": "Number Riddles",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "❓"
+  },
+  {
+    "id": "year4/maths/number-sleuths",
+    "title": "Number Sleuths",
+    "subject": "maths",
+    "year": 4,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🕵️‍♂️"
+  },
+  {
+    "id": "year4/maths/odd-one-out",
+    "title": "Odd One Out",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🤔"
+  },
+  {
+    "id": "year4/maths/order-operations",
+    "title": "Order Operations",
+    "subject": "maths",
+    "year": 4,
+    "level": "sunflower",
+    "topic": "number-line",
+    "icon": "📊"
+  },
+  {
+    "id": "year4/maths/partition-power",
+    "title": "Partition Power",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "쪼"
+  },
+  {
+    "id": "year4/maths/partition-problems",
+    "title": "Partition Problems",
+    "subject": "maths",
+    "year": 4,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "➕"
+  },
+  {
+    "id": "year4/maths/partition-puzzles-2",
+    "title": "Partition Puzzles 2",
+    "subject": "maths",
+    "year": 4,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🧩"
+  },
+  {
+    "id": "year4/maths/pencil-problems",
+    "title": "Pencil Problems",
+    "subject": "maths",
+    "year": 4,
+    "level": "seedling",
+    "topic": "thousands",
+    "icon": "✏️"
+  },
+  {
+    "id": "year4/maths/reasoning-challenge",
+    "title": "Reasoning Challenge",
+    "subject": "maths",
+    "year": 4,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🧐"
+  },
+  {
+    "id": "year4/maths/representation-rangers",
+    "title": "Representation Rangers",
+    "subject": "maths",
+    "year": 4,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🎨"
+  },
+  {
+    "id": "year4/maths/riddle-me-this",
+    "title": "Riddle Me This",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "❓"
+  },
+  {
+    "id": "year4/maths/sequence-sleuths",
+    "title": "Sequence Sleuths",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "thousands",
+    "icon": "🕵️‍♀️"
+  },
+  {
+    "id": "year4/maths/thousand-explorers",
+    "title": "Thousand Explorers",
+    "subject": "maths",
+    "year": 4,
+    "level": "seedling",
+    "topic": "thousands",
+    "icon": "🧭"
+  },
+  {
+    "id": "year4/maths/true-or-false-challenge",
+    "title": "True or False Challenge",
+    "subject": "maths",
+    "year": 4,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "⚖️"
+  },
+  {
+    "id": "year4/maths/whos-right",
+    "title": "Who's Right?",
+    "subject": "maths",
+    "year": 4,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🙋‍♀️"
+  },
+  {
+    "id": "year5/english/spelling/meaning-match-up",
+    "title": "Meaning Match-Up",
+    "subject": "english",
+    "year": 5,
+    "level": "sprout",
+    "topic": "spelling",
+    "icon": "🤝"
+  },
+  {
+    "id": "year5/english/spelling/prefix-power",
+    "title": "Prefix Power",
+    "subject": "english",
+    "year": 5,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "🔋"
+  },
+  {
+    "id": "year5/english/spelling/root-word-rescue",
+    "title": "Root Word Rescue",
+    "subject": "english",
+    "year": 5,
+    "level": "sprout",
+    "topic": "spelling",
+    "icon": "⛑️"
+  },
+  {
+    "id": "year5/english/spelling/spelling-showdown",
+    "title": "Spelling Showdown",
+    "subject": "english",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "spelling",
+    "icon": "🏆"
+  },
+  {
+    "id": "year5/english/spelling/syllable-slam",
+    "title": "Syllable Slam",
+    "subject": "english",
+    "year": 5,
+    "level": "seedling",
+    "topic": "spelling",
+    "icon": "👏"
+  },
+  {
+    "id": "year5/english/spelling/word-breaker",
+    "title": "Word Breaker",
+    "subject": "english",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "spelling",
+    "icon": "🧱"
+  },
+  {
+    "id": "year5/maths/abcd-riddle-y5",
+    "title": "A–B–C–D Riddle",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🔠"
+  },
+  {
+    "id": "year5/maths/add-and-explain-y5",
+    "title": "Add & Explain",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "addition",
+    "icon": "💡"
+  },
+  {
+    "id": "year5/maths/borrowing-basics-y5",
+    "title": "Borrowing Basics",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "subtraction",
+    "icon": "🧰"
+  },
+  {
+    "id": "year5/maths/borrowing-lab-y5",
+    "title": "Borrowing Lab",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "subtraction",
+    "icon": "🧪"
+  },
+  {
+    "id": "year5/maths/calendar-catch-y5",
+    "title": "Calendar Catch",
+    "subject": "maths",
+    "year": 5,
+    "topic": "roman-numerals",
+    "icon": "📅"
+  },
+  {
+    "id": "year5/maths/carry-cascade-y5",
+    "title": "Carry Cascade",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "addition",
+    "icon": "💧"
+  },
+  {
+    "id": "year5/maths/chart-champions-y5",
+    "title": "Chart Champions",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "📈"
+  },
+  {
+    "id": "year5/maths/choose-the-carries-y5",
+    "title": "Choose the Carries",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "addition",
+    "icon": "🧠"
+  },
+  {
+    "id": "year5/maths/column-climb-y5",
+    "title": "Column Climb",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "addition",
+    "icon": "🧗"
+  },
+  {
+    "id": "year5/maths/column-ninja-one-borrow-y5",
+    "title": "Column Ninja: One Borrow",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "subtraction",
+    "icon": "🥷"
+  },
+  {
+    "id": "year5/maths/complete-the-calc-y5",
+    "title": "Complete the Calc",
+    "subject": "maths",
+    "year": 5,
+    "topic": "roman-numerals",
+    "icon": "➗"
+  },
+  {
+    "id": "year5/maths/counter-breakdowns-y5",
+    "title": "Counter Breakdowns",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "subtraction",
+    "icon": "🧮"
+  },
+  {
+    "id": "year5/maths/counter-builders-y5",
+    "title": "Counter Builders",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "addition",
+    "icon": "🧮"
+  },
+  {
+    "id": "year5/maths/counter-crafter-y5",
+    "title": "Counter Crafter",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🧮"
+  },
+  {
+    "id": "year5/maths/difference-stories-y5",
+    "title": "Difference Stories",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "subtraction",
+    "icon": "📖"
+  },
+  {
+    "id": "year5/maths/digit-detectives-y5",
+    "title": "Digit Detectives",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🕵️"
+  },
+  {
+    "id": "year5/maths/digit-sum-showdown-y5",
+    "title": "Digit Sum Showdown",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "➕"
+  },
+  {
+    "id": "year5/maths/estimate-then-add-y5",
+    "title": "Estimate then Add",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "addition",
+    "icon": "📏"
+  },
+  {
+    "id": "year5/maths/fill-the-gaps-y5",
+    "title": "Fill the Gaps",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "📊"
+  },
+  {
+    "id": "year5/maths/flugtag-flyers-y5",
+    "title": "Flugtag Flyers",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "addition",
+    "icon": "🛩️"
+  },
+  {
+    "id": "year5/maths/flying-machines-y5",
+    "title": "Flying Machines",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "addition",
+    "icon": "⚙️"
+  },
+  {
+    "id": "year5/maths/history-years-y5",
+    "title": "History Years",
+    "subject": "maths",
+    "year": 5,
+    "topic": "roman-numerals",
+    "icon": "📜"
+  },
+  {
+    "id": "year5/maths/jias-thousand-jumps-y5",
+    "title": "Jia’s Thousand Jumps",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🪜"
+  },
+  {
+    "id": "year5/maths/match-the-maths-y5",
+    "title": "Match the Maths",
+    "subject": "maths",
+    "year": 5,
+    "topic": "roman-numerals",
+    "icon": "🔢"
+  },
+  {
+    "id": "year5/maths/midpoint-master-y5",
+    "title": "Midpoint Master",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "📍"
+  },
+  {
+    "id": "year5/maths/mistake-busters-y5",
+    "title": "Mistake Busters",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "subtraction",
+    "icon": "🛠️"
+  },
+  {
+    "id": "year5/maths/mistake-detective-y5",
+    "title": "Mistake Detective",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "addition",
+    "icon": "🕵️"
+  },
+  {
+    "id": "year5/maths/multi-regroup-basics-y5",
+    "title": "Multi-Regroup Basics",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "addition",
+    "icon": "🔄"
+  },
+  {
+    "id": "year5/maths/number-ninjas-choose-y5",
+    "title": "Number Ninjas: Choose the Regroup",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "addition",
+    "icon": "🥷"
+  },
+  {
+    "id": "year5/maths/number-riddles-y5",
+    "title": "Number Riddles",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "❓"
+  },
+  {
+    "id": "year5/maths/number-trailblazers-y5",
+    "title": "Number Trailblazers",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🛤️"
+  },
+  {
+    "id": "year5/maths/odd-one-out-y5",
+    "title": "Odd One Out",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🤔"
+  },
+  {
+    "id": "year5/maths/one-borrow-mix-y5",
+    "title": "One-Borrow Mix",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "subtraction",
+    "icon": "➖"
+  },
+  {
+    "id": "year5/maths/one-regroup-mix-y5",
+    "title": "One-Regroup Mix",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "addition",
+    "icon": "➕"
+  },
+  {
+    "id": "year5/maths/operation-oddities-y5",
+    "title": "Operation Oddities",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🤯"
+  },
+  {
+    "id": "year5/maths/partition-16070-y5",
+    "title": "Partition 16,070",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🧱"
+  },
+  {
+    "id": "year5/maths/partition-patrol-56243-y5",
+    "title": "Partition Patrol: 56,243",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🧩"
+  },
+  {
+    "id": "year5/maths/place-value-truth-y5",
+    "title": "Place Value Truth or Bluff",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "⚖️"
+  },
+  {
+    "id": "year5/maths/prove-it-y5",
+    "title": "Prove It!",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🧾"
+  },
+  {
+    "id": "year5/maths/regroup-challenge-y5",
+    "title": "Regroup Challenge",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "addition",
+    "icon": "🎯"
+  },
+  {
+    "id": "year5/maths/regroup-radar-y5",
+    "title": "Regroup Radar",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "addition",
+    "icon": "📡"
+  },
+  {
+    "id": "year5/maths/roman-basics-y5",
+    "title": "Roman Basics",
+    "subject": "maths",
+    "year": 5,
+    "topic": "roman-numerals",
+    "icon": "🏛️"
+  },
+  {
+    "id": "year5/maths/sequence-puzzles-y5",
+    "title": "Sequence Puzzles",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🧩"
+  },
+  {
+    "id": "year5/maths/sequence-sleuths-y5",
+    "title": "Sequence Sleuths",
+    "subject": "maths",
+    "year": 5,
+    "topic": "roman-numerals",
+    "icon": "🧩"
+  },
+  {
+    "id": "year5/maths/spot-the-error-80452-y5",
+    "title": "Spot the Error: 80,452",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🛑"
+  },
+  {
+    "id": "year5/maths/step-by-step-solver-y5",
+    "title": "Step-by-Step Solver",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "🪜"
+  },
+  {
+    "id": "year5/maths/sub-ninja-choose-y5",
+    "title": "Sub Ninja: Choose the Borrow",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "subtraction",
+    "icon": "🎯"
+  },
+  {
+    "id": "year5/maths/sub-regroup-radar-y5",
+    "title": "Regroup Radar: Subtraction",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "subtraction",
+    "icon": "📡"
+  },
+  {
+    "id": "year5/maths/sum-stories-y5",
+    "title": "Sum Stories",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "addition",
+    "icon": "📖"
+  },
+  {
+    "id": "year5/maths/table-fillers-100k-y5",
+    "title": "Table Fillers 100k",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "📊"
+  },
+  {
+    "id": "year5/maths/thousand-boosters-y5",
+    "title": "Thousand Boosters",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "💥"
+  },
+  {
+    "id": "year5/maths/three-symbol-challenge-y5",
+    "title": "Three-Symbol Challenge",
+    "subject": "maths",
+    "year": 5,
+    "topic": "roman-numerals",
+    "icon": "🎯"
+  },
+  {
+    "id": "year5/maths/trail-adds-y5",
+    "title": "Trail Adds",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "addition",
+    "icon": "🛤️"
+  },
+  {
+    "id": "year5/maths/trail-subtracts-y5",
+    "title": "Trail Subtracts",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "subtraction",
+    "icon": "🛤️"
+  },
+  {
+    "id": "year5/maths/true-false-tables-y5",
+    "title": "True/False Tables",
+    "subject": "maths",
+    "year": 5,
+    "level": "seedling",
+    "topic": "place-value",
+    "icon": "✅"
+  },
+  {
+    "id": "year5/maths/true-or-false-roman-logic-y5",
+    "title": "True or False: Roman Logic",
+    "subject": "maths",
+    "year": 5,
+    "topic": "roman-numerals",
+    "icon": "💡"
+  },
+  {
+    "id": "year5/maths/who-said-it-y5",
+    "title": "Who Said It?",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "place-value",
+    "icon": "🗣️"
+  },
+  {
+    "id": "year5/maths/word-builder-100k-y5",
+    "title": "Word Builder 100k",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "place-value",
+    "icon": "🔤"
+  },
+  {
+    "id": "year5/maths/word-mayhem-y5",
+    "title": "Word Mayhem",
+    "subject": "maths",
+    "year": 5,
+    "level": "sprout",
+    "topic": "addition",
+    "icon": "🔤"
+  },
+  {
+    "id": "year5/maths/word-problems-hangar-y5",
+    "title": "Word Problems: Hangar",
+    "subject": "maths",
+    "year": 5,
+    "level": "sunflower",
+    "topic": "addition",
+    "icon": "🛠️"
+  }
+]

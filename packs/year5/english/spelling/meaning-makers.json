@@ -1,0 +1,47 @@
+{
+    "id": "year5/spelling/meaning-makers",
+    "title": "Meaning Makers",
+    "version": 1,
+    "steps": [
+        {
+            "id": "mm1",
+            "type": "select_option",
+            "prompt": "A 'mountainous' region is a region with lots of...",
+            "options": [
+                { "text": "magic" },
+                { "text": "mountains" },
+                { "text": "music" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "mm2",
+            "type": "select_option",
+            "prompt": "Which word means 'full of courage'?",
+            "options": [
+                { "text": "Couragely" },
+                { "text": "Courageable" },
+                { "text": "Courageous" }
+            ],
+            "answer": 2
+        },
+        {
+            "id": "mm3",
+            "type": "order_words",
+            "prompt": "Unscramble this sentence about a brave person.",
+            "words": ["action", "was", "The", "courageous", "firefighter's", "."],
+            "answer": ["The", "firefighter's", "action", "was", "courageous", "."]
+        },
+        {
+            "id": "mm4",
+            "type": "select_option",
+            "prompt": "The suffix '-ation' is often used to make a noun from what kind of word?",
+            "options": [
+                { "text": "A verb (action word)" },
+                { "text": "An adjective (describing word)" },
+                { "text": "Another noun (thing word)" }
+            ],
+            "answer": 0
+        }
+    ]
+}

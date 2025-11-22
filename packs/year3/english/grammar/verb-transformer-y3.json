@@ -1,0 +1,5 @@
+{ "id": "year3/english/grammar/verb-transformer-y3", "title": "Verb Transformer", "version": 1, "steps": [
+  { "id": "vt1", "type": "select_option", "prompt": "Yesterday, she ___ to school (run).", "options": [ {"text": "ran"}, {"text": "runned"}, {"text": "run"} ], "answer": 0 },
+  { "id": "vt2", "type": "select_option", "prompt": "Last night, we ___ pizza (eat).", "options": [ {"text": "eated"}, {"text": "ate"}, {"text": "eaten"} ], "answer": 1 },
+  { "id": "vt3", "type": "select_option", "prompt": "He has ___ his homework (finish).", "options": [ {"text": "finish"}, {"text": "finished"}, {"text": "finisht"} ], "answer": 1 }
+] }

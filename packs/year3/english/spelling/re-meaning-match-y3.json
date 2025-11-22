@@ -1,0 +1,7 @@
+{ "id":"year3/english/spelling/re-meaning-match-y3","title":"RE Meaning Match","version":1,"steps":[
+  {"id":"s1","type":"match_pairs","prompt":"Match meaning to 're-' word",
+   "pairs":[{"left":"do again","right":"redo"},{"left":"play again","right":"replay"},{"left":"write again","right":"rewrite"},{"left":"open again","right":"reopen"}]},
+  {"id":"s2","type":"select_option","prompt":"Choose the best 're-' word for 'take again'",
+   "options":[{"text":"retook"},{"text":"retake"},{"text":"retaking"}],"answer":1},
+  {"id":"s3","type":"true_false","prompt":"'re-' often means 'again'.","answer":true}
+]}

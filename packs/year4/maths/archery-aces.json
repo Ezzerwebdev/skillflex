@@ -1,0 +1,58 @@
+{
+  "id": "year4/maths/archery-aces",
+  "title": "Archery Aces",
+  "version": 1,
+  "steps": [
+    {
+      "id": "aa1",
+      "type": "select_option",
+      "prompt": "Joseph's score is 4000. He hit two targets (one was 30 hundreds). What was the other target he hit?",
+      "options": [
+        {
+          "text": "10 hundreds"
+        },
+        {
+          "text": "20 hundreds"
+        },
+        {
+          "text": "30 hundreds"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "aa2",
+      "type": "select_option",
+      "prompt": "Amrit's score is 6000. She hit two targets. One was 20 hundreds. What was the other?",
+      "options": [
+        {
+          "text": "20 hundreds"
+        },
+        {
+          "text": "30 hundreds"
+        },
+        {
+          "text": "40 hundreds"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "aa3",
+      "type": "select_option",
+      "prompt": "If an archer hits '30 hundreds' and '10 hundreds', what is their total score?",
+      "options": [
+        {
+          "text": "40"
+        },
+        {
+          "text": "400"
+        },
+        {
+          "text": "4,000"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "year4/english/spelling/w1-au-augh-correct-spell-2",
+  "title": "AU/AUGH Spell Pick 2",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "select_option",
+      "prompt": "Pick the correct spelling:",
+      "options": [
+        {"text": "applaud"},
+        {"text": "applaude"},
+        {"text": "aplaud"}
+      ],
+      "answer": 0
+    },
+    {
+      "id": "s2",
+      "type": "select_option",
+      "prompt": "Pick the correct spelling:",
+      "options": [
+        {"text": "autumn"},
+        {"text": "autum"},
+        {"text": "autmn"}
+      ],
+      "answer": 0
+    },
+    {
+      "id": "s3",
+      "type": "fill_blank",
+      "prompt": "The heavy rain was the ______ of the flood. (Word bank: cause, clause, pause)",
+      "answer": "cause"
+    }
+  ]
+}

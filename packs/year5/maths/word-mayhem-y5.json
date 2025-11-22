@@ -1,0 +1,75 @@
+{
+  "id": "year5/maths/word-mayhem-y5",
+  "title": "Word Mayhem",
+  "version": 1,
+  "steps": [
+    {
+      "id": "wm1",
+      "type": "select_option",
+      "prompt": "Use A=1, B=2, … Z=26. Sum of “ME”?",
+      "options": [
+        {
+          "text": "18"
+        },
+        {
+          "text": "22"
+        },
+        {
+          "text": "19"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "wm2",
+      "type": "select_option",
+      "prompt": "Sum of “US”?",
+      "options": [
+        {
+          "text": "40"
+        },
+        {
+          "text": "40 (20+19+1)"
+        },
+        {
+          "text": "39"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "wm3",
+      "type": "select_option",
+      "prompt": "Sum of “ANT”?",
+      "options": [
+        {
+          "text": "34"
+        },
+        {
+          "text": "35"
+        },
+        {
+          "text": "36"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "wm4",
+      "type": "select_option",
+      "prompt": "Which pair needs exactly one regroup if you add their letter-values as 2-digit + 2-digit?",
+      "options": [
+        {
+          "text": "ME + US"
+        },
+        {
+          "text": "ME + ME"
+        },
+        {
+          "text": "US + US"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

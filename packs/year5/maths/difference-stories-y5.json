@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/difference-stories-y5",
+  "title": "Difference Stories",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ds1",
+      "type": "select_option",
+      "prompt": "A shop had 3,056 stickers, sold 589. How many left?",
+      "options": [
+        {
+          "text": "2,467"
+        },
+        {
+          "text": "2,557"
+        },
+        {
+          "text": "2,466"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ds2",
+      "type": "select_option",
+      "prompt": "Library removes 805 from 4,075. Remaining?",
+      "options": [
+        {
+          "text": "3,270"
+        },
+        {
+          "text": "3,275"
+        },
+        {
+          "text": "3,165"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "ds3",
+      "type": "select_option",
+      "prompt": "2,001 badges shipped, 506 returned. Net shipped?",
+      "options": [
+        {
+          "text": "1,495"
+        },
+        {
+          "text": "1,505"
+        },
+        {
+          "text": "1,4950"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

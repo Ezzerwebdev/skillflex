@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/odd-one-out-y5",
+  "title": "Odd One Out",
+  "version": 1,
+  "steps": [
+    {
+      "id": "ooo1",
+      "type": "select_option",
+      "prompt": "Pick the odd one out (multiples of 100):",
+      "options": [
+        {
+          "text": "5,200"
+        },
+        {
+          "text": "5,340"
+        },
+        {
+          "text": "5,600"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "ooo2",
+      "type": "select_option",
+      "prompt": "Which doesn’t fit +10 pattern: 6,020 → 6,030 → 6,040 → ?",
+      "options": [
+        {
+          "text": "6,050"
+        },
+        {
+          "text": "6,060"
+        },
+        {
+          "text": "6,500"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "ooo3",
+      "type": "select_option",
+      "prompt": "All are between 3,000–4,000 except:",
+      "options": [
+        {
+          "text": "3,870"
+        },
+        {
+          "text": "3,095"
+        },
+        {
+          "text": "4,005"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

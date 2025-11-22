@@ -1,0 +1,41 @@
+{
+  "id": "year3/maths/advanced-part-whole-y3",
+  "title": "Advanced Part-Whole",
+  "version": 1,
+  "steps": [
+    {
+      "id": "apw1",
+      "type": "select_option",
+      "prompt": "A part-whole model is joined to another. The first whole is 87. It splits into 80 and 7. The 80 splits into 50 and...?",
+      "options": [
+        {
+          "text": "20"
+        },
+        {
+          "text": "30"
+        },
+        {
+          "text": "40"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "apw2",
+      "type": "select_option",
+      "prompt": "The number is 95. It can be partitioned into 90+5, 80+15, 70+25 and...?",
+      "options": [
+        {
+          "text": "50+35"
+        },
+        {
+          "text": "60+35"
+        },
+        {
+          "text": "40+45"
+        }
+      ],
+      "answer": 1
+    }
+  ]
+}

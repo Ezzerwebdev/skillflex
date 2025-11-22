@@ -1,0 +1,58 @@
+{
+  "id": "year5/maths/history-years-y5",
+  "title": "History Years",
+  "version": 1,
+  "steps": [
+    {
+      "id": "hy1",
+      "type": "select_option",
+      "prompt": "The Vikings attacked Lindisfarne in 793. Choose the Roman year:",
+      "options": [
+        {
+          "text": "DCCXCIII"
+        },
+        {
+          "text": "DCCLXXXXIII"
+        },
+        {
+          "text": "DCCCIII"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "hy2",
+      "type": "select_option",
+      "prompt": "Michelangelo began in MDVIII and worked 4 years. Completion in Roman numerals?",
+      "options": [
+        {
+          "text": "MDXII"
+        },
+        {
+          "text": "MDXVI"
+        },
+        {
+          "text": "MDX"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "hy3",
+      "type": "select_option",
+      "prompt": "Which is **NOT** a valid compact Roman form for 900?",
+      "options": [
+        {
+          "text": "CM"
+        },
+        {
+          "text": "DCCCC"
+        },
+        {
+          "text": "XM"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

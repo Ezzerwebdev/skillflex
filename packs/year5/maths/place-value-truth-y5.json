@@ -1,0 +1,49 @@
+{
+  "id": "year5/maths/place-value-truth-y5",
+  "title": "Place Value Truth or Bluff",
+  "version": 1,
+  "steps": [
+    {
+      "id": "pv1",
+      "type": "select_option",
+      "prompt": "True/False: Subtracting 100 always changes the hundreds digit.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pv2",
+      "type": "select_option",
+      "prompt": "True/False: Adding 1,000 to 9,500 gives a 5-digit number.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "pv3",
+      "type": "select_option",
+      "prompt": "True/False: Adding 10 can change the hundreds digit.",
+      "options": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

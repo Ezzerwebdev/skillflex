@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/drop-e-add-ing-y3","title":"Drop e, add -ing","version":1,"steps":[
+  {"id":"s1","type":"select_option","prompt":"have + ing = ?", "options":[{"text":"haveing"},{"text":"having"},{"text":"havin"}],"answer":1},
+  {"id":"s2","type":"select_option","prompt":"make + ing = ?", "options":[{"text":"makeing"},{"text":"making"},{"text":"makking"}],"answer":1},
+  {"id":"s3","type":"true_false","prompt":"When a word ends with silent 'e', we drop the 'e' before adding -ing.","answer":true}
+]}

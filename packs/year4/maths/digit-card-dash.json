@@ -1,0 +1,73 @@
+{
+  "id": "year4/maths/digit-card-dash",
+  "title": "Digit Card Dash",
+  "version": 1,
+  "steps": [
+    {
+      "id": "dcd1",
+      "type": "select_option",
+      "prompt": "Using the digits 5, 4, 1 only once, how many numbers less than 500 can you make?",
+      "options": [
+        {
+          "text": "2"
+        },
+        {
+          "text": "4"
+        },
+        {
+          "text": "6"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "dcd2",
+      "type": "select_option",
+      "prompt": "Using the digits 7, 2, 9 only once, what is the largest even number you can make?",
+      "options": [
+        {
+          "text": "927"
+        },
+        {
+          "text": "279"
+        },
+        {
+          "text": "972"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "dcd3",
+      "type": "select_option",
+      "prompt": "Using the digits 7, 2, 9 only once, what number is closest to 300?",
+      "options": [
+        {
+          "text": "279"
+        },
+        {
+          "text": "297"
+        },
+        {
+          "text": "729"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "dcd4",
+      "type": "order_words",
+      "prompt": "Using the digits 7, 2, 9, put them in order to make the smallest number.",
+      "words": [
+        "9",
+        "7",
+        "2"
+      ],
+      "answer": [
+        "2",
+        "7",
+        "9"
+      ]
+    }
+  ]
+}

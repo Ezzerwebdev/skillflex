@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/pre-categories-y3", "title":"Categories: pre-", "version":1, "steps":[
+  {"id":"pc1","type":"select_option","prompt":"Pick the correct 'pre-' word for: cook before","options":[{"text":"precook"},{"text":"precooke"},{"text":"pre-cock"}],"answer":0},
+  {"id":"pc2","type":"select_option","prompt":"Pick the correct 'pre-' word for: view before","options":[{"text":"preview"},{"text":"preveiw"},{"text":"prevuew"}],"answer":0},
+  {"id":"pc3","type":"order_words","prompt":"Build the word: \"prepare\"","words":["p","r","e","p","a","r","e"],"answer":["p","r","e","p","a","r","e"]}
+]}

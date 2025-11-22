@@ -1,0 +1,5 @@
+{ "id":"year5/maths/estimate-then-add-y5","title":"Estimate then Add","version":1,"steps":[
+  {"id":"eta1","type":"select_option","prompt":"Round to nearest 100: 3,478 + 4,561 ≈ ?","options":[{"text":"8,000"},{"text":"8,100"},{"text":"8,200"}],"answer":1},
+  {"id":"eta2","type":"select_option","prompt":"Exact: 3,478 + 4,561 = ?","options":[{"text":"8,039"},{"text":"8,049"},{"text":"8,059"}],"answer":0},
+  {"id":"eta3","type":"select_option","prompt":"Which is a good check after adding?","options":[{"text":"Do nothing"},{"text":"Compare to estimate"},{"text":"Erase carries"}],"answer":1}
+]}

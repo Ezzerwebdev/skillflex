@@ -1,0 +1,19 @@
+{
+  "id":"year3/english/spelling/match-advanced-y3",
+  "title":"Match Advanced (Prefixes & Suffixes)",
+  "version":1,
+  "steps":[
+    { "id":"s1","type":"match_pairs","leftLabel":"Affix","rightLabel":"Meaning",
+      "pairs":[
+        {"left":"prefix ‘un-’","right":"means ‘not’ / ‘opposite of’"},
+        {"left":"prefix ‘re-’","right":"means ‘again’"},
+        {"left":"suffix ‘-ful’","right":"means ‘full of’"},
+        {"left":"suffix ‘-less’","right":"means ‘without’"}
+      ]},
+    { "id":"s2","type":"select_option","prompt":"Which word uses the prefix ‘re-’ correctly?",
+      "options":[{"text":"redo"},{"text":"red"},{"text":"reed"}],"answer":0 },
+    { "id":"s3","type":"fill_blank","prompt":"Add the correct suffix to make ‘help’ mean ‘without help’. Type the whole word.",
+      "answer":["helpless"] },
+    { "id":"s4","type":"true_false","prompt":"‘un-’ can attach to ‘happy’ to mean ‘not happy’.","answer":true }
+  ]
+}

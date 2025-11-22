@@ -1,0 +1,41 @@
+{
+  "id": "year3/maths/order-the-numbers-y3",
+  "title": "Order the Numbers",
+  "version": 1,
+  "steps": [
+    {
+      "id": "otn1",
+      "type": "order_words",
+      "prompt": "Using the digits 9, 2, 4, 1, you can make these numbers: 94, 21, 49, 12. Put them in order from smallest to greatest.",
+      "words": [
+        "49",
+        "94",
+        "12",
+        "21"
+      ],
+      "answer": [
+        "12",
+        "21",
+        "49",
+        "94"
+      ]
+    },
+    {
+      "id": "otn2",
+      "type": "order_words",
+      "prompt": "Put these numbers in order from greatest to smallest: 87, 64, 78, 46",
+      "words": [
+        "64",
+        "87",
+        "46",
+        "78"
+      ],
+      "answer": [
+        "87",
+        "78",
+        "64",
+        "46"
+      ]
+    }
+  ]
+}

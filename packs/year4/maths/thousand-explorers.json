@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/thousand-explorers",
+  "title": "Thousand Explorers",
+  "version": 1,
+  "steps": [
+    {
+      "id": "te1",
+      "type": "select_option",
+      "prompt": "How many paperclips are represented if there are 6 boxes of 1000?",
+      "options": [
+        {
+          "text": "Six hundred"
+        },
+        {
+          "text": "Six thousand"
+        },
+        {
+          "text": "Sixty"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "te2",
+      "type": "select_option",
+      "prompt": "Which number is represented by 9 blocks of 1000?",
+      "options": [
+        {
+          "text": "900"
+        },
+        {
+          "text": "90"
+        },
+        {
+          "text": "9,000"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "te3",
+      "type": "select_option",
+      "prompt": "1 thousand is equal to how many hundreds?",
+      "options": [
+        {
+          "text": "1"
+        },
+        {
+          "text": "10"
+        },
+        {
+          "text": "100"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "te4",
+      "type": "select_option",
+      "prompt": "1 thousand is equal to how many tens?",
+      "options": [
+        {
+          "text": "10"
+        },
+        {
+          "text": "1000"
+        },
+        {
+          "text": "100"
+        }
+      ],
+      "answer": 2
+    }
+  ]
+}

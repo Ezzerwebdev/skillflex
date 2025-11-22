@@ -1,0 +1,5 @@
+{ "id":"year5/maths/multi-regroup-basics-y5","title":"Multi-Regroup Basics","version":1,"steps":[
+  {"id":"mrb1","type":"select_option","prompt":"2789 + 4678 = ?","options":[{"text":"7,457"},{"text":"7,467"},{"text":"7,647"}],"answer":1},
+  {"id":"mrb2","type":"select_option","prompt":"Which statement is true about multi-regrouping?","options":[{"text":"You can only carry once"},{"text":"You may carry across several columns"},{"text":"Carrying is not allowed in 4-digit addition"}],"answer":1},
+  {"id":"mrb3","type":"select_option","prompt":"3569 + 2784 = ?","options":[{"text":"6,343"},{"text":"6,353"},{"text":"6,533"}],"answer":1}
+]}

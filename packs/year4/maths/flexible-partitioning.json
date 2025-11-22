@@ -1,0 +1,75 @@
+{
+  "id": "year4/maths/flexible-partitioning",
+  "title": "Flexible Partitioning",
+  "version": 1,
+  "steps": [
+    {
+      "id": "fp1",
+      "type": "select_option",
+      "prompt": "Which is another way to partition 742?",
+      "options": [
+        {
+          "text": "700 + 40 + 2"
+        },
+        {
+          "text": "600 + 140 + 2"
+        },
+        {
+          "text": "Both are correct"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "fp2",
+      "type": "select_option",
+      "prompt": "How can 560 be partitioned?",
+      "options": [
+        {
+          "text": "5 hundreds and 6 tens"
+        },
+        {
+          "text": "4 hundreds and 16 tens"
+        },
+        {
+          "text": "Both are correct"
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "fp3",
+      "type": "select_option",
+      "prompt": "What is 3 hundreds + 15 tens + 4 ones?",
+      "options": [
+        {
+          "text": "3154"
+        },
+        {
+          "text": "454"
+        },
+        {
+          "text": "490"
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "fp4",
+      "type": "select_option",
+      "prompt": "What is 800 + 90 + 11?",
+      "options": [
+        {
+          "text": "901"
+        },
+        {
+          "text": "8911"
+        },
+        {
+          "text": "8101"
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

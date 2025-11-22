@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/ey-letter-order-y3","title":"EY Letter Order","version":1,"steps":[
+  {"id":"s1","type":"order_words","prompt":"Build the word: \"donkey\"","words":["d","o","n","k","e","y"],"answer":["d","o","n","k","e","y"]},
+  {"id":"s2","type":"order_words","prompt":"Build the word: \"valley\"","words":["v","a","l","l","e","y"],"answer":["v","a","l","l","e","y"]},
+  {"id":"s3","type":"order_words","prompt":"Build the word: \"hockey\"","words":["h","o","c","k","e","y"],"answer":["h","o","c","k","e","y"]}
+]}

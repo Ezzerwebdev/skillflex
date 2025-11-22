@@ -1,0 +1,47 @@
+{
+    "id": "spelling/year4/suffix-scramble",
+    "title": "Suffix Scramble",
+    "version": 1,
+    "steps": [
+        {
+            "id": "ss1",
+            "type": "select_option",
+            "prompt": "Which suffix family does 'invention' belong to?",
+            "options": [
+                { "text": "-tion" },
+                { "text": "-sion" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "ss2",
+            "type": "select_option",
+            "prompt": "How about 'decision'? Which suffix does it use?",
+            "options": [
+                { "text": "-tion" },
+                { "text": "-sion" }
+            ],
+            "answer": 1
+        },
+        {
+            "id": "ss3",
+            "type": "select_option",
+            "prompt": "Sort the word 'action' into the correct group.",
+            "options": [
+                { "text": "-tion" },
+                { "text": "-sion" }
+            ],
+            "answer": 0
+        },
+        {
+            "id": "ss4",
+            "type": "select_option",
+            "prompt": "What about 'comprehension'?",
+            "options": [
+                { "text": "-tion" },
+                { "text": "-sion" }
+            ],
+            "answer": 1
+        }
+    ]
+}

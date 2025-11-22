@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/re-write-y3", "title":"Write It: re-", "version":1, "steps":[
+  {"id":"rw1","type":"select_option","prompt":"We had to ___ the story to improve it.","options":[{"text":"rewrite"},{"text":"re-right"},{"text":"re-wright"}],"answer":0},
+  {"id":"rw2","type":"select_option","prompt":"I will ___ the game to practice.","options":[{"text":"replay"},{"text":"relate"},{"text":"replane"}],"answer":0},
+  {"id":"rw3","type":"select_option","prompt":"Dad will ___ the old fence.","options":[{"text":"repear"},{"text":"repair"},{"text":"repaer"}],"answer":1}
+]}

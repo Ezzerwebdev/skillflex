@@ -1,0 +1,5 @@
+{ "id":"year3/english/grammar/adjective-hunt-y3", "title":"Adjective Hunt", "version":1, "steps":[
+  {"id":"ah1","type":"select_option","prompt":"Pick the adjective:","options":[{"text":"blue"},{"text":"cat"},{"text":"run"}],"answer":0},
+  {"id":"ah2","type":"select_option","prompt":"Pick the adjective:","options":[{"text":"quick"},{"text":"quickly"},{"text":"quietly"}],"answer":0},
+  {"id":"ah3","type":"select_option","prompt":"Pick the adjective:","options":[{"text":"happy"},{"text":"happily"},{"text":"happen"}],"answer":0}
+]}

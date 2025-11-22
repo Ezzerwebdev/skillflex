@@ -1,0 +1,35 @@
+{
+  "id": "year4/english/spelling/w2-in-prefix-correct-spell-1",
+  "title": "in- Spell Pick 1",
+  "version": 1,
+  "steps": [
+    {
+      "id": "s1",
+      "type": "select_option",
+      "prompt": "Pick the correct spelling:",
+      "options": [
+        {"text": "incorrect"},
+        {"text": "incorret"},
+        {"text": "incorect"}
+      ],
+      "answer": 0
+    },
+    {
+      "id": "s2",
+      "type": "select_option",
+      "prompt": "Pick the correct spelling:",
+      "options": [
+        {"text": "inaccurate"},
+        {"text": "inacurrate"},
+        {"text": "innacurate"}
+      ],
+      "answer": 0
+    },
+    {
+      "id": "s3",
+      "type": "true_false",
+      "prompt": "‘in-’ means ‘not’ in ‘insecure’.",
+      "answer": true
+    }
+  ]
+}

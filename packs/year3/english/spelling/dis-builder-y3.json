@@ -1,0 +1,5 @@
+{ "id":"year3/english/spelling/dis-builder-y3", "title":"Word Builder: dis-", "version":1, "steps":[
+  {"id":"d1","type":"select_option","prompt":"Add 'dis-' to make: not agree","options":[{"text":"agree"},{"text":"disagree"},{"text":"misagree"}],"answer":1},
+  {"id":"d2","type":"select_option","prompt":"Add 'dis-' to make: not appear","options":[{"text":"appear"},{"text":"disappear"},{"text":"misappear"}],"answer":1},
+  {"id":"d3","type":"order_words","prompt":"Build the word: \"disconnect\"","words":["d","i","s","c","o","n","n","e","c","t"],"answer":["d","i","s","c","o","n","n","e","c","t"]}
+]}
