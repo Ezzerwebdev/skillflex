@@ -1,0 +1,405 @@
+:root {
+      --bg: #050819;
+      --card: #0c1024;
+      --card-soft: #131832;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.18);
+      --accent-2: #06b6d4;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --locked: #4b5563;
+      --success: #22c55e;
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --radius-xl: 18px;
+      --shadow-card: 0 22px 40px rgba(15, 23, 42, 0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: radial-gradient(circle at top left, #1e293b 0, #020617 42%, #000 100%);
+      color: var(--text);
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .lp-shell {
+      width: 100%;
+      max-width: 100%; 
+      margin: 0 auto;
+      background: linear-gradient(135deg, #111827, #020617);
+      border-radius: 28px;
+      padding: 20px 24px 28px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lp-shell::before {
+      content: "";
+      position: absolute;
+      inset: -20%; 
+      opacity: 0.20;
+      background: radial-gradient(circle at 10% 0%, #4f46e5, transparent 55%),
+                  radial-gradient(circle at 90% 0%, #06b6d4, transparent 60%);
+      pointer-events: none;
+    }
+
+    .lp-inner {
+     max-width: 1440px;   /* optional – keeps content readable */
+     margin: 0 auto;
+     width: 100%;
+     position: relative;
+     z-index: 1;
+    }
+
+    .lp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .lp-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.65);
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .lp-back span {
+      font-size: 16px;
+    }
+
+    .lp-header-main {
+      flex: 1;
+    }
+
+    .lp-header-main h1 {
+      margin: 0 0 4px;
+      font-size: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    .lp-header-main p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .lp-header-stats {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-chip {
+      min-width: 64px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--muted);
+    }
+
+    .stat-chip span.icon {
+      font-size: 14px;
+    }
+
+    .lp-progress-bar {
+      position: relative;
+      width: 100%;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      overflow: hidden;
+      margin: 4px 0;
+    }
+
+    .lp-progress-fill {
+      height: 100%;
+      width: 40%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: inherit;
+      box-shadow: 0 0 12px rgba(94, 234, 212, 0.7);
+    }
+
+    .lp-progress-label {
+      margin: 2px 0 14px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .lp-steps-wrapper {
+      display: flex;
+      gap: 28px;
+    }
+
+    .lp-steps {
+      list-style: none;
+      margin: 0;
+      padding: 12px 0 0;
+      flex: 1.4;
+    }
+
+    .lp-step {
+      display: flex;
+      gap: 16px;
+      position: relative;
+      padding-bottom: 20px;
+    }
+
+    .lp-step:last-child {
+      padding-bottom: 0;
+    }
+
+    .lp-step-marker {
+      width: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lp-step-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--card);
+      border: 2px solid var(--border-subtle);
+      color: var(--muted);
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.9);
+    }
+
+    .lp-step-dot--done {
+      background: radial-gradient(circle at 20% 0, #22c55e, #14532d);
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #ecfdf5;
+    }
+
+    .lp-step-dot--active {
+      background: radial-gradient(circle at 10% 0, var(--accent-2), var(--accent));
+      border-color: rgba(94, 234, 212, 0.95);
+      color: #ecfeff;
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+    }
+
+    .lp-step-dot--locked {
+      background: #020617;
+      border-style: dashed;
+      border-color: rgba(75, 85, 99, 0.9);
+      color: var(--locked);
+    }
+
+    .lp-step-line {
+      margin-top: 3px;
+      flex: 1;
+      width: 2px;
+      background: radial-gradient(circle at top, rgba(148, 163, 184, 0.6), transparent 60%);
+      opacity: 0.6;
+    }
+
+    .lp-step-body {
+      flex: 1;
+      padding: 12px 16px 12px;
+      background: linear-gradient(135deg, var(--card), var(--card-soft));
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.7);
+    }
+
+    .lp-step--locked .lp-step-body {
+      opacity: 0.6;
+      border-style: dashed;
+      box-shadow: none;
+    }
+
+    .lp-step-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .lp-step-header h2 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .lp-step-sub {
+      margin: 6px 0 4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .lp-step-meta {
+      margin: 0;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 0;
+      padding: 6px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .pill--primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.5);
+    }
+
+    .pill--primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(56, 189, 248, 0.7);
+    }
+
+    .pill--outline {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      color: var(--text);
+    }
+
+    .pill--ghost {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: var(--muted);
+    }
+
+    .pill--disabled {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      color: var(--locked);
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .lp-step-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .lp-sidebar {
+      width: 260px;
+      border-radius: 20px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.22), transparent 55%),
+                  rgba(15, 23, 42, 0.96);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
+      padding: 14px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .lp-sidebar h3 {
+      margin: 0 0 4px;
+      font-size: 14px;
+    }
+
+    .lp-sidebar p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .lp-footer {
+      margin-top: 18px;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .lp-footer .pill--ghost {
+      background: rgba(15, 23, 42, 0.65);
+    }
+
+    @media (max-width: 960px) {
+      .lp-steps-wrapper {
+        flex-direction: column;
+      }
+
+      .lp-sidebar {
+        width: 100%;
+        order: -1;
+      }
+
+      .lp-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .lp-header-stats {
+        align-self: stretch;
+        justify-content: flex-end;
+      }
+    }
+
+    /* === SkillFlex Kids — Units (/units) overrides === */
+
+/* 1. Let the main app container go full width */
+body.kids.logged-in.units-view[data-route="/units"] #app {
+  max-width: none !important;
+  width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* 2. Add comfortable padding back inside the units layout */
+body.kids.logged-in.units-view[data-route="/units"] #hubGrid {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+/* 3. Ensure hub containers themselves can stretch fully */
+body.kids.logged-in.units-view[data-route="/units"] #challengeHubContainer,
+body.kids.logged-in.units-view[data-route="/units"] #hubMain,
+body.kids.logged-in.units-view[data-route="/units"] #hubGrid {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* 4. Units view + lp-shell vertical sizing */
+body.kids.logged-in.units-view[data-route="/units"] .units-view {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* Make the main steps card feel as tall as the screen */
+body.kids.logged-in.units-view[data-route="/units"] .lp-shell {
+  min-height: calc(100vh - 160px); /* tweak this value to taste */
+  display: flex;
+  flex-direction: column;
+}

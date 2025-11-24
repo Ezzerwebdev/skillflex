@@ -4838,3 +4838,23 @@ body.path-view .pf-hero {
 :root[data-theme="light"] #placement-skip.btn.ghost:hover {
   text-decoration: underline;
 }
+
+
+
+/* === SkillFlex Kids — Units View: Remove 1024px width clamp === */
+
+body.kids.logged-in.units-view[data-route="/units"] #challengeHubContainer,
+body.kids.logged-in.units-view[data-route="/units"] #hubMain,
+body.kids.logged-in.units-view[data-route="/units"] #hubGrid {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Ensure the inner content wrapper can also stretch */
+body.kids.logged-in.units-view[data-route="/units"] .units-view {
+  width: 100% !important;
+  max-width: none !important;
+}
+

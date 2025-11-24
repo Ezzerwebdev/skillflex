@@ -4,6 +4,7 @@
  * Combined subject + year selector, with topic nodes.
  * Internally bridges into the existing Challenge Modal via window.launchUnitAI.
  */
+import { AI_MATHS_Y3 } from './units-curriculum.js';
 
 /* ------------------ CURRICULUM MAP (Maths Y1–Y6) ------------------ */
 /* You can extend this with english:{...} later. */
@@ -474,6 +475,47 @@ function getDefaultYear(subject) {
   return 3;
 }
 
+function getUnitProgressIndex(sel) {
+  try {
+    const keys = (typeof window._unitKeys === 'function')
+      ? window._unitKeys(sel)
+      : { uIdx: `sf_unit_index:${sel.subject || ''}:${sel.year || ''}:${sel.topic || ''}:${sel.level || ''}` };
+    return Number(localStorage.getItem(keys.uIdx) || 0);
+  } catch {
+    return 0;
+  }
+}
+
+function launchUnitAIStep(unitConfig, stepConfig) {
+  const appState = window.state || (window.state = {});
+  const baseline = appState?.skillProfile?.maths?.baselineLevel ?? stepConfig.defaultBand ?? 'core';
+
+  appState.selections = {
+    subject: 'maths',
+    year: 3,
+    topic: stepConfig.topic,
+    aiUnitId: unitConfig.id,
+    aiStepId: stepConfig.id,
+    objectiveId: stepConfig.objectiveId,
+    level: baseline
+  };
+
+  appState.aiSession = {
+    topic: stepConfig.topic,
+    total: stepConfig.targetQuestions,
+    asked: 0,
+    correct: 0,
+    mode: 'practice',
+    difficulty: baseline,
+    band: baseline,
+    objectiveId: stepConfig.objectiveId
+  };
+
+  if (typeof window.launchAI === 'function') {
+    window.launchAI();
+  }
+}
+
 /* --------------------- Main View Renderer ---------------------- */
 
 export function renderUnitsView(container) {
@@ -495,6 +537,7 @@ export function renderUnitsView(container) {
     year: defaultYear,
     level: defaultLevel
   };
+  let aiUnitDetail = null;
 
   function syncSelections() {
     try {
@@ -511,7 +554,188 @@ export function renderUnitsView(container) {
 
   
 
-  function render() {
+      function render() {
+    // ---------------- AI inner unit view (Place Value · Y3) ----------------
+    if (aiUnitDetail) {
+      const unitCfg = aiUnitDetail;
+      const sel = { subject: "maths", year: 3, topic: "place-value", level: state.level };
+
+      const progressIdx = getUnitProgressIndex(sel);
+      const totalSteps = (unitCfg.steps || []).length;
+      const completed = Math.min(progressIdx, totalSteps);
+      const progressLabel = `${completed} of ${totalSteps} steps complete`;
+      const progressPercent = totalSteps ? Math.min(100, (completed / totalSteps) * 100) : 0;
+
+      const streak =
+        Number(window.state?.streak ?? window.state?.streakDays ?? 0);
+      const coins =
+        Number(window.state?.coins ?? window.state?.xp ?? 0);
+
+      const stepsHtml = (unitCfg.steps || []).map((step, idx) => {
+  const isDone   = idx < progressIdx;
+  const isActive = idx === progressIdx;
+  const isLocked = idx > progressIdx;
+
+  const stepStateClass = isDone
+    ? "lp-step--done"
+    : isActive
+      ? "lp-step--active"
+      : "lp-step--locked";
+
+  const dotStateClass = isDone
+    ? "lp-step-dot--done"
+    : isActive
+      ? "lp-step-dot--active"
+      : "lp-step-dot--locked";
+
+  const bandLabel = step.defaultBand || "Core";
+  const qCount    = step.targetQuestions || 5;
+  const metaLine  = `${bandLabel} · ${qCount} questions`;
+
+  const subLine = isDone
+    ? "Completed"
+    : isActive
+      ? "Start here"
+      : "Unlocked after previous step.";
+
+  // Pill logic
+  let pillHtml = "";
+  if (isLocked) {
+    pillHtml = `<button class="pill pill--disabled" disabled>Locked</button>`;
+  } else if (isDone) {
+    pillHtml = `<button class="pill pill--ghost"
+                      data-unit-id="${unitCfg.id}"
+                      data-step-id="${step.id}">
+                  Replay
+                </button>`;
+  } else {
+    pillHtml = `<button class="pill pill--primary"
+                      data-unit-id="${unitCfg.id}"
+                      data-step-id="${step.id}">
+                  Tap to start
+                </button>`;
+  }
+
+  const showLine = idx < (unitCfg.steps.length - 1);
+
+  return `
+    <li class="lp-step ${stepStateClass}" 
+        data-unit-id="${unitCfg.id}" 
+        data-step-id="${step.id}">
+      
+      <div class="lp-step-marker">
+        <span class="lp-step-dot ${dotStateClass}">${idx + 1}</span>
+        <span class="lp-step-line" ${showLine ? "" : 'style="opacity:0;"'}></span>
+      </div>
+
+      <div class="lp-step-body">
+        <div class="lp-step-header">
+          <h2>Step ${idx + 1} · ${step.label}</h2>
+          ${pillHtml}
+        </div>
+
+        <p class="lp-step-sub">${metaLine}</p>
+        <p class="lp-step-meta">${subLine}</p>
+      </div>
+
+    </li>
+  `;
+}).join("");
+
+
+
+      container.innerHTML = `
+        <div class="lp-shell">
+          <div class="lp-inner">
+
+            <header class="lp-header">
+              <button class="lp-back" type="button" id="units-inner-back">
+                <span>←</span> Back to Learning Path
+              </button>
+
+              <div class="lp-header-main">
+                <h1>Place Value · Year 3</h1>
+                <p>Numbers to 1,000, number lines and rounding.</p>
+
+                <div class="lp-progress-bar">
+                  <div class="lp-progress-fill" style="width:${progressPercent}%;"></div>
+                </div>
+                <p class="lp-progress-label">${progressLabel}</p>
+              </div>
+
+              <div class="lp-header-stats">
+                <div class="stat-chip">
+                  <span class="icon">🔥</span>
+                  <span>${streak}</span>
+                </div>
+                <div class="stat-chip">
+                  <span class="icon">🪙</span>
+                  <span>${coins}</span>
+                </div>
+                <div class="stat-chip">
+                  Streak ${streak}
+                </div>
+              </div>
+            </header>
+
+            <div class="lp-steps-wrapper">
+              <ol class="lp-steps">
+                ${stepsHtml}
+              </ol>
+
+              <aside class="lp-sidebar">
+                <h3>How this works</h3>
+                <p>
+                  Each step is a short AI-powered practice set. Finish a step with a strong
+                  score to unlock the next one, build your streak and earn coins.
+                </p>
+                <p>
+                  Tap <strong>Jump test</strong> to try skipping ahead if it feels too easy.
+                </p>
+              </aside>
+            </div>
+
+            <footer class="lp-footer">
+              <button class="pill pill--ghost" type="button">
+                Free practice in this topic
+              </button>
+            </footer>
+
+          </div>
+        </div>
+      `;
+
+      // Back button: go back to main units view
+      const backBtn = container.querySelector("#units-inner-back");
+      if (backBtn) {
+        backBtn.addEventListener("click", () => {
+          aiUnitDetail = null;
+          render();
+        });
+      }
+
+      // Step action pills → launch AI sessions
+      container.querySelectorAll(".pill[data-step-id]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          if (btn.disabled) return;
+          const unitId = btn.getAttribute("data-unit-id");
+          const stepId = btn.getAttribute("data-step-id");
+          if (!unitId || !stepId) return;
+
+          const stepConfig = (unitCfg.steps || []).find((s) => s.id === stepId);
+          if (!stepConfig) return;
+
+          launchUnitAIStep(unitCfg, stepConfig);
+          e.stopPropagation();
+        });
+      });
+
+      return;
+    }
+    // ---------------- end AI inner unit view ----------------
+
+   
+
     const liveProfile = window.state?.skillProfile || {};
     state.level = liveProfile[state.subject]?.baselineLevel || state.level || 'core';
     syncSelections();
@@ -681,10 +905,31 @@ export function renderUnitsView(container) {
         const year = Number(yearStr) || 0;
         console.log('[units.js] card clicked', { subj, year, topic, hasLaunchUnitAI: typeof window.launchUnitAI });
 
+        if (subj === 'maths' && year === 3 && topic === 'place-value' && AI_MATHS_Y3) {
+          aiUnitDetail = AI_MATHS_Y3;
+          render();
+          return;
+        }
+
         if (typeof window.launchUnitAI === 'function') {
           window.launchUnitAI(subj, year, topic);
         } else {
           console.error('window.launchUnitAI is not defined');
+        }
+      });
+    });
+
+    container.querySelectorAll('.lp-step[data-unit-id]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        if (btn.disabled) return;
+        const unitId = btn.getAttribute('data-unit-id');
+        const stepId = btn.getAttribute('data-step-id');
+        if (unitId === AI_MATHS_Y3.id) {
+          const stepConfig = (AI_MATHS_Y3.steps || []).find((s) => s.id === stepId);
+          if (stepConfig) {
+            launchUnitAIStep(AI_MATHS_Y3, stepConfig);
+            e.stopPropagation();
+          }
         }
       });
     });

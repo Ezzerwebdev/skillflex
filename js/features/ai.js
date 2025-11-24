@@ -71,13 +71,19 @@ async function callLaravelAI(contextData = {}) {
   console.log("🚀 Sending AI Request:", { url, contextData });
 
   try {
+    const state = _appInterface?.state || {};
+    const payload = Object.assign({}, contextData, {
+      step_result: contextData.step_result ?? state.lastAiStepResult ?? null,
+      objective_id: contextData.objective_id ?? state.aiSession?.objectiveId ?? null,
+    });
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(contextData),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {

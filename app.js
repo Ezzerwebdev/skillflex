@@ -1724,6 +1724,11 @@ function setAiButton(label, handler, disabled = false) {
 
 function resetAiStepState() {
   state.aiStepState = { answered: false };
+  state.aiStep = {
+    attempts: 0,
+    answeredCorrectly: false,
+    startedAt: Date.now()
+  };
   const feedback = document.getElementById('ai-feedback');
   if (feedback) { feedback.hidden = true; feedback.innerText = ''; feedback.style.color = ''; }
 }
@@ -1792,7 +1797,7 @@ function normalizeAiStep(data, subject) {
 function handleAiStepResult(isCorrect, hintText) {
   const feedback = document.getElementById('ai-feedback');
   const session = state.aiSession || {};
-  const hasMore = (session.asked || 0) < (session.total || 5);
+  const hasMore = ((session.asked || 0) + 1) < (session.total || 5);
 
   if (feedback) {
     feedback.hidden = false;
@@ -1805,7 +1810,6 @@ function handleAiStepResult(isCorrect, hintText) {
 
   if (isCorrect && !state.aiStepState?.answered) {
     state.aiStepState.answered = true;
-    session.correct = (session.correct || 0) + 1;
     awardLocalCoins(10);
   }
 
@@ -2047,38 +2051,53 @@ function renderAiStep(step) {
 function checkAiStepAnswer() {
   const step = state.aiSession?.currentStep;
   if (!step) return;
+
+  state.aiStep = state.aiStep || {
+    attempts: 0,
+    answeredCorrectly: false,
+    startedAt: Date.now()
+  };
+  let ok = false;
+
   if (step.type === 'fillBlank') {
     const input = document.getElementById('ai-user-input');
     const val = normalizeText(input?.value || '');
     const target = Array.isArray(step.answer)
       ? step.answer.map(normalizeText)
       : [normalizeText(step.answer ?? step.correct ?? '')];
-    const ok = target.some(t => t && t === val);
-    return handleAiStepResult(ok, step.hint);
-  }
-  if (step.type === 'matchPairs') {
+    ok = target.some(t => t && t === val);
+  } else if (step.type === 'matchPairs') {
     const userPairs = state.aiStepState?.pairs || {};
     const pairs = Array.isArray(step.pairs) ? step.pairs : [];
-    const allMatched = pairs.length && pairs.every((p, i) => {
+    ok = pairs.length && pairs.every((p, i) => {
       const right = p.right ?? p.answer ?? p.a ?? p[1];
       return String(userPairs[i] || '').trim() === String(right || '').trim();
     });
-    return handleAiStepResult(allMatched, step.hint);
-  }
-  if (step.type === 'sortItems') {
+  } else if (step.type === 'sortItems') {
     const out = document.querySelectorAll('#ai-step-host .sentence-builder .option-card');
     const chosen = Array.from(out).map(el => el.textContent);
     const expected = Array.isArray(step.answer) ? step.answer.map(String) : [];
-    const ok = expected.length && expected.length === chosen.length && expected.every((v, idx) => String(v) === String(chosen[idx]));
-    return handleAiStepResult(ok, step.hint);
-  }
-  if (step.type === 'multiSelect') {
+    ok = expected.length && expected.length === chosen.length && expected.every((v, idx) => String(v) === String(chosen[idx]));
+  } else if (step.type === 'multiSelect') {
     const selected = state.aiStepState?.selected || [];
     const expected = Array.isArray(step.correct) ? step.correct.map(String) : [String(step.correct)];
-    const ok = expected.length === selected.length && expected.every(v => selected.includes(String(v)));
-    return handleAiStepResult(ok, step.hint);
+    ok = expected.length === selected.length && expected.every(v => selected.includes(String(v)));
   }
-  return handleAiStepResult(false, step.hint);
+
+  state.aiStep.attempts = (state.aiStep.attempts || 0) + 1;
+
+  if (ok) {
+    state.aiStep.answeredCorrectly = true;
+    return handleAiStepResult(true, step.hint);
+  }
+
+  if (state.aiStep.attempts < 2) {
+    return handleAiStepResult(false, step.hint);
+  }
+
+  state.aiStep.answeredCorrectly = false;
+  handleAiStepResult(false, step.hint);
+  setAiButton('Next Question', () => nextAiQuestion());
 }
 
 
@@ -2200,8 +2219,11 @@ async function callBackend(opts = {}) {
           year,
           topic: sel.topic || session.topic || 'general',
           level: session.level || getBaselineLevelForSubject(subject),
-          difficulty: session.difficulty || getBaselineLevelForSubject(subject),
-          mode: opts.mode || 'practice'
+          difficulty: session.difficulty || session.band || getBaselineLevelForSubject(subject),
+          mode: opts.mode || session.mode || 'practice',
+          session: { asked: session.asked || 0, correct: session.correct || 0 },
+          step_result: opts.step_result || state.lastAiStepResult || null,
+          objective_id: session.objectiveId || null
         };
         data = await window.aiGame.generateChallenge(payload);
       }
@@ -2220,9 +2242,6 @@ async function callBackend(opts = {}) {
     return;
   }
 
-  if (state.aiSession) {
-    state.aiSession.asked = (state.aiSession.asked || 0) + 1;
-  }
   updateAiProgressChip();
 
   state.aiSession.currentStep = normalizeAiStep(data, subject);
@@ -2290,6 +2309,24 @@ function nextAiQuestion() {
   const feedback = document.getElementById('ai-feedback');
   const btn      = document.getElementById('ai-action-btn');
 
+  const stepResult = {
+    correct: !!state.aiStep?.answeredCorrectly,
+    attempts: state.aiStep?.attempts || 0,
+    seconds: Math.max(1, Math.round((Date.now() - (state.aiStep?.startedAt || Date.now())) / 1000)),
+    difficulty: state.aiSession?.difficulty || state.aiSession?.band || null,
+    objective_id: state.aiSession?.objectiveId || null
+  };
+  state.lastAiStepResult = stepResult;
+  if (state.aiStep) state.aiStep.committed = true;
+
+  if (state.aiSession) {
+    state.aiSession.asked = (state.aiSession.asked || 0) + 1;
+    if (stepResult.correct) {
+      state.aiSession.correct = (state.aiSession.correct || 0) + 1;
+    }
+    updateAiProgressChip();
+  }
+
   if (input) {
     input.disabled = false;
     input.value = '';
@@ -2303,7 +2340,38 @@ function nextAiQuestion() {
     btn.innerText = 'Thinking...';
   }
 
-  callBackend();
+  callBackend({ step_result: stepResult });
+}
+
+function completeAiUnitSession({
+  subject,
+  year,
+  topic,
+  aiUnitId,
+  aiStepId,
+  asked,
+  correct,
+  accuracy,
+  targetQuestions,
+  coinsSuggested
+}) {
+  if (!(asked >= targetQuestions && accuracy >= 0.7)) return;
+
+  const coins = Number.isFinite(coinsSuggested) ? coinsSuggested : (correct * 10);
+  try { awardCoins(coins, 'ai-session'); } catch (e) { console.warn('[ai] awardCoins failed', e); }
+  try { calcStreak(); } catch (e) { console.warn('[ai] calcStreak failed', e); }
+
+  try {
+    const level = state.selections?.level;
+    const keys = (typeof _unitKeys === 'function')
+      ? _unitKeys({ subject, year, topic, level })
+      : { uIdx: `sf_unit_index:${subject}:${year}:${topic}:${level || ''}` };
+    const idxKey = keys.uIdx;
+    const current = Number(localStorage.getItem(idxKey) || 0);
+    localStorage.setItem(idxKey, current + 1);
+  } catch (e) {
+    console.warn('[ai] unit pointer update failed', e);
+  }
 }
 
 function finishAiSession() {
@@ -2316,6 +2384,25 @@ function finishAiSession() {
   const feedback   = document.getElementById('ai-feedback');
 
   const sel = state.selections || {};
+
+  if (session && !state.aiStep?.committed) {
+    const stepResult = {
+      correct: !!state.aiStep?.answeredCorrectly,
+      attempts: state.aiStep?.attempts || 0,
+      seconds: Math.max(1, Math.round((Date.now() - (state.aiStep?.startedAt || Date.now())) / 1000)),
+      difficulty: session?.difficulty || session?.band || null,
+      objective_id: session?.objectiveId || null
+    };
+    state.lastAiStepResult = stepResult;
+    if (state.aiSession) {
+      state.aiSession.asked = (state.aiSession.asked || 0) + 1;
+      if (stepResult.correct) {
+        state.aiSession.correct = (state.aiSession.correct || 0) + 1;
+      }
+      updateAiProgressChip();
+    }
+    if (state.aiStep) state.aiStep.committed = true;
+  }
 
   // Clear the active question UI
   if (questionEl) {
@@ -2345,6 +2432,7 @@ function finishAiSession() {
   if (session && result) {
     const correct = Number(session.correct || 0);
     const total   = Number(session.total || 0);
+    const accuracy = total > 0 ? (correct / total) : 0;
 
     const subjectLabel =
       sel.subject === 'maths'   ? 'Maths'   :
@@ -2361,8 +2449,20 @@ function finishAiSession() {
       `Nice! You got ${correct} of ${total} on ${yearText}${subjectLabel} ${topicText}. ` +
       `🎉 You earned +${coinsEarned} Coins. We’ll keep the next challenges at a similar level.`;
 
+    completeAiUnitSession({
+      subject: sel.subject,
+      year: sel.year,
+      topic: sel.topic,
+      aiUnitId: sel.aiUnitId,
+      aiStepId: sel.aiStepId,
+      asked: total,
+      correct,
+      accuracy,
+      targetQuestions: total,
+      coinsSuggested: null
+    });
+
     // --- adaptive baseline update ---
-    const accuracy = total > 0 ? (correct / total) : 0;
     const profile  = state.skillProfile || {};
     const prev     = profile[subjectKey] || {
       baselineLevel: getBaselineLevelForSubject(subjectKey),
