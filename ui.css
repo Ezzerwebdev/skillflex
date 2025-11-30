@@ -2039,6 +2039,25 @@ body[data-theme="dark"] .option-card.sel {
   box-shadow: 0 10px 25px rgba(80, 56, 205, 0.35);
 }
 
+/* Matched pairs: locked state + colours */
+.pair-card.pair-locked {
+  opacity: 0.8;
+  cursor: default;
+}
+
+/* Colour bands for different pairs */
+.pair-colour-0 { box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.9); }  /* purple-ish */
+.pair-colour-1 { box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.9); } /* teal */
+.pair-colour-2 { box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.9); }  /* yellow */
+.pair-colour-3 { box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.9); } /* pink */
+
+/* Wrong match flash */
+.pair-card.pair-wrong {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.9);
+}
+
+
+
 /* “Good” feedback – nudge away from flat green */
 .ai-feedback.good {
   color: var(--success);
