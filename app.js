@@ -1731,16 +1731,19 @@ function normalizeAiStep(data, subject) {
     imageAlt: data.imageAlt || null,
     manipulatives: data.manipulatives || null
   };
+
   if (mode.includes('multi') && mode.includes('choice')) {
     step.type = 'multiChoice';
     step.options = data.options || [];
     step.correct = data.correct ?? data.answer;
     step.hint = data.hint;
+
   } else if (mode === 'multiselect' || mode === 'multi_select') {
     step.type = 'multiSelect';
     step.options = data.options || [];
     step.correct = data.correct ?? data.answer ?? [];
     step.hint = data.hint;
+
   } else if (mode === 'truefalse' || mode === 'true_false') {
     step.type = 'trueFalse';
     step.prompt = basePrompt || data.statement || '';
@@ -1748,23 +1751,28 @@ function normalizeAiStep(data, subject) {
       ? data.correct
       : !!(String(data.answer || '').toLowerCase().startsWith('t'));
     step.hint = data.hint;
+
   } else if (mode === 'matchpairs' || mode === 'match_pairs') {
     step.type = 'matchPairs';
     step.pairs = data.pairs || data.options || [];
     step.hint = data.hint;
+
   } else if (mode === 'sortitems' || mode === 'sort_items') {
     step.type = 'sortItems';
     step.items = data.items || data.options || [];
     step.answer = data.correct || data.answer || [];
     step.hint = data.hint;
+
   } else if (mode === 'fillblank' || mode === 'fill_blank') {
     step.type = 'fillBlank';
     step.answer = data.correct ?? data.answer;
     step.hint = data.hint;
+
   } else if (subject === 'english' && data.story) {
     step.type = 'story';
     step.story = data.story;
     step.hint = data.hint;
+
   } else {
     step.type = 'fillBlank';
     step.answer = data.correct ?? data.answer;
@@ -1778,6 +1786,7 @@ function normalizeAiStep(data, subject) {
   step.prompt = step.prompt || basePrompt;
   return step;
 }
+
 
 function handleAiStepResult(isCorrect, hintText) {
   const feedback = document.getElementById('ai-feedback');
@@ -1794,6 +1803,7 @@ function handleAiStepResult(isCorrect, hintText) {
   }
 
   if (isCorrect && !state.aiStepState?.answered) {
+    state.aiStepState = state.aiStepState || {};
     state.aiStepState.answered = true;
     awardLocalCoins(10);
   }
@@ -1805,9 +1815,11 @@ function handleAiStepResult(isCorrect, hintText) {
       setAiButton('Finish', () => finishAiSession());
     }
   } else {
+    // default: allow another try – may be overridden by checkAiStepAnswer after 2 attempts
     setAiButton('Check Answer', () => checkAiStepAnswer());
   }
 }
+
 
 function renderAiStep(step) {
   const host        = document.getElementById('ai-step-host');
@@ -1824,7 +1836,7 @@ function renderAiStep(step) {
     return;
   }
 
-  // 🔄 Reset shell (but DO NOT wipe host)
+  // 🔄 Reset shell (but DO NOT wipe host container)
   interactive.innerHTML = '';
   input.hidden   = true;
   input.value    = '';
@@ -1864,6 +1876,7 @@ function renderAiStep(step) {
   if (step.type === 'multiChoice' || step.type === 'multiSelect') {
     const wrap = ensureOptionsWrapper();
     const opts = Array.from(step.options || []);
+    state.aiStepState = state.aiStepState || {};
 
     if (opts.length) {
       opts
@@ -1876,18 +1889,49 @@ function renderAiStep(step) {
           b.textContent = String(opt.text);
 
           b.onclick = () => {
-            wrap.querySelectorAll('.ai-option-card').forEach(c => c.classList.remove('selected'));
-            b.classList.add('selected');
-            const isCorrect = String(opt.text) === String(step.correct);
-            handleAiStepResult(isCorrect, step.hint);
+            const cards = Array.from(wrap.querySelectorAll('.ai-option-card'));
+
+            if (step.type === 'multiSelect') {
+              // 🔁 TOGGLE selection for multiSelect
+              b.classList.toggle('selected');
+
+              const selectedTexts = cards
+                .filter(c => c.classList.contains('selected'))
+                .map(c => (c.textContent || '').trim());
+
+              // store for checkAiStepAnswer()
+              state.aiStepState.selected = selectedTexts;
+              // ❗ no auto-check here – user presses "Check Answer"
+            } else {
+              // 🎯 single-select for multiChoice
+              cards.forEach(c => c.classList.remove('selected'));
+              b.classList.add('selected');
+
+              const isCorrect = String(opt.text) === String(step.correct);
+              state.aiStep = state.aiStep || {
+                attempts: 0,
+                answeredCorrectly: false,
+                startedAt: Date.now()
+              };
+              state.aiStep.answeredCorrectly = isCorrect;
+              state.aiStep.attempts = (state.aiStep.attempts || 0) + 1;
+
+              handleAiStepResult(isCorrect, step.hint);
+            }
           };
 
           wrap.appendChild(b);
         });
     }
 
-    // Button click not needed – handled by card click
-    setAiButton('Check Answer', () => {});
+    if (step.type === 'multiSelect') {
+      // For multiSelect we ONLY evaluate on Check Answer
+      setAiButton('Check Answer', () => checkAiStepAnswer());
+    } else {
+      // multiChoice answers are handled on click
+      setAiButton('Check Answer', () => {});
+    }
+
     return;
   }
 
@@ -1906,7 +1950,17 @@ function renderAiStep(step) {
         b.classList.add('selected');
 
         const isTrue = idx === 0;
-        handleAiStepResult(isTrue === !!step.correct, step.hint);
+        const isCorrect = (isTrue === !!step.correct);
+
+        state.aiStep = state.aiStep || {
+          attempts: 0,
+          answeredCorrectly: false,
+          startedAt: Date.now()
+        };
+        state.aiStep.answeredCorrectly = isCorrect;
+        state.aiStep.attempts = (state.aiStep.attempts || 0) + 1;
+
+        handleAiStepResult(isCorrect, step.hint);
       };
 
       wrap.appendChild(b);
@@ -1936,44 +1990,83 @@ function renderAiStep(step) {
     leftCol.className  = 'pair-col left';
     rightCol.className = 'pair-col right';
 
-    const leftBtns  = new Map();
-    const rightBtns = new Map();
-    const selection = { left: null };
+    const leftBtns = [];
+    const rightBtns = [];
+    let pendingLeft = null;
 
+    state.aiStepState = { pairs: {} };
+
+    const shuffle = (arr) => {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+
+    // build left in original order
     pairs.forEach((p, idx) => {
       const ltext = p.left  ?? p.prompt ?? p.q ?? p[0];
-      const rtext = p.right ?? p.answer ?? p.a ?? p[1];
+      if (!ltext) return;
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'ai-option-card pair-card pair-left';
+      b.textContent = String(ltext);
+      b.dataset.orig = String(idx);
+      b.onclick = () => {
+        if (b.classList.contains('pair-locked')) return;
+        pendingLeft = b;
+        leftBtns.forEach(btn => btn.classList.remove('selected'));
+        b.classList.add('selected');
+      };
+      leftBtns.push(b);
+      leftCol.appendChild(b);
+    });
 
-      if (ltext) {
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'ai-option-card';
-        b.textContent = ltext;
-        b.onclick = () => {
-          selection.left = idx;
-          leftBtns.forEach(btn => btn.classList.remove('selected'));
-          b.classList.add('selected');
-        };
-        leftBtns.set(idx, b);
-        leftCol.appendChild(b);
-      }
+    // build right shuffled
+    const shuffledRight = shuffle(
+      pairs.map((p, idx) => ({
+        text: p.right ?? p.answer ?? p.a ?? p[1],
+        orig: idx
+      }))
+    );
 
-      if (rtext) {
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'ai-option-card';
-        b.textContent = rtext;
-        b.onclick = () => {
-          if (selection.left === null) return;
-          state.aiStepState = state.aiStepState || {};
-          if (!state.aiStepState.pairs) state.aiStepState.pairs = {};
-          state.aiStepState.pairs[selection.left] = rtext;
-          leftBtns.get(selection.left)?.classList.remove('selected');
-          selection.left = null;
-        };
-        rightBtns.set(idx, b);
-        rightCol.appendChild(b);
-      }
+    shuffledRight.forEach(p => {
+      if (!p.text) return;
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'ai-option-card pair-card pair-right';
+      b.textContent = String(p.text);
+      b.dataset.orig = String(p.orig);
+      b.onclick = () => {
+        if (!pendingLeft || b.classList.contains('pair-locked')) return;
+
+        const leftOrig = pendingLeft.dataset.orig;
+        const rightOrig = b.dataset.orig;
+
+        if (leftOrig === rightOrig) {
+          // ✅ Correct match: colour + lock both
+          const colorIdx = Number(leftOrig) % 4;
+          pendingLeft.classList.add('pair-locked', `pair-colour-${colorIdx}`);
+          b.classList.add('pair-locked', `pair-colour-${colorIdx}`);
+
+          pendingLeft.disabled = true;
+          b.disabled = true;
+          pendingLeft.classList.remove('selected');
+
+          // store for checkAiStepAnswer
+          state.aiStepState.pairs[leftOrig] = b.textContent;
+
+          pendingLeft = null;
+        } else {
+          // ❌ brief "wrong" flash
+          b.classList.add('pair-wrong');
+          setTimeout(() => b.classList.remove('pair-wrong'), 300);
+        }
+      };
+      rightBtns.push(b);
+      rightCol.appendChild(b);
     });
 
     const wrap = document.createElement('div');
@@ -2033,6 +2126,7 @@ function renderAiStep(step) {
   setAiButton('Finish', () => finishAiSession());
 }
 
+
 function checkAiStepAnswer() {
   const step = state.aiSession?.currentStep;
   if (!step) return;
@@ -2042,6 +2136,7 @@ function checkAiStepAnswer() {
     answeredCorrectly: false,
     startedAt: Date.now()
   };
+
   let ok = false;
 
   if (step.type === 'fillBlank') {
@@ -2051,6 +2146,7 @@ function checkAiStepAnswer() {
       ? step.answer.map(normalizeText)
       : [normalizeText(step.answer ?? step.correct ?? '')];
     ok = target.some(t => t && t === val);
+
   } else if (step.type === 'matchPairs') {
     const userPairs = state.aiStepState?.pairs || {};
     const pairs = Array.isArray(step.pairs) ? step.pairs : [];
@@ -2058,15 +2154,31 @@ function checkAiStepAnswer() {
       const right = p.right ?? p.answer ?? p.a ?? p[1];
       return String(userPairs[i] || '').trim() === String(right || '').trim();
     });
+
   } else if (step.type === 'sortItems') {
     const out = document.querySelectorAll('#ai-step-host .sentence-builder .option-card');
-    const chosen = Array.from(out).map(el => el.textContent);
-    const expected = Array.isArray(step.answer) ? step.answer.map(String) : [];
-    ok = expected.length && expected.length === chosen.length && expected.every((v, idx) => String(v) === String(chosen[idx]));
+    const chosen = Array.from(out).map(el => (el.textContent || '').trim());
+    const expected = Array.isArray(step.answer) ? step.answer.map(v => String(v).trim()) : [];
+    ok =
+      expected.length &&
+      expected.length === chosen.length &&
+      expected.every((v, idx) => v === chosen[idx]);
+
   } else if (step.type === 'multiSelect') {
-    const selected = state.aiStepState?.selected || [];
-    const expected = Array.isArray(step.correct) ? step.correct.map(String) : [String(step.correct)];
-    ok = expected.length === selected.length && expected.every(v => selected.includes(String(v)));
+    const selected = (state.aiStepState?.selected || []).map(String);
+    const expected = Array.isArray(step.correct)
+      ? step.correct.map(String)
+      : [String(step.correct)];
+
+    // order-insensitive
+    const sortNorm = arr => arr.map(v => v.trim()).sort();
+    const sSel = sortNorm(selected);
+    const sExp = sortNorm(expected);
+
+    ok =
+      sExp.length > 0 &&
+      sSel.length === sExp.length &&
+      sExp.every((v, idx) => v === sSel[idx]);
   }
 
   state.aiStep.attempts = (state.aiStep.attempts || 0) + 1;
@@ -2076,14 +2188,18 @@ function checkAiStepAnswer() {
     return handleAiStepResult(true, step.hint);
   }
 
+  // ❌ incorrect
   if (state.aiStep.attempts < 2) {
+    // first miss – encouragement + try again
     return handleAiStepResult(false, step.hint);
   }
 
+  // second miss – move on
   state.aiStep.answeredCorrectly = false;
   handleAiStepResult(false, step.hint);
   setAiButton('Next Question', () => nextAiQuestion());
 }
+
 
 
 window.launchAI = function() {
@@ -2297,10 +2413,14 @@ function nextAiQuestion() {
   const stepResult = {
     correct: !!state.aiStep?.answeredCorrectly,
     attempts: state.aiStep?.attempts || 0,
-    seconds: Math.max(1, Math.round((Date.now() - (state.aiStep?.startedAt || Date.now())) / 1000)),
+    seconds: Math.max(
+      1,
+      Math.round((Date.now() - (state.aiStep?.startedAt || Date.now())) / 1000)
+    ),
     difficulty: state.aiSession?.difficulty || state.aiSession?.band || null,
     objective_id: state.aiSession?.objectiveId || null
   };
+
   state.lastAiStepResult = stepResult;
   if (state.aiStep) state.aiStep.committed = true;
 
@@ -2310,6 +2430,13 @@ function nextAiQuestion() {
       state.aiSession.correct = (state.aiSession.correct || 0) + 1;
     }
     updateAiProgressChip();
+  }
+
+  const asked = state.aiSession?.asked || 0;
+  const total = state.aiSession?.total || 0;
+  if (asked >= total) {
+    finishAiSession();
+    return;
   }
 
   if (input) {
@@ -2327,6 +2454,7 @@ function nextAiQuestion() {
 
   callBackend({ step_result: stepResult });
 }
+
 
 function completeAiUnitSession({
   subject,
@@ -2445,36 +2573,36 @@ function finishAiSession() {
   const input      = document.getElementById('ai-user-input');
   const answerCard = document.getElementById('ai-answer-card');
   const feedback   = document.getElementById('ai-feedback');
+  const interactive = document.getElementById('ai-interactive') || document.getElementById('ai-step-host');
 
   const sel = state.selections || {};
 
-    if (session && !state.aiStep?.committed) {
+  // Commit the last step if it hasn't been committed yet
+  if (session && !state.aiStep?.committed) {
     const stepResult = {
-    correct: !!state.aiStep?.answeredCorrectly,
-    attempts: state.aiStep?.attempts || 0,
-    seconds: Math.max(1, Math.round((Date.now() - (state.aiStep?.startedAt || Date.now())) / 1000)),
-    difficulty: session?.difficulty || session?.band || null,
-    objective_id: session?.objectiveId || null
+      correct: !!state.aiStep?.answeredCorrectly,
+      attempts: state.aiStep?.attempts || 0,
+      seconds: Math.max(
+        1,
+        Math.round((Date.now() - (state.aiStep?.startedAt || Date.now())) / 1000)
+      ),
+      difficulty: session?.difficulty || session?.band || null,
+      objective_id: session?.objectiveId || null
     };
     state.lastAiStepResult = stepResult;
-    if (state.aiSession) {
-    // Final question: count it once here (nextAiQuestion is not called)
-    state.aiSession.asked = (state.aiSession.asked || 0) + 1;
-    if (stepResult.correct) {
+    if (stepResult.correct && state.aiSession) {
       state.aiSession.correct = (state.aiSession.correct || 0) + 1;
+      updateAiProgressChip();
     }
-   }
     if (state.aiStep) state.aiStep.committed = true;
   }
 
-
-
   // Clear the active question UI
+  if (interactive) {
+    interactive.innerHTML = '';
+  }
   if (questionEl) {
-    // Either completely clear it…
-    questionEl.textContent = '';
-    // …or, if you prefer a headline here, use:
-    // questionEl.textContent = 'Session complete 🎉';
+    questionEl.textContent = 'Session complete 🎉';
   }
 
   if (input) {
@@ -2485,7 +2613,7 @@ function finishAiSession() {
     answerCard.hidden = true;
   }
 
-  // Show the bottom feedback line in green
+  // Show feedback line in green
   if (feedback) {
     feedback.hidden = false;
     feedback.classList.remove('bad');
@@ -2493,7 +2621,7 @@ function finishAiSession() {
     feedback.textContent = 'Great job! 🎉';
   }
 
-    // Main summary text in the centre
+  // Main summary text in the centre
   if (session && result) {
     const correct  = Number(session.correct || 0);
     const total    = Number(session.total || 0);
@@ -2506,8 +2634,7 @@ function finishAiSession() {
 
     const yearText   = sel.year  ? `Year ${sel.year} ` : '';
     const topicText  = sel.topic ? `– ${sel.topic.replace(/[-_]+/g, ' ')}` : '';
-    const coinsEarned = sel.subject === 'maths' ? correct * 10 : correct * 5;
-    const subjectKey  = sel.subject || 'maths';
+    const subjectKey = sel.subject || 'maths';
 
     result.hidden = false;
 
@@ -2528,7 +2655,7 @@ function finishAiSession() {
 
     result.innerText = `${headline} ${line}`;
 
-        completeAiUnitSession({
+    completeAiUnitSession({
       subject: sel.subject,
       year: sel.year,
       topic: sel.topic,
@@ -2541,13 +2668,10 @@ function finishAiSession() {
       coinsSuggested: null
     });
 
-    // --- AI Units Streak Award (mirrors legacy lesson streak logic) ---
-    
-    // --- Duolingo-style streak update for AI Units ---
+    // --- streak update ---
     if (percent >= 80) {
-    applyDailyStreak('ai-session');
+      applyDailyStreak('ai-session');
     }
-
 
     // --- adaptive baseline update ---
     const profile  = state.skillProfile || {};
@@ -2586,13 +2710,12 @@ function finishAiSession() {
     if (btn) {
       btn.disabled = false;
 
-            if (percent >= 80) {
+      if (percent >= 80) {
         btn.innerText = 'Next step';
         btn.onclick = () => {
           const close = window.closeAiModal || closeAiModal;
           if (typeof close === 'function') close();
 
-          // Show the Units steps view for the current selection
           const hub = document.getElementById('challengeHubContainer');
           if (hub && typeof renderUnitsView === 'function') {
             renderUnitsView(hub);
@@ -2603,8 +2726,6 @@ function finishAiSession() {
           }
         };
       } else {
-
-
         btn.innerText = 'Try again';
         btn.onclick = () => {
           const sel   = state.selections || {};
@@ -2646,6 +2767,7 @@ function finishAiSession() {
   // Keep the progress bar / chip in sync
   updateAiProgressChip();
 }
+
 
 
 
