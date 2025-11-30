@@ -2727,6 +2727,43 @@ function finishAiSession() {
       coinsSuggested: null
     });
 
+    // --- Sync coins + streak to backend ---
+try {
+  if (typeof updateUserProgress === 'function' && window.JWT_TOKEN) {
+
+    const coinsEarned = correct * 10;   // same logic as awardCoins()
+
+    updateUserProgress({
+      activityKey: `ai:${sel.subject}:${sel.year}:${sel.topic}:${sel.aiUnitId}:${sel.aiStepId}`,
+      streakEarned: percent >= 80,
+      coins_earned: coinsEarned
+    }).catch(err => console.warn('[ai] merge-progress failed', err));
+  }
+} catch(err) {
+  console.warn('[ai] updateUserProgress failed', err);
+}
+
+// --- Sync unit pointer (device-to-device progress) ---
+try {
+  if (typeof saveUnitsPointer === 'function' && window.JWT_TOKEN) {
+
+    const level = session.level || 'core';
+    const idxKey = `sf_unit_index:${sel.subject}:${sel.year}:${sel.topic}:${level}`;
+    const unitIndex = Number(localStorage.getItem(idxKey) || 0);
+
+    saveUnitsPointer({
+      subject: sel.subject,
+      year: sel.year,
+      topic: sel.topic,
+      level,
+      unit_index: unitIndex
+    }).catch(err => console.warn('[ai] saveUnitsPointer failed', err));
+  }
+} catch(err) {
+  console.warn('[ai] pointer-sync failed', err);
+}
+
+
     // --- streak update ---
     if (percent >= 80) {
       applyDailyStreak('ai-session');
@@ -2765,29 +2802,6 @@ function finishAiSession() {
     saveSkillProfile();
     if (session) session.completed = true;
 
-    // 🔄 NEW: sync coins + streak to backend, reusing legacy merge-progress flow
-    try {
-      const streakEarned = percent >= 80;
-      const activityKeyParts = [
-        'ai-unit',
-        sel.subject || 'maths',
-        sel.year || 'y?',
-        sel.topic || 'topic?',
-        sel.aiUnitId || 'unit?',
-        sel.aiStepId || 'step?'
-      ];
-      const activityKey = activityKeyParts.join(':');
-
-      if (typeof updateUserProgress === 'function') {
-        updateUserProgress({
-          streakEarned,
-          activityKey
-          // coins_earned is inferred from state.coins vs lastSyncedCoins
-        });
-      }
-    } catch (err) {
-      console.warn('[ai] updateUserProgress failed (AI session)', err);
-    }
 
     // --- Adaptive CTA ---
     if (btn) {
