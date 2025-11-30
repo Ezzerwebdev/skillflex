@@ -2,7 +2,7 @@ import { API_BASE, USER_TZ } from './config.js';
 import { state, getToken, setToken, hasAnyProgress } from './state.js';
 import { sfetch, authInit } from './api.js';
 import { idbGet, idbPut, idbDelete, getGuestIdFromStorage, setGuestIdPersisted, getProgressFromStorage, saveLocalGuestProgress } from './storage.js';
-import { showSaveNudge } from '/ui.js';
+
 
 let GUEST_ID = null; export function getGuestId(){ return GUEST_ID; }
 export async function getOrSetGuestId(){ if (getToken()) return null; const existing = await getGuestIdFromStorage(); if (existing) return (GUEST_ID = existing); const newId = crypto.randomUUID(); await setGuestIdPersisted(newId); return (GUEST_ID = newId); }
@@ -104,16 +104,19 @@ export function updateLoginButton(){
   const loginButton  = document.getElementById('login-button');
   const logoutButton = document.getElementById('logout-button');
   const authPill     = document.getElementById('auth-pill');
+  const marketingNav = document.getElementById('marketing-nav');
   if (!loginButton || !logoutButton || !authPill) return;
 
   if (getToken()) {
     loginButton.hidden  = true; logoutButton.hidden = false; authPill.hidden = false;
     loginButton.removeAttribute('href'); loginButton.removeAttribute('aria-label');
     loginButton.onclick = null; loginButton.dataset.notready = '0'; loginButton.title = '';
+    if (marketingNav) marketingNav.hidden = true;
     return;
   }
 
   authPill.hidden = true; logoutButton.hidden = true; loginButton.hidden = false;
+  if (marketingNav) marketingNav.hidden = false;
   loginButton.textContent = 'Save my coins! 🪙';
   loginButton.href = getLoginDeepLink();
   loginButton.setAttribute('aria-label', 'Sign up or log in to save your coins');

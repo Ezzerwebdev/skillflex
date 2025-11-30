@@ -7,9 +7,10 @@
 
 
 // --- MODULE IMPORTS ---
-import { showCompletionModal, showSaveNudge } from './ui.js';
+import { showCompletionModal, showSaveNudge } from './ui.js?v=2';
+
 import { idbGet, idbPut, idbDelete } from './db.js';
-import { renderUnitsView } from './js/features/units.js?v=1762242683';
+import { renderUnitsView } from './js/features/units.js?v=176224264';
 import { setThemePreference, getThemePreference } from './js/theme.js'; // auto-inits on import
 import { initProfileStore, nextMode } from './js/core/profile.js';
 import { getTodayKey, calcStreak } from './js/core/streak.js';
@@ -223,7 +224,15 @@ window.closeGearMenus = closeGearMenus;
 
 // --- Mobile tabs (exported on window to avoid hoisting surprises) ---
 window.shouldShowMobileTabs = function shouldShowMobileTabs(){
-  return !!JWT_TOKEN && typeof window !== 'undefined' && window.innerWidth < 720;
+  if (typeof window === 'undefined') return false;
+  if (!JWT_TOKEN) return false;
+  const path = location.pathname || '';
+  const onProfile = path.startsWith('/profile');
+  const onUnits = path === '/units' || path.startsWith('/units/');
+  const onHome = path === '/' || path === '/home';
+  const onLesson = path.startsWith('/lesson/');
+  if (onHome || onLesson) return false;
+  return (onProfile || onUnits) && window.innerWidth < 720;
 };
 
 window.mountMobileTabs = function mountMobileTabs(){
@@ -580,8 +589,16 @@ function saveSkillProfile() {
 loadSkillProfile();
 
 // Always expose the live state so feature modules share one object
-window.state = state;
-
+(() => {
+  const desc = Object.getOwnPropertyDescriptor(window, 'state');
+  if (!desc || desc.writable || desc.set) {
+    // No existing readonly descriptor – safe to assign
+    window.state = state;
+  } else if (window.state && typeof window.state === 'object') {
+    // state is managed elsewhere as a readonly accessor: copy our fields onto it
+    Object.assign(window.state, state);
+  }
+})();
 
 
 
@@ -1011,15 +1028,18 @@ async function logout() {
 
  await idbDelete('meta', 'jwt');
  try { localStorage.removeItem('sf_jwt'); } catch {}
- JWT_TOKEN = null;
- GUEST_ID = null;
- Object.assign(state, { coins: 0, streak: 0, completedToday: [], coinsCapRemaining: null });
- // 🔁 Send user to Home as a guest
-  const HOME_PATH = '/';          // ⬅️ if your real home is '/units', change this
-  if (location.pathname !== HOME_PATH) {
-    history.pushState({}, '', HOME_PATH);
-  }
- initializeApp();
+  try { localStorage.removeItem('sf_mock_login'); } catch {}
+  JWT_TOKEN = null;
+  window.DEV_MOCK_LOGIN = false;
+  GUEST_ID = null;
+  Object.assign(state, { coins: 0, streak: 0, completedToday: [], coinsCapRemaining: null });
+  // Reset body flags so guest home shows
+  document.body.classList.remove('logged-in', 'units-view', 'profile-focus', 'path-view', 'in-lesson', 'lesson-active');
+  try { updateLoginButton(); } catch {}
+  // 🔁 Send user to Home as a guest
+  const HOME_PATH = '/';
+  history.pushState({}, '', HOME_PATH);
+  setTimeout(() => router(), 0);
 }
 
 
@@ -1030,14 +1050,13 @@ function updateLoginButton() {
   const logoutButton = document.getElementById('logout-button');
   const authPill     = document.getElementById('auth-pill');
   const profileBtn   = document.getElementById('profile-button');
+  const marketingNav = document.getElementById('marketing-nav');
 
   const hasJwt    = !!JWT_TOKEN;
-  const hasDev    = !!DEV_MOCK_LOGIN;
-  let storedHint = STORED_JWT_HINT;
-  if (!storedHint) {
-    try { storedHint = localStorage.getItem('sf_jwt'); }
-    catch { storedHint = null; }
-  }
+  const hasDev    = !!window.DEV_MOCK_LOGIN;
+  let storedHint = null;
+  try { storedHint = localStorage.getItem('sf_jwt'); }
+  catch { storedHint = null; }
   const hasStored = !!storedHint;
   const loggedIn  = hasJwt || hasDev || hasStored;
 
@@ -1046,6 +1065,7 @@ function updateLoginButton() {
   if (logoutButton) logoutButton.hidden = !loggedIn;
   if (authPill)     authPill.hidden     = !loggedIn;
   if (profileBtn)   profileBtn.hidden   = !loggedIn;
+  if (marketingNav) marketingNav.hidden = loggedIn;
 
   if (!loggedIn) {
     loginButton.className = 'btn ghost';
@@ -1117,7 +1137,7 @@ async function router() {
   mountMainHeader();
 
   document.body.dataset.route = path;
-  document.body.classList.toggle('logged-in', !!(JWT_TOKEN || DEV_MOCK_LOGIN));
+  document.body.classList.toggle('logged-in', !!(JWT_TOKEN || window.DEV_MOCK_LOGIN));
 
   // If logged in, land on /profile or /units instead of Home
   if (JWT_TOKEN && (path === '/' || path === '/home')) {
@@ -1231,7 +1251,6 @@ if (path === '/profile') {
   }
 
   // ---------- Units route (desktop learning path) ----------
-  // ---------- Units route (desktop learning path) ----------
 if (path === '/units') {
   const body = document.body;
 
@@ -1269,7 +1288,7 @@ if (path === '/units') {
     app.innerHTML = homeTplEl.innerHTML;
 
     try { renderContinueCard(); } catch {}
-    renderChallengeHub();
+    try { updateLoginButton(); } catch {}
 
     // If you still like the units hero banner on home, keeping this is fine:
     injectUnitsDesktopHeader(location.pathname);
@@ -1313,45 +1332,9 @@ async function loadActivities() {
 
 
 function renderChallengeHub() {
- const hubContainer = document.querySelector('#challengeHubContainer');
- if (!hubContainer) { console.warn('#challengeHubContainer missing'); return; }
-
-
- 
- // Restore choices (sessionStorage first, then persistent localStorage)
-try {
-  const raw = sessionStorage.getItem('sf_selections');
-  if (raw) {
-    state.selections = JSON.parse(raw);
-  } else {
-    const raw2 = localStorage.getItem('sf_selections_persist');
-    if (raw2) state.selections = JSON.parse(raw2);
-  }
-} catch {}
-
-
-
- const { subject, year, topic } = state.selections || {};
-
-
- if (!subject) return renderSelectionStep('subject');
- if (!year)    return renderSelectionStep('year');
- if (!topic)   return renderSelectionStep('topic');
-
- // ✅ INSERT THIS BLOCK — let a feature take over the hub if it wants
-  if (window.sfHooks?.renderHubOverride?.()) {
-    updateLoginButton();   // keep header/auth UI in sync
-  
-    return;                // bail so we don't also render the default hub
-  }
-
-
- // We have a full selection — draw the daily path UI
- renderDailyChallenges();
- // Keep the header button text/state fresh
- updateLoginButton();
-
-
+  const hubContainer = document.querySelector('#challengeHubContainer');
+  if (hubContainer) hubContainer.innerHTML = '';
+  console.warn('renderChallengeHub() is deprecated');
 }
 
 /* =========================================
@@ -1695,8 +1678,10 @@ function updateAiProgressChip() {
   const total = session.total;
   const answered = session.asked || 0;
 
-  // For the label, show the question we’re *on*: if none asked yet, say Q1.
-  const labelIndex = answered > 0 ? answered : 1;
+  // For the label, show the current question (asked so far + 1), clamped to total.
+  const labelIndex = total > 0
+    ? Math.min(answered + (session.completed ? 0 : 1), total)
+    : 1;
 
   // For the bar, fill based on how many have actually been asked.
   const pct = total > 0 ? Math.min(1, answered / total) : 0;
@@ -2362,17 +2347,95 @@ function completeAiUnitSession({
   try { calcStreak(); } catch (e) { console.warn('[ai] calcStreak failed', e); }
 
   try {
-    const level = state.selections?.level;
+    // Always derive the unlock key from the same selections the Units view uses.
+    const sel   = state.selections || {};
+    const subj  = subject || sel.subject || state.subject;
+    const yr = (typeof year === 'number' && !Number.isNaN(year))
+  ? year
+  : (sel.year || state.year);
+
+    const top   = topic || sel.topic || state.topic;
+    const level = sel.level || state.skillProfile?.[subj || '']?.baselineLevel || 'core';
+
+
+    const normalized = { subject: subj, year: yr, topic: top, level };
     const keys = (typeof _unitKeys === 'function')
-      ? _unitKeys({ subject, year, topic, level })
-      : { uIdx: `sf_unit_index:${subject}:${year}:${topic}:${level || ''}` };
-    const idxKey = keys.uIdx;
+      ? _unitKeys(normalized)
+      : { uIdx: `sf_unit_index:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}` };
+
+
+    const idxKey  = keys.uIdx;
     const current = Number(localStorage.getItem(idxKey) || 0);
     localStorage.setItem(idxKey, current + 1);
+
+    console.debug('[ai] unit progress advanced', {
+      subject: subj,
+      year: yr,
+      topic: top,
+      level,
+      idxKey,
+      from: current,
+      to: current + 1
+    });
   } catch (e) {
     console.warn('[ai] unit pointer update failed', e);
   }
 }
+
+// --- Duolingo-style Streak Helper ---
+async function applyDailyStreak(reason = 'activity') {
+  try {
+    const profile = profileStore.get() || {};
+    const streak  = profile.streak || {
+      current: 0,
+      best: 0,
+      lastActiveISO: '',
+      freezeTokens: 0
+    };
+
+    const nowISO  = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    const lastISO = streak.lastActiveISO || '';
+    const prev    = streak.current || 0;
+    const freezeTokens = streak.freezeTokens || 0;
+
+    const result = calcStreak(lastISO, nowISO, prev, freezeTokens);
+
+    // Update profile streak fields
+    const newStreak = {
+  current: result.current,
+  best: Math.max(streak.best || 0, result.current),
+  lastActiveISO: nowISO,
+  freezeTokens: result.freezeTokens
+};
+
+profileStore.update((draft) => {
+  draft.streak = newStreak;
+});
+
+state.streak = newStreak.current;
+state.streakDays = newStreak.current;
+
+
+    if (typeof updateUiCounters === 'function') {
+      updateUiCounters();
+    }
+
+    // TEMP: do not let the backend overwrite local streak until API is aligned
+    // if (window.JWT_TOKEN && typeof updateUserProgress === 'function') {
+    //   if (result.delta > 0) {
+    //     await updateUserProgress({ streakEarned: true });
+    //   }
+    // }
+
+    console.log('[streak] updated', { reason, result, newStreak });
+
+  } catch (err) {
+    console.warn('[streak] applyDailyStreak failed', err);
+  }
+}
+ 
+
+
 
 function finishAiSession() {
   const session    = state.aiSession;
@@ -2385,24 +2448,26 @@ function finishAiSession() {
 
   const sel = state.selections || {};
 
-  if (session && !state.aiStep?.committed) {
+    if (session && !state.aiStep?.committed) {
     const stepResult = {
-      correct: !!state.aiStep?.answeredCorrectly,
-      attempts: state.aiStep?.attempts || 0,
-      seconds: Math.max(1, Math.round((Date.now() - (state.aiStep?.startedAt || Date.now())) / 1000)),
-      difficulty: session?.difficulty || session?.band || null,
-      objective_id: session?.objectiveId || null
+    correct: !!state.aiStep?.answeredCorrectly,
+    attempts: state.aiStep?.attempts || 0,
+    seconds: Math.max(1, Math.round((Date.now() - (state.aiStep?.startedAt || Date.now())) / 1000)),
+    difficulty: session?.difficulty || session?.band || null,
+    objective_id: session?.objectiveId || null
     };
     state.lastAiStepResult = stepResult;
     if (state.aiSession) {
-      state.aiSession.asked = (state.aiSession.asked || 0) + 1;
-      if (stepResult.correct) {
-        state.aiSession.correct = (state.aiSession.correct || 0) + 1;
-      }
-      updateAiProgressChip();
+    // Final question: count it once here (nextAiQuestion is not called)
+    state.aiSession.asked = (state.aiSession.asked || 0) + 1;
+    if (stepResult.correct) {
+      state.aiSession.correct = (state.aiSession.correct || 0) + 1;
     }
+   }
     if (state.aiStep) state.aiStep.committed = true;
   }
+
+
 
   // Clear the active question UI
   if (questionEl) {
@@ -2428,10 +2493,10 @@ function finishAiSession() {
     feedback.textContent = 'Great job! 🎉';
   }
 
-  // Main summary text in the centre
+    // Main summary text in the centre
   if (session && result) {
-    const correct = Number(session.correct || 0);
-    const total   = Number(session.total || 0);
+    const correct  = Number(session.correct || 0);
+    const total    = Number(session.total || 0);
     const accuracy = total > 0 ? (correct / total) : 0;
 
     const subjectLabel =
@@ -2445,11 +2510,25 @@ function finishAiSession() {
     const subjectKey  = sel.subject || 'maths';
 
     result.hidden = false;
-    result.innerText =
-      `Nice! You got ${correct} of ${total} on ${yearText}${subjectLabel} ${topicText}. ` +
-      `🎉 You earned +${coinsEarned} Coins. We’ll keep the next challenges at a similar level.`;
 
-    completeAiUnitSession({
+    const percent = total ? Math.round((correct / total) * 100) : 0;
+    let headline = '';
+    let line = '';
+
+    if (percent >= 80) {
+      headline = 'Awesome work! 🎉';
+      line = `You got ${correct} of ${total} right. Ready for the next step?`;
+    } else if (percent >= 50) {
+      headline = 'Nice try! 🙂';
+      line = `You got ${correct} of ${total}. Want to practise once more?`;
+    } else {
+      headline = 'Keep practising! 💪';
+      line = `You got ${correct} of ${total}. Let’s try this step again.`;
+    }
+
+    result.innerText = `${headline} ${line}`;
+
+        completeAiUnitSession({
       subject: sel.subject,
       year: sel.year,
       topic: sel.topic,
@@ -2461,6 +2540,14 @@ function finishAiSession() {
       targetQuestions: total,
       coinsSuggested: null
     });
+
+    // --- AI Units Streak Award (mirrors legacy lesson streak logic) ---
+    
+    // --- Duolingo-style streak update for AI Units ---
+    if (percent >= 80) {
+    applyDailyStreak('ai-session');
+    }
+
 
     // --- adaptive baseline update ---
     const profile  = state.skillProfile || {};
@@ -2493,50 +2580,73 @@ function finishAiSession() {
 
     state.skillProfile = profile;
     saveSkillProfile();
+    if (session) session.completed = true;
+
+    // --- Adaptive CTA ---
+    if (btn) {
+      btn.disabled = false;
+
+            if (percent >= 80) {
+        btn.innerText = 'Next step';
+        btn.onclick = () => {
+          const close = window.closeAiModal || closeAiModal;
+          if (typeof close === 'function') close();
+
+          // Show the Units steps view for the current selection
+          const hub = document.getElementById('challengeHubContainer');
+          if (hub && typeof renderUnitsView === 'function') {
+            renderUnitsView(hub);
+          } else {
+            history.pushState({}, '', '/units');
+            const go = window.router || router;
+            if (typeof go === 'function') go();
+          }
+        };
+      } else {
+
+
+        btn.innerText = 'Try again';
+        btn.onclick = () => {
+          const sel   = state.selections || {};
+          const subj  = sel.subject || 'maths';
+          const prof  = state.skillProfile || {};
+          const nextDiff =
+            (prof[subj] && prof[subj].baselineLevel) ||
+            getBaselineLevelForSubject(subj);
+
+          state.aiSession = {
+            topic: sel.topic || (state.aiSession && state.aiSession.topic) || 'general',
+            level: nextDiff,
+            difficulty: nextDiff,
+            total: 5,
+            asked: 0,
+            correct: 0
+          };
+
+          if (input) {
+            input.disabled = false;
+            input.value = '';
+          }
+          if (answerCard) {
+            answerCard.hidden = false;
+          }
+          if (feedback) {
+            feedback.hidden = true;
+            feedback.textContent = '';
+            feedback.classList.remove('good', 'bad');
+          }
+
+          updateAiProgressChip();
+          callBackend();
+        };
+      }
+    }
   }
 
   // Keep the progress bar / chip in sync
   updateAiProgressChip();
-
-  // Wire up "Play Again" – difficulty uses updated baseline
-  if (btn) {
-    btn.innerText = 'Play Again';
-    btn.disabled = false;
-    btn.onclick = () => {
-      const sel   = state.selections || {};
-      const subj  = sel.subject || 'maths';
-      const prof  = state.skillProfile || {};
-      const nextDiff =
-        (prof[subj] && prof[subj].baselineLevel) ||
-        getBaselineLevelForSubject(subj);
-
-      state.aiSession = {
-        topic: sel.topic || (state.aiSession && state.aiSession.topic) || 'general',
-        level: nextDiff,
-        difficulty: nextDiff,
-        total: 5,
-        asked: 0,
-        correct: 0
-      };
-
-      if (input) {
-        input.disabled = false;
-        input.value = '';
-      }
-      if (answerCard) {
-        answerCard.hidden = false;
-      }
-      if (feedback) {
-        feedback.hidden = true;
-        feedback.textContent = '';
-        feedback.classList.remove('good', 'bad');
-      }
-
-      updateAiProgressChip();
-      callBackend();
-    };
-  }
 }
+
 
 
 // Helper to update UI and Save
@@ -4679,25 +4789,26 @@ function hasAnyProfileProgress(profile) {
 
 function renderProfilePathSection(profile) {
   const hasProgress = hasAnyProfileProgress(profile);
-  const teaser = `
-    <div class="selection-grid subject-grid pf-path-grid">
-      <a class="selection-card large-card" href="/units" data-key="english">
-        <span class="selection-card-title" data-emoji="✨">English</span>
-      </a>
-      <a class="selection-card large-card" href="/units" data-key="maths">
-        <span class="selection-card-title" data-emoji="🔢">Maths</span>
-      </a>
-    </div>
-  `;
+
+  // Empty state shown when the user has never started a path
   const empty = `
     <div class="pf-path-empty">
       <div class="pf-path-empty-title">${PROFILE_COPY.pathEmpty}</div>
       <div class="pf-path-empty-cta">
-        <button class="btn btn-primary" data-action="continue">${PROFILE_COPY.pathContinue}</button>
-        <a href="/units" class="btn btn-secondary" data-action="view-all">${PROFILE_COPY.pathViewAll}</a>
+        <button class="btn btn-primary" data-action="continue">
+          ${PROFILE_COPY.pathContinue}
+        </button>
       </div>
     </div>
   `;
+
+  // When there *is* progress, just show a short summary + continue button
+  const summary = `
+    <div class="pf-path-summary">
+      <p class="subtitle">${PROFILE_COPY.pathSubtitle}</p>
+    </div>
+  `;
+
   return `
     <section class="section pf-path" aria-labelledby="pf-path-title">
       <div class="pf-path-head">
@@ -4706,16 +4817,20 @@ function renderProfilePathSection(profile) {
           <p class="subtitle">${PROFILE_COPY.pathSubtitle}</p>
         </div>
         <div class="pf-path-actions">
-          <a href="/units" class="btn btn-secondary" data-action="view-all">${PROFILE_COPY.pathViewAll}</a>
-          <button class="btn btn-primary" data-action="continue">${PROFILE_COPY.pathContinue}</button>
+          <button class="btn btn-primary" data-action="continue">
+            ${PROFILE_COPY.pathContinue}
+          </button>
         </div>
       </div>
       <div class="pf-path-body">
-        ${hasProgress ? teaser : empty}
+        ${hasProgress ? summary : empty}
       </div>
     </section>
   `;
 }
+
+
+
 
 function injectUnitsDesktopHeader(path) {
   if (!app) return;

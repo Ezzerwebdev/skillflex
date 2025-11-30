@@ -46,8 +46,9 @@
   --unit-edge-hsl: 150 70% 64%;
 }
 
-/* LIGHT palette */
-:root[data-theme="light"] {
+/* LIGHT palette (also default for system; dark override below) */
+:root[data-theme="light"],
+:root[data-theme="system"] {
   color-scheme: light;
 
   --bg-hsl:        264 71% 97%;
@@ -93,6 +94,32 @@
 
   --unit-bg-hsl:   160 22% 16%;
   --unit-glow-rgb: 34 197 94;
+}
+
+/* System palette follows OS preference: apply dark tokens when OS is dark */
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] {
+    color-scheme: dark;
+
+    --bg-hsl:        222 53% 8%;
+    --surface-1-hsl: 222 40% 12%;
+    --surface-2-hsl: 222 36% 16%;
+    --surface-3-hsl: 222 30% 20%;
+
+    --text-hsl:      210 40% 92%;
+    --text-soft-hsl: 215 18% 70%;
+    --border-hsl:    218 22% 28%;
+    --muted-hsl:     220 16% 22%;
+
+    --overlay: rgba(2,6,23,.65);
+
+    --brand-light: hsl(var(--bg-hsl));
+    --text-dark:   hsl(var(--text-hsl));
+    --text-light:  #ffffff;
+
+    --unit-bg-hsl:   160 22% 16%;
+    --unit-glow-rgb: 34 197 94;
+  }
 }
 
 
@@ -1126,6 +1153,10 @@ body[data-theme="dark"] .option-card.sel {
 .ai-feedback.good { color: #4ade80; }
 .ai-feedback.bad  { color: #f87171; }
 
+/* Light mode: bump contrast on AI feedback text */
+:root:not([data-theme="dark"]) .ai-feedback.good { color: #16a34a; }
+:root:not([data-theme="dark"]) .ai-feedback.bad  { color: #dc2626; }
+
 .ai-modal-footer .ai-primary-btn {
   margin-left: auto;
 }
@@ -1271,9 +1302,14 @@ body[data-theme="dark"] .option-card.sel {
 /* =======================
    Learning Path (refreshed)
    ======================= */
-.units-view { padding: 1rem 0 90px; font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
+
+.units-view {
+  padding: 1rem 0 90px;
+  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
 .units-header {
-  max-width: 960px;
+  max-width: 1120px;                 /* was 960px – match card width */
   margin: 1.5rem auto 0;
   padding: 1.75rem 1.75rem 1.25rem;
   border-radius: 28px;
@@ -1285,6 +1321,7 @@ body[data-theme="dark"] .option-card.sel {
   isolation: isolate;
   border: 1px solid rgba(100, 116, 139, 0.35);
 }
+
 .units-header::before,
 .units-header::after {
   content: "";
@@ -1294,13 +1331,28 @@ body[data-theme="dark"] .option-card.sel {
   pointer-events: none;
   opacity: 0.7;
 }
+
+/* 🔵 no more green glow – use brand hues */
 .units-header::before {
-  background: radial-gradient(circle at 12% 10%, rgba(34, 197, 94, 0.25), transparent 40%);
+  background: radial-gradient(
+    circle at 12% 10%,
+    color-mix(in srgb, var(--brand-primary) 35%, transparent),
+    transparent 42%
+  );
 }
 .units-header::after {
-  background: radial-gradient(circle at 88% 90%, rgba(56, 189, 248, 0.25), transparent 42%);
+  background: radial-gradient(
+    circle at 88% 90%,
+    color-mix(in srgb, var(--brand-secondary) 35%, transparent),
+    transparent 46%
+  );
 }
-.units-header-main { display: flex; justify-content: space-between; gap: 1.5rem; }
+
+.units-header-main {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
 .units-header-left {
   flex: 1.4;
   display: flex;
@@ -1320,19 +1372,53 @@ body[data-theme="dark"] .option-card.sel {
   color: rgba(255, 255, 255, 0.92);
   font-weight: 600;
 }
-
 :root[data-theme="light"] .units-header-left > p:last-of-type {
   color: rgba(15, 23, 42, 0.82);   /* dark ink on light bg */
   font-weight: 600;
 }
 
+.units-header-right {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
 
-.units-header-right { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
-.units-header h1 { font-family: 'Fredoka', system-ui, sans-serif; color: #e2e8f0; font-size: 2rem; margin: 0; }
-.units-header p { color: #cbd5e1; margin: 0; font-size: 0.98rem; }
-.units-header .header-pill { display: inline-block; padding: 0.2rem 0.8rem; border-radius: 999px; background: rgba(255,255,255,0.08); font-weight: 700; font-size: 0.85rem; color: #a5b4fc; }
+/* ✨ header text colours theme-aware */
+.units-header h1 {
+  font-family: 'Fredoka', system-ui, sans-serif;
+  font-size: 2rem;
+  margin: 0;
+}
+:root[data-theme="dark"]  .units-header h1 { color: var(--text-light); }
+:root[data-theme="light"] .units-header h1 { color: var(--ink); }
 
-.units-controls { margin-top: 0.6rem; display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 0.7rem; align-items: center; }
+.units-header p {
+  margin: 0;
+  font-size: 0.98rem;
+}
+:root[data-theme="dark"]  .units-header p { color: #cbd5e1; }
+:root[data-theme="light"] .units-header p { color: var(--ink-soft); }
+
+.units-header .header-pill {
+  display: inline-block;
+  padding: 0.2rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #a5b4fc;
+}
+
+.units-controls {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.7rem;
+  align-items: center;
+}
 
 /* ===========================
    Subject + Year pills
@@ -1370,7 +1456,6 @@ body[data-theme="dark"] .option-card.sel {
     box-shadow 150ms ease;
 }
 
-
 .units-subject-select .subject-pill span:first-child {
   font-size: 1rem; /* emoji */
 }
@@ -1381,13 +1466,12 @@ body[data-theme="dark"] .option-card.sel {
   border-color: rgba(148, 163, 184, 0.7);
   color: rgba(226, 232, 240, 0.9);
 }
-
 .units-subject-select .subject-pill:not(.active):hover {
   background: rgba(15, 23, 42, 1);
   border-color: rgba(148, 163, 184, 0.9);
 }
 
-/* 🔢 Maths – use your maths brand colour */
+/* 🔢 Maths / English – brand gradients */
 .units-subject-select .subject-pill.active[data-subject="maths"] {
   background: linear-gradient(120deg, var(--brand-maths), var(--brand-secondary));
   color: var(--text-light);
@@ -1397,20 +1481,20 @@ body[data-theme="dark"] .option-card.sel {
   color: var(--text-light);
 }
 
-
 .units-year-tabs {
   display: flex;
-  gap: 0.6rem;
+  gap: 0.75rem;          /* more breathing room */
   flex-wrap: wrap;
 }
+
 .units-year-tab {
-  min-width: 2.6rem;
-  padding: 0.45rem 1.1rem;
-  min-height: 38px;
+  min-width: 3rem;       /* bigger target */
+  padding: 0.55rem 1.25rem;
+  min-height: 40px;
   border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, 0.75);
   background: rgba(15, 23, 42, 0.9);
-  font-size: 0.9rem;
+  font-size: 1rem;       /* was 0.9rem */
   cursor: pointer;
   color: #e2e8f0;
   font-weight: 500;
@@ -1443,16 +1527,31 @@ body[data-theme="dark"] .option-card.sel {
   }
 }
 
-
-.units-stats { display: inline-flex; gap: 0.35rem; padding: 0.4rem 0.6rem; border-radius: 999px; background: rgba(12, 18, 33, 0.9); border: 1px solid rgba(100,116,139,0.35); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04); }
-.units-stats-pill { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; border-radius: 999px; background: rgba(255,255,255,0.08); font-weight: 800; color: #e2e8f0; font-variant-numeric: tabular-nums; }
+.units-stats {
+  display: inline-flex;
+  gap: 0.35rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(12, 18, 33, 0.9);
+  border: 1px solid rgba(100,116,139,0.35);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+.units-stats-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  font-weight: 800;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
 .units-stat-num { font-weight: 800; letter-spacing: .2px; }
 .units-stat-icon {
   font-size: 1.05rem;
   line-height: 1;
 }
-
-
 
 /* Back to overview – slimmer pill */
 .units-back-link,
@@ -1460,9 +1559,9 @@ body[data-theme="dark"] .option-card.sel {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.35rem 0.9rem;     /* was chunkier */
+  padding: 0.35rem 0.9rem;
   border-radius: 999px;
-  font-size: 0.85rem;          /* smaller text */
+  font-size: 0.9rem;               /* tiny bump up */
   font-weight: 600;
   border: 1px solid rgba(15, 23, 42, 0.35);
   background: rgba(15, 23, 42, 0.92);
@@ -1486,15 +1585,16 @@ body[data-theme="dark"] .option-card.sel {
 }
 
 
+
 .learning-path {
   position: relative;
-  max-width: 960px;
+  max-width: 1120px;        /* was 960px – match header */
   width: 100%;
   margin: 2rem auto 3rem;
   padding: 1.5rem 0 0;
   display: flex;
   flex-direction: column;
-  gap: 3.75rem;       /* ⬅ more breathing room between cards */
+  gap: 3.75rem;
   align-items: center;
 }
 
@@ -1503,6 +1603,7 @@ body[data-theme="dark"] .option-card.sel {
   content: none;
 }
 
+/* === Unit cards ======================================================= */
 
 .unit-node {
   position: relative;
@@ -1516,25 +1617,35 @@ body[data-theme="dark"] .option-card.sel {
   border: 1px solid var(--border);
   text-align: left;
   cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.2s ease, border-color 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.2s ease,
+    border-color 0.18s ease;
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.7);
   background: linear-gradient(145deg, var(--surface-2), var(--surface-3));
   overflow: visible;
   backdrop-filter: blur(4px);
 }
 
+/* 🔵 Timeline dot – brand gradient, no green */
 .unit-node::before {
   content: "";
   position: absolute;
   left: 50%;
   top: 12px;
-  transform: translate(-50%, -50%); /* centered on vertical path */
+  transform: translate(-50%, -50%);
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #10b981;
-  border: 3px solid #0b162a;
-  box-shadow: 0 0 22px rgba(34, 197, 94, 0.8);
+  background: linear-gradient(
+    135deg,
+    var(--brand-primary),
+    var(--brand-secondary)
+  );
+  border: 3px solid var(--surface-1);
+  box-shadow:
+    0 0 20px rgba(129, 140, 248, 0.8),
+    0 0 1px rgba(15, 23, 42, 0.9);
   z-index: 0;
 }
 
@@ -1553,8 +1664,8 @@ body[data-theme="dark"] .option-card.sel {
 }
 
 .unit-node.locked::before {
-  background: #1f2937;
-  border-color: #334155;
+  background: var(--grey-200);
+  border-color: var(--grey-400);
   box-shadow: none;
 }
 
@@ -1572,69 +1683,107 @@ body[data-theme="dark"] .option-card.sel {
   }
 }
 
+/* === Icon + text ====================================================== */
+
 .unit-inner {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;    /* left-align text block */
+  align-items: flex-start;
   gap: 0.6rem;
-  max-width: 70%;             /* leave space on the right for the button/track */
+  max-width: 70%;   /* leaves room on the right for the CTA */
 }
 
+/* Icon bubble – brand gradient instead of green */
 .unit-icon {
   width: 68px;
   height: 68px;
   margin: 0 0 0.6rem 0;
   border-radius: 20px;
-  background: rgba(15, 23, 42, 0.9);
+  background: linear-gradient(
+    135deg,
+    var(--brand-primary),
+    var(--brand-secondary)
+  );
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2.6rem;
+  color: #ffffff;
+  box-shadow:
+    0 16px 32px rgba(15, 23, 42, 0.55),
+    0 0 24px rgba(129, 140, 248, 0.75);
 }
 
-/* ⬇️ SMALL TYPE + CONTRAST BOOSTS */
+/* Type + contrast */
 .unit-title {
   font-weight: 800;
-  font-size: 1.3rem;    /* was 1.3rem */
+  font-size: 1.3rem;
   line-height: 1.3;
-  color: #e5e7eb;
   margin-bottom: 0.25rem;
 }
 
 .unit-desc  {
-  font-size: 1.07rem;     /* was 1.02rem */
+  font-size: 1.07rem;
   line-height: 1.55;
   max-width: 40rem;
-  color: #d3d9e5;         /* slightly brighter than #cbd5e1 */
   opacity: 0.95;
 }
 
-:root[data-theme="dark"]  .unit-title { color: #e5e7eb; }
-:root[data-theme="dark"]  .unit-desc  { color: #d3d9e5; }
+/* theme-aware colours */
+:root[data-theme="dark"]  .unit-title { color: var(--text-light); }
+:root[data-theme="dark"]  .unit-desc  { color: var(--ink-soft);  opacity: 1; }
+
 :root[data-theme="light"] .unit-title { color: var(--ink); }
 :root[data-theme="light"] .unit-desc  { color: var(--ink-soft); }
 
-/* ⬇️ “Tap to start” pill – chunkier + better aligned */
+/* === “Tap to start” pill – matches step pill ========================== */
+
 .unit-badge {
   position: absolute;
-  top: 18px;                 /* was 12px */
+  top: 18px;
   right: 22px;
-  padding: 0.55rem 1.25rem;  /* was 0.45rem 1.1rem */
+  padding: 0.55rem 1.25rem;
   border-radius: 999px;
-  font-size: 0.95rem;        /* was 0.85rem */
+  font-size: 0.95rem;
   font-weight: 700;
-  background: var(--unit-edge);
-  color: var(--text-dark);
-  box-shadow: 0 10px 26px var(--unit-glow); /* slightly stronger glow */
+  white-space: nowrap;
+
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(var(--surface-1), var(--surface-1)),
+    linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+
+  color: var(--brand-secondary);
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.18);
+
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    color 0.12s ease;
 }
 
-.unit-badge.coming {
-  background: var(--muted);
+.unit-badge:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 32px rgba(15, 23, 42, 0.28),
+    0 0 16px rgba(129, 140, 248, 0.65);
   color: var(--ink);
 }
 
+/* neutral state for "Coming soon" or locked CTA */
+.unit-badge.coming {
+  background-image: none;
+  background: var(--muted);
+  border-color: transparent;
+  color: var(--ink);
+  box-shadow: none;
+  cursor: default;
+}
 
-
+/* Layout tweaks reused from before */
 .units-header-main { align-items: flex-start; }
 @media (max-width: 768px) {
   .units-header { padding: 1.4rem 1.2rem; }
@@ -1654,6 +1803,7 @@ body[data-theme="dark"] .option-card.sel {
   .unit-title { font-size: 1.12rem; }
   .unit-desc { font-size: 0.95rem; }
 }
+
 /* =========================================================
    Placement / Starting Level Overlay
    Make it feel like the full-screen lesson card
@@ -4858,3 +5008,208 @@ body.kids.logged-in.units-view[data-route="/units"] .units-view {
   max-width: none !important;
 }
 
+
+
+
+/* === Learning Path — make unit cards match /units steps view === */
+
+/* 1. Card container -------------------------------------------------------- */
+
+.learning-path .unit-node {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+
+  /* slightly larger than step cards */
+  border-radius: 28px;
+  padding: 1.9rem 2.2rem 1.8rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  border: 1px solid var(--border);
+  text-align: left;
+  cursor: pointer;
+
+  /* match steps: surface-2/3 gradient */
+  background: linear-gradient(
+    145deg,
+    var(--surface-2),
+    var(--surface-3)
+  );
+
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.55),
+    0 0 26px var(--unit-glow);
+
+  overflow: visible;
+  backdrop-filter: blur(4px);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.learning-path .unit-node:hover:not(.locked) {
+  transform: translateY(-2px);
+  border-color: var(--brand-secondary);
+  box-shadow:
+    0 22px 52px rgba(15, 23, 42, 0.7),
+    0 0 30px var(--unit-glow);
+}
+
+.learning-path .unit-node.locked {
+  opacity: 0.7;
+  filter: grayscale(0.1);
+  cursor: default;
+}
+
+/* timeline dot above each card */
+.learning-path .unit-node::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 12px;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    var(--brand-primary),
+    var(--brand-secondary)
+  );
+  border: 3px solid var(--surface-1);
+
+  box-shadow:
+    0 0 20px rgba(129, 140, 248, 0.8),
+    0 0 1px rgba(15, 23, 42, 0.9);
+
+  z-index: 0;
+}
+
+.learning-path .unit-node.locked::before {
+  background: var(--grey-200);
+  border-color: var(--grey-400);
+  box-shadow: none;
+}
+
+
+/* 2. Icon bubble ----------------------------------------------------------- */
+
+.learning-path .unit-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 0 0.7rem 0;
+  border-radius: 22px;
+
+  background: linear-gradient(
+    135deg,
+    var(--brand-primary),
+    var(--brand-secondary)
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 2.6rem;
+  color: #ffffff;
+
+  box-shadow:
+    0 16px 32px rgba(15, 23, 42, 0.55),
+    0 0 24px rgba(129, 140, 248, 0.75);
+}
+
+
+/* 3. Text block inside card ----------------------------------------------- */
+
+.learning-path .unit-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  max-width: 70%; /* leaves room on the right for CTA */
+}
+
+/* use main text colour for accessibility, tied to theme */
+.learning-path .unit-title {
+  font-weight: 800;
+  font-size: 1.3rem;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+/* slightly softer but still readable in dark mode */
+.learning-path .unit-desc {
+  font-size: 1.05rem;
+  line-height: 1.55;
+  max-width: 40rem;
+  color: var(--ink-soft);
+  opacity: 0.98;
+}
+
+
+/* 4. “Tap to start” badge (same feel as steps pill) ----------------------- */
+
+.learning-path .unit-badge {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+
+  padding: 0.55rem 1.35rem;
+  border-radius: 999px;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+  white-space: nowrap;
+
+  /* solid brand gradient pill, no green */
+  border: 1px solid transparent;
+  background: linear-gradient(
+    135deg,
+    var(--brand-primary),
+    var(--brand-secondary)
+  );
+  color: #ffffff;
+
+  box-shadow:
+    0 10px 26px rgba(15, 23, 42, 0.24),
+    0 0 16px rgba(129, 140, 248, 0.65);
+
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    opacity 0.12s ease;
+}
+
+.learning-path .unit-badge:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 32px rgba(15, 23, 42, 0.3),
+    0 0 20px rgba(129, 140, 248, 0.85);
+}
+
+/* neutral state for "Coming soon" or locked CTA */
+.learning-path .unit-badge.coming {
+  background: var(--muted);
+  border-color: transparent;
+  color: var(--ink);
+  box-shadow: none;
+  cursor: default;
+}
+
+
+/* 5. Make Learning Path width feel closer to /units ----------------------- */
+
+@media (min-width: 1280px) {
+  .learning-path {
+    max-width: 1120px; /* tune 1120–1180 if you want it slightly wider/narrower */
+  }
+}

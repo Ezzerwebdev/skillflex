@@ -4,149 +4,292 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>SkillFlex Kids</title>
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400..700&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400..700&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Ctext y='50' font-size='48'%3E🎯%3C/text%3E%3C/svg%3E">
+
+  <!-- CORE STYLES -->
   <link rel="stylesheet" href="/ui.css?v=kids12">
   <link rel="stylesheet" href="/unit-steps.css?v=1">
+  <!-- NEW HOMEPAGE STYLES -->
+  <link rel="stylesheet" href="games-home.css">
 
+  <!-- ICONS FOR NEW HERO -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body class="kids">
-   <header class="hero" role="banner">
-<div class="logo" aria-label="SkillFlex Kids home">🌟 SkillFlex</div>
-<nav class="nav" aria-label="Primary">
-<div class="nav-stats" aria-live="polite">
-<span id="coins" title="Coins earned">🪙 0</span>
-<span id="streak" title="Daily streak">🔥 0</span>
-</div>
+  <header class="sf-header" role="banner">
+  <div class="sf-container sf-nav-inner">
+    <!-- Home link – keeps id="btnHome" so JS can still use it -->
+    <a href="/" id="btnHome" class="sf-logo" data-link aria-label="SkillFlex Kids home">
+     <img
+        src="medias/images/games_skillflex.svg"
+       alt="SkillFlex Games"
+        class="sf-logo-icon"
+       
+      />
+      SkillFlex <span>Games</span>
+    </a>
 
+    <!-- Main nav links -->
+    <nav id="marketing-nav" class="sf-nav-links" aria-label="Primary">
+      <a href="#how-it-works">How it works</a>
+      <a href="#rewards">Rewards</a>
+      <a href="https://skillflex.education" class="external">
+        For Schools <i data-lucide="external-link" size="14"></i>
+      </a>
 
-<div class="nav-actions">
-  <!-- THEME TOGGLE -->
-  <button id="themeToggle" class="btn btn-secondary" aria-pressed="false" aria-label="Toggle dark mode">
-    <span id="themeIcon">🌙</span>
-  </button>
+      <!-- Stats (JS updates these) -->
+    </nav>
 
-  <div class="shop-anchor">
-    <button id="shop-button" class="btn btn-secondary" type="button"
-            aria-haspopup="dialog" aria-expanded="false">Shop</button>
-    <div id="shopHover" role="dialog" aria-label="Shop"></div>
+    <!-- Right-hand actions -->
+    <div class="sf-nav-actions">
+      <!-- Theme toggle (same IDs) -->
+      <button id="themeToggle"
+              class="sf-icon-btn"
+              aria-pressed="false"
+              aria-label="Toggle dark mode">
+        <span id="themeIcon">🌙</span>
+      </button>
+
+      <!-- Shop (same structure/IDs) -->
+      <div class="shop-anchor">
+        <button id="shop-button"
+                class="sf-btn sf-btn-ghost"
+                type="button"
+                aria-haspopup="dialog"
+                aria-expanded="false">
+          Shop
+        </button>
+        <div id="shopHover" role="dialog" aria-label="Shop"></div>
+      </div>
+
+      <!-- Auth state pill + profile -->
+      <span id="auth-pill" class="sf-tag-pill" hidden style="margin:0;">Signed in ✅</span>
+      <a id="profile-button"
+         class="sf-btn sf-btn-ghost"
+         href="/profile"
+         data-link
+         hidden>
+        Profile
+      </a>
+
+      <!-- Login buttons -->
+      <button id="login-button"
+              class="sf-btn sf-btn-ghost"
+              data-action="login">
+        Log in
+      </button>
+      <button class="sf-btn sf-btn-primary"
+              data-action="login-email"
+              hidden>
+        Log in with Email
+      </button>
+
+      <!-- Logout button (correct id) -->
+      <button id="logout-button"
+              class="sf-btn sf-btn-ghost"
+              hidden
+              type="button">
+        Logout
+      </button>
+
+      <!-- Mobile menu icon (visual only) -->
+      <div class="mobile-toggle">
+        <i data-lucide="menu"></i>
+      </div>
+    </div>
   </div>
-
-  <a href="/" id="btnHome" class="btn ghost" aria-label="Go to Home">Home</a>
-
-  <!-- NEW: Profile -->
-  <a id="profile-button" class="btn ghost" href="/profile" data-link>Profile</a>
-
-  <!-- Auth state: these are toggled by JS; never visible at the same time -->
-  <span id="auth-pill" class="pill success" hidden aria-live="polite">Signed in ✅</span>
-
-  <!-- Guest only (two options in a popup) -->
-  <a id="login-button" class="btn btn-primary" data-action="login" hidden>Save my coins! 🪙</a>
-  <button class="btn" data-action="login-email" hidden>Log in with Email</button>
-
-  <!-- Logged-in only (button triggers logout()) -->
-  <button id="python3 -m http.server 8080" class="btn btn-secondary" hidden type="button">Logout</button>
-</div>
-
-</nav>
 </header>
 
+
+  <!-- SPA ROOT (unchanged) -->
   <main id="app">
-      <div class="loading-fullscreen">
-          <p>🚀 Liftoff! Getting your adventure ready...</p>
-      </div>
+    <div class="loading-fullscreen">
+      <p>🚀 Liftoff! Getting your adventure ready...</p>
+    </div>
   </main>
 
-  <!-- New placeholder for modals and pop-ups -->
+  <!-- Modals -->
   <div id="modal-host"></div>
 
   <footer class="foot">
     <p>Made with 💜 by SkillFlex</p>
   </footer>
 
+  <!-- NEW HOMEPAGE TEMPLATE (replaces the old Learn-by-playing hero) -->
   <template id="homeTpl">
-  <!-- Kid-friendly hero -->
-  <section class="home-hero" aria-labelledby="home-title">
-  <!-- (Shapes removed) -->
+    <!-- GUEST VIEW: New hero + bento grid -->
+    <div class="home-hero">
+      <!-- HERO -->
+      <section class="sf-hero" aria-labelledby="home-title">
+        <div class="sf-glow-blob"></div>
+        <div class="sf-container sf-hero-grid">
+          <div class="sf-hero-content">
+            <div class="sf-tag-pill">
+              <i data-lucide="sparkles" size="14"></i> Free for Primary · Optional Sync
+            </div>
+            <h1 id="home-title" class="sf-hero-title">
+              Level up your Maths &amp; English in 5 minutes.
+            </h1>
+            <p class="sf-hero-sub">
+              Master core curriculum topics through quick, addictive mini-games.
+            </p>
+            <div class="sf-hero-ctas">
+              <button class="sf-btn sf-btn-primary" data-action="login">Get Started</button>
+              <button class="sf-btn sf-btn-ghost" data-action="login">Log in</button>
+            </div>
+          </div>
 
-  <h1 id="home-title">Learn by playing</h1>
-  <div class="h1-underline"></div>
+          <div class="sf-hero-visual">
+            <div class="sf-hero-visual-wrapper">
+              <img src="/medias/images/hero-characters.png"
+                   alt="SkillFlex Characters"
+                   class="sf-character-layer"
+                   onerror="this.style.display='none'">
+              <div class="sf-glass-card">
+                <div class="sf-quest-header">Daily Quest</div>
+                <div class="sf-quest-content">
+                  <strong>💥 Join the 99 Club Challenge!</strong>
+                </div>
+                <div class="sf-xp-reward-box">+15 XP Reward 🚀</div>
+                <button class="sf-btn sf-btn-full" data-action="login">Start Challenge</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <p class="home-sub">Quick English & Maths mini-challenges for Years 3–5. No sign-in needed.</p>
-
-  <ul class="how-it-works" aria-label="How it works">
-    <li><span class="step-dot">1</span> Pick a subject</li>
-    <li><span class="step-dot">2</span> Choose your class</li>
-    <li><span class="step-dot">3</span> Play a 2–3 min challenge</li>
-    <li><span class="step-dot">4</span> Earn coins & build a streak</li>
-  </ul>
-
- 
-
-</section>
-
-  <!-- App will render the chooser/grid here -->
-  <!-- 2-column home scaffold: left = main path, right = motivation rail -->
-<div id="hubGrid">
-  <div id="hubMain">
-    <!-- Big friendly "Continue" card (hidden until JS fills it) -->
-    <section id="continueCard" class="section continue-card" hidden>
-      <div class="activity-list-header">
-        <h2>Ready to continue?</h2>
-      </div>
-      <div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center">
-        <a id="continueBtn" class="btn btn-primary" data-link>Continue</a>
-        <small id="continueMeta" class="pill"></small>
-      </div>
-    </section>
-
-    <!-- Units/lessons hub goes here (rendered by units.js) -->
-    <div id="challengeHubContainer" aria-live="polite"></div>
+      <!-- INSIDE THE APP (Bento Grid) -->
+     <section class="sf-container">
+  <div class="sf-section-header">
+    <span class="sf-kicker">Inside the App</span>
+    <h2>Sneak peek at the action.</h2>
   </div>
 
-  <!-- Right rail (desktop); JS fills this -->
-  <aside id="motivationRail" aria-label="Your goals"></aside>
-</div>
+  <div class="sf-bento-grid">
 
+    <!-- LARGE TILE — Interactive Quizzes -->
+    <div class="sf-bento-item sf-bento-large">
+      <img
+        src="medias/images/quiz-interface-light.png"
+        data-img-light="medias/images/quiz-interface-light.png"
+        data-img-dark="medias/images/quiz-interface-dark.png"
+        class="sf-bento-img js-theme-img"
+        alt="Interactive Quizzes">
+      <div class="sf-bento-overlay">
+        <i data-lucide="brain-circuit" size="16"></i> Interactive Quizzes
+      </div>
+    </div>
 
-  <!-- Gentle, optional info for adults/teachers -->
-  <div class="grownups section" aria-labelledby="grownups-title">
-  <p id="grownups-title"><strong>For grown-ups:</strong> Tutors can offer 1:1 or group sessions on SkillFlex. Course publishing opens soon.</p>
-  <a class="btn btn-primary" href="[[TUTOR_FORM_URL]]" target="_blank" rel="noopener">
-    Teach or Tutor on SkillFlex
-  </a>
-</div>
-<div class="trust-strip">
-  <span class="dots" aria-hidden="true"></span>
-  <span>Trusted by schools & families</span>
-</div>
+    <!-- RIGHT STACK -->
+    <div class="sf-bento-stack">
 
-
-</template>
-
-
-  <template id="lessonTpl">
-    <div class="lesson-wrapper">
-        <div class="lesson-header">
-            <button id="btnBack" class="btn-icon">❌</button>
-            <h1 id="lessonTitle" class="lesson-title-text">Loading Lesson...</h1>
-            <div id="progressBar" class="progress-bar">
-                <div id="progressFill" class="progress-fill"></div>
-            </div>
-            <div class="hearts">❤️ 5</div>
+      <!-- Instant Feedback -->
+      <div class="sf-bento-item sf-bento-small">
+        <img
+          src="medias/images/instant-feedback-light.png"
+          data-img-light="medias/images/instant-feedback-light.png"
+          data-img-dark="medias/images/instant-feedback-dark.png"
+          class="sf-bento-img js-theme-img"
+          alt="Instant Feedback">
+        <div class="sf-bento-overlay">
+          <i data-lucide="check-circle" size="16"></i> Instant Feedback
         </div>
-        <div id="stepHost" class="step-host"></div>
-        <div id="feedback" class="feedback-toast" hidden></div>
-        <footer class="lesson-footer">
-            <button id="btnNext" class="btn-check" disabled>Check</button>
-        </footer>
+      </div>
+
+      <!-- Visual Progress -->
+      <div class="sf-bento-item sf-bento-small">
+        <img
+          src="medias/images/track-progress-light.png"
+          data-img-light="medias/images/track-progress-light.png"
+          data-img-dark="medias/images/track-progress-dark.png"
+          class="sf-bento-img js-theme-img"
+          alt="Visual Progress">
+        <div class="sf-bento-overlay">
+          <i data-lucide="bar-chart-2" size="16"></i> Visual Progress
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+    </div>
+
+    <!-- LOGGED-IN VIEW: same hub structure as before (used by JS) -->
+    <div id="hubGrid">
+      <div id="hubMain">
+        <!-- Continue card (JS fills/toggles this) -->
+        <section id="continueCard" class="section continue-card" hidden>
+          <div class="activity-list-header">
+            <h2>Ready to continue?</h2>
+          </div>
+          <div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center">
+            <a id="continueBtn" class="btn btn-primary" data-link>Continue</a>
+            <small id="continueMeta" class="pill"></small>
+          </div>
+        </section>
+
+        <!-- Units/lessons hub goes here -->
+        <div id="challengeHubContainer" aria-live="polite"></div>
+      </div>
+
+      <!-- Right rail (desktop) -->
+      <aside id="motivationRail" aria-label="Your goals"></aside>
+    </div>
+
+    <!-- Grown-ups section (kept as before) -->
+    <div class="grownups section" aria-labelledby="grownups-title">
+      <p id="grownups-title">
+        <strong>For grown-ups:</strong>
+        Tutors can offer 1:1 or group sessions on SkillFlex. Course publishing opens soon.
+      </p>
+      <a class="btn btn-primary" href="[[TUTOR_FORM_URL]]" target="_blank" rel="noopener">
+        Teach or Tutor on SkillFlex
+      </a>
+    </div>
+
+    <div class="trust-strip">
+      <span class="dots" aria-hidden="true"></span>
+      <span>Trusted by schools &amp; families</span>
     </div>
   </template>
-  <div id="panic" style="position:fixed;left:0;right:0;top:56px;background:#fee2e2;color:#991b1b;padding:.6rem 1rem;font-weight:700;font-family:system-ui, sans-serif;display:none;z-index:9999"></div>
-</body>
-  <!-- Put this JUST BEFORE your main.js script -->
+
+  <!-- LESSON TEMPLATE (unchanged, JS relies on this) -->
+  <template id="lessonTpl">
+    <div class="lesson-wrapper">
+      <div class="lesson-header">
+        <button id="btnBack" class="btn-icon">❌</button>
+        <h1 id="lessonTitle" class="lesson-title-text">Loading Lesson...</h1>
+        <div id="progressBar" class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <div class="hearts">❤️ 5</div>
+      </div>
+      <div id="stepHost" class="step-host"></div>
+      <div id="feedback" class="feedback-toast" hidden></div>
+      <footer class="lesson-footer">
+        <button id="btnNext" class="btn-check" disabled>Check</button>
+      </footer>
+    </div>
+  </template>
+
+  <!-- Panic banner (unchanged) -->
+  <div id="panic" style="position:fixed;left:0;right:0;top:56px;background:#fee2e2;color:#991b1b;
+                         padding:.6rem 1rem;font-weight:700;font-family:system-ui,sans-serif;
+                         display:none;z-index:9999"></div>
+
+  <!-- DEV API + ICON INIT -->
   <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
       // Point all /api calls at your real backend
       window.API_BASE = 'https://games.skillflex.education/api';
@@ -154,8 +297,6 @@
     }
   </script>
 
-<script type="module" src="/js/main.js?v=kids13"></script>
-
-
+  <script type="module" src="/js/main.js?v=kids14"></script>
+</body>
 </html>
-

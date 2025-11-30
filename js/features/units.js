@@ -4,7 +4,9 @@
  * Combined subject + year selector, with topic nodes.
  * Internally bridges into the existing Challenge Modal via window.launchUnitAI.
  */
-import { AI_MATHS_Y3 } from './units-curriculum.js';
+import { AI_UNITS } from './units-curriculum.js';
+
+const router = (...args) => (window.router ? window.router(...args) : undefined);
 
 /* ------------------ CURRICULUM MAP (Maths Y1–Y6) ------------------ */
 /* You can extend this with english:{...} later. */
@@ -477,22 +479,42 @@ function getDefaultYear(subject) {
 
 function getUnitProgressIndex(sel) {
   try {
+    const level =
+      sel.level ||
+      (window.state?.skillProfile?.[sel.subject || '']?.baselineLevel) ||
+      'core';
+
+    const normalized = { ...sel, level };
     const keys = (typeof window._unitKeys === 'function')
-      ? window._unitKeys(sel)
-      : { uIdx: `sf_unit_index:${sel.subject || ''}:${sel.year || ''}:${sel.topic || ''}:${sel.level || ''}` };
-    return Number(localStorage.getItem(keys.uIdx) || 0);
+      ? window._unitKeys(normalized)
+      : {
+          uIdx: `sf_unit_index:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`
+        };
+
+    const raw = localStorage.getItem(keys.uIdx);
+    console.log('[units] getUnitProgressIndex', {
+      normalized,
+      idxKey: keys.uIdx,
+      raw
+    });
+
+    return Number(raw || 0);
   } catch {
     return 0;
   }
 }
 
+
+
 function launchUnitAIStep(unitConfig, stepConfig) {
   const appState = window.state || (window.state = {});
-  const baseline = appState?.skillProfile?.maths?.baselineLevel ?? stepConfig.defaultBand ?? 'core';
+  const subj = unitConfig.subject || 'maths';
+  const yr   = unitConfig.year || 3;
+  const baseline = appState?.skillProfile?.[subj]?.baselineLevel ?? stepConfig.defaultBand ?? 'core';
 
   appState.selections = {
-    subject: 'maths',
-    year: 3,
+    subject: subj,
+    year: yr,
     topic: stepConfig.topic,
     aiUnitId: unitConfig.id,
     aiStepId: stepConfig.id,
@@ -511,9 +533,16 @@ function launchUnitAIStep(unitConfig, stepConfig) {
     objectiveId: stepConfig.objectiveId
   };
 
+  const start = async () => {
+  if (typeof window.ensurePlacementBeforeAI === 'function') {
+    await window.ensurePlacementBeforeAI(appState.selections.subject, appState.selections.year);
+  }
   if (typeof window.launchAI === 'function') {
     window.launchAI();
   }
+};
+start();
+
 }
 
 /* --------------------- Main View Renderer ---------------------- */
@@ -539,6 +568,11 @@ export function renderUnitsView(container) {
   };
   let aiUnitDetail = null;
 
+  // If a topic is already selected, pre-load its unit to render the steps view
+  const selTopic = (window.state?.selections || {}).topic;
+  const preUnit = selTopic ? AI_UNITS?.[state.subject]?.[state.year]?.[selTopic] : null;
+  if (preUnit) aiUnitDetail = preUnit;
+
   function syncSelections() {
     try {
       if (!window.state) window.state = {};
@@ -557,181 +591,205 @@ export function renderUnitsView(container) {
       function render() {
     // ---------------- AI inner unit view (Place Value · Y3) ----------------
     if (aiUnitDetail) {
-      const unitCfg = aiUnitDetail;
-      const sel = { subject: "maths", year: 3, topic: "place-value", level: state.level };
+  const unitCfg = aiUnitDetail;
 
-      const progressIdx = getUnitProgressIndex(sel);
-      const totalSteps = (unitCfg.steps || []).length;
-      const completed = Math.min(progressIdx, totalSteps);
-      const progressLabel = `${completed} of ${totalSteps} steps complete`;
-      const progressPercent = totalSteps ? Math.min(100, (completed / totalSteps) * 100) : 0;
+  // Use metadata from the unit config if available
+  const sel = {
+    subject: unitCfg.subject || state.subject || 'maths',
+    year:    unitCfg.year    ?? state.year    ?? 3,
+    topic:   unitCfg.topic   || 'place-value',
+    level:   state.level
+  };
 
-      const streak =
-        Number(window.state?.streak ?? window.state?.streakDays ?? 0);
-      const coins =
-        Number(window.state?.coins ?? window.state?.xp ?? 0);
+  const progressIdx   = getUnitProgressIndex(sel);
+  const totalSteps    = (unitCfg.steps || []).length;
+  const completed     = Math.min(progressIdx, totalSteps);
+  const progressLabel = `${completed} of ${totalSteps} steps complete`;
+  const progressPercent = totalSteps
+    ? Math.min(100, (completed / totalSteps) * 100)
+    : 0;
 
-      const stepsHtml = (unitCfg.steps || []).map((step, idx) => {
-  const isDone   = idx < progressIdx;
-  const isActive = idx === progressIdx;
-  const isLocked = idx > progressIdx;
+  const streak =
+    Number(window.state?.streak ?? window.state?.streakDays ?? 0);
+  const coins =
+    Number(window.state?.coins ?? window.state?.xp ?? 0);
 
-  const stepStateClass = isDone
-    ? "lp-step--done"
-    : isActive
-      ? "lp-step--active"
-      : "lp-step--locked";
+  const stepsHtml = (unitCfg.steps || []).map((step, idx) => {
+    const isDone   = idx < progressIdx;
+    const isActive = idx === progressIdx;
+    const isLocked = idx > progressIdx;
 
-  const dotStateClass = isDone
-    ? "lp-step-dot--done"
-    : isActive
-      ? "lp-step-dot--active"
-      : "lp-step-dot--locked";
+    const stepStateClass = isDone
+      ? "lp-step--done"
+      : isActive
+        ? "lp-step--active"
+        : "lp-step--locked";
 
-  const bandLabel = step.defaultBand || "Core";
-  const qCount    = step.targetQuestions || 5;
-  const metaLine  = `${bandLabel} · ${qCount} questions`;
+    const dotStateClass = isDone
+      ? "lp-step-dot--done"
+      : isActive
+        ? "lp-step-dot--active"
+        : "lp-step-dot--locked";
 
-  const subLine = isDone
-    ? "Completed"
-    : isActive
-      ? "Start here"
-      : "Unlocked after previous step.";
+    const bandLabel = step.defaultBand || "Core";
+    const qCount    = step.targetQuestions || 5;
+    const metaLine  = `${bandLabel} · ${qCount} questions`;
 
-  // Pill logic
-  let pillHtml = "";
-  if (isLocked) {
-    pillHtml = `<button class="pill pill--disabled" disabled>Locked</button>`;
-  } else if (isDone) {
-    pillHtml = `<button class="pill pill--ghost"
-                      data-unit-id="${unitCfg.id}"
-                      data-step-id="${step.id}">
-                  Replay
-                </button>`;
-  } else {
-    pillHtml = `<button class="pill pill--primary"
-                      data-unit-id="${unitCfg.id}"
-                      data-step-id="${step.id}">
-                  Tap to start
-                </button>`;
-  }
+    const subLine = isDone
+      ? "Completed"
+      : isActive
+        ? "Start here"
+        : "Unlocked after previous step.";
 
-  const showLine = idx < (unitCfg.steps.length - 1);
+    let pillHtml = "";
+    if (isLocked) {
+      pillHtml = `<button class="pill pill--disabled" disabled>Locked</button>`;
+    } else if (isDone) {
+      pillHtml = `<button class="pill pill--ghost"
+                        data-unit-id="${unitCfg.id}"
+                        data-step-id="${step.id}">
+                    Replay
+                  </button>`;
+    } else {
+      pillHtml = `<button class="pill pill--primary"
+                        data-unit-id="${unitCfg.id}"
+                        data-step-id="${step.id}">
+                    Tap to start
+                  </button>`;
+    }
 
-  return `
-    <li class="lp-step ${stepStateClass}" 
-        data-unit-id="${unitCfg.id}" 
-        data-step-id="${step.id}">
-      
-      <div class="lp-step-marker">
-        <span class="lp-step-dot ${dotStateClass}">${idx + 1}</span>
-        <span class="lp-step-line" ${showLine ? "" : 'style="opacity:0;"'}></span>
-      </div>
+    const showLine = idx < (unitCfg.steps.length - 1);
 
-      <div class="lp-step-body">
-        <div class="lp-step-header">
-          <h2>Step ${idx + 1} · ${step.label}</h2>
-          ${pillHtml}
+    return `
+      <li class="lp-step ${stepStateClass}" 
+          data-unit-id="${unitCfg.id}" 
+          data-step-id="${step.id}">
+        
+        <div class="lp-step-marker">
+          <span class="lp-step-dot ${dotStateClass}">${idx + 1}</span>
+          <span class="lp-step-line" ${showLine ? "" : 'style="opacity:0;"'}></span>
         </div>
 
-        <p class="lp-step-sub">${metaLine}</p>
-        <p class="lp-step-meta">${subLine}</p>
-      </div>
+        <div class="lp-step-body">
+          <div class="lp-step-header">
+            <h2>Step ${idx + 1} · ${step.label}</h2>
+            ${pillHtml}
+          </div>
 
-    </li>
-  `;
-}).join("");
+          <p class="lp-step-sub">${metaLine}</p>
+          <p class="lp-step-meta">${subLine}</p>
+        </div>
+
+      </li>
+    `;
+  }).join("");
 
 
+  container.innerHTML = `
+    <div class="lp-shell">
+      <div class="lp-inner">
 
-      container.innerHTML = `
-        <div class="lp-shell">
-          <div class="lp-inner">
+        <header class="lp-header">
+          <button class="lp-back" type="button" id="units-inner-back">
+            <span>←</span> Back to Learning Path
+          </button>
 
-            <header class="lp-header">
-              <button class="lp-back" type="button" id="units-inner-back">
-                <span>←</span> Back to Learning Path
-              </button>
+          <div class="lp-header-main">
+            <h1>${unitCfg.title || 'Learning Path'} · Year ${sel.year}</h1>
+            <p>${unitCfg.desc || ''}</p>
 
-              <div class="lp-header-main">
-                <h1>Place Value · Year 3</h1>
-                <p>Numbers to 1,000, number lines and rounding.</p>
-
-                <div class="lp-progress-bar">
-                  <div class="lp-progress-fill" style="width:${progressPercent}%;"></div>
-                </div>
-                <p class="lp-progress-label">${progressLabel}</p>
-              </div>
-
-              <div class="lp-header-stats">
-                <div class="stat-chip">
-                  <span class="icon">🔥</span>
-                  <span>${streak}</span>
-                </div>
-                <div class="stat-chip">
-                  <span class="icon">🪙</span>
-                  <span>${coins}</span>
-                </div>
-                <div class="stat-chip">
-                  Streak ${streak}
-                </div>
-              </div>
-            </header>
-
-            <div class="lp-steps-wrapper">
-              <ol class="lp-steps">
-                ${stepsHtml}
-              </ol>
-
-              <aside class="lp-sidebar">
-                <h3>How this works</h3>
-                <p>
-                  Each step is a short AI-powered practice set. Finish a step with a strong
-                  score to unlock the next one, build your streak and earn coins.
-                </p>
-                <p>
-                  Tap <strong>Jump test</strong> to try skipping ahead if it feels too easy.
-                </p>
-              </aside>
+            <div class="lp-progress-bar">
+              <div class="lp-progress-fill" style="width:${progressPercent}%;"></div>
             </div>
+            <p class="lp-progress-label">${progressLabel}</p>
+          </div>
 
-            <footer class="lp-footer">
-              <button class="pill pill--ghost" type="button">
-                Free practice in this topic
+          <div class="lp-header-stats">
+            <div class="stat-chip stat-chip--highlight">
+              <span class="icon">🔥</span>
+              <span>${streak}</span>
+            </div>
+            <div class="stat-chip stat-chip--highlight">
+              <span class="icon">🪙</span>
+              <span>${coins}</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="lp-steps-wrapper">
+          <ol class="lp-steps">
+            ${stepsHtml}
+          </ol>
+
+          <div class="lp-sidebar-column">
+            <aside class="lp-sidebar">
+              <h3>How this works</h3>
+              <p>
+                Each step is a short AI-powered practice set. Finish a step with a strong
+                score to unlock the next one, build your streak and earn coins.
+              </p>
+              <p>
+                Tap <strong>Jump test</strong> to try skipping ahead if it feels too easy.
+              </p>
+            </aside>
+
+            <aside class="lp-sidebar lp-sidebar--dailyquest">
+              <h3>Daily Quest</h3>
+              <p>💥 Join the <strong>99 Club Challenge!</strong></p>
+              <p>Solve fast times-table questions and earn <strong>bonus Flex XP</strong>.</p>
+
+              <div class="lp-dailyquest-reward">
+                +15 XP Reward 🎉
+              </div>
+
+              <button class="pill pill--primary lp-dailyquest-btn" type="button" id="units-dailyquest-btn">
+                Start Challenge
               </button>
-            </footer>
-
+            </aside>
           </div>
         </div>
-      `;
 
-      // Back button: go back to main units view
-      const backBtn = container.querySelector("#units-inner-back");
-      if (backBtn) {
-        backBtn.addEventListener("click", () => {
-          aiUnitDetail = null;
-          render();
-        });
-      }
+        <footer class="lp-footer">
+          <button class="pill pill--ghost" type="button">
+            Free practice in this topic
+          </button>
+        </footer>
 
-      // Step action pills → launch AI sessions
-      container.querySelectorAll(".pill[data-step-id]").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          if (btn.disabled) return;
-          const unitId = btn.getAttribute("data-unit-id");
-          const stepId = btn.getAttribute("data-step-id");
-          if (!unitId || !stepId) return;
+      </div>
+    </div>
+  `;
 
-          const stepConfig = (unitCfg.steps || []).find((s) => s.id === stepId);
-          if (!stepConfig) return;
+  // Back button: go back to main units view
+  const backBtn = container.querySelector("#units-inner-back");
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      aiUnitDetail = null;
+      if (window.state?.selections) delete window.state.selections.topic;
+      render();
+    });
+  }
 
-          launchUnitAIStep(unitCfg, stepConfig);
-          e.stopPropagation();
-        });
-      });
+        // Step action pills → launch AI sessions
+    // Step action pills → launch AI sessions
+  container.querySelectorAll(".pill[data-step-id]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      if (btn.disabled) return;
+      const unitId = btn.getAttribute("data-unit-id");
+      const stepId = btn.getAttribute("data-step-id");
+      if (!unitId || !stepId) return;
 
-      return;
-    }
+      const stepConfig = (unitCfg.steps || []).find((s) => s.id === stepId);
+      if (!stepConfig) return;
+
+      launchUnitAIStep(unitCfg, stepConfig);
+      e.stopPropagation();
+    });
+  });
+
+  return;
+}
+
+
     // ---------------- end AI inner unit view ----------------
 
    
@@ -848,12 +906,16 @@ export function renderUnitsView(container) {
 `;
     
       // Back button
-    const backBtn = container.querySelector('#units-back-btn');
-    if (backBtn) {
-      backBtn.addEventListener('click', () => {
-        window.location.href = '/profile?tab=overview';
-      });
+      // Back button → profile overview via SPA router
+      const backBtn = container.querySelector('#units-back-btn');
+     if (backBtn) {
+     backBtn.addEventListener('click', (e) => {
+     e.preventDefault();
+     history.pushState({}, '', '/profile?tab=overview');
+     router(); // SPA handles the view, no 404
+     });
     }
+
 
     // Wire up controls
     const subjSel = container.querySelector("#units-subject-select");
@@ -897,42 +959,51 @@ export function renderUnitsView(container) {
     });
 
     // ⬇️ NEW: unit card clicks → call launchUnitAI (CSP-safe)
-    container.querySelectorAll('.unit-node[data-topic]').forEach((node) => {
-      node.addEventListener('click', () => {
-        const subj = node.getAttribute('data-subject') || '';
-        const yearStr = node.getAttribute('data-year') || '0';
-        const topic = node.getAttribute('data-topic') || '';
-        const year = Number(yearStr) || 0;
-        console.log('[units.js] card clicked', { subj, year, topic, hasLaunchUnitAI: typeof window.launchUnitAI });
+    // Unit card clicks → if we have a curated AI config, open inner view; else use legacy modal
+container.querySelectorAll('.unit-node[data-topic]').forEach((node) => {
+  node.addEventListener('click', () => {
+    const subj    = node.getAttribute('data-subject') || '';
+    const yearStr = node.getAttribute('data-year') || '0';
+    const topic   = node.getAttribute('data-topic') || '';
+    const year    = Number(yearStr) || 0;
 
-        if (subj === 'maths' && year === 3 && topic === 'place-value' && AI_MATHS_Y3) {
-          aiUnitDetail = AI_MATHS_Y3;
-          render();
-          return;
-        }
-
-        if (typeof window.launchUnitAI === 'function') {
-          window.launchUnitAI(subj, year, topic);
-        } else {
-          console.error('window.launchUnitAI is not defined');
-        }
-      });
+    console.log('[units.js] card clicked', {
+      subj,
+      year,
+      topic,
+      hasAiMap: !!AI_UNITS
     });
 
-    container.querySelectorAll('.lp-step[data-unit-id]').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        if (btn.disabled) return;
-        const unitId = btn.getAttribute('data-unit-id');
-        const stepId = btn.getAttribute('data-step-id');
-        if (unitId === AI_MATHS_Y3.id) {
-          const stepConfig = (AI_MATHS_Y3.steps || []).find((s) => s.id === stepId);
-          if (stepConfig) {
-            launchUnitAIStep(AI_MATHS_Y3, stepConfig);
-            e.stopPropagation();
-          }
-        }
-      });
-    });
+    const unitCfg = AI_UNITS?.[subj]?.[year]?.[topic] || null;
+
+    if (unitCfg) {
+      // Persist selection and use inner AI unit view
+      if (!window.state) window.state = {};
+      if (!window.state.selections) window.state.selections = {};
+      window.state.selections.subject = subj;
+      window.state.selections.year = year;
+      window.state.selections.topic = topic;
+      // ensure level is set for consistent unlock keys
+      const prof = window.state.skillProfile || {};
+      window.state.selections.level =
+        prof[subj]?.baselineLevel || window.state.selections.level || 'core';
+      aiUnitDetail = unitCfg;
+      render();
+      return;
+    }
+
+    // Fallback: open the old challenge modal
+    if (typeof window.launchUnitAI === 'function') {
+      window.launchUnitAI(subj, year, topic);
+    } else {
+      console.error('window.launchUnitAI is not defined');
+      safeFeedback('Interactive challenges for this track are not ready yet.');
+    }
+  });
+});
+
+
+    
   }
 
   render();
