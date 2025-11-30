@@ -2126,6 +2126,54 @@ function renderAiStep(step) {
   setAiButton('Finish', () => finishAiSession());
 }
 
+function normaliseSortToken(raw) {
+  if (!raw) return '';
+  let s = String(raw).trim().toLowerCase();
+
+  // strip thousands separators
+  s = s.replace(/,/g, '');
+
+  // map common words to digits where obvious
+  const simpleWords = {
+    'zero': '0',
+    'one': '1',
+    'two': '2',
+    'three': '3',
+    'four': '4',
+    'five': '5',
+    'six': '6',
+    'seven': '7',
+    'eight': '8',
+    'nine': '9',
+    'ten': '10'
+  };
+  if (simpleWords[s]) return simpleWords[s];
+
+  // turn things like "4 hundreds + 2 tens" or "400 + 20 + 8" into a plain expression
+  if (/[0-9]/.test(s)) {
+    s = s
+      .replace(/hundreds?/g, '*100')
+      .replace(/tens?/g, '*10')
+      .replace(/ones?|units?/g, '*1')
+      .replace(/\s+/g, ''); // remove spaces
+    try {
+      // VERY light eval: only digits, +, -, *, /
+      if (!/[^0-9+\-*/.]/.test(s)) {
+        // eslint-disable-next-line no-eval
+        const val = eval(s);
+        if (typeof val === 'number' && isFinite(val)) {
+          return String(val);
+        }
+      }
+    } catch (_) {
+      // ignore if it fails, fall through
+    }
+  }
+
+  return s;
+}
+
+
 
 function checkAiStepAnswer() {
   const step = state.aiSession?.currentStep;
@@ -2156,15 +2204,26 @@ function checkAiStepAnswer() {
     });
 
   } else if (step.type === 'sortItems') {
-    const out = document.querySelectorAll('#ai-step-host .sentence-builder .option-card');
-    const chosen = Array.from(out).map(el => (el.textContent || '').trim());
-    const expected = Array.isArray(step.answer) ? step.answer.map(v => String(v).trim()) : [];
-    ok =
-      expected.length &&
-      expected.length === chosen.length &&
-      expected.every((v, idx) => v === chosen[idx]);
+  const out = document.querySelectorAll('#ai-step-host .sentence-builder .option-card');
+  const chosenRaw = Array.from(out).map(el => el.textContent || '');
 
-  } else if (step.type === 'multiSelect') {
+  // If the model forgot to send step.answer, fall back to the given items
+  const expectedSource = Array.isArray(step.answer) && step.answer.length
+    ? step.answer
+    : (Array.isArray(step.items) ? step.items : []);
+
+  const expectedRaw = expectedSource.map(String);
+
+  const chosen   = chosenRaw.map(normaliseSortToken);
+  const expected = expectedRaw.map(normaliseSortToken);
+
+  ok =
+    expected.length &&
+    expected.length === chosen.length &&
+    expected.every((v, idx) => v === chosen[idx]);
+}
+
+ else if (step.type === 'multiSelect') {
     const selected = (state.aiStepState?.selected || []).map(String);
     const expected = Array.isArray(step.correct)
       ? step.correct.map(String)
@@ -2706,6 +2765,30 @@ function finishAiSession() {
     saveSkillProfile();
     if (session) session.completed = true;
 
+    // 🔄 NEW: sync coins + streak to backend, reusing legacy merge-progress flow
+    try {
+      const streakEarned = percent >= 80;
+      const activityKeyParts = [
+        'ai-unit',
+        sel.subject || 'maths',
+        sel.year || 'y?',
+        sel.topic || 'topic?',
+        sel.aiUnitId || 'unit?',
+        sel.aiStepId || 'step?'
+      ];
+      const activityKey = activityKeyParts.join(':');
+
+      if (typeof updateUserProgress === 'function') {
+        updateUserProgress({
+          streakEarned,
+          activityKey
+          // coins_earned is inferred from state.coins vs lastSyncedCoins
+        });
+      }
+    } catch (err) {
+      console.warn('[ai] updateUserProgress failed (AI session)', err);
+    }
+
     // --- Adaptive CTA ---
     if (btn) {
       btn.disabled = false;
@@ -2767,6 +2850,7 @@ function finishAiSession() {
   // Keep the progress bar / chip in sync
   updateAiProgressChip();
 }
+
 
 
 

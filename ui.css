@@ -1128,6 +1128,28 @@ body[data-theme="dark"] .option-card.sel {
   box-shadow: 0 10px 25px rgba(34,197,94,0.22);
 }
 
+/* Light theme: make AI option cards visible on white background */
+:root[data-theme="light"] .ai-option-card,
+:root[data-theme="light"] .ai-option-grid .option-card {
+  border-color: rgba(15, 23, 42, 0.12);   /* darker line for contrast */
+  background: #f8fafc;                    /* soft slate background */
+  color: #0f172a;                          /* dark text */
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.10);
+}
+
+:root[data-theme="light"] .ai-option-card:hover,
+:root[data-theme="light"] .ai-option-grid .option-card:hover {
+  border-color: #38bdf8;
+  box-shadow: 0 12px 28px rgba(56, 189, 248, 0.20);
+}
+
+:root[data-theme="light"] .ai-option-card.selected {
+  border-color: var(--brand-primary, #4f46e5);
+  background: rgba(79, 70, 229, 0.08);    /* light brand tint for selected */
+  color: #0f172a;
+}
+
+
 /* Footer of the AI modal – aligned to the same lane */
 .ai-modal-footer {
   display: flex;
