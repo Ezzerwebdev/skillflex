@@ -2529,10 +2529,6 @@ function completeAiUnitSession({
 }) {
   if (!(asked >= targetQuestions && accuracy >= 0.7)) return;
 
-  const coins = Number.isFinite(coinsSuggested) ? coinsSuggested : (correct * 10);
-  try { awardCoins(coins, 'ai-session'); } catch (e) { console.warn('[ai] awardCoins failed', e); }
-  try { calcStreak(); } catch (e) { console.warn('[ai] calcStreak failed', e); }
-
   try {
     // Always derive the unlock key from the same selections the Units view uses.
     const sel   = state.selections || {};
@@ -2714,18 +2710,9 @@ function finishAiSession() {
 
         result.innerText = `${headline} ${line}`;
 
-    // --- award coins + unlock step locally ---
-    // Use the same rule as before: 10 coins per correct answer
+    // --- unlock the step locally (Units list reads this)
+    // Coins were already added per-correct question via awardLocalCoins
     const coinsEarned = correct * 10;
-
-    // 1) award coins using existing helper (so state + profileStore stay in sync)
-    try {
-      awardCoins(coinsEarned, 'ai-session');
-    } catch (e) {
-      console.warn('[ai] awardCoins failed', e);
-    }
-
-    // 2) advance the unit pointer locally (Units list reads this)
     completeAiUnitSession({
       subject: sel.subject,
       year: sel.year,
@@ -2743,7 +2730,6 @@ function finishAiSession() {
     try {
       if (typeof updateUserProgress === 'function' && window.JWT_TOKEN) {
         const streakEarned = percent >= 80;
-
         const activityKey = [
           'ai-unit',
           sel.subject || 'maths',
@@ -2753,12 +2739,9 @@ function finishAiSession() {
           sel.aiStepId || 'step?'
         ].join(':');
 
-        // NOTE: coins_earned / streak_earned are TOP-LEVEL, just like legacy
         updateUserProgress({
           activityKey,
-          streakEarned,
-          coins_earned: coinsEarned,
-          streak_earned: streakEarned ? 1 : 0
+          streakEarned
         }).catch(err => console.warn('[ai] merge-progress failed', err));
       }
     } catch (err) {
@@ -2770,12 +2753,8 @@ function finishAiSession() {
       applyDailyStreak('ai-session');
     }
 
-
-
-    // --- streak update ---
-    if (percent >= 80) {
-      applyDailyStreak('ai-session');
-    }
+    // reset per-session coin buffer (coins already applied via awardLocalCoins)
+    state.lessonCoinsPending = 0;
 
     // --- adaptive baseline update ---
     const profile  = state.skillProfile || {};
