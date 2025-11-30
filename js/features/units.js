@@ -479,30 +479,26 @@ function getDefaultYear(subject) {
 
 function getUnitProgressIndex(sel) {
   try {
+    // Normalise level the same way AI session uses it
     const level =
       sel.level ||
       (window.state?.skillProfile?.[sel.subject || '']?.baselineLevel) ||
       'core';
 
     const normalized = { ...sel, level };
+
     const keys = (typeof window._unitKeys === 'function')
       ? window._unitKeys(normalized)
       : {
           uIdx: `sf_unit_index:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`
         };
 
-    const raw = localStorage.getItem(keys.uIdx);
-    console.log('[units] getUnitProgressIndex', {
-      normalized,
-      idxKey: keys.uIdx,
-      raw
-    });
-
-    return Number(raw || 0);
+    return Number(localStorage.getItem(keys.uIdx) || 0);
   } catch {
     return 0;
   }
 }
+
 
 
 

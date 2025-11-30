@@ -2047,17 +2047,6 @@ body[data-theme="dark"] .option-card.sel {
   cursor: default;
 }
 
-/* Colour bands for different pairs */
-.pair-colour-0 { box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.9); }  /* purple-ish */
-.pair-colour-1 { box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.9); } /* teal */
-.pair-colour-2 { box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.9); }  /* yellow */
-.pair-colour-3 { box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.9); } /* pink */
-
-/* Wrong match flash */
-.pair-card.pair-wrong {
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.9);
-}
-
 
 
 /* “Good” feedback – nudge away from flat green */
@@ -5293,15 +5282,16 @@ body.kids.logged-in.units-view[data-route="/units"] .units-view {
   border-color: var(--brand-primary);
 }
 
-/* Selected state — heavy Duo-style emphasis */
-.ai-option-card.selected,
-.ai-option-grid .option-card.selected {
+/* Selected state — heavy Duo-style emphasis (NOT for match-pairs) */
+.ai-option-card.selected:not(.pair-card),
+.ai-option-grid .option-card.selected:not(.pair-card) {
   background: var(--brand-primary);
   color: #ffffff;
   border-color: var(--brand-primary);
   box-shadow: 0 6px 20px rgba(80,56,205,0.35);
   transform: translateY(-2px);
 }
+
 
 /* Light theme tokens */
 :root[data-theme="light"] {
@@ -5325,6 +5315,42 @@ body.kids.logged-in.units-view[data-route="/units"] .units-view {
   color: #ffffff;
   box-shadow: 0 6px 20px rgba(80,56,205,0.6);
 }
+
+/* Match pairs: keep their own colour bands */
+.pair-card.pair-locked {
+  opacity: 1;
+  cursor: default;
+}
+
+/* Colour bands for different pairs (strong outlines) */
+.pair-card.pair-colour-0 {
+  border-color: rgba(79, 70, 229, 0.95);   /* purple */
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.95);
+}
+.pair-card.pair-colour-1 {
+  border-color: rgba(16, 185, 129, 0.95);  /* teal */
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.95);
+}
+.pair-card.pair-colour-2 {
+  border-color: rgba(234, 179, 8, 0.95);   /* yellow */
+  box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.95);
+}
+.pair-card.pair-colour-3 {
+  border-color: rgba(236, 72, 153, 0.95);  /* pink */
+  box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.95);
+}
+
+/* Wrong match flash */
+.pair-card.pair-wrong {
+  border-color: rgba(239, 68, 68, 0.95);
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.95);
+}
+
+/* Don’t “jump” locked pairs on hover */
+.pair-card.pair-locked:hover {
+  transform: none;
+}
+
 
 /* Mobile boosting (bigger & chunkier on small screens) */
 @media (max-width: 480px) {

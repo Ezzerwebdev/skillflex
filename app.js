@@ -2712,8 +2712,20 @@ function finishAiSession() {
       line = `You got ${correct} of ${total}. Let’s try this step again.`;
     }
 
-    result.innerText = `${headline} ${line}`;
+        result.innerText = `${headline} ${line}`;
 
+    // --- award coins + unlock step locally ---
+    // Use the same rule as before: 10 coins per correct answer
+    const coinsEarned = correct * 10;
+
+    // 1) award coins using existing helper (so state + profileStore stay in sync)
+    try {
+      awardCoins(coinsEarned, 'ai-session');
+    } catch (e) {
+      console.warn('[ai] awardCoins failed', e);
+    }
+
+    // 2) advance the unit pointer locally (Units list reads this)
     completeAiUnitSession({
       subject: sel.subject,
       year: sel.year,
@@ -2724,49 +2736,39 @@ function finishAiSession() {
       correct,
       accuracy,
       targetQuestions: total,
-      coinsSuggested: null
+      coinsSuggested: coinsEarned
     });
 
-// --- PATCH: ensure coins exist in profileStore so merge-progress can detect earnings ---
-try {
-  const coinsEarned = correct * 10;    // same logic as completeAiUnitSession
-  profileStore.update(draft => {
-    draft.coins = (draft.coins || 0) + coinsEarned;
-  });
-  state.coins = (state.coins || 0) + coinsEarned;
-} catch (err) {
-  console.warn('[ai] profileStore coin update failed', err);
-}
+    // 3) sync coins + streak to backend, reusing legacy merge-progress payload
+    try {
+      if (typeof updateUserProgress === 'function' && window.JWT_TOKEN) {
+        const streakEarned = percent >= 80;
 
+        const activityKey = [
+          'ai-unit',
+          sel.subject || 'maths',
+          sel.year || 'y?',
+          sel.topic || 'topic?',
+          sel.aiUnitId || 'unit?',
+          sel.aiStepId || 'step?'
+        ].join(':');
 
-// --- PATCH: correct legacy merge-progress payload ---
-try {
-  if (typeof updateUserProgress === 'function' && window.JWT_TOKEN) {
-
-    const coinsEarned = correct * 10;
-    const streakEarned = percent >= 80;
-
-    const activityKey = [
-      'ai-unit',
-      sel.subject || 'maths',
-      sel.year || 'y?',
-      sel.topic || 'topic?',
-      sel.aiUnitId || 'unit?',
-      sel.aiStepId || 'step?'
-    ].join(':');
-
-    updateUserProgress({
-      activityKey,
-      streakEarned,
-      deltas: {
-        coins_earned: coinsEarned,
-        streak_earned: streakEarned ? 1 : 0
+        // NOTE: coins_earned / streak_earned are TOP-LEVEL, just like legacy
+        updateUserProgress({
+          activityKey,
+          streakEarned,
+          coins_earned: coinsEarned,
+          streak_earned: streakEarned ? 1 : 0
+        }).catch(err => console.warn('[ai] merge-progress failed', err));
       }
-    }).catch(err => console.warn('[ai] merge-progress failed', err));
-  }
-} catch (err) {
-  console.warn('[ai] updateUserProgress failed', err);
-}
+    } catch (err) {
+      console.warn('[ai] updateUserProgress failed', err);
+    }
+
+    // --- streak update ---
+    if (percent >= 80) {
+      applyDailyStreak('ai-session');
+    }
 
 
 
