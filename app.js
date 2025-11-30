@@ -2727,41 +2727,47 @@ function finishAiSession() {
       coinsSuggested: null
     });
 
-    // --- Sync coins + streak to backend ---
+// --- PATCH: ensure coins exist in profileStore so merge-progress can detect earnings ---
+try {
+  const coinsEarned = correct * 10;    // same logic as completeAiUnitSession
+  profileStore.update(draft => {
+    draft.coins = (draft.coins || 0) + coinsEarned;
+  });
+  state.coins = (state.coins || 0) + coinsEarned;
+} catch (err) {
+  console.warn('[ai] profileStore coin update failed', err);
+}
+
+
+// --- PATCH: correct legacy merge-progress payload ---
 try {
   if (typeof updateUserProgress === 'function' && window.JWT_TOKEN) {
 
-    const coinsEarned = correct * 10;   // same logic as awardCoins()
+    const coinsEarned = correct * 10;
+    const streakEarned = percent >= 80;
+
+    const activityKey = [
+      'ai-unit',
+      sel.subject || 'maths',
+      sel.year || 'y?',
+      sel.topic || 'topic?',
+      sel.aiUnitId || 'unit?',
+      sel.aiStepId || 'step?'
+    ].join(':');
 
     updateUserProgress({
-      activityKey: `ai:${sel.subject}:${sel.year}:${sel.topic}:${sel.aiUnitId}:${sel.aiStepId}`,
-      streakEarned: percent >= 80,
-      coins_earned: coinsEarned
+      activityKey,
+      streakEarned,
+      deltas: {
+        coins_earned: coinsEarned,
+        streak_earned: streakEarned ? 1 : 0
+      }
     }).catch(err => console.warn('[ai] merge-progress failed', err));
   }
-} catch(err) {
+} catch (err) {
   console.warn('[ai] updateUserProgress failed', err);
 }
 
-// --- Sync unit pointer (device-to-device progress) ---
-try {
-  if (typeof saveUnitsPointer === 'function' && window.JWT_TOKEN) {
-
-    const level = session.level || 'core';
-    const idxKey = `sf_unit_index:${sel.subject}:${sel.year}:${sel.topic}:${level}`;
-    const unitIndex = Number(localStorage.getItem(idxKey) || 0);
-
-    saveUnitsPointer({
-      subject: sel.subject,
-      year: sel.year,
-      topic: sel.topic,
-      level,
-      unit_index: unitIndex
-    }).catch(err => console.warn('[ai] saveUnitsPointer failed', err));
-  }
-} catch(err) {
-  console.warn('[ai] pointer-sync failed', err);
-}
 
 
     // --- streak update ---

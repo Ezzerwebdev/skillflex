@@ -5255,3 +5255,83 @@ body.kids.logged-in.units-view[data-route="/units"] .units-view {
     max-width: 1120px; /* tune 1120–1180 if you want it slightly wider/narrower */
   }
 }
+
+
+/* =========================================================
+   DuoLingo-Style AI Option Buttons
+   ========================================================= */
+
+/* Base container spacing */
+.ai-options-grid,
+.ai-option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+}
+
+/* DuoLingo pill-style cards */
+.ai-option-card,
+.ai-option-grid .option-card {
+  background: var(--dl-card-bg, #ffffff);
+  border: 2px solid var(--dl-card-border, #d0d7e2);
+  border-radius: 20px;                  /* pill-like */
+  padding: 1.1rem 1.3rem;
+  font-size: 1.15rem;
+  font-weight: 700;                     /* Duo: bold text */
+  text-align: center;
+  cursor: pointer;
+  color: var(--dl-text, #0c1a33);
+  transition: all 140ms ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+/* Hover / active */
+.ai-option-card:hover,
+.ai-option-grid .option-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+  border-color: var(--brand-primary);
+}
+
+/* Selected state — heavy Duo-style emphasis */
+.ai-option-card.selected,
+.ai-option-grid .option-card.selected {
+  background: var(--brand-primary);
+  color: #ffffff;
+  border-color: var(--brand-primary);
+  box-shadow: 0 6px 20px rgba(80,56,205,0.35);
+  transform: translateY(-2px);
+}
+
+/* Light theme tokens */
+:root[data-theme="light"] {
+  --dl-card-bg: #ffffff;
+  --dl-card-border: rgba(15,23,42,0.16);
+  --dl-text: #0f172a;
+}
+
+/* Dark mode Duolingo styling */
+:root[data-theme="dark"] {
+  --dl-card-bg: rgba(255,255,255,0.08);
+  --dl-card-border: rgba(255,255,255,0.22);
+  --dl-text: #e8eef6;
+}
+
+/* Dark selected state */
+:root[data-theme="dark"] .ai-option-card.selected,
+:root[data-theme="dark"] .option-card.selected {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(80,56,205,0.6);
+}
+
+/* Mobile boosting (bigger & chunkier on small screens) */
+@media (max-width: 480px) {
+  .ai-option-card,
+  .option-card {
+    font-size: 1.2rem;
+    padding: 1.2rem 1.35rem;
+    border-radius: 22px;
+  }
+}
