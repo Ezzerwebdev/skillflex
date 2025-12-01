@@ -129,6 +129,117 @@ window.JWT_TOKEN = JWT_TOKEN;
 
 }
 
+// --- Units pointer sync helpers (server-side persistence for unit progress) ---
+
+function buildSelectionKey(sel) {
+  const subject = sel.subject || '';
+  const year    = sel.year ?? '';
+  const topic   = sel.topic || '';
+  const level   = sel.level || 'core'; // band; see placement/profile
+  return `${subject}:${year}:${topic}:${level}`;
+}
+
+async function fetchUnitsPointer(selectionKey) {
+  if (!window.JWT_TOKEN) return null;
+
+  try {
+    const url = `${window.API_BASE || '/api'}/game/units/pointer?key=${encodeURIComponent(selectionKey)}`;
+    const res = await fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${window.JWT_TOKEN}`
+      },
+      cache: 'no-store'
+    });
+    if (!res.ok) return null;
+    return await res.json(); // expect { selection_key, unit_index, lesson_index }
+  } catch (e) {
+    console.warn('[units] fetchUnitsPointer failed', e);
+    return null;
+  }
+}
+
+async function saveUnitsPointer(selectionKey, { unit_index, lesson_index = 0 }) {
+  if (!window.JWT_TOKEN) return;
+
+  try {
+    const url = `${window.API_BASE || '/api'}/game/units/pointer`;
+    await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${window.JWT_TOKEN}`
+      },
+      body: JSON.stringify({
+        key: selectionKey,
+        unit_index,
+        lesson_index
+      }),
+      keepalive: true
+    });
+  } catch (e) {
+    console.warn('[units] saveUnitsPointer failed', e);
+  }
+}
+
+// Compare server vs local pointer, adopt the max, push ahead if local is newer.
+async function reconcileUnitsPointer(sel) {
+  try {
+    if (!window.JWT_TOKEN) return;
+
+    const selectionKey = buildSelectionKey(sel);
+    const serverPtr    = await fetchUnitsPointer(selectionKey);
+    const serverUnit   = Number(serverPtr?.unit_index || 0);
+    const serverLesson = Number(serverPtr?.lesson_index || 0);
+
+    // Local pointer stored as sf_unit_index:<subject>:<year>:<topic>:<level>
+    const normalized = {
+      ...sel,
+      level:
+        sel.level ||
+        window.state?.skillProfile?.[sel.subject || '']?.baselineLevel ||
+        'core'
+    };
+
+    const keys = (typeof window._unitKeys === 'function')
+      ? window._unitKeys(normalized)
+      : {
+          uIdx: `sf_unit_index:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`,
+          lIdx: `sf_unit_lesson_index:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`
+        };
+
+    const localUnit   = Number(localStorage.getItem(keys.uIdx) || 0);
+    const localLesson = Number(localStorage.getItem(keys.lIdx) || 0);
+
+    const mergedUnit   = Math.max(localUnit, serverUnit);
+    const mergedLesson = Math.max(localLesson, serverLesson);
+
+    // If server is ahead, update local
+    if (serverUnit > localUnit || serverLesson > localLesson) {
+      localStorage.setItem(keys.uIdx, String(mergedUnit));
+      localStorage.setItem(keys.lIdx, String(mergedLesson));
+    }
+
+    // If local is ahead, push forward to server
+    if (localUnit > serverUnit || localLesson > serverLesson) {
+      await saveUnitsPointer(selectionKey, {
+        unit_index: mergedUnit,
+        lesson_index: mergedLesson
+      });
+    }
+  } catch (e) {
+    console.warn('[units] reconcileUnitsPointer failed', e);
+  }
+}
+
+// expose for units.js
+window.sfUnits = window.sfUnits || {};
+window.sfUnits.reconcileUnitsPointer = reconcileUnitsPointer;
+window.sfUnits.buildSelectionKey     = buildSelectionKey;
+window.sfUnits.fetchUnitsPointer     = fetchUnitsPointer;
+window.sfUnits.saveUnitsPointer      = saveUnitsPointer;
+
 
 // === Auth Redirect (same-tab only) =============================
 // No popup. Always go to /login and come back here with ?token=...
@@ -1456,6 +1567,9 @@ async function fetchPlacementQuestion(subject, year) {
         difficulty: 'support',
         mode: 'placement'
       });
+      console.debug('[placement] using AI challenge', data);
+    } else {
+      console.debug('[placement] aiGame.generateChallenge not available');
     }
   } catch (e) {
     console.warn('[placement] AI fetch failed, using fallback', e);
@@ -1464,12 +1578,14 @@ async function fetchPlacementQuestion(subject, year) {
     return data;
   }
   const fallback = PLACEMENT_FALLBACKS[Math.floor(Math.random() * PLACEMENT_FALLBACKS.length)];
+  console.debug('[placement] using fallback', fallback);
   return {
     question: fallback.question,
     answer: fallback.answer,
     hint: 'Think carefully about adding or subtracting.'
   };
 }
+
 
 async function runPlacementWizardForSubject(subject, yearHint) {
   const profile = state.skillProfile || {};
@@ -1562,21 +1678,41 @@ async function runPlacementWizardForSubject(subject, yearHint) {
     _placementRunning = false;
   }
 
-  if (skipBtn) skipBtn.onclick = () => {
-    aborted = true;
-    profile[subject] = {
-      baselineLevel: 'core',
-      confidence: 0.5,
-      lastPlacementAt: Date.now()
-    };
-    state.skillProfile = profile;
-    if (state.selections?.subject === subject) {
-      state.selections.level = 'core';
+      if (skipBtn) {
+    if (entry) {
+      // Returning user: keep existing baseline, don't force them to core
+      skipBtn.textContent = 'Keep my current level';
+      skipBtn.onclick = () => {
+        aborted = true;
+
+        const existing = profile[subject] || {};
+        profile[subject] = {
+          ...existing,
+          baselineLevel: existing.baselineLevel || 'core',
+          // Refresh placement timestamp so we don't nag immediately again
+          lastPlacementAt: Date.now(),
+          confidence: typeof existing.confidence === 'number'
+            ? existing.confidence
+            : 0.7
+        };
+
+        state.skillProfile = profile;
+
+        state.selections = state.selections || {};
+        state.selections.subject = subject;
+        state.selections.level   = profile[subject].baselineLevel || 'core';
+
+        saveSkillProfile();
+        closeOverlay();
+        _placementRunning = false;
+      };
+    } else {
+      // First-time user: hide skip completely so they actually do the quick check
+      skipBtn.style.display = 'none';
     }
-    saveSkillProfile();
-    closeOverlay();
-    _placementRunning = false;
-  };
+  }
+
+
 
   overlay.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -2527,8 +2663,7 @@ function completeAiUnitSession({
   targetQuestions,
   coinsSuggested
  }) {
-    // Relax guard: unlock on 70%+ accuracy. targetQuestions can be unreliable for AI
-  // sessions, so we don't block unlocks on that mismatch.
+  // Unlock on 70%+ accuracy; targetQuestions can be unreliable.
   if (!(accuracy >= 0.7)) {
     console.debug('[ai] unit not advanced (accuracy below threshold)', {
       asked,
@@ -2539,28 +2674,31 @@ function completeAiUnitSession({
     return;
   }
 
-
   try {
     // Always derive the unlock key from the same selections the Units view uses.
     const sel   = state.selections || {};
     const subj  = subject || sel.subject || state.subject;
-    const yr = (typeof year === 'number' && !Number.isNaN(year))
-  ? year
-  : (sel.year || state.year);
+    const yr    = (typeof year === 'number' && !Number.isNaN(year))
+      ? year
+      : (sel.year || state.year);
 
     const top   = topic || sel.topic || state.topic;
-    const level = sel.level || state.skillProfile?.[subj || '']?.baselineLevel || 'core';
-
+    const level =
+      sel.level ||
+      state.skillProfile?.[subj || '']?.baselineLevel ||
+      'core';
 
     const normalized = { subject: subj, year: yr, topic: top, level };
     const keys = (typeof _unitKeys === 'function')
       ? _unitKeys(normalized)
-      : { uIdx: `sf_unit_index:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}` };
-
+      : {
+          uIdx: `sf_unit_index:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`
+        };
 
     const idxKey  = keys.uIdx;
     const current = Number(localStorage.getItem(idxKey) || 0);
-    localStorage.setItem(idxKey, current + 1);
+    const next    = current + 1;
+    localStorage.setItem(idxKey, next);
 
     console.debug('[ai] unit progress advanced', {
       subject: subj,
@@ -2569,12 +2707,22 @@ function completeAiUnitSession({
       level,
       idxKey,
       from: current,
-      to: current + 1
+      to: next
     });
+
+    // Mirror pointer to backend so it survives logout / cache clear
+    if (window.JWT_TOKEN && window.sfUnits?.saveUnitsPointer) {
+      const selectionKey = window.sfUnits.buildSelectionKey(normalized);
+      window.sfUnits.saveUnitsPointer(selectionKey, {
+        unit_index: next,
+        lesson_index: 0
+      });
+    }
   } catch (e) {
     console.warn('[ai] unit pointer update failed', e);
   }
 }
+
 
 // --- Duolingo-style Streak Helper ---
 async function applyDailyStreak(reason = 'activity') {
@@ -2770,6 +2918,14 @@ function finishAiSession() {
 
     // reset per-session coin buffer (coins already applied via awardLocalCoins)
     state.lessonCoinsPending = 0;
+
+        // Ensure server + local pointers are in sync for this selection
+    if (window.JWT_TOKEN && window.sfUnits?.reconcileUnitsPointer) {
+      window.sfUnits
+        .reconcileUnitsPointer(state.selections || {})
+        .catch(err => console.warn('[ai] pointer reconcile failed', err));
+    }
+
 
     // --- adaptive baseline update ---
     const profile  = state.skillProfile || {};

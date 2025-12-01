@@ -596,6 +596,13 @@ export function renderUnitsView(container) {
     topic:   unitCfg.topic   || 'place-value',
     level:   state.level
   };
+  // Reconcile with server-side pointer so unlocks survive logout / cache clear
+  if (window.JWT_TOKEN && window.sfUnits?.reconcileUnitsPointer) {
+  window.sfUnits
+  .reconcileUnitsPointer(sel)
+  .catch(err => console.warn('[units] reconcileUnitsPointerForUnit failed', err));
+      }
+
 
   const progressIdx   = getUnitProgressIndex(sel);
   const totalSteps    = (unitCfg.steps || []).length;
