@@ -2741,12 +2741,16 @@ function finishAiSession() {
 
         updateUserProgress({
           activityKey,
-          streakEarned
+          streakEarned,
+          // send the explicit coin delta so merge() always sees a positive coins_earned
+          coins_earned: coinsEarned
         }).catch(err => console.warn('[ai] merge-progress failed', err));
       }
     } catch (err) {
       console.warn('[ai] updateUserProgress failed', err);
     }
+
+
 
     // --- streak update ---
     if (percent >= 80) {
@@ -4029,12 +4033,16 @@ showCompletionModal(state.score, pack.steps.length, onContinue, extra);
 */
 
 
-async function updateUserProgress({ streakEarned = false, activityKey = '' } = {}) {
- if (!JWT_TOKEN) return;
+async function updateUserProgress({ streakEarned = false, activityKey = '', coins_earned = null } = {}) {
+   if (!JWT_TOKEN) return;
 
 
- // Compute deltas since last successful sync
- const deltaCoins = Math.max(0, (state.coins || 0) - (state.lastSyncedCoins || 0));
+ // Compute coin delta: prefer explicit coins_earned (AI units),
+  // otherwise fall back to state-based delta for legacy flows.
+  const fromState  = Math.max(0, (state.coins || 0) - (state.lastSyncedCoins || 0));
+  const deltaCoins = (typeof coins_earned === 'number' && !Number.isNaN(coins_earned))
+    ? Math.max(0, coins_earned)
+    : fromState;
 
 
  // Optional daily progress snapshot (send only if we currently have a plan)
