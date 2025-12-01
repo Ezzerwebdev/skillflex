@@ -2526,8 +2526,19 @@ function completeAiUnitSession({
   accuracy,
   targetQuestions,
   coinsSuggested
-}) {
-  if (!(asked >= targetQuestions && accuracy >= 0.7)) return;
+ }) {
+    // Relax guard: unlock on 70%+ accuracy. targetQuestions can be unreliable for AI
+  // sessions, so we don't block unlocks on that mismatch.
+  if (!(accuracy >= 0.7)) {
+    console.debug('[ai] unit not advanced (accuracy below threshold)', {
+      asked,
+      correct,
+      accuracy,
+      targetQuestions
+    });
+    return;
+  }
+
 
   try {
     // Always derive the unlock key from the same selections the Units view uses.
