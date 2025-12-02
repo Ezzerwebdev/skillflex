@@ -131,13 +131,22 @@ window.JWT_TOKEN = JWT_TOKEN;
 
 // --- Units pointer sync helpers (server-side persistence for unit progress) ---
 
-function buildSelectionKey(sel) {
-  const subject = sel.subject || '';
-  const year    = sel.year ?? '';
-  const topic   = sel.topic || '';
-  const level   = sel.level || 'core'; // band; see placement/profile
+function buildSelectionKey(sel){
+  // Normalize the selection used for pointers; freeze the band to the explicit selection if present,
+  // otherwise fall back to the current baseline for the subject.
+  const subject = sel?.subject || state?.selections?.subject || '';
+  const year    = sel?.year    || state?.selections?.year    || '';
+  const topic   = sel?.topic   || state?.selections?.topic   || '';
+
+  const prof    = state?.skillProfile?.[subject] || {};
+  const level   = sel?.level
+    || state?.selections?.level
+    || prof.baselineLevel
+    || 'core';
+
   return `${subject}:${year}:${topic}:${level}`;
 }
+
 
 async function fetchUnitsPointer(selectionKey) {
   if (!window.JWT_TOKEN) return null;
@@ -1670,9 +1679,10 @@ if (entry && (entry.placementDone || (entry.confidence >= 0.7 && recent))) {
     else if (accuracy > 0.8) baseline = 'stretch';
     const confidence = Math.min(1, Math.max(0.2, accuracy || 0.3));
     profile[subject] = {
-      baselineLevel: baseline,
-      confidence,
-      lastPlacementAt: Date.now()
+     baselineLevel: baseline,
+     confidence,
+     lastPlacementAt: Date.now(),
+     placementDone: true
     };
     state.skillProfile = profile;
     if (state.selections?.subject === subject) {
@@ -1692,13 +1702,14 @@ if (entry && (entry.placementDone || (entry.confidence >= 0.7 && recent))) {
 
         const existing = profile[subject] || {};
         profile[subject] = {
-          ...existing,
+         ...existing,
           baselineLevel: existing.baselineLevel || 'core',
-          // Refresh placement timestamp so we don't nag immediately again
-          lastPlacementAt: Date.now(),
+         // Refresh placement timestamp so we don't nag immediately again
+         lastPlacementAt: Date.now(),
           confidence: typeof existing.confidence === 'number'
-            ? existing.confidence
-            : 0.7
+          ? existing.confidence
+         : 0.7,
+         placementDone: true
         };
 
         state.skillProfile = profile;
@@ -2667,42 +2678,48 @@ function completeAiUnitSession({
   accuracy,
   targetQuestions,
   coinsSuggested
- }) {
-  // Unlock on 70%+ accuracy; targetQuestions can be unreliable.
-  if (!(accuracy >= 0.7)) {
-    console.debug('[ai] unit not advanced (accuracy below threshold)', {
+}) {
+  const hasEnoughQuestions = typeof asked === 'number' && asked > 0;
+  const hasAccuracy        = typeof accuracy === 'number';
+  if (!hasEnoughQuestions || !hasAccuracy) {
+    console.warn('[ai] completeAiUnitSession called without asked/accuracy', {
       asked,
-      correct,
       accuracy,
-      targetQuestions
+      subject,
+      year,
+      topic,
+      aiUnitId,
+      aiStepId
     });
     return;
   }
 
   try {
-    // Always derive the unlock key from the same selections the Units view uses.
     const sel   = state.selections || {};
+
     const subj  = subject || sel.subject || state.subject;
     const yr    = (typeof year === 'number' && !Number.isNaN(year))
       ? year
       : (sel.year || state.year);
-
     const top   = topic || sel.topic || state.topic;
-    const level =
-      sel.level ||
-      state.skillProfile?.[subj || '']?.baselineLevel ||
-      'core';
+
+    const profileForSubject = state.skillProfile?.[subj || ''] || {};
+    const level = sel.level
+      || profileForSubject.baselineLevel
+      || 'core';
 
     const normalized = { subject: subj, year: yr, topic: top, level };
-    const keys = (typeof _unitKeys === 'function')
-      ? _unitKeys(normalized)
-      : {
-          uIdx: `sf_unit_index:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`
-        };
 
-    const idxKey  = keys.uIdx;
+    const K = (typeof _unitKeys === 'function') ? _unitKeys(normalized) : null;
+    const idxKey = K?.uIdx;
+    if (!idxKey) {
+      console.warn('[ai] no idxKey for normalized selection', normalized);
+      return;
+    }
+
     const current = Number(localStorage.getItem(idxKey) || 0);
-    const next    = current + 1;
+    const next = current + 1;
+
     localStorage.setItem(idxKey, next);
 
     console.debug('[ai] unit progress advanced', {
@@ -2715,18 +2732,20 @@ function completeAiUnitSession({
       to: next
     });
 
-    // Mirror pointer to backend so it survives logout / cache clear
-    if (window.JWT_TOKEN && window.sfUnits?.saveUnitsPointer) {
-      const selectionKey = window.sfUnits.buildSelectionKey(normalized);
-      window.sfUnits.saveUnitsPointer(selectionKey, {
-        unit_index: next,
-        lesson_index: 0
-      });
+    // mirror to server (fire-and-forget)
+    try {
+      const key = buildSelectionKey(normalized);
+      if (key && window.sfUnits?.saveUnitsPointer) {
+        window.sfUnits.saveUnitsPointer(key, { unit_index: next, lesson_index: 0 });
+      }
+    } catch (e2) {
+      console.warn('[ai] saveUnitsPointer failed', e2);
     }
   } catch (e) {
     console.warn('[ai] unit pointer update failed', e);
   }
 }
+
 
 
 // --- Duolingo-style Streak Helper ---
@@ -2784,7 +2803,7 @@ state.streakDays = newStreak.current;
 
 
 
-function finishAiSession() {
+async function finishAiSession() {
   const session    = state.aiSession;
   const questionEl = document.getElementById('ai-question');
   const result     = document.getElementById('ai-result-text');
@@ -2890,6 +2909,8 @@ function finishAiSession() {
       coinsSuggested: coinsEarned
     });
 
+    
+
     // 3) sync coins + streak to backend, reusing legacy merge-progress payload
     try {
       if (typeof updateUserProgress === 'function' && window.JWT_TOKEN) {
@@ -2913,6 +2934,16 @@ function finishAiSession() {
     } catch (err) {
       console.warn('[ai] updateUserProgress failed', err);
     }
+
+    // 4) finally, reconcile pointer from server so local cache matches truth
+    try {
+     if (window.sfUnits?.reconcileUnitsPointer) {
+      await window.sfUnits.reconcileUnitsPointer(sel);
+     }
+   } catch (e) {
+  console.warn('[ai] reconcileUnitsPointer after finishAiSession failed', e);
+   }
+
 
 
 
@@ -2956,9 +2987,10 @@ function finishAiSession() {
     session.level      = nextLevel;
 
     profile[subjectKey] = {
-      baselineLevel: nextLevel,
-      confidence: blendedConfidence,
-      lastPlacementAt: prev.lastPlacementAt || Date.now()
+     baselineLevel: nextLevel,
+     confidence: blendedConfidence,
+     lastPlacementAt: prev.lastPlacementAt || Date.now(),
+     placementDone: prev.placementDone || false
     };
 
     state.skillProfile = profile;
