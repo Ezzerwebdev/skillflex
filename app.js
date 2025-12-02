@@ -2166,7 +2166,8 @@ function renderAiStep(step) {
       b.className = 'ai-option-card pair-card pair-left';
       b.textContent = String(ltext);
       b.dataset.orig = String(idx);
-      b.onclick = () => {
+      b.onclick = (e) => {
+        if (e) e.stopPropagation();
         if (b.classList.contains('pair-locked')) return;
         pendingLeft = b;
         leftBtns.forEach(btn => btn.classList.remove('selected'));
@@ -2184,6 +2185,7 @@ function renderAiStep(step) {
       }))
     );
 
+    let pairing = false;
     shuffledRight.forEach(p => {
       if (!p.text) return;
       const b = document.createElement('button');
@@ -2191,30 +2193,37 @@ function renderAiStep(step) {
       b.className = 'ai-option-card pair-card pair-right';
       b.textContent = String(p.text);
       b.dataset.orig = String(p.orig);
-      b.onclick = () => {
+      b.onclick = (e) => {
+        if (e) e.stopPropagation();
+        if (pairing) return; // prevent re-entrant storms on rapid misclicks
         if (!pendingLeft || b.classList.contains('pair-locked')) return;
 
-        const leftOrig = pendingLeft.dataset.orig;
-        const rightOrig = b.dataset.orig;
+        pairing = true;
+        try {
+          const leftOrig = pendingLeft.dataset.orig;
+          const rightOrig = b.dataset.orig;
 
-        if (leftOrig === rightOrig) {
-          // ✅ Correct match: colour + lock both
-          const colorIdx = Number(leftOrig) % 4;
-          pendingLeft.classList.add('pair-locked', `pair-colour-${colorIdx}`);
-          b.classList.add('pair-locked', `pair-colour-${colorIdx}`);
+          if (leftOrig === rightOrig) {
+            // ✅ Correct match: colour + lock both
+            const colorIdx = Number(leftOrig) % 4;
+            pendingLeft.classList.add('pair-locked', `pair-colour-${colorIdx}`);
+            b.classList.add('pair-locked', `pair-colour-${colorIdx}`);
 
-          pendingLeft.disabled = true;
-          b.disabled = true;
-          pendingLeft.classList.remove('selected');
+            pendingLeft.disabled = true;
+            b.disabled = true;
+            pendingLeft.classList.remove('selected');
 
-          // store for checkAiStepAnswer
-          state.aiStepState.pairs[leftOrig] = b.textContent;
+            // store for checkAiStepAnswer
+            state.aiStepState.pairs[leftOrig] = b.textContent;
 
-          pendingLeft = null;
-        } else {
-          // ❌ brief "wrong" flash
-          b.classList.add('pair-wrong');
-          setTimeout(() => b.classList.remove('pair-wrong'), 300);
+            pendingLeft = null;
+          } else {
+            // ❌ brief "wrong" flash
+            b.classList.add('pair-wrong');
+            setTimeout(() => b.classList.remove('pair-wrong'), 300);
+          }
+        } finally {
+          pairing = false;
         }
       };
       rightBtns.push(b);
