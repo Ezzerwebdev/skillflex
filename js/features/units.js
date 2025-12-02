@@ -584,7 +584,8 @@ export function renderUnitsView(container) {
 
   
 
-      function render() {
+      async function render() {
+
     // ---------------- AI inner unit view (Place Value · Y3) ----------------
     if (aiUnitDetail) {
   const unitCfg = aiUnitDetail;
@@ -596,16 +597,18 @@ export function renderUnitsView(container) {
     topic:   unitCfg.topic   || 'place-value',
     level:   state.level
   };
-  // Reconcile with server-side pointer so unlocks survive logout / cache clear
+    // Reconcile with server-side pointer so unlocks survive logout / cache clear
   if (window.JWT_TOKEN && window.sfUnits?.reconcileUnitsPointer) {
-  window.sfUnits
-  .reconcileUnitsPointer(sel)
-  .catch(err => console.warn('[units] reconcileUnitsPointerForUnit failed', err));
-      }
-
+    try {
+      await window.sfUnits.reconcileUnitsPointer(sel);
+    } catch (err) {
+      console.warn('[units] reconcileUnitsPointerForUnit failed', err);
+    }
+  }
 
   const progressIdx   = getUnitProgressIndex(sel);
   const totalSteps    = (unitCfg.steps || []).length;
+
   const completed     = Math.min(progressIdx, totalSteps);
   const progressLabel = `${completed} of ${totalSteps} steps complete`;
   const progressPercent = totalSteps
