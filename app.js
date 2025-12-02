@@ -2218,10 +2218,8 @@ if (step.type === 'matchPairs') {
 
           pendingLeft = null;
         } else {
-          // ❌ brief "wrong" flash
-          b.classList.add('pair-wrong');
-          setTimeout(() => b.classList.remove('pair-wrong'), 300);
-          pendingLeft = null; // avoid stale selection on rapid misclicks
+          // ❌ wrong match – temporarily disable flash to avoid GPU / layout issues
+          pendingLeft = null;
         }
       } finally {
         pairing = false;
