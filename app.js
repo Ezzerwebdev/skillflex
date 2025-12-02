@@ -1805,6 +1805,9 @@ function ensureAiModal() {
 
   host.appendChild(modal);
 
+  // Prevent SPA/body delegates from seeing clicks inside the AI modal
+  modal.addEventListener('click', (e) => { e.stopPropagation(); }, { capture: true });
+
   const closeBtn = modal.querySelector('#ai-close-x');
   if (closeBtn) closeBtn.addEventListener('click', closeAiModal);
 
@@ -2167,7 +2170,7 @@ function renderAiStep(step) {
       b.textContent = String(ltext);
       b.dataset.orig = String(idx);
       b.onclick = (e) => {
-        if (e) e.stopPropagation();
+        if (e) { e.stopPropagation(); e.preventDefault(); e.stopImmediatePropagation?.(); }
         if (b.classList.contains('pair-locked')) return;
         pendingLeft = b;
         leftBtns.forEach(btn => btn.classList.remove('selected'));
@@ -2194,7 +2197,7 @@ function renderAiStep(step) {
       b.textContent = String(p.text);
       b.dataset.orig = String(p.orig);
       b.onclick = (e) => {
-        if (e) e.stopPropagation();
+        if (e) { e.stopPropagation(); e.preventDefault(); e.stopImmediatePropagation?.(); }
         if (pairing) return; // prevent re-entrant storms on rapid misclicks
         if (!pendingLeft || b.classList.contains('pair-locked')) return;
 
@@ -2221,6 +2224,7 @@ function renderAiStep(step) {
             // ❌ brief "wrong" flash
             b.classList.add('pair-wrong');
             setTimeout(() => b.classList.remove('pair-wrong'), 300);
+            pendingLeft = null; // clear selection after a miss to avoid stale state on rapid clicks
           }
         } finally {
           pairing = false;
