@@ -1805,9 +1805,6 @@ function ensureAiModal() {
 
   host.appendChild(modal);
 
-  // Prevent SPA/body delegates from seeing clicks inside the AI modal
-  modal.addEventListener('click', (e) => { e.stopPropagation(); }, { capture: true });
-
   const closeBtn = modal.querySelector('#ai-close-x');
   if (closeBtn) closeBtn.addEventListener('click', closeAiModal);
 
@@ -2137,112 +2134,113 @@ function renderAiStep(step) {
   }
 
   // 🧩 Match pairs
-  if (step.type === 'matchPairs') {
-    const pairs = Array.isArray(step.pairs) ? step.pairs : [];
-    const leftCol  = document.createElement('div');
-    const rightCol = document.createElement('div');
+if (step.type === 'matchPairs') {
+  const pairs = Array.isArray(step.pairs) ? step.pairs : [];
+  const leftCol  = document.createElement('div');
+  const rightCol = document.createElement('div');
 
-    leftCol.className  = 'pair-col left';
-    rightCol.className = 'pair-col right';
+  leftCol.className  = 'pair-col left';
+  rightCol.className = 'pair-col right';
 
-    const leftBtns = [];
-    const rightBtns = [];
-    let pendingLeft = null;
+  const leftBtns = [];
+  const rightBtns = [];
+  let pendingLeft = null;
+  let pairing     = false; // guard against re-entrant right-click storms
 
-    state.aiStepState = { pairs: {} };
+  state.aiStepState = { pairs: {} };
 
-    const shuffle = (arr) => {
-      const a = arr.slice();
-      for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-      return a;
+  const shuffle = (arr) => {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  // build left in original order
+  pairs.forEach((p, idx) => {
+    const ltext = p.left  ?? p.prompt ?? p.q ?? p[0];
+    if (!ltext) return;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'ai-option-card pair-card pair-left';
+    b.textContent = String(ltext);
+    b.dataset.orig = String(idx);
+    b.onclick = (e) => {
+      if (e) e.stopPropagation();  // don't bubble out of the modal
+      if (b.classList.contains('pair-locked')) return;
+      pendingLeft = b;
+      leftBtns.forEach(btn => btn.classList.remove('selected'));
+      b.classList.add('selected');
     };
+    leftBtns.push(b);
+    leftCol.appendChild(b);
+  });
 
-    // build left in original order
-    pairs.forEach((p, idx) => {
-      const ltext = p.left  ?? p.prompt ?? p.q ?? p[0];
-      if (!ltext) return;
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'ai-option-card pair-card pair-left';
-      b.textContent = String(ltext);
-      b.dataset.orig = String(idx);
-      b.onclick = (e) => {
-        if (e) { e.stopPropagation(); e.preventDefault(); e.stopImmediatePropagation?.(); }
-        if (b.classList.contains('pair-locked')) return;
-        pendingLeft = b;
-        leftBtns.forEach(btn => btn.classList.remove('selected'));
-        b.classList.add('selected');
-      };
-      leftBtns.push(b);
-      leftCol.appendChild(b);
-    });
+  // build right shuffled
+  const shuffledRight = shuffle(
+    pairs.map((p, idx) => ({
+      text: p.right ?? p.answer ?? p.a ?? p[1],
+      orig: idx
+    }))
+  );
 
-    // build right shuffled
-    const shuffledRight = shuffle(
-      pairs.map((p, idx) => ({
-        text: p.right ?? p.answer ?? p.a ?? p[1],
-        orig: idx
-      }))
-    );
+  shuffledRight.forEach(p => {
+    if (!p.text) return;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'ai-option-card pair-card pair-right';
+    b.textContent = String(p.text);
+    b.dataset.orig = String(p.orig);
+    b.onclick = (e) => {
+      if (e) e.stopPropagation();       // don't bubble out
+      if (pairing) return;              // re-entrancy guard
+      if (!pendingLeft || b.classList.contains('pair-locked')) return;
 
-    let pairing = false;
-    shuffledRight.forEach(p => {
-      if (!p.text) return;
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'ai-option-card pair-card pair-right';
-      b.textContent = String(p.text);
-      b.dataset.orig = String(p.orig);
-      b.onclick = (e) => {
-        if (e) { e.stopPropagation(); e.preventDefault(); e.stopImmediatePropagation?.(); }
-        if (pairing) return; // prevent re-entrant storms on rapid misclicks
-        if (!pendingLeft || b.classList.contains('pair-locked')) return;
+      pairing = true;
+      try {
+        const leftOrig  = pendingLeft.dataset.orig;
+        const rightOrig = b.dataset.orig;
 
-        pairing = true;
-        try {
-          const leftOrig = pendingLeft.dataset.orig;
-          const rightOrig = b.dataset.orig;
+        if (leftOrig === rightOrig) {
+          // ✅ Correct match: colour + lock both
+          const colorIdx = Number(leftOrig) % 4;
+          pendingLeft.classList.add('pair-locked', `pair-colour-${colorIdx}`);
+          b.classList.add('pair-locked', `pair-colour-${colorIdx}`);
 
-          if (leftOrig === rightOrig) {
-            // ✅ Correct match: colour + lock both
-            const colorIdx = Number(leftOrig) % 4;
-            pendingLeft.classList.add('pair-locked', `pair-colour-${colorIdx}`);
-            b.classList.add('pair-locked', `pair-colour-${colorIdx}`);
+          pendingLeft.disabled = true;
+          b.disabled = true;
+          pendingLeft.classList.remove('selected');
 
-            pendingLeft.disabled = true;
-            b.disabled = true;
-            pendingLeft.classList.remove('selected');
+          // store for checkAiStepAnswer
+          state.aiStepState.pairs[leftOrig] = b.textContent;
 
-            // store for checkAiStepAnswer
-            state.aiStepState.pairs[leftOrig] = b.textContent;
-
-            pendingLeft = null;
-          } else {
-            // ❌ brief "wrong" flash
-            b.classList.add('pair-wrong');
-            setTimeout(() => b.classList.remove('pair-wrong'), 300);
-            pendingLeft = null; // clear selection after a miss to avoid stale state on rapid clicks
-          }
-        } finally {
-          pairing = false;
+          pendingLeft = null;
+        } else {
+          // ❌ brief "wrong" flash
+          b.classList.add('pair-wrong');
+          setTimeout(() => b.classList.remove('pair-wrong'), 300);
+          pendingLeft = null; // avoid stale selection on rapid misclicks
         }
-      };
-      rightBtns.push(b);
-      rightCol.appendChild(b);
-    });
+      } finally {
+        pairing = false;
+      }
+    };
+    rightBtns.push(b);
+    rightCol.appendChild(b);
+  });
 
-    const wrap = document.createElement('div');
-    wrap.className = 'pair-wrap';
-    wrap.appendChild(leftCol);
-    wrap.appendChild(rightCol);
-    interactive.appendChild(wrap);
+  const wrap = document.createElement('div');
+  wrap.className = 'pair-wrap';
+  wrap.appendChild(leftCol);
+  wrap.appendChild(rightCol);
+  interactive.appendChild(wrap);
 
-    setAiButton('Check Answer', () => checkAiStepAnswer());
-    return;
-  }
+  setAiButton('Check Answer', () => checkAiStepAnswer());
+  return;
+}
+
 
   // 🔗 Sort items
   if (step.type === 'sortItems') {
@@ -2951,7 +2949,7 @@ async function finishAiSession() {
     // 4) finally, reconcile pointer from server so local cache matches truth
     try {
      if (window.sfUnits?.reconcileUnitsPointer) {
-      await window.sfUnits.reconcileUnitsPointer(sel);
+      
      }
    } catch (e) {
   console.warn('[ai] reconcileUnitsPointer after finishAiSession failed', e);
