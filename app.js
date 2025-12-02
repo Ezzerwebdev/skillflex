@@ -1592,7 +1592,12 @@ async function runPlacementWizardForSubject(subject, yearHint) {
   const entry = profile[subject];
   const ninetyDays = 90 * 24 * 60 * 60 * 1000;
   const recent = entry?.lastPlacementAt && (Date.now() - entry.lastPlacementAt < ninetyDays);
-  if (entry && entry.confidence >= 0.7 && recent) return;
+
+// ✅ if they've ever finished placement OR clicked "Keep my current level", skip wizard
+if (entry && (entry.placementDone || (entry.confidence >= 0.7 && recent))) {
+  return;
+}
+
   if (_placementRunning) return;
 
   _placementRunning = true;

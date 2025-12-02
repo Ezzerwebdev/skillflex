@@ -606,10 +606,11 @@ export function renderUnitsView(container) {
     }
   }
 
-  const progressIdx   = getUnitProgressIndex(sel);
-  const totalSteps    = (unitCfg.steps || []).length;
+  const rawProgressIdx = getUnitProgressIndex(sel);
+  const totalSteps     = (unitCfg.steps || []).length;
+  const progressIdx    = Math.min(rawProgressIdx, totalSteps);
+  const completed      = progressIdx;
 
-  const completed     = Math.min(progressIdx, totalSteps);
   const progressLabel = `${completed} of ${totalSteps} steps complete`;
   const progressPercent = totalSteps
     ? Math.min(100, (completed / totalSteps) * 100)
