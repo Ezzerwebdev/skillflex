@@ -564,6 +564,26 @@ function authInit(method, body){
  return init;
 }
 
+// Skill profile API helpers (server sync)
+async function fetchServerSkillProfile(subject) {
+  const resp = await fetch(`${API_BASE}/game/skill-profile?subject=${encodeURIComponent(subject)}`, authInit('GET'));
+  if (!resp.ok) throw new Error(`skill-profile GET failed: ${resp.status}`);
+  const data = await resp.json();
+  return (data.profiles && data.profiles[0]) ? data.profiles[0] : null;
+}
+
+async function pushServerSkillProfile(subject, entry) {
+  const resp = await fetch(`${API_BASE}/game/skill-profile`, authInit('POST', {
+    subject,
+    baseline_level: entry.baselineLevel,
+    confidence: entry.confidence,
+    placement_done: !!entry.placementDone,
+    meta: entry.meta || null,
+  }));
+  if (!resp.ok) throw new Error(`skill-profile POST failed: ${resp.status}`);
+  return resp.json();
+}
+
 
 // === Globals & State ===
 const $ = s => document.querySelector(s);
@@ -1677,18 +1697,39 @@ if (entry && (entry.placementDone || (entry.confidence >= 0.7 && recent))) {
     let baseline = 'core';
     if (accuracy < 0.4) baseline = 'support';
     else if (accuracy > 0.8) baseline = 'stretch';
+
+    // Build meta payload for future analytics
+    const prev = profile[subject] || {};
+    const meta = {
+      ...(prev.meta || {}),
+      placements_run: ((prev.meta && prev.meta.placements_run) || 0) + 1,
+
+      last_placement: {
+        score: correct,
+        out_of: total,
+        accuracy,
+        raw_seconds: (typeof totalSeconds !== 'undefined' ? totalSeconds : null),
+        completed_at: new Date().toISOString(),
+        mode: 'placement',
+      },
+    };
+
     const confidence = Math.min(1, Math.max(0.2, accuracy || 0.3));
     profile[subject] = {
+     ...prev,
      baselineLevel: baseline,
      confidence,
+     placementDone: true,
      lastPlacementAt: Date.now(),
-     placementDone: true
+     meta,
     };
     state.skillProfile = profile;
     if (state.selections?.subject === subject) {
       state.selections.level = baseline;
     }
     saveSkillProfile();
+    // Fire-and-forget server sync; do not block UI
+    pushServerSkillProfile(subject, profile[subject]).catch(console.error);
     closeOverlay();
     _placementRunning = false;
   }
