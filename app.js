@@ -709,22 +709,20 @@ skillProfile: {
 }
 };
 
+
 function loadSkillProfile() {
-  try {
-    const raw = localStorage.getItem('sf_skill_profile');
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === 'object') {
-      state.skillProfile = parsed;
-    }
-  } catch {}
+  // Server is the single source of truth for skill profiles.
+  // We DO NOT restore anything from localStorage to avoid cross-user leaks.
+  return {};
 }
 
+
 function saveSkillProfile() {
-  try {
-    localStorage.setItem('sf_skill_profile', JSON.stringify(state.skillProfile || {}));
-  } catch {}
+  // Intentionally no-op.
+  // Skill profiles are stored server-side via /api/game/skill-profile (pushServerSkillProfile).
 }
+
+
 
 loadSkillProfile();
 
