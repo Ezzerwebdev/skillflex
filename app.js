@@ -550,6 +550,58 @@ window.toggleMockLogin = function(on){
   location.reload();
 };
 
+// Derive a stable per-user key from the JWT (API user id / sub)
+function getCurrentUserKey() {
+  try {
+    if (!window.JWT_TOKEN || !window.JWT_TOKEN.includes('.')) return null;
+
+    const parts = window.JWT_TOKEN.split('.');
+    if (parts.length !== 3) return null;
+
+    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    const json = atob(base64);
+    const payload = JSON.parse(json);
+
+    // Adjust if your JWT uses a different field
+    return payload.sub || payload.id || payload.user_id || null;
+  } catch (e) {
+    console.warn('getCurrentUserKey: failed to decode JWT', e);
+    return null;
+  }
+}
+
+// Ensure local game cache doesn't leak between different logged-in users
+(function ensurePerUserLocalStorageIsolation() {
+  try {
+    if (!window.localStorage) return;
+  } catch {
+    return;
+  }
+
+  const currentUser = getCurrentUserKey();
+  const lastUser = localStorage.getItem('sf_last_user_sub') || null;
+
+  if (currentUser && lastUser && currentUser !== lastUser) {
+    console.info('[games] Detected different logged-in user; clearing game local cache');
+
+    // Clear only game-related keys. Add/remove keys as needed.
+    const keysToClear = [
+      'sf_profile',        // main game profile/progress store
+      'sf_skill_profile',  // old skill-profile cache if it still exists
+      'sf_units_last_view',// example; add any other sf_* game keys you see
+    ];
+
+    keysToClear.forEach(k => {
+      try { localStorage.removeItem(k); } catch {}
+    });
+  }
+
+  if (currentUser) {
+    try { localStorage.setItem('sf_last_user_sub', currentUser); } catch {}
+  }
+})();
+
+
 
 // === Auth init (single source of truth for headers/credentials) ===
 function authInit(method, body){
