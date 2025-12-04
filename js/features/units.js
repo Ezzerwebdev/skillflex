@@ -485,24 +485,43 @@ function getUnitProgressIndex(sel) {
       (window.state?.skillProfile?.[sel.subject || '']?.baselineLevel) ||
       'core';
 
-    const normalized = { ...sel, level };
+    const normalized = {
+      subject: sel.subject || '',
+      year: sel.year || '',
+      topic: sel.topic || '',
+      level,
+    };
 
+    // Try to derive a stable per-user key from the JWT.
+    // If that fails, fall back to a shared "guest" bucket.
     const userKey =
-  (typeof getCurrentUserKey === 'function' && getCurrentUserKey()) || 'guest';
+      (typeof getCurrentUserKey === 'function' && getCurrentUserKey()) || 'guest';
 
-const keys = (typeof window._unitKeys === 'function')
-      ? window._unitKeys({ ...normalized, userKey })
-      : {
-          uIdx: `sf_unit_index:${userKey}:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`
-        };
+    // New per-user key
+    const perUserKey =
+      `sf_unit_index:${userKey}` +
+      `:${normalized.subject}` +
+      `:${normalized.year}` +
+      `:${normalized.topic}` +
+      `:${normalized.level}`;
 
-return Number(localStorage.getItem(keys.uIdx) || 0);
+    // Old shared key (no user id) – for backward compatibility
+    const globalKey =
+      `sf_unit_index:${normalized.subject}` +
+      `:${normalized.year}` +
+      `:${normalized.topic}` +
+      `:${normalized.level}`;
+
+    let raw = localStorage.getItem(perUserKey);
+    if (raw == null) {
+      raw = localStorage.getItem(globalKey);
+    }
+
+    return Number(raw || 0);
   } catch {
     return 0;
   }
 }
-
-
 
 
 function launchUnitAIStep(unitConfig, stepConfig) {
