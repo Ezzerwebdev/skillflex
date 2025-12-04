@@ -477,20 +477,26 @@ function getDefaultYear(subject) {
   return 3;
 }
 
-function getUnitProgressIndex(sel) {
+function getLocalUnitIndexForSelection(sel) {
   try {
-    // Normalise level the same way AI session uses it
-    const level =
-      sel.level ||
-      (window.state?.skillProfile?.[sel.subject || '']?.baselineLevel) ||
-      'core';
+    // Normalise selection as you already do
+    const normalized = {
+      ...sel,
+      level:
+        sel.level ||
+        window.state?.skillProfile?.[sel.subject || '']?.baselineLevel ||
+        'core'
+    };
 
-    const normalized = { ...sel, level };
+    // NEW: derive a per-user key from the JWT (or "guest")
+    const userKey =
+      (typeof getCurrentUserKey === 'function' && getCurrentUserKey()) || 'guest';
 
+    // Build localStorage key, now scoped by user
     const keys = (typeof window._unitKeys === 'function')
-      ? window._unitKeys(normalized)
+      ? window._unitKeys({ ...normalized, userKey })
       : {
-          uIdx: `sf_unit_index:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`
+          uIdx: `sf_unit_index:${userKey}:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`
         };
 
     return Number(localStorage.getItem(keys.uIdx) || 0);
@@ -498,6 +504,7 @@ function getUnitProgressIndex(sel) {
     return 0;
   }
 }
+
 
 
 

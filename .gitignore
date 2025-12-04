@@ -6,4 +6,5 @@
 *.bak.*
 *.zip
 _backups/
+.htaccess
 

@@ -202,7 +202,7 @@ async function reconcileUnitsPointer(sel) {
     const serverUnit   = Number(serverPtr?.unit_index || 0);
     const serverLesson = Number(serverPtr?.lesson_index || 0);
 
-    // Local pointer stored as sf_unit_index:<subject>:<year>:<topic>:<level>
+    // Local pointer stored as sf_unit_index:<user>:<subject>:<year>:<topic>:<level>
     const normalized = {
       ...sel,
       level:
@@ -211,11 +211,14 @@ async function reconcileUnitsPointer(sel) {
         'core'
     };
 
+    const userKey =
+      (typeof getCurrentUserKey === 'function' && getCurrentUserKey()) || 'guest';
+
     const keys = (typeof window._unitKeys === 'function')
-      ? window._unitKeys(normalized)
+      ? window._unitKeys({ ...normalized, userKey })
       : {
-          uIdx: `sf_unit_index:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`,
-          lIdx: `sf_unit_lesson_index:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`
+          uIdx: `sf_unit_index:${userKey}:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`,
+          lIdx: `sf_unit_lesson_index:${userKey}:${normalized.subject || ''}:${normalized.year || ''}:${normalized.topic || ''}:${normalized.level || ''}`
         };
 
     const localUnit   = Number(localStorage.getItem(keys.uIdx) || 0);
@@ -553,22 +556,24 @@ window.toggleMockLogin = function(on){
 // Derive a stable per-user key from the JWT (API user id / sub)
 function getCurrentUserKey() {
   try {
-    if (!window.JWT_TOKEN || !window.JWT_TOKEN.includes('.')) return null;
+    const token = window.JWT_TOKEN || localStorage.getItem('sf_jwt');
+    if (!token || !token.includes('.')) return null;
 
-    const parts = window.JWT_TOKEN.split('.');
+    const parts = token.split('.');
     if (parts.length !== 3) return null;
 
     const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
     const json = atob(base64);
     const payload = JSON.parse(json);
 
-    // Adjust if your JWT uses a different field
+    // Adjust field names if your JWT uses something else
     return payload.sub || payload.id || payload.user_id || null;
   } catch (e) {
     console.warn('getCurrentUserKey: failed to decode JWT', e);
     return null;
   }
 }
+
 
 // Ensure local game cache doesn't leak between different logged-in users
 (function ensurePerUserLocalStorageIsolation() {
