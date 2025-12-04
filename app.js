@@ -1660,50 +1660,82 @@ const PLACEMENT_FALLBACKS = [
   { question: 'What is 12 - 5?', answer: 7 }
 ];
 
+// --- Placement Question Generator (FINAL VERSION) ---
 async function fetchPlacementQuestion(subject, yearHint) {
-  let data = null;
 
-  // Resolve a sensible year:
+  // Resolve year safely using state
   const year =
-    (typeof yearHint === 'number' && Number.isFinite(yearHint) && yearHint > 0)
+    (typeof yearHint === "number" && yearHint > 0)
       ? yearHint
-      : (state.selections?.year || state.year || 3);
+      : (state?.selections?.year || state?.year || 3);
+
+  // Ensure placement session exists
+  if (!state.placementSession) {
+    state.placementSession = { asked: 0, correct: 0 };
+  }
+
+  const session = {
+    asked: state.placementSession.asked,
+    correct: state.placementSession.correct
+  };
+
+  let result = null;
 
   try {
     if (window.aiGame?.generateChallenge) {
-      data = await window.aiGame.generateChallenge({
+      result = await window.aiGame.generateChallenge({
         subject,
-        year,              // 👈 now always a real year (3, 4, 5, ...)
-        topic: subject,    // using subject as coarse topic for placement
-        level: 'core',
-        difficulty: 'auto',
-        mode: 'placement'
+        year,
+        topic: "general",
+        mode: "placement",
+
+        // VERY IMPORTANT:
+        // Let backend decide baseline/difficulty intelligently
+        level: null,
+        difficulty: null,
+
+        session,        // <-- placement logic depends heavily on this
+        skill_profile: state.skillProfile?.[subject] || null
       });
-      console.debug('[placement] using AI challenge', data);
-    } else {
-      console.debug('[placement] aiGame.generateChallenge not available');
+
+      console.debug("[placement] AI challenge received", result);
     }
-  } catch (e) {
-    console.warn('[placement] AI fetch failed, using fallback', e);
+  } catch (err) {
+    console.warn("[placement] AI fetch failed", err);
   }
 
-  if (data && (data.question || data.story)) {
-    return data;
+  // AI returned a valid challenge?
+  if (result?.challenge?.prompt || result?.challenge?.story) {
+
+    // Prevent consecutive repeats
+    if (state.lastPlacementPrompt &&
+        result.challenge.prompt === state.lastPlacementPrompt) {
+      console.debug("[placement] repeating question detected, retrying…");
+      return await fetchPlacementQuestion(subject, year);   // safe retry
+    }
+
+    state.lastPlacementPrompt = result.challenge.prompt || result.challenge.story;
+
+    return {
+      question: result.challenge.prompt || result.challenge.story,
+      answer: result.challenge.answer || result.challenge.correct,
+      hint: result.challenge.hint || null
+    };
   }
 
-  const fallback =
-    PLACEMENT_FALLBACKS[
-      Math.floor(Math.random() * PLACEMENT_FALLBACKS.length)
-    ];
-
-  console.debug('[placement] using fallback', fallback);
+  // FINAL safety fallback — extremely rare now
+  const fallback = PLACEMENT_FALLBACKS[
+    Math.floor(Math.random() * PLACEMENT_FALLBACKS.length)
+  ];
+  console.debug("[placement] using fallback", fallback);
 
   return {
     question: fallback.question,
     answer: fallback.answer,
-    hint: 'Think carefully about adding or subtracting.'
+    hint: "Think carefully."
   };
 }
+
 
 
 
