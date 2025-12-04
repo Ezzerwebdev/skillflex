@@ -1660,16 +1660,23 @@ const PLACEMENT_FALLBACKS = [
   { question: 'What is 12 - 5?', answer: 7 }
 ];
 
-async function fetchPlacementQuestion(subject, year) {
+async function fetchPlacementQuestion(subject, yearHint) {
   let data = null;
+
+  // Resolve a sensible year:
+  const year =
+    (typeof yearHint === 'number' && Number.isFinite(yearHint) && yearHint > 0)
+      ? yearHint
+      : (state.selections?.year || state.year || 3);
+
   try {
     if (window.aiGame?.generateChallenge) {
       data = await window.aiGame.generateChallenge({
         subject,
-        year: year || 3,
-        topic: 'general',
-        level: 'support',
-        difficulty: 'support',
+        year,              // 👈 now always a real year (3, 4, 5, ...)
+        topic: subject,    // using subject as coarse topic for placement
+        level: 'core',
+        difficulty: 'auto',
         mode: 'placement'
       });
       console.debug('[placement] using AI challenge', data);
@@ -1679,11 +1686,18 @@ async function fetchPlacementQuestion(subject, year) {
   } catch (e) {
     console.warn('[placement] AI fetch failed, using fallback', e);
   }
+
   if (data && (data.question || data.story)) {
     return data;
   }
-  const fallback = PLACEMENT_FALLBACKS[Math.floor(Math.random() * PLACEMENT_FALLBACKS.length)];
+
+  const fallback =
+    PLACEMENT_FALLBACKS[
+      Math.floor(Math.random() * PLACEMENT_FALLBACKS.length)
+    ];
+
   console.debug('[placement] using fallback', fallback);
+
   return {
     question: fallback.question,
     answer: fallback.answer,
@@ -1692,16 +1706,21 @@ async function fetchPlacementQuestion(subject, year) {
 }
 
 
+
 async function runPlacementWizardForSubject(subject, yearHint) {
   const profile = state.skillProfile || {};
   const entry = profile[subject];
   const ninetyDays = 90 * 24 * 60 * 60 * 1000;
   const recent = entry?.lastPlacementAt && (Date.now() - entry.lastPlacementAt < ninetyDays);
 
-// ✅ if they've ever finished placement OR clicked "Keep my current level", skip wizard
-if (entry && (entry.placementDone || (entry.confidence >= 0.7 && recent))) {
+// If placement was done before → skip
+if (entry && entry.placementDone) return;
+
+// If last placement < 90 days ago → skip
+if (entry && entry.lastPlacementAt && (Date.now() - entry.lastPlacementAt < ninetyDays)) {
   return;
 }
+
 
   if (_placementRunning) return;
 
@@ -1855,14 +1874,48 @@ if (entry && (entry.placementDone || (entry.confidence >= 0.7 && recent))) {
   if (!aborted && asked >= total) await finalize();
 }
 
-async function ensurePlacementBeforeAI(subject, year) {
+async function ensurePlacementBeforeAI(subject, yearHint) {
+  const profile = state.skillProfile || {};
+  const entry = profile[subject];
+  const ninetyDays = 90 * 24 * 60 * 60 * 1000;
+
+  // 1) Skip placement if this user already has any progress in this subject/year
+  //    e.g. sf_unit_index:1091:maths:3:place-value:core > 0
+  const userKey = window.getCurrentUserKey?.() || 'guest';
+  const progressed = Object.keys(localStorage)
+    .some((k) =>
+      k.startsWith(`sf_unit_index:${userKey}:${subject}:`) &&
+      Number(localStorage.getItem(k)) > 0
+    );
+
+  if (progressed) {
+    console.debug('[placement] skipping, user has progress');
+    return;
+  }
+
+  // 2) Skip if placement has ever been completed for this subject
+  if (entry && entry.placementDone) {
+    console.debug('[placement] skipping, placementDone flag set');
+    return;
+  }
+
+  // 3) Skip if placement is recent (< 90 days old)
+  if (entry && entry.lastPlacementAt &&
+      (Date.now() - entry.lastPlacementAt < ninetyDays)) {
+    console.debug('[placement] skipping, recent placement run');
+    return;
+  }
+
+  // 4) Otherwise, run the wizard once
   try {
-    await runPlacementWizardForSubject(subject, year);
+    await runPlacementWizardForSubject(subject, yearHint);
   } catch (e) {
     console.warn('[placement] failed to run, proceeding with default', e);
   }
 }
+
 window.ensurePlacementBeforeAI = ensurePlacementBeforeAI;
+
 
 // --- 2. AI MODAL ACTIONS ---
 
