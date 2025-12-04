@@ -826,8 +826,25 @@ function hydrateDaily(){
 }
 
 // ---- Continue card helpers (place right after hydrateDaily) ----
-function _keyForSel(sel){ return `${sel?.subject||''}:${sel?.year||''}:${sel?.topic||''}:${sel?.level||''}`; }
-function _unitKeys(sel){ const b=_keyForSel(sel); return { plan:`sf_unit_plan:${b}`, uIdx:`sf_unit_index:${b}`, lIdx:`sf_unit_lesson_index:${b}` }; }
+function _keyForSel(sel){
+  return `${sel?.subject||''}:${sel?.year||''}:${sel?.topic||''}:${sel?.level||''}`;
+}
+
+function _unitKeys(sel){
+  const base = _keyForSel(sel);
+  // If sel.userKey is provided, use per-user keys; otherwise fall back to the old global format.
+  const userPart = sel && sel.userKey ? `${sel.userKey}:` : '';
+  const b = `${userPart}${base}`;
+  return {
+    plan: `sf_unit_plan:${b}`,
+    uIdx: `sf_unit_index:${b}`,
+    lIdx: `sf_unit_lesson_index:${b}`
+  };
+}
+
+// expose for callers that reference window._unitKeys
+window._unitKeys = window._unitKeys || _unitKeys;
+
 function _slug(sel, id){
   const s = String(id || '');
   if (s.includes('/')) return s; // already a full path
@@ -835,6 +852,8 @@ function _slug(sel, id){
   if (sel.subject === 'maths' && !sel.topic) return `year${sel.year}/maths/${s}`;
   return `year${sel.year}/${sel.subject}/${sel.topic}/${s}`;
 }
+
+
 
 
 
@@ -2813,14 +2832,16 @@ function completeAiUnitSession({
       || profileForSubject.baselineLevel
       || 'core';
 
-    const normalized = { subject: subj, year: yr, topic: top, level };
+   const normalized = { subject: subj, year: yr, topic: top, level };
 
-    const K = (typeof _unitKeys === 'function') ? _unitKeys(normalized) : null;
+    const userKey = (typeof getCurrentUserKey === 'function' && getCurrentUserKey()) || 'guest';
+    const K = (typeof _unitKeys === 'function') ? _unitKeys({ ...normalized, userKey }) : null;
     const idxKey = K?.uIdx;
     if (!idxKey) {
-      console.warn('[ai] no idxKey for normalized selection', normalized);
+      console.warn('[ai] no idxKey for normalized selection', { normalized, userKey });
       return;
     }
+
 
     const current = Number(localStorage.getItem(idxKey) || 0);
     const next = current + 1;
