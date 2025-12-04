@@ -1660,8 +1660,9 @@ const PLACEMENT_FALLBACKS = [
   { question: 'What is 12 - 5?', answer: 7 }
 ];
 
-// --- Placement Question Generator (FINAL VERSION) ---
-async function fetchPlacementQuestion(subject, yearHint) {
+// --- Placement Question Generator (numeric-only, AI-first) ---
+async function fetchPlacementQuestion(subject, yearHint, attempt = 0) {
+  const maxAttempts = 3;
 
   // Resolve year safely using state
   const year =
@@ -1689,52 +1690,87 @@ async function fetchPlacementQuestion(subject, yearHint) {
         topic: "general",
         mode: "placement",
 
-        // VERY IMPORTANT:
         // Let backend decide baseline/difficulty intelligently
         level: null,
         difficulty: null,
 
-        session,        // <-- placement logic depends heavily on this
+        session,
         skill_profile: state.skillProfile?.[subject] || null
       });
 
       console.debug("[placement] AI challenge received", result);
+    } else {
+      console.debug("[placement] aiGame.generateChallenge not available");
     }
   } catch (err) {
     console.warn("[placement] AI fetch failed", err);
   }
 
-  // AI returned a valid challenge?
-  if (result?.challenge?.prompt || result?.challenge?.story) {
+  if (result?.challenge) {
+    const ch = result.challenge;
+    const prompt =
+      ch.prompt || ch.story || ch.question || "Ready for a quick question?";
+    const rawAnswer = ch.answer ?? ch.correct;
 
-    // Prevent consecutive repeats
-    if (state.lastPlacementPrompt &&
-        result.challenge.prompt === state.lastPlacementPrompt) {
+    // Avoid repeating the exact same question text back-to-back
+    if (
+      state.lastPlacementPrompt &&
+      prompt === state.lastPlacementPrompt &&
+      attempt < maxAttempts
+    ) {
       console.debug("[placement] repeating question detected, retrying…");
-      return await fetchPlacementQuestion(subject, year);   // safe retry
+      return fetchPlacementQuestion(subject, year, attempt + 1);
     }
 
-    state.lastPlacementPrompt = result.challenge.prompt || result.challenge.story;
+    // Only accept numeric, fillBlank-like challenges for this UI
+    const numAnswer = Number(rawAnswer);
+    const isNumeric = Number.isFinite(numAnswer);
+    const type = (ch.type || ch.mode || "").toLowerCase();
+    const isFillBlankLike =
+      type === "fillblank" ||
+      type === "fill_blank" ||
+      type === "fillblank" ||
+      type === "fillblank" ||
+      typeof rawAnswer === "number";
 
-    return {
-      question: result.challenge.prompt || result.challenge.story,
-      answer: result.challenge.answer || result.challenge.correct,
-      hint: result.challenge.hint || null
-    };
+    if (!isNumeric || !isFillBlankLike) {
+      if (attempt < maxAttempts) {
+        console.debug(
+          "[placement] non-numeric or unsupported challenge, retrying…",
+          { type: ch.type, rawAnswer }
+        );
+        return fetchPlacementQuestion(subject, year, attempt + 1);
+      }
+      // if we've tried a few times and still not numeric, we'll drop to fallback below
+      console.warn(
+        "[placement] giving up on AI placement challenge; falling back"
+      );
+    } else {
+      // Accept this AI question
+      state.lastPlacementPrompt = prompt;
+
+      return {
+        question: prompt,
+        answer: numAnswer,
+        hint: ch.hint || null
+      };
+    }
   }
 
-  // FINAL safety fallback — extremely rare now
-  const fallback = PLACEMENT_FALLBACKS[
-    Math.floor(Math.random() * PLACEMENT_FALLBACKS.length)
-  ];
+  // FINAL safety fallback — use local placement fallbacks
+  const fallback =
+    PLACEMENT_FALLBACKS[
+      Math.floor(Math.random() * PLACEMENT_FALLBACKS.length)
+    ];
   console.debug("[placement] using fallback", fallback);
 
   return {
     question: fallback.question,
     answer: fallback.answer,
-    hint: "Think carefully."
+    hint: "Think carefully about the numbers."
   };
 }
+
 
 
 
