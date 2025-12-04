@@ -1924,7 +1924,11 @@ function closeAiModal() {
   if (!modal) return;
   modal.classList.remove('active');
   document.body.style.overflow = '';
+
+  // NEW: tell the rest of the app that the AI modal has closed
+  document.dispatchEvent(new Event('aiModalClosed'));
 }
+
 
 function ensureAiModal() {
   let modal = document.getElementById('ai-modal');
@@ -1984,6 +1988,14 @@ function ensureAiModal() {
 
   return modal;
 }
+
+// --- Refresh Units view whenever the AI modal closes ---
+document.addEventListener('aiModalClosed', () => {
+  const hub = document.getElementById('challengeHubContainer');
+  if (hub && typeof renderUnitsView === 'function') {
+    renderUnitsView(hub);
+  }
+});
 
 
 function updateAiProgressChip() {
@@ -2902,6 +2914,12 @@ function completeAiUnitSession({
     const next = current + 1;
 
     localStorage.setItem(idxKey, next);
+
+    // NEW: immediately refresh Units view so the next step unlocks
+    const hub = document.getElementById('challengeHubContainer');
+    if (hub && typeof renderUnitsView === 'function') {
+      renderUnitsView(hub);
+    }
 
     console.debug('[ai] unit progress advanced', {
       subject: subj,
