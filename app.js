@@ -574,6 +574,8 @@ function getCurrentUserKey() {
   }
 }
 
+// ✅ Make it available to other scripts (like units.js)
+window.getCurrentUserKey = window.getCurrentUserKey || getCurrentUserKey;
 
 // Ensure local game cache doesn't leak between different logged-in users
 (function ensurePerUserLocalStorageIsolation() {

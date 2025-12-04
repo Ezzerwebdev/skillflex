@@ -495,7 +495,9 @@ function getUnitProgressIndex(sel) {
     // Try to derive a stable per-user key from the JWT.
     // If that fails, fall back to a shared "guest" bucket.
     const userKey =
-      (typeof getCurrentUserKey === 'function' && getCurrentUserKey()) || 'guest';
+      (typeof window.getCurrentUserKey === 'function' && window.getCurrentUserKey()) ||
+     'guest';
+
 
     // New per-user key
     const perUserKey =
