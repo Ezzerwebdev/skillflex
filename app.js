@@ -1763,10 +1763,13 @@ if (entry && entry.lastPlacementAt && (Date.now() - entry.lastPlacementAt < nine
   const progressEl = overlay.querySelector('#placement-progress');
   const skipBtn = overlay.querySelector('#placement-skip');
 
-  const total = 6;
   let asked = 0;
   let correct = 0;
   let aborted = false;
+
+  // Keep frontend + backend placement session in sync
+  state.placementSession = { asked, correct };
+
 
   function updateProgress() {
     if (progressEl) progressEl.textContent = `Q${asked + 1} of ${total}`;
