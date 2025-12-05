@@ -2085,31 +2085,52 @@ function ensureMathQuillLoaded() {
 
   mqLoading = new Promise((resolve) => {
     try {
-      // CSS
+      // Local asset URLs
+      const CSS_URL = '/vendor/mathquill/mathquill.css';
+      const JQ_URL  = '/vendor/jquery/jquery.min.js';
+      const MQ_URL  = '/vendor/mathquill/mathquill.min.js';
+
+      // 1) CSS once
       if (!document.getElementById('mq-css')) {
         const link = document.createElement('link');
         link.id = 'mq-css';
         link.rel = 'stylesheet';
-        link.href = 'https://cdn.jsdelivr.net/npm/mathquill@0.10.1/build/mathquill.css';
+        link.href = CSS_URL;
         document.head.appendChild(link);
       }
-      // JS
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/mathquill@0.10.1/build/mathquill.min.js';
-      script.async = true;
-      script.onload = () => {
-        try {
-          MQ = window.MathQuill?.getInterface(2) || null;
-        } catch (e) {
-          console.warn('[mq] init failed', e);
-        }
-        resolve(MQ);
+
+      // 2) Load jQuery first
+      const jqScript = document.createElement('script');
+      jqScript.src = JQ_URL;
+      jqScript.async = true;
+      jqScript.onload = () => {
+        // 3) Then load MathQuill
+        const mqScript = document.createElement('script');
+        mqScript.src = MQ_URL;
+        mqScript.async = true;
+        mqScript.onload = () => {
+          if (!window.MathQuill) {
+            console.warn('[mq] MathQuill global missing');
+          }
+          try {
+            MQ = window.MathQuill?.getInterface(2) || null;
+          } catch (e) {
+            console.warn('[mq] init failed', e);
+          }
+          resolve(MQ);
+        };
+        mqScript.onerror = (e) => {
+          console.warn('[mq] failed to load MathQuill', e);
+          resolve(null);
+        };
+        document.head.appendChild(mqScript);
       };
-      script.onerror = (e) => {
-        console.warn('[mq] failed to load', e);
+      jqScript.onerror = (e) => {
+        console.warn('[mq] failed to load jQuery', e);
         resolve(null);
       };
-      document.head.appendChild(script);
+
+      document.head.appendChild(jqScript);
     } catch (e) {
       console.warn('[mq] loader error', e);
       resolve(null);
@@ -2118,6 +2139,7 @@ function ensureMathQuillLoaded() {
 
   return mqLoading;
 }
+
 
 function ensureMathJsLoaded() {
   if (math) return Promise.resolve(math);
@@ -2158,7 +2180,10 @@ function showMathInput(show) {
 
 async function initMathInputIfNeeded() {
   await ensureMathQuillLoaded();
-  if (!MQ) return null;
+  if (!MQ) {
+    console.warn('[mq] MathQuill not available after loader');
+    return null;
+  }
   const el = document.getElementById('ai-math-input');
   if (!el) return null;
   if (!mathField) {
@@ -2186,7 +2211,8 @@ function sanitizeExpression(expr) {
   return String(expr || '')
     .replace(/\s+/g, '')
     .replace(/×/g, '*')
-    .replace(/÷/g, '/');
+    .replace(/÷/g, '/')
+    .replace(/\u2044/g, '/'); // normalize Unicode fraction slash
 }
 
 function tryCompileExpression(expr) {
@@ -2567,29 +2593,42 @@ async function renderAiStep(step) {
 
   // ✏️ Fill-blank (number input card or math input)
   if (step.type === 'fillBlank') {
-    const useMath = step.inputMode === 'math' || step.answerType === 'mathExpression';
+  const useMath = step.inputMode === 'math' || step.answerType === 'mathExpression';
 
-    answerCard.hidden = false;
+  answerCard.hidden = false;
 
-    if (useMath) {
-      showNumericInput(false);
-      showMathInput(true);
-      // load in background; init field for this render
-      ensureMathJsLoaded();
-      await initMathInputIfNeeded();
-    } else {
-      showMathInput(false);
-      showNumericInput(true);
-      input.type = 'number';
-      input.hidden = false;
-      input.value = '';
-      input.placeholder = 'Type your answer';
-      input.disabled = false;
-    }
-
-    setAiButton('Check Answer', () => checkAiStepAnswer());
-    return;
+  if (useMath) {
+  showNumericInput(false);
+  showMathInput(true);
+  ensureMathJsLoaded();
+  const field = await initMathInputIfNeeded();
+  if (!field) {
+    console.warn('[mq] falling back to plain input');
+    showMathInput(false);
+    showNumericInput(true);
+    input.type = 'text';
+    input.setAttribute('inputmode', 'text');
+    input.hidden = false;
+    input.value = '';
+    input.placeholder = 'Type your answer (e.g. x^5 or 3/4)';
+    input.disabled = false;
   }
+} else {
+  showMathInput(false);
+  showNumericInput(true);
+  input.type = 'number';
+  input.setAttribute('inputmode', 'decimal');
+  input.hidden = false;
+  input.value = '';
+  input.placeholder = 'Type your answer';
+  input.disabled = false;
+}
+
+
+  setAiButton('Check Answer', () => checkAiStepAnswer());
+  return;
+}
+
 
   // 🧩 Match pairs
 if (step.type === 'matchPairs') {
@@ -2809,12 +2848,16 @@ async function checkAiStepAnswer() {
   if (step.type === 'fillBlank') {
     const useMath = step.inputMode === 'math' || step.answerType === 'mathExpression';
 
-    let userRaw;
-    if (useMath) {
-      userRaw = getMathInputValue();
-    } else {
-      const input = document.getElementById('ai-user-input');
-      userRaw = input?.value || '';
+    // Try MathQuill first
+    let userRaw = '';
+    if (useMath && typeof getMathInputValue === 'function') {
+      userRaw = getMathInputValue() || '';
+    }
+
+    // Fallback to the plain text input (used when MathQuill is not active)
+    if (!userRaw) {
+      const inputEl = document.getElementById('ai-user-input');
+      userRaw = inputEl?.value || '';
     }
 
     const expected = step.answer ?? step.correct ?? '';
@@ -2823,13 +2866,24 @@ async function checkAiStepAnswer() {
       await ensureMathJsLoaded();
       const vars = step.variables;
       ok = areMathExpressionsEquivalent(userRaw, expected, vars);
+
+      // Fallback to normalized string equality if math.js comparison fails
+      if (!ok) {
+        const val = normalizeText(String(userRaw));
+        const target = Array.isArray(expected)
+          ? expected.map(v => normalizeText(String(v)))
+          : [normalizeText(String(expected))];
+        ok = target.some(t => t && t === val);
+      }
     } else {
+      // ✨ Existing behaviour for non-math steps
       const val = normalizeText(String(userRaw));
       const target = Array.isArray(expected)
         ? expected.map(v => normalizeText(String(v)))
         : [normalizeText(String(expected))];
       ok = target.some(t => t && t === val);
     }
+
 
   } else if (step.type === 'matchPairs') {
     const userPairs = state.aiStepState?.pairs || {};
