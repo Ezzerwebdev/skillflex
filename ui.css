@@ -1163,6 +1163,20 @@ body[data-theme="dark"] .option-card.sel {
   margin-left: auto;
 }
 
+.ai-math-input-wrapper {
+  margin-top: 0.5rem;
+}
+
+.mathquill-editable {
+  min-height: 40px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle, #ddd);
+  font-size: 1.1rem;
+  background: #fff;
+  color: inherit;
+}
+
 .ai-primary-btn {
   border: none;
   border-radius: 999px;

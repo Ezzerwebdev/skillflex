@@ -2029,6 +2029,9 @@ function ensureAiModal() {
 
         <!-- Generic answer card for fill-in style questions -->
         <div id="ai-answer-card" class="ai-answer-card" hidden>
+          <div id="ai-math-input-wrapper" class="ai-math-input-wrapper" hidden>
+            <div id="ai-math-input" class="mathquill-editable"></div>
+          </div>
           <input
             id="ai-user-input"
             type="number"
@@ -2068,6 +2071,186 @@ document.addEventListener('aiModalClosed', () => {
     renderUnitsView(hub);
   }
 });
+
+// === MathQuill + math.js lazy loaders and helpers ===
+let MQ = null;
+let math = null; // math.js namespace
+let mathField = null;
+let mqLoading = null;
+let mathJsLoading = null;
+
+function ensureMathQuillLoaded() {
+  if (MQ) return Promise.resolve(MQ);
+  if (mqLoading) return mqLoading;
+
+  mqLoading = new Promise((resolve) => {
+    try {
+      // CSS
+      if (!document.getElementById('mq-css')) {
+        const link = document.createElement('link');
+        link.id = 'mq-css';
+        link.rel = 'stylesheet';
+        link.href = 'https://cdn.jsdelivr.net/npm/mathquill@0.10.1/build/mathquill.css';
+        document.head.appendChild(link);
+      }
+      // JS
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathquill@0.10.1/build/mathquill.min.js';
+      script.async = true;
+      script.onload = () => {
+        try {
+          MQ = window.MathQuill?.getInterface(2) || null;
+        } catch (e) {
+          console.warn('[mq] init failed', e);
+        }
+        resolve(MQ);
+      };
+      script.onerror = (e) => {
+        console.warn('[mq] failed to load', e);
+        resolve(null);
+      };
+      document.head.appendChild(script);
+    } catch (e) {
+      console.warn('[mq] loader error', e);
+      resolve(null);
+    }
+  });
+
+  return mqLoading;
+}
+
+function ensureMathJsLoaded() {
+  if (math) return Promise.resolve(math);
+  if (mathJsLoading) return mathJsLoading;
+
+  mathJsLoading = new Promise((resolve) => {
+    try {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjs@11.11.0/lib/browser/math.js';
+      script.async = true;
+      script.onload = () => {
+        math = window.math || null;
+        resolve(math);
+      };
+      script.onerror = (e) => {
+        console.warn('[math] failed to load', e);
+        resolve(null);
+      };
+      document.head.appendChild(script);
+    } catch (e) {
+      console.warn('[math] loader error', e);
+      resolve(null);
+    }
+  });
+
+  return mathJsLoading;
+}
+
+function showNumericInput(show) {
+  const input = document.getElementById('ai-user-input');
+  if (input) input.hidden = !show;
+}
+
+function showMathInput(show) {
+  const wrapper = document.getElementById('ai-math-input-wrapper');
+  if (wrapper) wrapper.hidden = !show;
+}
+
+async function initMathInputIfNeeded() {
+  await ensureMathQuillLoaded();
+  if (!MQ) return null;
+  const el = document.getElementById('ai-math-input');
+  if (!el) return null;
+  if (!mathField) {
+    try {
+      mathField = MQ.MathField(el, { spaceBehavesLikeTab: true });
+    } catch (e) {
+      console.warn('[mq] MathField init failed', e);
+      return null;
+    }
+  }
+  try { mathField.latex(''); } catch {}
+  return mathField;
+}
+
+function getMathInputValue() {
+  if (!mathField) return '';
+  try {
+    return String(mathField.text() || '').trim();
+  } catch {
+    return '';
+  }
+}
+
+function sanitizeExpression(expr) {
+  return String(expr || '')
+    .replace(/\s+/g, '')
+    .replace(/×/g, '*')
+    .replace(/÷/g, '/');
+}
+
+function tryCompileExpression(expr) {
+  const cleaned = sanitizeExpression(expr);
+  if (!cleaned) return null;
+  try {
+    return math.parse(cleaned);
+  } catch (e) {
+    console.warn('[math] failed to parse expression:', expr, e);
+    return null;
+  }
+}
+
+function randomInRange(min, max) {
+  return min + Math.random() * (max - min);
+}
+
+function buildRandomScope(variables) {
+  const scope = {};
+  (variables || ['x']).forEach(v => {
+    scope[v] = randomInRange(1, 5); // avoid zero
+  });
+  return scope;
+}
+
+function nearlyEqual(a, b, tol = 1e-6) {
+  if (!isFinite(a) || !isFinite(b)) return false;
+  return Math.abs(a - b) <= tol;
+}
+
+function areMathExpressionsEquivalent(userExpr, expectedExpr, variables) {
+  if (!userExpr && !expectedExpr) return true;
+  if (!expectedExpr) return false;
+
+  if (!math) {
+    console.warn('[math] math.js not loaded, falling back to string compare');
+    const norm = s => sanitizeExpression(s).toLowerCase();
+    return norm(userExpr) === norm(expectedExpr);
+  }
+
+  const userAst = tryCompileExpression(userExpr);
+  const expectedAst = tryCompileExpression(expectedExpr);
+  if (!userAst || !expectedAst) return false;
+
+  const vars = Array.isArray(variables) && variables.length ? variables : ['x'];
+  const TESTS = 5;
+
+  for (let i = 0; i < TESTS; i++) {
+    const scope = buildRandomScope(vars);
+    let uVal, eVal;
+    try {
+      uVal = userAst.evaluate(scope);
+      eVal = expectedAst.evaluate(scope);
+    } catch (e) {
+      console.warn('[math] evaluate error:', e);
+      return false;
+    }
+    if (!nearlyEqual(uVal, eVal)) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 
 function updateAiProgressChip() {
@@ -2190,6 +2373,10 @@ function normalizeAiStep(data, subject) {
   step.imageAlt = step.imageAlt || null;
   step.manipulatives = step.manipulatives || null;
   step.prompt = step.prompt || basePrompt;
+  // Preserve optional formatting hints for math-enabled steps
+  step.inputMode  = data.inputMode || data.answerFormat || null;
+  step.answerType = data.answerType || null;
+  step.variables  = Array.isArray(data.variables) ? data.variables : null;
   return step;
 }
 
@@ -2227,7 +2414,7 @@ function handleAiStepResult(isCorrect, hintText) {
 }
 
 
-function renderAiStep(step) {
+async function renderAiStep(step) {
   const host        = document.getElementById('ai-step-host');
   const interactive = document.getElementById('ai-interactive') || host;
   const questionEl  = document.getElementById('ai-question');
@@ -2248,6 +2435,8 @@ function renderAiStep(step) {
   input.value    = '';
   input.disabled = false;
   answerCard.hidden = true;
+  showMathInput(false);
+  showNumericInput(false);
   result.hidden  = true;
   result.innerText = '';
 
@@ -2376,12 +2565,27 @@ function renderAiStep(step) {
     return;
   }
 
-  // ✏️ Fill-blank (number input card)
+  // ✏️ Fill-blank (number input card or math input)
   if (step.type === 'fillBlank') {
-    input.type = 'number';
-    input.hidden = false;
-    input.placeholder = 'Type your answer';
+    const useMath = step.inputMode === 'math' || step.answerType === 'mathExpression';
+
     answerCard.hidden = false;
+
+    if (useMath) {
+      showNumericInput(false);
+      showMathInput(true);
+      // load in background; init field for this render
+      ensureMathJsLoaded();
+      await initMathInputIfNeeded();
+    } else {
+      showMathInput(false);
+      showNumericInput(true);
+      input.type = 'number';
+      input.hidden = false;
+      input.value = '';
+      input.placeholder = 'Type your answer';
+      input.disabled = false;
+    }
 
     setAiButton('Check Answer', () => checkAiStepAnswer());
     return;
@@ -2590,7 +2794,7 @@ function normaliseSortToken(raw) {
 
 
 
-function checkAiStepAnswer() {
+async function checkAiStepAnswer() {
   const step = state.aiSession?.currentStep;
   if (!step) return;
 
@@ -2603,12 +2807,29 @@ function checkAiStepAnswer() {
   let ok = false;
 
   if (step.type === 'fillBlank') {
-    const input = document.getElementById('ai-user-input');
-    const val = normalizeText(input?.value || '');
-    const target = Array.isArray(step.answer)
-      ? step.answer.map(normalizeText)
-      : [normalizeText(step.answer ?? step.correct ?? '')];
-    ok = target.some(t => t && t === val);
+    const useMath = step.inputMode === 'math' || step.answerType === 'mathExpression';
+
+    let userRaw;
+    if (useMath) {
+      userRaw = getMathInputValue();
+    } else {
+      const input = document.getElementById('ai-user-input');
+      userRaw = input?.value || '';
+    }
+
+    const expected = step.answer ?? step.correct ?? '';
+
+    if (step.answerType === 'mathExpression' && useMath) {
+      await ensureMathJsLoaded();
+      const vars = step.variables;
+      ok = areMathExpressionsEquivalent(userRaw, expected, vars);
+    } else {
+      const val = normalizeText(String(userRaw));
+      const target = Array.isArray(expected)
+        ? expected.map(v => normalizeText(String(v)))
+        : [normalizeText(String(expected))];
+      ok = target.some(t => t && t === val);
+    }
 
   } else if (step.type === 'matchPairs') {
     const userPairs = state.aiStepState?.pairs || {};
@@ -2778,12 +2999,54 @@ async function callBackend(opts = {}) {
     if (isLocal) {
       // 🔹 LOCAL DEV: no network, just a fake challenge
       console.log('[ai] USING LOCAL MOCK challenge (no network)');
-      data = {
-        question:
-          'Sarah has 3 apples and John has 7 apples. How many apples do they have altogether?',
-        answer: 10,
-        hint: 'Add the two numbers together.',
-      };
+
+      // Toggle which symbolic test to run: 'algebra', 'fraction', or 'mixed'
+      const WHICH = 'mixed';
+
+      if (WHICH === 'algebra') {
+        data = {
+          mode: 'fill_blank',
+          question: 'Simplify: (x^2 * x^3)',
+          answer: 'x^5',
+          inputMode: 'math',
+          answerType: 'mathExpression',
+          variables: ['x'],
+          hint: 'Add the exponents when the base is the same.'
+        };
+      } 
+      else if (WHICH === 'fraction') {
+        data = {
+          mode: 'fill_blank',
+          question: 'Calculate: 3/4 + 1/6',
+          answer: '11/12',
+          inputMode: 'math',
+          answerType: 'mathExpression',
+          hint: 'Find a common denominator before adding.'
+        };
+      } 
+      else if (WHICH === 'mixed') {
+        const samples = [
+          {
+            mode: 'fill_blank',
+            question: 'Simplify: (x^2 * x^3)',
+            answer: 'x^5',
+            inputMode: 'math',
+            answerType: 'mathExpression',
+            variables: ['x'],
+            hint: 'Multiply powers by adding exponents.'
+          },
+          {
+            mode: 'fill_blank',
+            question: 'Calculate: 3/4 + 1/6',
+            answer: '11/12',
+            inputMode: 'math',
+            answerType: 'mathExpression',
+            hint: 'Use a common denominator.'
+          }
+        ];
+        data = samples[Math.floor(Math.random() * samples.length)];
+      }
+
     } else {
       // 🔹 REAL PATH: go via ai.js → Laravel proxy
       if (!window.aiGame || typeof window.aiGame.generateChallenge !== 'function') {
