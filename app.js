@@ -3018,6 +3018,10 @@ window.handleAiAction = function() {
     callBackend();
 }
 
+// Local dev helpers
+const USE_LOCAL_SYMBOLIC_TEST = true; // flip to true when you want algebra/fraction demo on localhost
+
+
 async function callBackend(opts = {}) {
   const sel     = state.selections || {};
   const subject = sel.subject;
@@ -3049,57 +3053,50 @@ async function callBackend(opts = {}) {
 
   let data = null;
 
-  try {
-    if (isLocal) {
-      // 🔹 LOCAL DEV: no network, just a fake challenge
-      console.log('[ai] USING LOCAL MOCK challenge (no network)');
+    try {
+    if (isLocal && USE_LOCAL_SYMBOLIC_TEST) {
+      // 🔹 LOCAL SYMBOLIC DEMO: algebra / fraction test
+      console.log('[ai] USING LOCAL SYMBOLIC TEST challenge');
 
-      // Toggle which symbolic test to run: 'algebra', 'fraction', or 'mixed'
-      const WHICH = 'mixed';
+      const WHICH = 'mixed'; // 'algebra' | 'fraction' | 'mixed'
+
+      const algebraStep = {
+        mode: 'fill_blank',
+        question: 'Simplify: (x^2 * x^3)',
+        answer: 'x^5',
+        inputMode: 'math',
+        answerType: 'mathExpression',
+        variables: ['x'],
+        hint: 'Multiply powers by adding exponents.'
+      };
+
+      const fractionStep = {
+        mode: 'fill_blank',
+        question: 'Calculate: 3/4 + 1/6',
+        answer: '11/12',
+        inputMode: 'math',
+        answerType: 'mathExpression',
+        hint: 'Use a common denominator.'
+      };
 
       if (WHICH === 'algebra') {
-        data = {
-          mode: 'fill_blank',
-          question: 'Simplify: (x^2 * x^3)',
-          answer: 'x^5',
-          inputMode: 'math',
-          answerType: 'mathExpression',
-          variables: ['x'],
-          hint: 'Add the exponents when the base is the same.'
-        };
-      } 
-      else if (WHICH === 'fraction') {
-        data = {
-          mode: 'fill_blank',
-          question: 'Calculate: 3/4 + 1/6',
-          answer: '11/12',
-          inputMode: 'math',
-          answerType: 'mathExpression',
-          hint: 'Find a common denominator before adding.'
-        };
-      } 
-      else if (WHICH === 'mixed') {
-        const samples = [
-          {
-            mode: 'fill_blank',
-            question: 'Simplify: (x^2 * x^3)',
-            answer: 'x^5',
-            inputMode: 'math',
-            answerType: 'mathExpression',
-            variables: ['x'],
-            hint: 'Multiply powers by adding exponents.'
-          },
-          {
-            mode: 'fill_blank',
-            question: 'Calculate: 3/4 + 1/6',
-            answer: '11/12',
-            inputMode: 'math',
-            answerType: 'mathExpression',
-            hint: 'Use a common denominator.'
-          }
-        ];
+        data = algebraStep;
+      } else if (WHICH === 'fraction') {
+        data = fractionStep;
+      } else {
+        const samples = [algebraStep, fractionStep];
         data = samples[Math.floor(Math.random() * samples.length)];
       }
+
+    } else if (isLocal) {
+      // 🔹 SIMPLE LOCAL MOCK: closer to production numeric questions
+      console.log('[ai] USING LOCAL MOCK challenge (no network)');
+      data = {
+        question:
+          'Sarah has 3 apples and John has 7 apples. How many apples do they have altogether?',
+        answer: 10,
+        hint: 'Add the two numbers together.'
+      };
 
     } else {
       // 🔹 REAL PATH: go via ai.js → Laravel proxy
@@ -3120,6 +3117,7 @@ async function callBackend(opts = {}) {
         data = await window.aiGame.generateChallenge(payload);
       }
     }
+
   } catch (err) {
     console.error('[ai] Error talking to backend', err);
   }

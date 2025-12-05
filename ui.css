@@ -1163,19 +1163,79 @@ body[data-theme="dark"] .option-card.sel {
   margin-left: auto;
 }
 
+/* Center the math field and stack hint underneath */
 .ai-math-input-wrapper {
-  margin-top: 0.5rem;
+  margin-top: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.mathquill-editable {
-  min-height: 40px;
-  padding: 8px 10px;
-  border-radius: 6px;
-  border: 1px solid var(--border-subtle, #ddd);
-  font-size: 1.1rem;
-  background: #fff;
-  color: inherit;
+/* MathQuill pill — shared sizing */
+.ai-math-input-wrapper .mathquill-editable,
+.ai-math-input-wrapper .mq-editable-field {
+  min-width: 320px !important;
+  min-height: 64px !important;
+  padding: 14px 22px !important;
+  border-radius: 999px !important;
+  font-size: 1.5rem !important;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  cursor: text !important;
 }
+
+/* Center MathQuill's internal content (root block) */
+.ai-math-input-wrapper .mathquill-editable .mq-root-block,
+.ai-math-input-wrapper .mq-editable-field .mq-root-block {
+  width: 100%;
+  text-align: center;
+}
+
+/* Theme-aware styling for MathQuill field */
+:root[data-theme="dark"] .ai-math-input-wrapper .mathquill-editable,
+:root[data-theme="dark"] .ai-math-input-wrapper .mq-editable-field {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid rgba(148, 163, 184, 0.7) !important;
+  color: #e5e7eb !important;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.7);
+}
+:root[data-theme="dark"] .ai-math-input-wrapper .mathquill-editable.mq-focused,
+:root[data-theme="dark"] .ai-math-input-wrapper .mq-editable-field.mq-focused {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.65), 0 12px 28px rgba(15, 23, 42, 0.7);
+}
+
+:root[data-theme="light"] .ai-math-input-wrapper .mathquill-editable,
+:root[data-theme="light"] .ai-math-input-wrapper .mq-editable-field {
+  background: #f9fafb !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+:root[data-theme="light"] .ai-math-input-wrapper .mathquill-editable.mq-focused,
+:root[data-theme="light"] .ai-math-input-wrapper .mq-editable-field.mq-focused {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.45), 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+/* Hint text under the box */
+.ai-math-input-wrapper::after {
+  content: 'Tip: Use ^ for powers (x^5) and / for fractions (3/4).';
+  margin-top: 0.7rem;
+  font-size: 0.86rem;
+  text-align: center;
+}
+:root[data-theme="dark"] .ai-math-input-wrapper::after {
+  color: rgba(148, 163, 184, 0.98);
+}
+:root[data-theme="light"] .ai-math-input-wrapper::after {
+  color: #475569;
+}
+
+
 
 .ai-primary-btn {
   border: none;
