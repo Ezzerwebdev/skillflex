@@ -1113,6 +1113,45 @@ export const AI_MATHS_Y5_SHAPE = {
   ]
 };
 
+// AI unit curriculum config for Maths Year 5 — Statistics
+export const AI_MATHS_Y5_STATISTICS = {
+  id: 'maths:y5:statistics',
+
+  subject: 'maths',
+  year: 5,
+  topic: 'statistics',
+  title: 'Statistics',
+  desc: 'Line graphs, tables and interpreting data with two steps.',
+
+  steps: [
+    {
+      id: 'y5-st-step-1',
+      label: 'Step 1 · Read and interpret tables and graphs',
+      objectiveId: 'Y5_ST_Read_Tables_Graphs',
+      topic: 'statistics',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-st-step-2',
+      label: 'Step 2 · Complete tables and line graphs from data',
+      objectiveId: 'Y5_ST_Complete_Tables_Graphs',
+      topic: 'statistics',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-st-step-3',
+      label: 'Step 3 · Solve one- and two-step problems using graphs',
+      objectiveId: 'Y5_ST_Solve_Problems',
+      topic: 'statistics',
+      defaultBand: 'stretch',
+      targetQuestions: 7
+    }
+  ]
+};
+
+
 // AI unit curriculum config for Maths Year 6 — Place Value
 export const AI_MATHS_Y6_PLACE_VALUE = {
   id: 'maths:y6:place-value',
