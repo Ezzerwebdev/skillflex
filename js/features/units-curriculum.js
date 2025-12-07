@@ -594,64 +594,159 @@ export const AI_MATHS_Y4_PLACE_VALUE = {
   year: 4,
   topic: 'place-value',
   title: 'Place Value',
-  desc: 'Numbers to 10,000, rounding and negative numbers.',
+  desc: '4-digit place value, counting in multiples, rounding, negatives and Roman numerals.',
 
   steps: [
     {
       id: 'y4-pv-step-1',
-      label: 'Step 1 · Read and write numbers to 10,000',
+      label: 'Step 1 · Count in multiples of 6, 7, 9, 25 and 1,000',
+      objectiveId: 'Y4_PV_Count_Multiples_6_7_9_25_1000',
+      topic: 'place-value',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-pv-step-2',
+      label: 'Step 2 · 1,000 more or less than a given number',
+      objectiveId: 'Y4_PV_1000_More_Less',
+      topic: 'place-value',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-pv-step-3',
+      label: 'Step 3 · Recognise place value in 4-digit numbers',
+      objectiveId: 'Y4_PV_4Digit_PlaceValue',
+      topic: 'place-value',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-pv-step-4',
+      label: 'Step 4 · Read and write numbers to 10,000',
       objectiveId: 'Y4_PV_10000_ReadWrite',
       topic: 'place-value',
       defaultBand: 'core',
       targetQuestions: 5
     },
     {
-      id: 'y4-pv-step-2',
-      label: 'Step 2 · Round numbers to the nearest 10, 100 and 1,000',
-      objectiveId: 'Y4_PV_Rounding',
+      id: 'y4-pv-step-5',
+      label: 'Step 5 · Compare and order numbers beyond 1,000',
+      objectiveId: 'Y4_PV_CompareOrder_10000',
       topic: 'place-value',
       defaultBand: 'core',
-      targetQuestions: 5
+      targetQuestions: 6
     },
     {
-      id: 'y4-pv-step-3',
-      label: 'Step 3 · Work with negative numbers',
+      id: 'y4-pv-step-6',
+      label: 'Step 6 · Round numbers to the nearest 10 and 100',
+      objectiveId: 'Y4_PV_Round_10_100',
+      topic: 'place-value',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-pv-step-7',
+      label: 'Step 7 · Round numbers to the nearest 1,000',
+      objectiveId: 'Y4_PV_Round_1000',
+      topic: 'place-value',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-pv-step-8',
+      label: 'Step 8 · Use negative numbers in context',
       objectiveId: 'Y4_PV_NegativeNumbers',
       topic: 'place-value',
       defaultBand: 'core',
-      targetQuestions: 5
-    }
-  ]
-};
-
-// AI unit curriculum config for Maths Year 4 — Addition & Subtraction
-export const AI_MATHS_Y4_ADD_SUB = {
-  id: 'maths:y4:addition-subtraction',
-
-  subject: 'maths',
-  year: 4,
-  topic: 'addition-subtraction',
-  title: 'Addition & Subtraction',
-  desc: 'Column methods and problem solving with 4-digit numbers.',
-
-  steps: [
-    {
-      id: 'y4-as-step-1',
-      label: 'Step 1 · Use efficient written addition and subtraction',
-      objectiveId: 'Y4_AS_FormalMethods',
-      topic: 'addition-subtraction',
-      defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y4-as-step-2',
-      label: 'Step 2 · Solve addition and subtraction problems',
-      objectiveId: 'Y4_AS_MultiStep',
-      topic: 'addition-subtraction',
-      defaultBand: 'core',
-      targetQuestions: 6
+      id: 'y4-pv-step-9',
+      label: 'Step 9 · Read Roman numerals to 100 (I to C)',
+      objectiveId: 'Y4_PV_RomanNumerals_100',
+      topic: 'place-value',
+      defaultBand: 'stretch',
+      targetQuestions: 7
     }
   ]
+};
+// AI unit curriculum config for Maths Year 4 — Addition & Subtraction
+export const AI_MATHS_Y4_ADD_SUB = {
+id: 'maths:y4:addition-subtraction',
+
+subject: 'maths',
+year: 4,
+topic: 'addition-subtraction',
+title: 'Addition & Subtraction',
+desc: 'Mental strategies, column methods and problem solving with 4-digit numbers.',
+
+steps: [
+{
+id: 'y4-as-step-1',
+label: 'Step 1 · Recall and use number bonds within 1,000',
+objectiveId: 'Y4_AS_NumberBonds_1000',
+topic: 'addition-subtraction',
+defaultBand: 'support',
+targetQuestions: 5
+},
+{
+id: 'y4-as-step-2',
+label: 'Step 2 · Mental +/- 1s, 10s, 100s and 1,000s',
+objectiveId: 'Y4_AS_Mental_1s_10s_100s_1000s',
+topic: 'addition-subtraction',
+defaultBand: 'core',
+targetQuestions: 5
+},
+{
+id: 'y4-as-step-3',
+label: 'Step 3 · 4-digit + 4-digit (no exchange)',
+objectiveId: 'Y4_AS_4Digit_Add_NoExchange',
+topic: 'addition-subtraction',
+defaultBand: 'core',
+targetQuestions: 6
+},
+{
+id: 'y4-as-step-4',
+label: 'Step 4 · 4-digit + 4-digit (with exchange)',
+objectiveId: 'Y4_AS_4Digit_Add_WithExchange',
+topic: 'addition-subtraction',
+defaultBand: 'core',
+targetQuestions: 6
+},
+{
+id: 'y4-as-step-5',
+label: 'Step 5 · 4-digit − 4-digit (no exchange)',
+objectiveId: 'Y4_AS_4Digit_Sub_NoExchange',
+topic: 'addition-subtraction',
+defaultBand: 'core',
+targetQuestions: 6
+},
+{
+id: 'y4-as-step-6',
+label: 'Step 6 · 4-digit − 4-digit (with exchange)',
+objectiveId: 'Y4_AS_4Digit_Sub_WithExchange',
+topic: 'addition-subtraction',
+defaultBand: 'core',
+targetQuestions: 6
+},
+{
+id: 'y4-as-step-7',
+label: 'Step 7 · Estimate answers and use inverse to check',
+objectiveId: 'Y4_AS_Estimate_Inverse',
+topic: 'addition-subtraction',
+defaultBand: 'stretch',
+targetQuestions: 5
+},
+{
+id: 'y4-as-step-8',
+label: 'Step 8 · Solve one- and two-step addition and subtraction problems',
+objectiveId: 'Y4_AS_Solve_Problems',
+topic: 'addition-subtraction',
+defaultBand: 'stretch',
+targetQuestions: 7
+}
+]
 };
 
 // AI unit curriculum config for Maths Year 4 — Multiplication & Division
@@ -662,32 +757,72 @@ export const AI_MATHS_Y4_MULT_DIV = {
   year: 4,
   topic: 'multiplication-division',
   title: 'Multiplication & Division',
-  desc: 'All times tables up to 12×12 and short methods.',
+  desc: 'Times tables to 12×12, written methods, remainders and problem solving.',
 
   steps: [
     {
       id: 'y4-md-step-1',
-      label: 'Step 1 · Recall multiplication facts up to 12×12',
-      objectiveId: 'Y4_MD_TimesTables12',
+      label: 'Step 1 · Recall multiplication and division facts up to 12×12',
+      objectiveId: 'Y4_MD_Recall_Facts_12x12',
       topic: 'multiplication-division',
-      defaultBand: 'core',
-      targetQuestions: 6
+      defaultBand: 'support',
+      targetQuestions: 5
     },
     {
       id: 'y4-md-step-2',
-      label: 'Step 2 · Multiply 2- and 3-digit numbers by 1-digit numbers',
-      objectiveId: 'Y4_MD_FormalShortMultiplication',
+      label: 'Step 2 · Use place value and known facts for × and ÷',
+      objectiveId: 'Y4_MD_Derived_Facts_PlaceValue',
+      topic: 'multiplication-division',
+      defaultBand: 'core',
+      targetQuestions: 5
+    },
+    {
+      id: 'y4-md-step-3',
+      label: 'Step 3 · 2-digit × 1-digit (short multiplication)',
+      objectiveId: 'Y4_MD_2Digit_Times_1Digit_NoExchange',
       topic: 'multiplication-division',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y4-md-step-3',
-      label: 'Step 3 · Use short division with remainder interpretation',
-      objectiveId: 'Y4_MD_ShortDivision',
+      id: 'y4-md-step-4',
+      label: 'Step 4 · 3-digit × 1-digit (with exchange)',
+      objectiveId: 'Y4_MD_3Digit_Times_1Digit_WithExchange',
       topic: 'multiplication-division',
       defaultBand: 'core',
       targetQuestions: 6
+    },
+    {
+      id: 'y4-md-step-5',
+      label: 'Step 5 · 2-digit ÷ 1-digit (with and without remainders)',
+      objectiveId: 'Y4_MD_2Digit_Divide_1Digit',
+      topic: 'multiplication-division',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-md-step-6',
+      label: 'Step 6 · 3-digit ÷ 1-digit with remainders',
+      objectiveId: 'Y4_MD_3Digit_Divide_1Digit_Remainders',
+      topic: 'multiplication-division',
+      defaultBand: 'stretch',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-md-step-7',
+      label: 'Step 7 · Scaling problems (× and ÷)',
+      objectiveId: 'Y4_MD_Scaling_Problems',
+      topic: 'multiplication-division',
+      defaultBand: 'stretch',
+      targetQuestions: 7
+    },
+    {
+      id: 'y4-md-step-8',
+      label: 'Step 8 · Correspondence problems (e.g. n objects for m people)',
+      objectiveId: 'Y4_MD_Correspondence_Problems',
+      topic: 'multiplication-division',
+      defaultBand: 'stretch',
+      targetQuestions: 7
     }
   ]
 };
@@ -700,43 +835,110 @@ export const AI_MATHS_Y4_FRACTIONS = {
   year: 4,
   topic: 'fractions',
   title: 'Fractions & Decimals',
-  desc: 'Equivalent fractions, adding and subtracting, tenths and hundredths.',
+  desc: 'Equivalent fractions, hundredths, adding fractions and simple decimals.',
 
   steps: [
     {
       id: 'y4-fr-step-1',
-      label: 'Step 1 · Recognise and generate equivalent fractions',
-      objectiveId: 'Y4_FR_EquivalentFractions',
+      label: 'Step 1 · Recognise equivalent fractions using diagrams and number lines',
+      objectiveId: 'Y4_FR_EquivalentFractions_Visual',
       topic: 'fractions',
-      defaultBand: 'stretch',
-      targetQuestions: 6
+      defaultBand: 'support',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Generate simple equivalent fraction questions where pupils give a fraction answer like 1/2 or 3/4.',
+        exampleSkills: ['recognise equivalent fractions', 'write fractions using numerator and denominator']
+      },
+      targetQuestions: 5
     },
     {
       id: 'y4-fr-step-2',
-      label: 'Step 2 · Add and subtract fractions with the same denominator',
-      objectiveId: 'Y4_FR_AddSubtractFractionsSameDen',
+      label: 'Step 2 · Generate and use families of equivalent fractions',
+      objectiveId: 'Y4_FR_EquivalentFractions_Numeric',
       topic: 'fractions',
-      defaultBand: 'stretch',
+      defaultBand: 'core',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Ask pupils to complete or match equivalent fractions, e.g. 1/2 = ?/4.',
+        exampleSkills: ['generate equivalent fractions', 'simplify fractions']
+      },
       targetQuestions: 6
     },
     {
       id: 'y4-fr-step-3',
-      label: 'Step 3 · Recognise tenths and hundredths; link fractions and decimals',
-      objectiveId: 'Y4_FR_DecimalsTenthsHundredths',
+      label: 'Step 3 · Count up and down in hundredths',
+      objectiveId: 'Y4_FR_Hundredths_Counting',
       topic: 'fractions',
-      defaultBand: 'stretch',
-      targetQuestions: 6
+      defaultBand: 'core',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Create counting sequences in tenths and hundredths where answers are written as fractions or decimals.',
+        exampleSkills: ['count in hundredths', 'link fractions and decimals']
+      },
+      targetQuestions: 5
     },
     {
       id: 'y4-fr-step-4',
-      label: 'Step 4 · Solve problems involving fractions and decimals',
-      objectiveId: 'Y4_FR_ProblemSolvingFractions',
+      label: 'Step 4 · Add and subtract fractions with the same denominator',
+      objectiveId: 'Y4_FR_AddSubtract_SameDen',
+      topic: 'fractions',
+      defaultBand: 'core',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Use fraction equations like 3/8 + 2/8 = ? where the answer is a fraction.',
+        exampleSkills: ['add fractions with same denominator', 'subtract fractions with same denominator']
+      },
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-fr-step-5',
+      label: 'Step 5 · Find fractions of quantities',
+      objectiveId: 'Y4_FR_FractionOfQuantity',
       topic: 'fractions',
       defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Pose word problems like “Find 3/5 of 20” where the answer may be a whole number or a fraction.',
+        exampleSkills: ['find fraction of a quantity', 'link fractions to multiplication and division']
+      },
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-fr-step-6',
+      label: 'Step 6 · Decimal equivalents for 1/2, 1/4, 3/4 and tenths/hundredths',
+      objectiveId: 'Y4_FR_Decimal_Equivalents',
+      topic: 'fractions',
+      defaultBand: 'core',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Ask pupils to convert between simple fractions and decimals such as 1/4 = 0.25.',
+        exampleSkills: ['convert fractions to decimals', 'convert decimals to fractions']
+      },
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-fr-step-7',
+      label: 'Step 7 · Compare and order decimals (1 and 2 decimal places)',
+      objectiveId: 'Y4_FR_Decimals_Compare_Order',
+      topic: 'fractions',
+      defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Use decimal comparisons and number lines where pupils input decimal answers like 0.6 or 1.25.',
+        exampleSkills: ['compare decimals', 'order decimals on a number line']
+      },
       targetQuestions: 7
     }
   ]
 };
+
 
 // AI unit curriculum config for Maths Year 4 — Measurement
 export const AI_MATHS_Y4_MEASUREMENT = {
@@ -746,24 +948,48 @@ export const AI_MATHS_Y4_MEASUREMENT = {
   year: 4,
   topic: 'measurement',
   title: 'Measurement',
-  desc: 'Area, perimeter and conversions between units.',
+  desc: 'Length, mass, time, perimeter, area and word problems.',
 
   steps: [
     {
       id: 'y4-me-step-1',
-      label: 'Step 1 · Calculate area and perimeter of rectangles',
-      objectiveId: 'Y4_ME_AreaPerimeter',
+      label: 'Step 1 · Convert between units of length and mass',
+      objectiveId: 'Y4_ME_Convert_Length_Mass',
       topic: 'measurement',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y4-me-step-2',
-      label: 'Step 2 · Convert between units of measure',
-      objectiveId: 'Y4_ME_ConvertUnits',
+      label: 'Step 2 · Convert between units of time',
+      objectiveId: 'Y4_ME_Convert_Time',
       topic: 'measurement',
       defaultBand: 'core',
       targetQuestions: 6
+    },
+    {
+      id: 'y4-me-step-3',
+      label: 'Step 3 · Perimeter of rectilinear shapes',
+      objectiveId: 'Y4_ME_Perimeter_Rectilinear',
+      topic: 'measurement',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-me-step-4',
+      label: 'Step 4 · Area by counting squares',
+      objectiveId: 'Y4_ME_Area_Count_Squares',
+      topic: 'measurement',
+      defaultBand: 'support',
+      targetQuestions: 5
+    },
+    {
+      id: 'y4-me-step-5',
+      label: 'Step 5 · Solve word problems involving measures and money',
+      objectiveId: 'Y4_ME_Solve_Problems_Measure',
+      topic: 'measurement',
+      defaultBand: 'stretch',
+      targetQuestions: 7
     }
   ]
 };
@@ -776,7 +1002,7 @@ export const AI_MATHS_Y4_SHAPE = {
   year: 4,
   topic: 'shape',
   title: 'Shape & Position',
-  desc: 'Triangles, quadrilaterals and coordinates in the first quadrant.',
+  desc: 'Classifying shapes, angles, symmetry and coordinates in the first quadrant.',
 
   steps: [
     {
@@ -789,7 +1015,31 @@ export const AI_MATHS_Y4_SHAPE = {
     },
     {
       id: 'y4-sh-step-2',
-      label: 'Step 2 · Plot and interpret coordinates in the first quadrant',
+      label: 'Step 2 · Identify acute, obtuse and right angles',
+      objectiveId: 'Y4_SH_Angles_Acute_Obtuse_Right',
+      topic: 'shape',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-sh-step-3',
+      label: 'Step 3 · Compare and order angles by size',
+      objectiveId: 'Y4_SH_Compare_Order_Angles',
+      topic: 'shape',
+      defaultBand: 'stretch',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-sh-step-4',
+      label: 'Step 4 · Lines of symmetry and complete symmetrical figures',
+      objectiveId: 'Y4_SH_Symmetry_CompleteFigures',
+      topic: 'shape',
+      defaultBand: 'stretch',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-sh-step-5',
+      label: 'Step 5 · Plot and interpret coordinates in the first quadrant',
       objectiveId: 'Y4_SH_Coordinates',
       topic: 'shape',
       defaultBand: 'core',
@@ -806,12 +1056,36 @@ export const AI_MATHS_Y4_STATISTICS = {
   year: 4,
   topic: 'statistics',
   title: 'Statistics',
-  desc: 'Reading and interpreting simple line graphs.',
+  desc: 'Bar charts, tables, simple line graphs and problem solving.',
 
   steps: [
     {
       id: 'y4-st-step-1',
-      label: 'Step 1 · Interpret and construct simple line graphs',
+      label: 'Step 1 · Read and interpret bar charts and tables',
+      objectiveId: 'Y4_ST_Read_BarCharts_Tables',
+      topic: 'statistics',
+      defaultBand: 'support',
+      targetQuestions: 5
+    },
+    {
+      id: 'y4-st-step-2',
+      label: 'Step 2 · Draw bar charts and complete tables from data',
+      objectiveId: 'Y4_ST_Draw_BarCharts_Tables',
+      topic: 'statistics',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y4-st-step-3',
+      label: 'Step 3 · Solve comparison, sum and difference problems using graphs',
+      objectiveId: 'Y4_ST_Solve_Problems_BarCharts',
+      topic: 'statistics',
+      defaultBand: 'stretch',
+      targetQuestions: 7
+    },
+    {
+      id: 'y4-st-step-4',
+      label: 'Step 4 · Interpret and construct simple line graphs',
       objectiveId: 'Y4_ST_InterpretLineGraphs',
       topic: 'statistics',
       defaultBand: 'core',
@@ -819,6 +1093,7 @@ export const AI_MATHS_Y4_STATISTICS = {
     }
   ]
 };
+
 
 
 // AI unit curriculum config for Maths Year 5 — Place Value
@@ -829,47 +1104,71 @@ export const AI_MATHS_Y5_PLACE_VALUE = {
   year: 5,
   topic: 'place-value',
   title: 'Place Value',
-  desc: 'Numbers to 1,000,000, place value, rounding and Roman numerals.',
+  desc: 'Numbers to 1,000,000, place value, rounding, sequences, negatives and Roman numerals.',
 
   steps: [
     {
       id: 'y5-pv-step-1',
-      label: 'Step 1 · Read and write numbers to 1,000,000',
-      objectiveId: 'Y5_PV_1000000_ReadWrite',
+      label: 'Step 1 · Place value in numbers to 1,000,000',
+      objectiveId: 'Y5_PV_PlaceValue_6Digit',
       topic: 'place-value',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y5-pv-step-2',
-      label: 'Step 2 · Place value and powers of 10',
-      objectiveId: 'Y5_PV_PowersOf10',
+      label: 'Step 2 · Read and write numbers to 1,000,000',
+      objectiveId: 'Y5_PV_1000000_ReadWrite',
       topic: 'place-value',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y5-pv-step-3',
-      label: 'Step 3 · Compare and order numbers to 1,000,000',
-      objectiveId: 'Y5_PV_CompareOrder_1000000',
+      label: 'Step 3 · Count forwards and backwards in powers of 10',
+      objectiveId: 'Y5_PV_PowersOf10',
       topic: 'place-value',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y5-pv-step-4',
-      label: 'Step 4 · Round to 10, 100, 1,000, 10,000 and 100,000',
-      objectiveId: 'Y5_PV_Round_10_100_1000_10000_100000',
+      label: 'Step 4 · Complete and describe number sequences up to 1,000,000',
+      objectiveId: 'Y5_PV_NumberSequences_Up_Down',
       topic: 'place-value',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y5-pv-step-5',
-      label: 'Step 5 · Roman numerals to 1,000',
-      objectiveId: 'Y5_PV_RomanNumerals_UpTo_1000',
+      label: 'Step 5 · Compare and order numbers to 1,000,000',
+      objectiveId: 'Y5_PV_CompareOrder_1000000',
       topic: 'place-value',
       defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-pv-step-6',
+      label: 'Step 6 · Round numbers to 10, 100, 1,000, 10,000 and 100,000',
+      objectiveId: 'Y5_PV_Round_10_100_1000_10000_100000',
+      topic: 'place-value',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-pv-step-7',
+      label: 'Step 7 · Interpret and use negative numbers in context',
+      objectiveId: 'Y5_PV_NegativeNumbers',
+      topic: 'place-value',
+      defaultBand: 'stretch',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-pv-step-8',
+      label: 'Step 8 · Read and write Roman numerals to 1,000 (M)',
+      objectiveId: 'Y5_PV_RomanNumerals_UpTo_1000',
+      topic: 'place-value',
+      defaultBand: 'stretch',
       targetQuestions: 5
     }
   ]
@@ -883,39 +1182,55 @@ export const AI_MATHS_Y5_ADD_SUB = {
   year: 5,
   topic: 'addition-subtraction',
   title: 'Addition & Subtraction',
-  desc: 'Efficient written methods and multi-step problems with large numbers.',
+  desc: 'Mental strategies, written methods and multi-step problems with large numbers and decimals.',
 
   steps: [
     {
       id: 'y5-as-step-1',
-      label: 'Step 1 · Add and subtract whole numbers to 1,000,000',
+      label: 'Step 1 · Mental strategies for addition and subtraction',
+      objectiveId: 'Y5_AS_Mental_Strategies',
+      topic: 'addition-subtraction',
+      defaultBand: 'support',
+      targetQuestions: 5
+    },
+    {
+      id: 'y5-as-step-2',
+      label: 'Step 2 · Add and subtract whole numbers to 1,000,000',
       objectiveId: 'Y5_AS_FormalMethods_WholeNumbers',
       topic: 'addition-subtraction',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y5-as-step-2',
-      label: 'Step 2 · Add and subtract numbers with more than 4 digits',
+      id: 'y5-as-step-3',
+      label: 'Step 3 · Add and subtract numbers with more than 4 digits',
       objectiveId: 'Y5_AS_LargerNumbers',
       topic: 'addition-subtraction',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y5-as-step-3',
-      label: 'Step 3 · Use inverse operations and estimations',
-      objectiveId: 'Y5_AS_Estimate_Check',
+      id: 'y5-as-step-4',
+      label: 'Step 4 · Add and subtract numbers with up to two decimal places',
+      objectiveId: 'Y5_AS_Decimals_Add_Sub',
       topic: 'addition-subtraction',
       defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-as-step-5',
+      label: 'Step 5 · Use rounding and inverse operations to estimate and check',
+      objectiveId: 'Y5_AS_Estimate_Check',
+      topic: 'addition-subtraction',
+      defaultBand: 'stretch',
       targetQuestions: 5
     },
     {
-      id: 'y5-as-step-4',
-      label: 'Step 4 · Multi-step word problems (+ and −)',
+      id: 'y5-as-step-6',
+      label: 'Step 6 · Solve multi-step word problems using addition and subtraction',
       objectiveId: 'Y5_AS_MultiStep_Problems',
       topic: 'addition-subtraction',
-      defaultBand: 'core',
+      defaultBand: 'stretch',
       targetQuestions: 7
     }
   ]
@@ -929,52 +1244,60 @@ export const AI_MATHS_Y5_MULT_DIV = {
   year: 5,
   topic: 'multiplication-division',
   title: 'Multiplication & Division',
-  desc: 'Multiplying and dividing larger numbers, factors, primes and powers of 10.',
+  desc: 'Fluency with facts to 12×12, written methods, factors, primes and powers of 10.',
 
   steps: [
     {
       id: 'y5-md-step-1',
-      label: 'Step 1 · Multiply up to 4-digit numbers by 1-digit',
+      label: 'Step 1 · Recall and use multiplication and division facts to 12×12',
+      objectiveId: 'Y5_MD_Recall_Facts_12x12',
+      topic: 'multiplication-division',
+      defaultBand: 'support',
+      targetQuestions: 5
+    },
+    {
+      id: 'y5-md-step-2',
+      label: 'Step 2 · Multiply up to 4-digit numbers by 1-digit',
       objectiveId: 'Y5_MD_ShortMultiplication_4digit_by_1digit',
       topic: 'multiplication-division',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y5-md-step-2',
-      label: 'Step 2 · Multiply 2-digit numbers by 2-digit numbers',
+      id: 'y5-md-step-3',
+      label: 'Step 3 · Multiply 2-digit numbers by 2-digit numbers',
       objectiveId: 'Y5_MD_LongMultiplication_2digit_by_2digit',
       topic: 'multiplication-division',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y5-md-step-3',
-      label: 'Step 3 · Divide up to 4-digit numbers by 1-digit',
+      id: 'y5-md-step-4',
+      label: 'Step 4 · Divide up to 4-digit numbers by 1-digit (including remainders)',
       objectiveId: 'Y5_MD_ShortDivision_4digit_by_1digit',
       topic: 'multiplication-division',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y5-md-step-4',
-      label: 'Step 4 · Factors, multiples and prime numbers',
+      id: 'y5-md-step-5',
+      label: 'Step 5 · Factors, multiples and common factors',
       objectiveId: 'Y5_MD_Factors_Multiples_Primes',
       topic: 'multiplication-division',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y5-md-step-5',
-      label: 'Step 5 · Multiply and divide by 10, 100 and 1,000',
+      id: 'y5-md-step-6',
+      label: 'Step 6 · Multiply and divide by 10, 100 and 1,000',
       objectiveId: 'Y5_MD_Multiply_Divide_10_100_1000',
       topic: 'multiplication-division',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y5-md-step-6',
-      label: 'Step 6 · Square and cube numbers',
+      id: 'y5-md-step-7',
+      label: 'Step 7 · Square and cube numbers',
       objectiveId: 'Y5_MD_Square_Cube_Numbers',
       topic: 'multiplication-division',
       defaultBand: 'stretch',
@@ -983,15 +1306,15 @@ export const AI_MATHS_Y5_MULT_DIV = {
   ]
 };
 
-// AI unit curriculum config for Maths Year 5 — Fractions & Decimals
+// AI unit curriculum config for Maths Year 5 — Fractions, Decimals & Percentages
 export const AI_MATHS_Y5_FRACTIONS = {
   id: 'maths:y5:fractions',
 
   subject: 'maths',
   year: 5,
   topic: 'fractions',
-  title: 'Fractions & Decimals',
-  desc: 'Comparing, adding and multiplying fractions, thousandths and percentages.',
+  title: 'Fractions, Decimals & Percentages',
+  desc: 'Comparing, adding and multiplying fractions, thousandths and percentage links.',
 
   steps: [
     {
@@ -999,35 +1322,116 @@ export const AI_MATHS_Y5_FRACTIONS = {
       label: 'Step 1 · Compare and order fractions with related denominators',
       objectiveId: 'Y5_FR_Compare_Order_RelatedDenominators',
       topic: 'fractions',
-      defaultBand: 'stretch',
+      defaultBand: 'core',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Generate comparison and ordering questions with fractions such as 3/10, 7/20 and 1/2.',
+        exampleSkills: ['compare fractions', 'order fractions with related denominators']
+      },
       targetQuestions: 6
     },
     {
       id: 'y5-fr-step-2',
-      label: 'Step 2 · Add and subtract fractions with denominators that are multiples',
+      label: 'Step 2 · Add and subtract fractions whose denominators are multiples',
       objectiveId: 'Y5_FR_Add_Sub_MultipleDenominators',
       topic: 'fractions',
-      defaultBand: 'stretch',
+      defaultBand: 'core',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Use fraction equations where denominators are multiples, e.g. 1/4 + 3/8 = ?',
+        exampleSkills: ['find common denominators', 'add and subtract related fractions']
+      },
       targetQuestions: 6
     },
     {
       id: 'y5-fr-step-3',
-      label: 'Step 3 · Multiply proper fractions and mixed numbers by whole numbers',
-      objectiveId: 'Y5_FR_Multiply_By_WholeNumber',
+      label: 'Step 3 · Convert between improper fractions and mixed numbers',
+      objectiveId: 'Y5_FR_Improper_Mixed_Convert',
       topic: 'fractions',
       defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Ask pupils to switch between forms such as 11/4 and 2 3/4.',
+        exampleSkills: ['convert improper fractions', 'write mixed numbers']
+      },
       targetQuestions: 6
     },
     {
       id: 'y5-fr-step-4',
-      label: 'Step 4 · Fractions, decimals (including thousandths) and percentages',
-      objectiveId: 'Y5_FR_Fractions_Decimals_Percentages',
+      label: 'Step 4 · Multiply proper fractions and mixed numbers by whole numbers',
+      objectiveId: 'Y5_FR_Multiply_By_WholeNumber',
       topic: 'fractions',
       defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Generate fraction multiplication questions like 3/5 × 4 or 1 1/2 × 3.',
+        exampleSkills: ['multiply fractions by whole numbers', 'simplify results']
+      },
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-fr-step-5',
+      label: 'Step 5 · Thousandths and decimal equivalents',
+      objectiveId: 'Y5_FR_Decimals_Thousandths',
+      topic: 'fractions',
+      defaultBand: 'core',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Use numbers with three decimal places like 0.325 and simple fractional equivalents.',
+        exampleSkills: ['read thousandths', 'convert between fractions and decimals']
+      },
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-fr-step-6',
+      label: 'Step 6 · Read, write and compare decimals with up to 3 decimal places',
+      objectiveId: 'Y5_FR_Decimals_Compare_3dp',
+      topic: 'fractions',
+      defaultBand: 'core',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Ask pupils to compare and order decimals like 2.3, 2.35 and 2.305 on a number line.',
+        exampleSkills: ['compare decimals to 3 decimal places', 'order decimals']
+      },
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-fr-step-7',
+      label: 'Step 7 · Round decimals with 2 decimal places to whole numbers and 1 dp',
+      objectiveId: 'Y5_FR_Decimals_Round_2dp',
+      topic: 'fractions',
+      defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Create rounding questions like “Round 3.47 to the nearest whole number and to 1 decimal place.”',
+        exampleSkills: ['round decimals to whole numbers', 'round decimals to 1 decimal place']
+      },
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-fr-step-8',
+      label: 'Step 8 · Percentages as fractions and decimals',
+      objectiveId: 'Y5_FR_Percentages_Fraction_Decimal',
+      topic: 'fractions',
+      defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Mix percentages, fractions and decimals, e.g. 25% = ? as a fraction and as a decimal.',
+        exampleSkills: ['convert percentages to fractions', 'convert percentages to decimals']
+      },
       targetQuestions: 7
     }
   ]
 };
+
 
 // AI unit curriculum config for Maths Year 5 — Measurement
 export const AI_MATHS_Y5_MEASUREMENT = {
@@ -1037,12 +1441,12 @@ export const AI_MATHS_Y5_MEASUREMENT = {
   year: 5,
   topic: 'measurement',
   title: 'Measurement',
-  desc: 'Converting units, perimeter, area and volume.',
+  desc: 'Converting units, perimeter, area, volume and time problems.',
 
   steps: [
     {
       id: 'y5-me-step-1',
-      label: 'Step 1 · Convert between metric units',
+      label: 'Step 1 · Convert between metric units of length, mass and capacity',
       objectiveId: 'Y5_ME_Convert_Metric',
       topic: 'measurement',
       defaultBand: 'core',
@@ -1050,19 +1454,43 @@ export const AI_MATHS_Y5_MEASUREMENT = {
     },
     {
       id: 'y5-me-step-2',
-      label: 'Step 2 · Perimeter and area of rectangles and compound shapes',
-      objectiveId: 'Y5_ME_Perimeter_Area',
+      label: 'Step 2 · Relate metric and common imperial units',
+      objectiveId: 'Y5_ME_Convert_Imperial',
+      topic: 'measurement',
+      defaultBand: 'stretch',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-me-step-3',
+      label: 'Step 3 · Perimeter of rectangles and composite rectilinear shapes',
+      objectiveId: 'Y5_ME_Perimeter_Rectangles_Composite',
       topic: 'measurement',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y5-me-step-3',
-      label: 'Step 3 · Estimate and compare volume and capacity',
+      id: 'y5-me-step-4',
+      label: 'Step 4 · Area of rectangles and compound shapes',
+      objectiveId: 'Y5_ME_Area_Rectangles',
+      topic: 'measurement',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-me-step-5',
+      label: 'Step 5 · Estimate and compare volume and capacity',
       objectiveId: 'Y5_ME_Volume_Capacity',
       topic: 'measurement',
       defaultBand: 'core',
       targetQuestions: 5
+    },
+    {
+      id: 'y5-me-step-6',
+      label: 'Step 6 · Solve time and timetable problems',
+      objectiveId: 'Y5_ME_Time_Timetables',
+      topic: 'measurement',
+      defaultBand: 'stretch',
+      targetQuestions: 7
     }
   ]
 };
@@ -1075,7 +1503,7 @@ export const AI_MATHS_Y5_SHAPE = {
   year: 5,
   topic: 'shape',
   title: 'Shape & Position',
-  desc: 'Angles, properties of shapes, reflection and translation.',
+  desc: 'Angles, polygons, reflection, translation and 3D nets.',
 
   steps: [
     {
@@ -1096,18 +1524,34 @@ export const AI_MATHS_Y5_SHAPE = {
     },
     {
       id: 'y5-sh-step-3',
-      label: 'Step 3 · Properties of regular and irregular polygons',
+      label: 'Step 3 · Use angle facts to find missing angles in polygons',
+      objectiveId: 'Y5_SH_Angles_Missing_In_Polygons',
+      topic: 'shape',
+      defaultBand: 'stretch',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-sh-step-4',
+      label: 'Step 4 · Properties of regular and irregular polygons',
       objectiveId: 'Y5_SH_Polygons_Properties',
       topic: 'shape',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y5-sh-step-4',
-      label: 'Step 4 · Reflection and translation on a grid',
+      id: 'y5-sh-step-5',
+      label: 'Step 5 · Reflection and translation on a grid',
       objectiveId: 'Y5_SH_Reflection_Translation',
       topic: 'shape',
       defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-sh-step-6',
+      label: 'Step 6 · Identify 3D shapes from nets and reasoning',
+      objectiveId: 'Y5_SH_Nets_3D_Identify',
+      topic: 'shape',
+      defaultBand: 'stretch',
       targetQuestions: 6
     }
   ]
@@ -1121,35 +1565,52 @@ export const AI_MATHS_Y5_STATISTICS = {
   year: 5,
   topic: 'statistics',
   title: 'Statistics',
-  desc: 'Line graphs, tables and interpreting data with two steps.',
+  desc: 'Tables, line graphs and one- and two-step data problems.',
 
   steps: [
     {
       id: 'y5-st-step-1',
-      label: 'Step 1 · Read and interpret tables and graphs',
-      objectiveId: 'Y5_ST_Read_Tables_Graphs',
+      label: 'Step 1 · Read and interpret tables and timetables',
+      objectiveId: 'Y5_ST_Read_Tables_Timetables',
       topic: 'statistics',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y5-st-step-2',
-      label: 'Step 2 · Complete tables and line graphs from data',
-      objectiveId: 'Y5_ST_Complete_Tables_Graphs',
+      label: 'Step 2 · Read and interpret line graphs',
+      objectiveId: 'Y5_ST_Read_LineGraphs',
       topic: 'statistics',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y5-st-step-3',
-      label: 'Step 3 · Solve one- and two-step problems using graphs',
-      objectiveId: 'Y5_ST_Solve_Problems',
+      label: 'Step 3 · Complete tables and line graphs from given data',
+      objectiveId: 'Y5_ST_Complete_Tables_Graphs',
+      topic: 'statistics',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-st-step-4',
+      label: 'Step 4 · Solve one-step problems using tables and graphs',
+      objectiveId: 'Y5_ST_Solve_1Step_Problems',
+      topic: 'statistics',
+      defaultBand: 'stretch',
+      targetQuestions: 6
+    },
+    {
+      id: 'y5-st-step-5',
+      label: 'Step 5 · Solve two-step problems using tables and graphs',
+      objectiveId: 'Y5_ST_Solve_2Step_Problems',
       topic: 'statistics',
       defaultBand: 'stretch',
       targetQuestions: 7
     }
   ]
 };
+
 
 
 // AI unit curriculum config for Maths Year 6 — Place Value
@@ -1160,48 +1621,64 @@ export const AI_MATHS_Y6_PLACE_VALUE = {
   year: 6,
   topic: 'place-value',
   title: 'Place Value',
-  desc: 'Numbers to 10,000,000, negative numbers and rounding.',
+  desc: 'Numbers to 10,000,000, place value, rounding, sequences and negative numbers.',
 
   steps: [
     {
       id: 'y6-pv-step-1',
-      label: 'Step 1 · Read and write numbers to 10,000,000',
-      objectiveId: 'Y6_PV_10000000_ReadWrite',
+      label: 'Step 1 · Place value in numbers to 10,000,000',
+      objectiveId: 'Y6_PV_PlaceValue_7Digit',
       topic: 'place-value',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y6-pv-step-2',
-      label: 'Step 2 · Place value, powers of 10 and 1/10',
-      objectiveId: 'Y6_PV_PlaceValue_PowersOf10',
+      label: 'Step 2 · Read and write numbers to 10,000,000',
+      objectiveId: 'Y6_PV_10000000_ReadWrite',
       topic: 'place-value',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y6-pv-step-3',
-      label: 'Step 3 · Compare and order numbers to 10,000,000',
-      objectiveId: 'Y6_PV_CompareOrder_10000000',
+      label: 'Step 3 · Count forwards and backwards in steps and powers of 10',
+      objectiveId: 'Y6_PV_NumberSequences_PowersOf10',
       topic: 'place-value',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y6-pv-step-4',
-      label: 'Step 4 · Round any whole number to a required degree of accuracy',
-      objectiveId: 'Y6_PV_Round_DegreeOfAccuracy',
+      label: 'Step 4 · Compare and order numbers to 10,000,000',
+      objectiveId: 'Y6_PV_CompareOrder_10000000',
       topic: 'place-value',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y6-pv-step-5',
-      label: 'Step 5 · Use negative numbers in context and calculate intervals',
-      objectiveId: 'Y6_PV_NegativeNumbers_Intervals',
+      label: 'Step 5 · Round any whole number to a required degree of accuracy',
+      objectiveId: 'Y6_PV_Round_DegreeOfAccuracy',
       topic: 'place-value',
       defaultBand: 'core',
       targetQuestions: 6
+    },
+    {
+      id: 'y6-pv-step-6',
+      label: 'Step 6 · Use negative numbers in context and calculate intervals',
+      objectiveId: 'Y6_PV_NegativeNumbers_Intervals',
+      topic: 'place-value',
+      defaultBand: 'stretch',
+      targetQuestions: 6
+    },
+    {
+      id: 'y6-pv-step-7',
+      label: 'Step 7 · Solve problems involving large numbers and rounding',
+      objectiveId: 'Y6_PV_Solve_Problems',
+      topic: 'place-value',
+      defaultBand: 'stretch',
+      targetQuestions: 7
     }
   ]
 };
@@ -1214,36 +1691,52 @@ export const AI_MATHS_Y6_ADD_SUB = {
   year: 6,
   topic: 'addition-subtraction',
   title: 'Addition & Subtraction',
-  desc: 'Efficient written methods and multi-step problems with large numbers and decimals.',
+  desc: 'Efficient written methods, decimals, estimation and multi-step problems.',
 
   steps: [
     {
       id: 'y6-as-step-1',
-      label: 'Step 1 · Add and subtract whole numbers with more than 4 digits',
-      objectiveId: 'Y6_AS_FormalMethods_LargeNumbers',
+      label: 'Step 1 · Mental strategies with large numbers and decimals',
+      objectiveId: 'Y6_AS_Mental_Strategies',
       topic: 'addition-subtraction',
-      defaultBand: 'core',
-      targetQuestions: 6
+      defaultBand: 'support',
+      targetQuestions: 5
     },
     {
       id: 'y6-as-step-2',
-      label: 'Step 2 · Add and subtract numbers with up to two decimal places',
-      objectiveId: 'Y6_AS_Decimals_Add_Sub',
+      label: 'Step 2 · Add multi-digit whole numbers using efficient written methods',
+      objectiveId: 'Y6_AS_Add_LargeNumbers',
       topic: 'addition-subtraction',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y6-as-step-3',
-      label: 'Step 3 · Use rounding and inverse operations to estimate and check',
+      label: 'Step 3 · Subtract multi-digit whole numbers using efficient written methods',
+      objectiveId: 'Y6_AS_Sub_LargeNumbers',
+      topic: 'addition-subtraction',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y6-as-step-4',
+      label: 'Step 4 · Add and subtract numbers with up to two decimal places',
+      objectiveId: 'Y6_AS_Decimals_Add_Sub',
+      topic: 'addition-subtraction',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y6-as-step-5',
+      label: 'Step 5 · Use rounding and inverse operations to estimate and check',
       objectiveId: 'Y6_AS_Estimate_Check',
       topic: 'addition-subtraction',
       defaultBand: 'core',
       targetQuestions: 5
     },
     {
-      id: 'y6-as-step-4',
-      label: 'Step 4 · Multi-step problems using addition and subtraction',
+      id: 'y6-as-step-6',
+      label: 'Step 6 · Solve multi-step problems using addition and subtraction',
       objectiveId: 'Y6_AS_MultiStep_Problems',
       topic: 'addition-subtraction',
       defaultBand: 'stretch',
@@ -1265,51 +1758,74 @@ export const AI_MATHS_Y6_MULT_DIV = {
   steps: [
     {
       id: 'y6-md-step-1',
-      label: 'Step 1 · Multiply up to 4-digit numbers by 2-digit numbers',
+      label: 'Step 1 · Recall and use multiplication and division facts to 12×12',
+      objectiveId: 'Y6_MD_Recall_Facts_12x12',
+      topic: 'multiplication-division',
+      defaultBand: 'support',
+      targetQuestions: 5
+    },
+    {
+      id: 'y6-md-step-2',
+      label: 'Step 2 · Multiply up to 4-digit numbers by 2-digit numbers',
       objectiveId: 'Y6_MD_LongMultiplication_4digit_by_2digit',
       topic: 'multiplication-division',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y6-md-step-2',
-      label: 'Step 2 · Divide up to 4-digit numbers by 2-digit numbers',
-      objectiveId: 'Y6_MD_LongDivision_4digit_by_2digit',
-      topic: 'multiplication-division',
-      defaultBand: 'stretch',
-      targetQuestions: 6
-    },
-    {
       id: 'y6-md-step-3',
-      label: 'Step 3 · Use factors, multiples, common factors and common multiples',
-      objectiveId: 'Y6_MD_Factors_Multiples_Common',
+      label: 'Step 3 · Divide up to 4-digit numbers by 2-digit numbers (no remainder)',
+      objectiveId: 'Y6_MD_LongDivision_4digit_by_2digit_NoRemainder',
       topic: 'multiplication-division',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y6-md-step-4',
-      label: 'Step 4 · Use prime, square and cube numbers',
-      objectiveId: 'Y6_MD_Prime_Square_Cube',
+      label: 'Step 4 · Divide with remainders and interpret the remainder',
+      objectiveId: 'Y6_MD_LongDivision_Remainders',
       topic: 'multiplication-division',
       defaultBand: 'stretch',
-      targetQuestions: 5
+      targetQuestions: 6
     },
     {
       id: 'y6-md-step-5',
-      label: 'Step 5 · Multiply and divide by 10, 100 and 1,000 (including decimals)',
-      objectiveId: 'Y6_MD_Multiply_Divide_10_100_1000_Decimals',
+      label: 'Step 5 · Use factors, multiples and common factors',
+      objectiveId: 'Y6_MD_Factors_Multiples_Common',
       topic: 'multiplication-division',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y6-md-step-6',
-      label: 'Step 6 · Use order of operations (BODMAS)',
+      label: 'Step 6 · Use prime, square and cube numbers',
+      objectiveId: 'Y6_MD_Prime_Square_Cube',
+      topic: 'multiplication-division',
+      defaultBand: 'stretch',
+      targetQuestions: 5
+    },
+        {
+      id: 'y6-md-step-7',
+      label: 'Step 7 · Use order of operations (BODMAS)',
       objectiveId: 'Y6_MD_OrderOfOperations',
       topic: 'multiplication-division',
       defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Generate BODMAS questions such as 3 + 4 × 5 or (20 − 6) ÷ 2 where pupils enter a numeric result using maths notation.',
+        exampleSkills: ['apply order of operations', 'evaluate multi-step expressions']
+      },
       targetQuestions: 6
+    },
+
+    {
+      id: 'y6-md-step-8',
+      label: 'Step 8 · Solve multi-step problems involving × and ÷',
+      objectiveId: 'Y6_MD_Solve_Problems',
+      topic: 'multiplication-division',
+      defaultBand: 'stretch',
+      targetQuestions: 7
     }
   ]
 };
@@ -1322,51 +1838,124 @@ export const AI_MATHS_Y6_FRACTIONS = {
   year: 6,
   topic: 'fractions',
   title: 'Fractions, Decimals & Percentages',
-  desc: 'Four operations with fractions, simplifying, and links to decimals and percentages.',
+  desc: 'Four operations with fractions, equivalence, ratio and proportion.',
 
   steps: [
     {
       id: 'y6-fr-step-1',
-      label: 'Step 1 · Simplify and compare fractions',
-      objectiveId: 'Y6_FR_Simplify_Compare',
+      label: 'Step 1 · Simplify and find equivalent fractions',
+      objectiveId: 'Y6_FR_Simplify_Equivalent',
       topic: 'fractions',
       defaultBand: 'core',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Generate simplifying and equivalence questions such as 12/18 = ? in simplest form.',
+        exampleSkills: ['simplify fractions', 'find equivalent fractions']
+      },
       targetQuestions: 6
     },
     {
       id: 'y6-fr-step-2',
-      label: 'Step 2 · Add and subtract fractions with different denominators',
-      objectiveId: 'Y6_FR_Add_Sub_DifferentDenominators',
+      label: 'Step 2 · Compare and order fractions with different denominators',
+      objectiveId: 'Y6_FR_Compare_Order_DifferentDenominators',
       topic: 'fractions',
-      defaultBand: 'stretch',
+      defaultBand: 'core',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Ask pupils to compare and order fractions like 5/12, 2/3 and 7/8.',
+        exampleSkills: ['find common denominators', 'compare non-unit fractions']
+      },
       targetQuestions: 6
     },
     {
       id: 'y6-fr-step-3',
-      label: 'Step 3 · Multiply and divide fractions by whole numbers and fractions',
-      objectiveId: 'Y6_FR_Multiply_Divide',
+      label: 'Step 3 · Add and subtract fractions with different denominators',
+      objectiveId: 'Y6_FR_Add_Sub_DifferentDenominators',
       topic: 'fractions',
       defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Use fraction equations such as 3/4 − 2/9 = ? that require common denominators.',
+        exampleSkills: ['add fractions with different denominators', 'subtract fractions with different denominators']
+      },
       targetQuestions: 6
     },
     {
       id: 'y6-fr-step-4',
-      label: 'Step 4 · Fractions, decimals and percentages (including equivalence)',
-      objectiveId: 'Y6_FR_Fractions_Decimals_Percentages',
+      label: 'Step 4 · Add and subtract mixed numbers',
+      objectiveId: 'Y6_FR_Add_Sub_MixedNumbers',
       topic: 'fractions',
-      defaultBand: 'core',
-      targetQuestions: 7
+      defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Ask pupils to add and subtract mixed numbers like 2 1/3 + 1 2/3.',
+        exampleSkills: ['add mixed numbers', 'subtract mixed numbers']
+      },
+      targetQuestions: 6
     },
     {
       id: 'y6-fr-step-5',
-      label: 'Step 5 · Ratio and proportion problems using fractions and percentages',
+      label: 'Step 5 · Multiply proper fractions and mixed numbers',
+      objectiveId: 'Y6_FR_Multiply_Fractions',
+      topic: 'fractions',
+      defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Use multiplication of fractions such as 2/3 × 5/7 and 1 1/2 × 3/4.',
+        exampleSkills: ['multiply fractions', 'simplify fractional products']
+      },
+      targetQuestions: 6
+    },
+    {
+      id: 'y6-fr-step-6',
+      label: 'Step 6 · Divide proper fractions by whole numbers',
+      objectiveId: 'Y6_FR_Divide_By_WholeNumber',
+      topic: 'fractions',
+      defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Generate questions like 3/4 ÷ 2 = ? where the answer is a fraction.',
+        exampleSkills: ['divide fractions by whole numbers', 'interpret division of a fraction']
+      },
+      targetQuestions: 6
+    },
+    {
+      id: 'y6-fr-step-7',
+      label: 'Step 7 · Fractions, decimals and percentages equivalence',
+      objectiveId: 'Y6_FR_Fractions_Decimals_Percentages',
+      topic: 'fractions',
+      defaultBand: 'core',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Mix fractions, decimals and percentages such as 0.6, 3/5 and 60%.',
+        exampleSkills: ['convert between fractions, decimals and percentages', 'use equivalence in problems']
+      },
+      targetQuestions: 7
+    },
+    {
+      id: 'y6-fr-step-8',
+      label: 'Step 8 · Ratio and proportion problems using fractions and percentages',
       objectiveId: 'Y6_FR_Ratio_Proportion',
       topic: 'fractions',
       defaultBand: 'stretch',
+      objectiveMeta: {
+        mathQuill: true,
+        answerType: 'mathExpression',
+        aiGuidance: 'Pose ratio and proportion questions that may require fractional or decimal answers.',
+        exampleSkills: ['use ratio and proportion', 'link ratio to fractions and percentages']
+      },
       targetQuestions: 7
     }
   ]
 };
+
 
 // AI unit curriculum config for Maths Year 6 — Measurement
 export const AI_MATHS_Y6_MEASUREMENT = {
@@ -1381,27 +1970,51 @@ export const AI_MATHS_Y6_MEASUREMENT = {
   steps: [
     {
       id: 'y6-me-step-1',
-      label: 'Step 1 · Convert between standard units (including miles and kilometres)',
-      objectiveId: 'Y6_ME_Convert_Units_Metric_Imperial',
+      label: 'Step 1 · Convert between standard metric units',
+      objectiveId: 'Y6_ME_Convert_Metric',
       topic: 'measurement',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y6-me-step-2',
-      label: 'Step 2 · Area of triangles and parallelograms',
-      objectiveId: 'Y6_ME_Area_Triangles_Parallelograms',
+      label: 'Step 2 · Relate metric units to miles and kilometres',
+      objectiveId: 'Y6_ME_Convert_Miles_Kilometres',
       topic: 'measurement',
       defaultBand: 'stretch',
       targetQuestions: 6
     },
     {
       id: 'y6-me-step-3',
-      label: 'Step 3 · Volume of cuboids and use of formulae',
+      label: 'Step 3 · Perimeter and area of rectangles and composite shapes',
+      objectiveId: 'Y6_ME_Perimeter_Area_Rectangles_Composite',
+      topic: 'measurement',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y6-me-step-4',
+      label: 'Step 4 · Area of triangles and parallelograms using formulae',
+      objectiveId: 'Y6_ME_Area_Triangles_Parallelograms',
+      topic: 'measurement',
+      defaultBand: 'stretch',
+      targetQuestions: 6
+    },
+    {
+      id: 'y6-me-step-5',
+      label: 'Step 5 · Volume of cubes and cuboids using formulae',
       objectiveId: 'Y6_ME_Volume_Cuboids',
       topic: 'measurement',
       defaultBand: 'core',
       targetQuestions: 6
+    },
+    {
+      id: 'y6-me-step-6',
+      label: 'Step 6 · Solve multi-step problems involving measure',
+      objectiveId: 'Y6_ME_Solve_Problems',
+      topic: 'measurement',
+      defaultBand: 'stretch',
+      targetQuestions: 7
     }
   ]
 };
@@ -1414,37 +2027,53 @@ export const AI_MATHS_Y6_SHAPE = {
   year: 6,
   topic: 'shape',
   title: 'Shape & Position',
-  desc: 'Circles, angles in polygons, coordinates and transformations.',
+  desc: 'Circles, angles in polygons, nets and coordinates in all four quadrants.',
 
   steps: [
     {
       id: 'y6-sh-step-1',
-      label: 'Step 1 · Draw and identify parts of circles',
+      label: 'Step 1 · Draw 2D shapes with given dimensions and angles',
+      objectiveId: 'Y6_SH_Draw_2D_Shapes',
+      topic: 'shape',
+      defaultBand: 'core',
+      targetQuestions: 6
+    },
+    {
+      id: 'y6-sh-step-2',
+      label: 'Step 2 · Draw and identify parts of circles',
       objectiveId: 'Y6_SH_Circles_Radius_Diameter',
       topic: 'shape',
       defaultBand: 'core',
       targetQuestions: 5
     },
     {
-      id: 'y6-sh-step-2',
-      label: 'Step 2 · Angles in triangles, quadrilaterals and other polygons',
+      id: 'y6-sh-step-3',
+      label: 'Step 3 · Angles in triangles, quadrilaterals and other polygons',
       objectiveId: 'Y6_SH_Angles_Polygons',
       topic: 'shape',
       defaultBand: 'stretch',
       targetQuestions: 6
     },
     {
-      id: 'y6-sh-step-3',
-      label: 'Step 3 · Draw, translate and reflect shapes in all four quadrants',
-      objectiveId: 'Y6_SH_Translations_Reflections_FourQuadrants',
+      id: 'y6-sh-step-4',
+      label: 'Step 4 · Recognise nets and identify 3D shapes from nets',
+      objectiveId: 'Y6_SH_Nets_3D_Reasoning',
+      topic: 'shape',
+      defaultBand: 'stretch',
+      targetQuestions: 6
+    },
+    {
+      id: 'y6-sh-step-5',
+      label: 'Step 5 · Describe positions using coordinates in all four quadrants',
+      objectiveId: 'Y6_SH_Coordinates_FourQuadrants',
       topic: 'shape',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
-      id: 'y6-sh-step-4',
-      label: 'Step 4 · Recognise nets and 3D shape reasoning',
-      objectiveId: 'Y6_SH_Nets_3D_Reasoning',
+      id: 'y6-sh-step-6',
+      label: 'Step 6 · Draw, translate and reflect shapes in all four quadrants',
+      objectiveId: 'Y6_SH_Translations_Reflections_FourQuadrants',
       topic: 'shape',
       defaultBand: 'stretch',
       targetQuestions: 6
@@ -1465,30 +2094,47 @@ export const AI_MATHS_Y6_STATISTICS = {
   steps: [
     {
       id: 'y6-st-step-1',
-      label: 'Step 1 · Interpret and construct pie charts',
-      objectiveId: 'Y6_ST_PieCharts',
+      label: 'Step 1 · Read and interpret line graphs',
+      objectiveId: 'Y6_ST_Read_LineGraphs',
       topic: 'statistics',
-      defaultBand: 'stretch',
+      defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y6-st-step-2',
-      label: 'Step 2 · Interpret and construct line graphs',
-      objectiveId: 'Y6_ST_LineGraphs',
+      label: 'Step 2 · Draw and complete line graphs from data',
+      objectiveId: 'Y6_ST_Draw_LineGraphs',
       topic: 'statistics',
       defaultBand: 'core',
       targetQuestions: 6
     },
     {
       id: 'y6-st-step-3',
-      label: 'Step 3 · Calculate and interpret the mean as an average',
+      label: 'Step 3 · Interpret and construct pie charts',
+      objectiveId: 'Y6_ST_PieCharts',
+      topic: 'statistics',
+      defaultBand: 'stretch',
+      targetQuestions: 6
+    },
+    {
+      id: 'y6-st-step-4',
+      label: 'Step 4 · Calculate and interpret the mean as an average',
       objectiveId: 'Y6_ST_Mean_Average',
       topic: 'statistics',
       defaultBand: 'stretch',
       targetQuestions: 6
+    },
+    {
+      id: 'y6-st-step-5',
+      label: 'Step 5 · Solve problems using line graphs, pie charts and the mean',
+      objectiveId: 'Y6_ST_Solve_Problems',
+      topic: 'statistics',
+      defaultBand: 'stretch',
+      targetQuestions: 7
     }
   ]
 };
+
 
 
 
